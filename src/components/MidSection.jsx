@@ -74,6 +74,8 @@ export const MidSection = () => {
     const categories = [
         { name: "Matematik", lessons: lessonsData.slice(3, 6) }, // Matematik dersleri
         { name: "İngilizce", lessons: lessonsData.slice(0, 3) }, // İngilizce dersleri
+        { name: "Fizik", lessons: lessonsData.slice(0, 3) }, // İngilizce dersleri
+        { name: "Kimya", lessons: lessonsData.slice(0, 3) }, // İngilizce dersleri
     ];
 
 
@@ -93,7 +95,6 @@ export const MidSection = () => {
 
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
-            {/* Kategori Seçimi */}
             {!selectedCategory ? (
                 <div className="category-selection">
                     <h4>Ders Seçin</h4>
@@ -108,7 +109,6 @@ export const MidSection = () => {
                             </button>
                         ))}
                     </div>
-                    <p style={{ height: '2000px' }}>Uzun içerik... (Kaydırmak için yeterince uzun içerik ekleyin.)</p>
 
                 </div>
             ) : (
