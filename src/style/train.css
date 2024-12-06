@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet');
+
+
+.train-container {
+    width: 70%;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* .question-container {   } */
+
+
+.progress-bar-train {
+    width: 75%;
+    height: 20px;
+    background: linear-gradient(to right, #45d2e835, #9be8f6c0);
+    margin-bottom: -3px;
+    overflow: hidden;
+    border-radius: 10px 10px 3px 3px;
+    padding: 0px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+
+
+.progress-bar-fill-train {
+    height: 100%;
+    background: linear-gradient(to right, #1cb0f6, #006b9d8a);
+    transition: width 0.3s ease-in-out;
+    border-radius: 10px 10px 3px 3px;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.progress-bar-fill-train.completed {
+    background: linear-gradient(to right, #2bb8ff, #006bb6);
+}
+
+
+
+.question-card {
+    font-family: "Quicksand", sans-serif;
+    border-radius: 0px 0px 0px 8px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+    border: none;
+    height: auto;
+    z-index: 2;
+
+}
+
+
+.question-text {
+
+    font-weight: 600;
+    font-size: 15px;
+}
+
+
+.options-container button {
+    display: flex;
+    align-items: center;
+    border: none;
+    width: 100%;
+    height: 60px;
+    margin-top: 20px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 20px;
+    color: rgb(28, 176, 246);
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+}
+
+.train-title {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+
+}
+
+.question-card2 {
+
+    background: rgb(28, 176, 246);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    z-index: 1;
+    cursor: pointer;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    border: none;
+    border-radius: 0px 0px 8px 8px;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.question-card2::before,
+.question-card2::after {
+    position: absolute;
+    content: "";
+    width: 20%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: rgb(113, 196, 248);
+    transition: all 0.5s;
+}
+
+.question-card2::before {
+    top: 0;
+    right: 0;
+    z-index: 5;
+    border-radius: 0 0px 0 100%;
+    width: 80%;
+}
+
+.question-card2::after {
+    bottom: 0;
+    left: 0;
+    border-radius: 0 100% 0 0px;
+    width: 80%;
+}
+
+/* .question-card2:hover::before,
+.question-card2:hover::after {
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s;
+}
+
+.question-card2:hover:after {
+    content: "Cevabı biliyosun";
+} */
+
+/* Tıklama animasyonu */
+.question-card2.flip {
+    transform: rotateY(180deg);
+    /* Kartı döndür */
+}
+
+.question-card2 .card-front,
+.question-card2 .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+
+    /* Arka yüzeyin görünmesini engelle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.question-card2 .card-front {
+    background-color: rgb(28, 176, 246);
+}
+
+.question-card2 .card-back {
+    background-color: rgb(113, 196, 248);
+    transform: rotateY(180deg);
+    /* Arka yüzeyi döndür */
+    color: white;
+}
+
+.question-card2.flip:hover::before,
+.question-card2.flip:hover::after {
+    content: "";
+    width: 0%;
+    height: 0%;
+    transition: all 0.5s;
+
+}
+
+
+
+
+
+.next-buton-train-container {
+    height: 10vh;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 150px;
+    /* Sağdan ve soldan boşluk */
+}
+
+.next-buton-train {
+    align-items: center;
+    background: #62aaf2b7;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: -10px -10px 30px 0 #fff, 10px 10px 30px 0 #1d0dca17;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    font-family: "Quicksand", sans-serif;
+    justify-content: center;
+    line-height: 1.5rem;
+    padding: 15px;
+    text-align: center;
+    transition: 0.2s;
+    user-select: none;
+    white-space: nowrap;
+    width: max-content;
+}
+
+.next-buton-train:hover {
+    background: #6d6df7;
+    box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
+}
+
+.btn-option {
+    transition: all 0.3s ease;
+}
+
+.correct {
+    background-color: green !important;
+    color: white !important;
+    animation: correctAnimation 1s ease;
+}
+
+.wrong {
+    background-color: red !important;
+    color: white !important;
+
+    animation: wrongAnimation 1s ease;
+}
+
+.selected {
+    background-color: yellow !important;
+}
+
+@keyframes correctAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes wrongAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

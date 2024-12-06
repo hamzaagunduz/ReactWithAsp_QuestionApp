@@ -1,0 +1,86 @@
+/* Genel Body Ayarları */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Sayfa için Ana Konteyner */
+.space-train-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    max-width: 90%;
+}
+
+/* Başlık Tasarımı */
+.space-train-container h1 {
+    font-size: 24px;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+/* Soru Yazısı */
+.space-train-container p {
+    font-size: 18px;
+    color: #555555;
+    margin-bottom: 20px;
+}
+
+/* Input Alanı Tasarımı */
+.space-train-container input {
+    padding: 12px;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+/* Input Focus Durumu */
+.space-train-container input:focus {
+    border-color: #4CAF50;
+}
+
+/* Buton Tasarımı */
+.space-train-container button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+/* Buton Hover Durumu */
+.space-train-container button:hover {
+    background-color: #45a049;
+}
+
+/* Geri Bildirim Yazısının Tasarımı */
+.feedback {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.feedback.correct {
+    color: green;
+}
+
+.feedback.incorrect {
+    color: red;
+}

@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet');
+
+
+
+
+.logo-font {
+    font-size: 40px;
+    margin-top: 10px;
+    margin-left: 3%;
+    margin-bottom: 5%;
+    font-weight: 700;
+    color: #63f768b6;
+    text-shadow: 1px 1.5px 0 #2aaa2c;
+    font-family: "Quicksand", sans-serif;
+
+
+}
+
+.li-text li a {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: 19px;
+
+    font-style: normal;
+}
+
+
+.icon-size {
+    font-size: 30px;
+}
+
+.side-logo {
+    width: 100%;
+    height: 90px;
+}
+
+.nav-link {
+    color: #3e3e3e;
+    padding: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.nav-link:hover {
+    background-color: #e6e6e665;
+    border-radius: 5px;
+}
+
+.nav-link.active {
+    background-color: rgb(221, 244, 255);
+    border-radius: 12px;
+    border: 2px solid rgb(132, 216, 255);
+}
+
+
+.border-r {
+    border-right: 2px solid rgba(210, 210, 210, 0.548);
+}
+
+.nav-link {
+    margin-top: 8px;
+    /* width: 240px; */
+    width: 90%;
+    height: 55px;
+    padding: 4px 20px;
+    padding-left: 15px;
+    height: 55px;
+    display: flex;
+
+}
+
+.nav-link span {
+    margin-left: 18px;
+    margin-top: 10px;
+
+}

@@ -1,0 +1,14 @@
+html,
+body,
+#root {
+  height: 80vh;
+  margin: 0;
+  padding: 0;
+}
+
+.icon-size {
+  width: 20px;
+  /* Genişlik */
+  height: 20px;
+  /* Yükseklik */
+}
