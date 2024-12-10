@@ -12,6 +12,10 @@
     margin-bottom: 50px;
 }
 
+.icon-sizes {
+    width: 40px;
+    height: 40px;
+}
 
 .language-menu {
     cursor: pointer;
@@ -45,7 +49,7 @@
 .score li {
     cursor: pointer;
     text-align: left;
-    font-size: 14px;
+    font-size: 16px;
     color: #333;
     transition: background-color 0.3s ease, color 0.3s ease;
 }

@@ -3,6 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../style/rightbar.css'; // leftbar.css dosyasını import ettik
 
+import heart from '../assets/heart.png';
+import goal from '../assets/goal.png';
+import target from '../assets/target.png';
+import diamond from '../assets/diamond.png';
 
 
 export const Rightbar = () => {
@@ -58,7 +62,7 @@ export const Rightbar = () => {
                             onMouseLeave={handleMouseLeave}
                         >
                             <div className="menu-trigger d-flex flex-column align-items-center">
-                                <i className="bi bi-translate fs-4"></i>
+                                <img src={target} alt="Dil Seçimi" className="icon-sizes" />
                                 <p className="mb-0 small">YKS</p>
                             </div>
                             {isHovered && (
@@ -70,23 +74,19 @@ export const Rightbar = () => {
                             )}
                         </li>
 
-                        {/* Diğer Menüler */}
                         <li className="mx-3 text-center">
-                            <i className="bi bi-gem fs-4"></i>
-                            <p className="mb-0 small">Gems</p>
+                            <img src={diamond} alt="Gems" className="icon-sizes " />
+                            <p className="mb-0 small">Elmas</p>
                         </li>
                         <li className="mx-3 text-center">
-                            <i className="bi bi-trophy fs-4"></i>
+                            <img src={goal} alt="Başarı" className="icon-sizes " />
                             <p className="mb-0 small">Başarı</p>
                         </li>
                         <li className="mx-3 text-center">
-                            <i className="bi bi-heart fs-4"></i>
-                            <p className="mb-0 small">Hearts</p>
+                            <img src={heart} alt="Hearts" className="icon-sizes " />
+                            <p className="mb-0 small">Can</p>
                         </li>
-                        <li className="mx-3 text-center">
-                            <i className="bi bi-person fs-4"></i>
-                            <p className="mb-0 small">Profile</p>
-                        </li>
+
                     </ul>
                 </div>
 

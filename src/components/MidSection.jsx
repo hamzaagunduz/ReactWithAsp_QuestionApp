@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CardComponent from "./CardComponent"; // CardComponent'i import ediyoruz
 import '../style/midsection.css';
+import logo from '../assets/mat.png'; // Resmi import et
 
 export const MidSection = () => {
     const navigate = useNavigate();
@@ -95,9 +96,11 @@ export const MidSection = () => {
 
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
+
             {!selectedCategory ? (
                 <div className="category-selection">
-                    <h4>Ders Seçin</h4>
+                    <div className="text-center lesson-title">Hazırlandığınız Sınavı Seçin</div>
+
                     <div className="category-list">
                         {categories.map((category, index) => (
                             <button
@@ -105,6 +108,14 @@ export const MidSection = () => {
                                 className="btn btn-category mb-3"
                                 onClick={() => setSelectedCategory(category)}
                             >
+                                {/* Resim */}
+                                <img
+                                    src={logo}
+                                    alt={category.name}
+                                    className="category-image"
+                                    style={{ width: "50px", height: "50px", marginBottom: "10px" }}
+                                />
+                                {/* Kategori İsmi */}
                                 {category.name}
                             </button>
                         ))}
@@ -124,12 +135,13 @@ export const MidSection = () => {
                             <div className="lesson-container" key={lessonIndex}>
                                 {/* Lesson Başlığı */}
                                 <div className="d-flex flex-column align-items-center">
-                                    <div className="mid-top-card card mb-3" style={{ backgroundColor: lessonColor }}>
+                                    <div className="mid-top-card " style={{ backgroundColor: lessonColor }}>
                                         <div className="card-body d-flex flex-column flex-grow-1">
                                             <h5 className="card-title text-muted">{lesson.title}</h5>
                                             <p className="card-text">{lesson.description}</p>
+
                                         </div>
-                                        <div className="mid-top-card-button d-flex justify-content-end align-items-center">
+                                        <div className="mid-top-card-button ">
                                             <button className="btn btn-primary" onClick={handleNavigate}>Derse Başla</button>
                                         </div>
                                     </div>

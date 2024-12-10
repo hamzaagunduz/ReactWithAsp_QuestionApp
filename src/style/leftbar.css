@@ -2,6 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet');
 
 
+.icon-size {
+    width: 32px;
+    /* İkonun boyutunu ayarlayın */
+    height: 32px;
+    /* Yükseklik */
+}
+
 
 
 .logo-font {
@@ -27,9 +34,7 @@
 }
 
 
-.icon-size {
-    font-size: 30px;
-}
+
 
 .side-logo {
     width: 100%;
@@ -60,14 +65,13 @@
 
 .nav-link {
     margin-top: 8px;
-    /* width: 240px; */
     width: 90%;
     height: 55px;
     padding: 4px 20px;
     padding-left: 15px;
-    height: 55px;
     display: flex;
-
+    align-items: center;
+    justify-content: start;
 }
 
 .nav-link span {
