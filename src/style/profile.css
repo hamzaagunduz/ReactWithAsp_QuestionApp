@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+body {
+    font-family: "Quicksand", sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+/* Ana Konteyner */
+.profile-container {
+
+    max-width: 90%;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-block {
+    width: 100%;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    padding: 20px 40px 20px 40px;
+    font-weight: 700;
+    color: rgb(28, 176, 246);
+}
+
+.profile-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-top {
+    align-content: start;
+    padding: 20px 60px 20px 40px;
+}
+
+.block-header {
+    font-size: 25px;
+    font-weight: 700;
+    color: rgb(50, 246, 28);
+    padding-bottom: 2px;
+    padding-top: 10px;
+}
+
+/* Profil Bilgileri */
+.profile-image {
+    text-align: center;
+}
+
+.profile-pic {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+
+}
+
+.profile-pic:hover {
+    background-color: #2575fc;
+    color: #fff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+}
+
+
+.user-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+}
+
+.user-info {
+    font-size: 16px;
+    color: #777;
+}
+
+/* İstatistikler */
+.profile-stats {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.stat-item {
+    background-color: #79f65d;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    flex: 1 1 45%;
+}
+
+.stat-title {
+    display: block;
+    font-size: 16px;
+    color: #333;
+}
+
+.stat-value {
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+
+
+/* Başarılar */
+.achievement-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.achievement-info {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    text-align: end;
+    flex-direction: column;
+    color: #333;
+    right: 0px;
+}
+
+.profile-progress-bar {
+    position: relative;
+
+    color: white;
+    width: 400px;
+    height: 16px;
+    background-color: rgb(183, 183, 183);
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.achievement-title {
+    font-size: 20px;
+    color: #5dbef6;
+}
+
+.profile-progress-bar-fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(13, 110, 253);
+    width: 50%;
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.3s ease;
+}
+
+.profile-actions {
+    text-align: center;
+}
+
+.action-btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: rgb(121, 246, 93);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.action-btn:hover {
+    background-color: rgb(102, 205, 79);
+
+}

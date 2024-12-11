@@ -119,9 +119,11 @@ export const MidSection = () => {
                                 {category.name}
                             </button>
                         ))}
+
                     </div>
 
                 </div>
+
             ) : (
                 <div>
                     {/* Geri Butonu */}
@@ -168,7 +170,7 @@ export const MidSection = () => {
                         );
                     })}
 
-                    <p style={{ height: '2000px' }}>Uzun içerik... (Kaydırmak için yeterince uzun içerik ekleyin.)</p>
+                    <p style={{ height: '300vh' }}></p>
                 </div>
             )}
         </div>

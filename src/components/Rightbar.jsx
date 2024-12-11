@@ -25,14 +25,28 @@ export const Rightbar = () => {
             const viewportHeight = window.innerHeight;
             const sidebarTop = sidebarRef.current.getBoundingClientRect().top + window.pageYOffset;
             const contentHeight = contentWrapperRef.current.getBoundingClientRect().height;
-            console.log(sidebarTop)
 
-            if (scrollTop >= contentHeight - viewportHeight + sidebarTop) {
-                contentWrapperRef.current.style.transform = `translateY(-${contentHeight - viewportHeight + sidebarTop}px)`;
-                contentWrapperRef.current.style.position = "fixed";
+            // sticky mantığı
+            if (scrollTop >= sidebarTop) {
+                // `position: sticky`'yi CSS ile işletebiliriz, JS'te `top` değerini güncelliyoruz
+                contentWrapperRef.current.style.position = "sticky";
+                contentWrapperRef.current.style.top = "20px";  // Sayfa kaydırıldığında üstte sabit tutmak için
+
+                // Eğer başka bir kaydırma koşulu varsa, burada translateY gibi başka stil ayarlarını yapabilirsiniz
+                if (scrollTop >= contentHeight - viewportHeight + sidebarTop) {
+                    // Sabitleme sonrası içerik kayması durumu
+                    console.log("1")
+                    contentWrapperRef.current.style.transform = `translateY(-${contentHeight - viewportHeight + sidebarTop - 30}px)`;
+                } else {
+                    console.log("2")
+
+                    contentWrapperRef.current.style.transform = ""; // Kayma öncesi eski konum
+                }
             } else {
-                contentWrapperRef.current.style.transform = "";
+                console.log("3")
                 contentWrapperRef.current.style.position = "";
+                contentWrapperRef.current.style.top = "";
+                contentWrapperRef.current.style.transform = "";
             }
         };
 

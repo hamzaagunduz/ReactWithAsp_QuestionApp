@@ -30,6 +30,7 @@ function ExamMidComponent() {
                     ))}
                 </div>
             </div>
+
         </div>
     );
 }

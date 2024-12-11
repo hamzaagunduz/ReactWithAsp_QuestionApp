@@ -48,11 +48,16 @@ export const Leftbar = () => {
                 </li>
 
                 <li>
-                    <a href="#" className="nav-link">
-                        <img src={housekeeper} alt="Profil" className="icon-size" /> {/* housekeeper.png ikonu */}
+                    <Link
+                        to="/profile"
+                        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
+                    >
+                        <img src={housekeeper} alt="Profil" className="icon-size " /> {/* speedometer.png ikonu */}
                         <span>Profil</span>
-                    </a>
+                    </Link>
                 </li>
+
+
             </ul>
         </div>
     );
