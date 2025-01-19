@@ -8,6 +8,7 @@ import ExamPage from './pages/ExamPage'; // Eğer doğru yol ise
 import ProfilePage from './pages/ProfilePage'; // Eğer doğru yol ise
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
+
 function App() {
   return (
 

@@ -43,12 +43,16 @@
 
 .nav-link {
     color: #3e3e3e;
-    padding: 10px 15px;
+    padding: 10px 15px 10px 0px;
     transition: background-color 0.3s;
+    border-radius: 5px;
+
 }
 
 .nav-link:hover {
-    background-color: #e6e6e665;
+    background-color: #ffffff9e;
+    color: #007bff;
+
     border-radius: 5px;
 }
 
@@ -67,7 +71,7 @@
     margin-top: 8px;
     width: 90%;
     height: 55px;
-    padding: 4px 20px;
+    padding: 4px 20px 0px 0px;
     padding-left: 15px;
     display: flex;
     align-items: center;

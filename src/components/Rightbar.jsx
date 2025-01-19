@@ -35,15 +35,12 @@ export const Rightbar = () => {
                 // Eğer başka bir kaydırma koşulu varsa, burada translateY gibi başka stil ayarlarını yapabilirsiniz
                 if (scrollTop >= contentHeight - viewportHeight + sidebarTop) {
                     // Sabitleme sonrası içerik kayması durumu
-                    console.log("1")
                     contentWrapperRef.current.style.transform = `translateY(-${contentHeight - viewportHeight + sidebarTop - 30}px)`;
                 } else {
-                    console.log("2")
 
                     contentWrapperRef.current.style.transform = ""; // Kayma öncesi eski konum
                 }
             } else {
-                console.log("3")
                 contentWrapperRef.current.style.position = "";
                 contentWrapperRef.current.style.top = "";
                 contentWrapperRef.current.style.transform = "";
