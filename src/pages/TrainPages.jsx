@@ -1,67 +1,115 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
+import { fetchFlashCardsByQuestionId } from '../features/FlashCard/FlashCardSlice';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import '../style/train.css';
 
-const questions = [
-    {
-        id: 1,
-        question: "Dünyanın En yakışıklısı kim?",
-        options: ["Hamza", "Pera", "Naranja", "Plátano"],
-        correctAnswer: "Hamza",
-        info: "Apple means 'manzana' in Spanish.",
-    },
-    {
-        id: 2,
-        question: "En kel adam kimdir?",
-        options: ["Hamza", "Berlin", "Madrid", "Rome"],
-        correctAnswer: "Hamza",
-        info: "The capital of France is Paris.",
-    },
-    {
-        id: 3,
-        question: "Fetöcü bıyıklı kimdir?",
-        options: ["Yusuf", "Berlin", "Madrid", "Rome"],
-        correctAnswer: "Yusuf",
-        info: "The capital of France is Paris.",
-    },
-];
-
 function TrainPages() {
+    const navigate = useNavigate();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState("");
-    const [result, setResult] = useState(null); // null, 'correct', 'wrong'
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [result, setResult] = useState(null);
     const [flipped, setFlipped] = useState(false);
+    const [correctAnswers, setCorrectAnswers] = useState(0);
+    const [incorrectAnswers, setIncorrectAnswers] = useState(0);
+    const [unansweredQuestions, setUnansweredQuestions] = useState(0);  // Yeni eklenen durum
+    const [showModal, setShowModal] = useState(false);
 
-    const handleAnswerSelect = (option) => {
-        if (result !== null) return; // Cevap kontrolü yapıldıysa bir daha seçim yapılmasın
-        setSelectedAnswer(option);
-        if (option === questions[currentQuestionIndex].correctAnswer) {
+    const { testId } = useParams();
+    const dispatch = useDispatch();
+
+    const { questions, status, error } = useSelector(state => state.question);
+    const { flashCards, status: cardStatus, error: cardError } = useSelector(state => state.flashCard);
+
+    useEffect(() => {
+        if (testId) {
+            dispatch(fetchQuestionsByTestId(testId));
+        }
+    }, [testId, dispatch]);
+
+    useEffect(() => {
+        if (questions && questions.length > 0) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (currentQuestion && currentQuestion.questionID) {
+                dispatch(fetchFlashCardsByQuestionId(currentQuestion.questionID));
+            }
+        }
+    }, [currentQuestionIndex, questions, dispatch]);
+
+    if (!questions || questions.length === 0) {
+        return <div>No questions available</div>;
+    }
+
+    const currentQuestion = questions[currentQuestionIndex];
+
+    const handleAnswerSelect = (optionIndex) => {
+        if (result !== null) return;
+        setSelectedAnswer(optionIndex);
+        if (optionIndex === currentQuestion.answer) {
             setResult("correct");
+            setCorrectAnswers(correctAnswers + 1);
         } else {
             setResult("wrong");
+            setIncorrectAnswers(incorrectAnswers + 1);
         }
     };
 
     const handleNext = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedAnswer(""); // Yeni soru için seçimi sıfırla
-            setResult(null); // Sonucu sıfırla
+            setSelectedAnswer(null);
+            setResult(null);
+            setFlipped(false);
         }
     };
 
     const handlePrevious = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedAnswer(""); // Geri dönerken seçimi sıfırla
-            setResult(null); // Sonucu sıfırla
+            setSelectedAnswer(null);
+            setResult(null);
         }
+    };
+
+    const handleTestFinish = () => {
+        // Eğer cevap verilmemiş soru varsa, cevapsız olarak say
+        if (result === null) {
+            setUnansweredQuestions(unansweredQuestions + 1);
+        }
+        setShowModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleCloseModalNavigate = () => {
+        setShowModal(false);
+        navigate(-1);
     };
 
     const handleCardClick = () => {
         setFlipped(!flipped);
     };
 
-    const currentQuestion = questions[currentQuestionIndex];
+    const handleShowAnswer = () => {
+        if (result === null) {
+            setSelectedAnswer(currentQuestion.answer);
+            setResult("correct");
+            setCorrectAnswers(correctAnswers + 1);
+        }
+    };
+
+    const options = [
+        { key: 1, text: currentQuestion.optionA },
+        { key: 2, text: currentQuestion.optionB },
+        { key: 3, text: currentQuestion.optionC },
+        { key: 4, text: currentQuestion.optionD },
+        { key: 5, text: currentQuestion.optionE },
+    ];
 
     return (
         <div className="train-container">
@@ -77,23 +125,23 @@ function TrainPages() {
                     </div>
 
                     <div className="card col-9 question-card p-4">
-                        <h4 className="question-text">{currentQuestion.question}</h4>
+                        <h4 className="question-text">{currentQuestion.text}</h4>
                         <div className="options-container w-100">
-                            {currentQuestion.options.map((option, index) => (
+                            {options.map(option => (
                                 <button
-                                    key={index}
-                                    className={`btn btn-option ${selectedAnswer === option
-                                        ? result === "correct" && option === currentQuestion.correctAnswer
+                                    key={option.key}
+                                    className={`btn btn-option ${selectedAnswer === option.key
+                                        ? result === "correct" && option.key === currentQuestion.answer
                                             ? "correct"
-                                            : result === "wrong" && selectedAnswer === option
+                                            : result === "wrong" && selectedAnswer === option.key
                                                 ? "wrong"
                                                 : "selected"
                                         : ""
                                         }`}
-                                    onClick={() => handleAnswerSelect(option)}
-                                    disabled={result !== null} // Kontrol sonrası tıklamayı devre dışı bırak
+                                    onClick={() => handleAnswerSelect(option.key)}
+                                    disabled={result !== null}
                                 >
-                                    {option}
+                                    {option.text}
                                 </button>
                             ))}
                         </div>
@@ -104,10 +152,14 @@ function TrainPages() {
                         onClick={handleCardClick}
                     >
                         <div className="card-front">
-                            <h4 className="question-text">Soru Bilgisi</h4>
+                            <h4 className="question-text">
+                                {cardStatus === 'succeeded' && flashCards.length > 0 ? flashCards[0].front : null}
+                            </h4>
                         </div>
                         <div className="card-back">
-                            <h4 className="question-text">{currentQuestion.info}</h4>
+                            <h4 className="question-text">
+                                {cardStatus === 'succeeded' && flashCards.length > 0 ? flashCards[0].back : null}
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -117,12 +169,41 @@ function TrainPages() {
                         <button className="next-buton-train" role="button" onClick={handlePrevious}>
                             Geri
                         </button>
-                        <button className="next-buton-train" role="button" onClick={handleNext}>
-                            İleri
+                        <button className="next-buton-train" role="button" onClick={handleShowAnswer}>
+                            Cevap
                         </button>
+                        {currentQuestionIndex === questions.length - 1 ? (
+                            <button className="next-buton-train finish" role="button" onClick={handleTestFinish}>
+                                Bitir
+                            </button>
+                        ) : (
+                            <button className="next-buton-train" role="button" onClick={handleNext}>
+                                İleri
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h4>Test Sonuçları</h4>
+                        </div>
+                        <div className="modal-body">
+                            <p>Doğru Cevaplar: {correctAnswers}</p>
+                            <p>Yanlış Cevaplar: {incorrectAnswers}</p>
+                            <p>Boş Sorular: {unansweredQuestions}</p> {/* Cevapsız soruları ekleyin */}
+                        </div>
+                        <div className="modal-footer">
+                            <button onClick={handleCloseModalNavigate}>Testi Bitir</button>
+                            <button onClick={handleCloseModal}>İncele </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

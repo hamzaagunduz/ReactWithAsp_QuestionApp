@@ -29,7 +29,6 @@ function ExamMidComponent() {
 
     const handleSelect = (exam) => {
         setSelectedOption(exam.name);  // Seçilen sınavı state'e kaydet
-        console.log(user);
         if (user) {
             // Kullanıcı bilgisi varsa sınav ID'sini güncelle
             dispatch(updateAppUserExam({ userId: user.userId, examID: exam.examID }));

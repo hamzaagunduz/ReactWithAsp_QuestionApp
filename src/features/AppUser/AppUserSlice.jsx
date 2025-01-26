@@ -19,7 +19,6 @@ export const fetchAppUser = createAsyncThunk(
 export const updateAppUserExam = createAsyncThunk(
     'AppUser/UpdateUserExam',
     async ({ userId, examID }, { rejectWithValue }) => {
-        console.log(examID);
         try {
             const response = await apiClient.put(`AppUser/UpdateUserExam`, {
                 userId: userId,

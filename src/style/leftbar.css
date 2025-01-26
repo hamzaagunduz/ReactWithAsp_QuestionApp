@@ -71,7 +71,6 @@
     margin-top: 8px;
     width: 90%;
     height: 55px;
-    padding: 4px 20px 0px 0px;
     padding-left: 15px;
     display: flex;
     align-items: center;
@@ -79,7 +78,7 @@
 }
 
 .nav-link span {
-    margin-left: 18px;
+    margin-left: 10px;
     margin-top: 10px;
 
 }

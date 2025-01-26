@@ -12,6 +12,18 @@ export const fetchCourse = createAsyncThunk(
     }
 );
 
+export const fetchCoursesByExamId = createAsyncThunk(
+    'course/fetchCoursesByExamId',
+    async (examId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`Courses/GetCoursesByExamId/${examId}`);
+            return response.data; // Başarılı dönüş
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
 const CoursesSlice = createSlice({
     name: 'Courses',
     initialState: {
@@ -23,14 +35,14 @@ const CoursesSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchCourse.pending, (state) => {
+            .addCase(fetchCoursesByExamId.pending, (state) => {
                 state.status = 'loading';  // Yükleniyor durumunu ayarlıyoruz
             })
-            .addCase(fetchCourse.fulfilled, (state, action) => {
+            .addCase(fetchCoursesByExamId.fulfilled, (state, action) => {
                 state.status = 'succeeded';  // Veri başarıyla alındığında
                 state.courses = action.payload;  // API'den gelen veriyi options'a kaydediyoruz
             })
-            .addCase(fetchCourse.rejected, (state, action) => {
+            .addCase(fetchCoursesByExamId.rejected, (state, action) => {
                 state.status = 'failed';  // Hata durumunda
                 state.error = action.payload;
             });
