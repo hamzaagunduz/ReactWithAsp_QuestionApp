@@ -2,31 +2,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCoursesByExamId } from '../features/Courses/CoursesSlice';
-import { fetchTopics } from '../features/Topic/TopicSlice';
-import { fetchAppUser } from '../features/AppUser/AppUserSlice';
-import CardComponent from "../components/CardComponent"; // Card bileşenini import et
+import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
+import { fetchTopics } from '../../features/Topic/TopicSlice';
+import { fetchAppUser } from '../../features/AppUser/AppUserSlice';
+import CardComponent from "./CardComponent"; // Card bileşenini import et
 
 const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState(courseID || null);
     const { topics } = useSelector(state => state.topic);
-    const { user, status: userStatus } = useSelector(state => state.appUser);
 
-    // Kullanıcı verisini al
-    useEffect(() => {
-        if (userStatus === "succeeded") {
-            dispatch(fetchAppUser(1)); // Kullanıcı bilgilerini al
-        }
-    }, [dispatch]);
-
-    // Sınav ID'sine göre kursları al
-    useEffect(() => {
-        if (userStatus === "succeeded" && user?.examID) {
-            dispatch(fetchCoursesByExamId(user.examID)); // Sınav ID'sine göre kursları al
-        }
-    }, [dispatch]);
 
     // Seçilen kategoriye göre konuları al
     useEffect(() => {

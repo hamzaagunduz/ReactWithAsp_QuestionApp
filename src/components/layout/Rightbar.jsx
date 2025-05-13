@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import '../style/rightbar.css'; // leftbar.css dosyasını import ettik
+import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
 
-import heart from '../assets/heart.png';
-import goal from '../assets/goal.png';
-import target from '../assets/target.png';
-import diamond from '../assets/diamond.png';
+import heart from '../../assets/heart.png';
+import goal from '../../assets/goal.png';
+import target from '../../assets/target.png';
+import diamond from '../../assets/diamond.png';
 
 
 export const Rightbar = () => {

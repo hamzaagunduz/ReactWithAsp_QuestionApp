@@ -1,11 +1,11 @@
 import React from 'react'
-import { Rightbar } from "../components/Rightbar";
+import { Rightbar } from "../components/layout/Rightbar";
 import ExamMidComponent from "../components/ExamMidComponent";
 import '../style/exam.css';
 
 
 
-import { Leftbar } from "../components/Leftbar";
+import { Leftbar } from "../components/layout/Leftbar";
 
 function ExamPage() {
     return (

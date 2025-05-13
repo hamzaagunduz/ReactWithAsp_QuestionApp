@@ -23,7 +23,13 @@ const initialState = {
 const topicSlice = createSlice({
     name: 'topic',
     initialState,
-    reducers: {},
+    reducers: {
+        clearTopics: (state) => {
+            state.topics = [];
+            state.status = 'idle';
+            state.error = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchTopics.pending, (state) => {
@@ -39,5 +45,6 @@ const topicSlice = createSlice({
             });
     },
 });
+export const { clearTopics } = topicSlice.actions;
 
 export default topicSlice.reducer;

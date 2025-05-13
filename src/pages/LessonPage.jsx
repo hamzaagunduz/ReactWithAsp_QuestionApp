@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import LessonMidComponent from '../components/LessonMidComponent';  // LessonMidComponent'i import et
-import { Leftbar } from "../components/Leftbar";
-import { Rightbar } from "../components/Rightbar";
+import LessonMidComponent from '../components/lessonComponents/LessonMidComponent';  // LessonMidComponent'i import et
+import { Leftbar } from "../components/layout/Leftbar";
+import { Rightbar } from "../components/layout/Rightbar";
 const LessonPage = () => {
     const { courseID } = useParams();  // URL parametresinden courseID'yi alıyoruz
 

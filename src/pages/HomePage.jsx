@@ -1,7 +1,7 @@
 import React from 'react'
-import { Rightbar } from "../components/Rightbar";
-import { MidSection } from "../components/MidSection";
-import { Leftbar } from "../components/Leftbar";
+import { Rightbar } from "../components/layout/Rightbar";
+import { MidSection } from "../components/homeComponents/MidSection";
+import { Leftbar } from "../components/layout/Leftbar";
 
 const HomePage = () => {
     return (

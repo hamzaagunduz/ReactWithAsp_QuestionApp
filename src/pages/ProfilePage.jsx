@@ -1,7 +1,7 @@
 import React from 'react'
-import { Rightbar } from "../components/Rightbar";
+import { Rightbar } from "../components/layout/Rightbar";
 import ProfileMidComponent from "../components/ProfileMidComponent";
-import { Leftbar } from "../components/Leftbar";
+import { Leftbar } from "../components/layout/Leftbar";
 
 const ProfilePage = () => {
     return (

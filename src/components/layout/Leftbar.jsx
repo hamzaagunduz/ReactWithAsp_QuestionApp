@@ -1,14 +1,14 @@
 // Sidebar.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../style/leftbar.css'; // leftbar.css dosyasını import ettik
+import '../../style/leftbar.css'; // leftbar.css dosyasını import ettik
 import { Link, useLocation } from 'react-router-dom'; // Link ve useLocation import edildi
 
 // Resimleri import et
-import housekeeper from '../assets/housekeeper.png';
-import calender from '../assets/calender.png';
-import speedometer from '../assets/speedometer.png';
-import house from '../assets/house.png';
+import housekeeper from '../../assets/housekeeper.png';
+import calender from '../../assets/calender.png';
+import speedometer from '../../assets/speedometer.png';
+import house from '../../assets/house.png';
 
 export const Leftbar = () => {
     const location = useLocation(); // Geçerli sayfa bilgisini almak için useLocation kullanıyoruz
@@ -16,7 +16,7 @@ export const Leftbar = () => {
     return (
         <div className="col-md-2 d-none d-md-flex flex-md-column bg-light position-fixed h-100 z-1 border-r ms-xxx">
             <a href="/" className="d-flex align-items-center side-logo text-dark text-decoration-none">
-                <span className="logo-font">Sidebar</span>
+                <span className="logo-font">Dobi</span>
             </a>
 
             <ul className="nav flex-column li-text">
