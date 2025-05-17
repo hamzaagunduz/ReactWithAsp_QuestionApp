@@ -102,26 +102,26 @@ export const Rightbar = () => {
                 </div>
 
                 <div className="info bg-light p-3 shadow-sm">
-                    <img className="mt-1 mb-2" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/2e50c3e8358914df5285dc8cf45d0b4c.svg" alt="" />
-                    <p className="text-right-top">Süper'i ücretsiz dene</p>
+                    <div className="info_top"></div>
+                    <p className="text-right-top">Sonuz Can Hakkı</p>
 
                     <div className="text-container d-flex align-items-center">
                         <p className="text-muted text-right ">Burada bilgi metni yer alacak. Kullanıcının aktiviteleri.</p>
                     </div>
-                    <img className=" img-small" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/fb7130289a205fadd2e196b9cc866555.svg" alt="" />
+                    <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png" alt="" />
 
-                    <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
+                    <button className=" info_btn_1 "> 2 HAFTA ÜCRETSİZ DENE</button>
                 </div>
 
 
-                <div className="info2 bg-light p-3 shadow-sm">
-                    <img className="mt-1 mb-2" src="https://d35aaqx5ub95lt.cloudfront.net/images/super/2e50c3e8358914df5285dc8cf45d0b4c.svg" alt="" />
-                    <p className="text-right-top">Süper'i ücretsiz dene</p>
+                <div className="info bg-light p-3 shadow-sm info2">
+                    <div className="info_top2"></div>
+                    <p className="text-right-top">Sonuz Can Hakkı</p>
 
                     <div className="text-container d-flex align-items-center">
                         <p className="text-muted text-right ">Burada bilgi metni yer alacak. Kullanıcının aktiviteleri.</p>
                     </div>
-                    <img className=" img-small" src="https://d35aaqx5ub95lt.cloudfront.net/images/leagues/74d6ab6e5b6f92e7d16a4a6664d1fafd.svg" alt="" />
+                    <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/10473/10473357.png" alt="" />
 
                     <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
                 </div>

@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
 import { fetchTopics } from '../../features/Topic/TopicSlice';
 import { fetchAppUser } from '../../features/AppUser/AppUserSlice';
+import ModalComponent from "./ModalComponent";
+
 import CardComponent from "./CardComponent"; // Card bileşenini import et
 
 const LessonMidComponent = ({ courseID }) => {
@@ -42,17 +44,22 @@ const LessonMidComponent = ({ courseID }) => {
     ];
 
     const LessonContainer = ({ lesson, lessonIndex }) => {
+        const [showModal, setShowModal] = useState(false);
+        const handleOpenModal = () => setShowModal(true);
+        const handleCloseModal = () => setShowModal(false);
+
         const lessonColor = colorScale[lessonIndex % colorScale.length];
         return (
             <div className="lesson-container" key={lessonIndex}>
                 <div className="d-flex flex-column align-items-center">
                     <div className="mid-top-card" style={{ backgroundColor: lessonColor }}>
                         <div className="card-body d-flex flex-column flex-grow-1">
-                            <h5 className="card-title text-muted">{lesson.title}</h5>
-                            <p className="card-text">{lesson.description}</p>
+                            <p className="card-text">{lesson.name}</p>
                         </div>
                         <div className="mid-top-card-button">
-                            <button className="btn btn-primary">Konu Özeti</button>
+                            <button className="btn btn-primary" onClick={handleOpenModal}>
+                                Konu Özeti
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -73,13 +80,19 @@ const LessonMidComponent = ({ courseID }) => {
                         </div>
                     </div>
                 </div>
+
+                <ModalComponent
+                    isOpen={showModal}
+                    onClose={handleCloseModal}
+                    description={lesson.description}
+                />
             </div>
         );
     };
 
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
-            <button className="back-button" onClick={handleBack}></button>
+            <button className="back-button" onClick={handleBack}> </button>
             {topics.map((lesson, lessonIndex) => (
                 <LessonContainer key={lessonIndex} lesson={lesson} lessonIndex={lessonIndex} />
             ))}

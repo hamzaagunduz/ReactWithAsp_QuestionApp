@@ -60,6 +60,7 @@ export const MidSection = React.memo(() => {
                         {courses.map((category) => (
                             <CategoryButton
                                 key={category.courseID}
+
                                 category={category}
                                 onClick={handleCategorySelection} // Kategori seçildiğinde tetikleniyor
                             />

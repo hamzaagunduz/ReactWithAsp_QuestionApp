@@ -1,0 +1,160 @@
+/* Genel konteyner */
+.duo-container {
+    padding: 2rem;
+    border-radius: 20px;
+    font-family: 'Nunito', 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* Flashcard listesi */
+.duo-flashcard-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+}
+
+/* Flashcard kutusu */
+.duo-flashcard {
+    width: 220px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.134);
+    padding: 16px;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    min-height: unset;
+    height: auto;
+}
+
+
+/* Kart yüzeyleri */
+.duo-card-face {
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: rgb(39 162 55 / 61%) 0px 4px 0px 0px;
+}
+
+/* Ön yüz */
+.duo-front {
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+    background-color: rgb(143 255 0 / 48%);
+    color: #27660a;
+    margin-bottom: 8px;
+    height: auto;
+    word-wrap: break-word;
+    white-space: normal;
+    transition: all 0.3s ease;
+
+}
+
+.duo-front:hover {
+    transform: scale(1.1);
+}
+
+
+
+/* Kart yoksa */
+.duo-no-cards {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* -------- MODAL -------- */
+.duo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.duo-modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeInModal 0.3s ease-in-out;
+    position: relative;
+}
+
+.duo-modal-content h4 {
+    margin-bottom: 1rem;
+    color: #27660a;
+    font-size: 22px;
+}
+
+.duo-modal-content p {
+    color: #0c3e74;
+    font-size: 18px;
+}
+
+/* Kapatma butonu */
+.duo-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
+}
+
+.duo-modal-close:hover {
+    color: #000;
+}
+
+/* Modal navigasyon butonları */
+.duo-modal-nav {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.duo-nav-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.duo-nav-button:hover {
+    background-color: #0056b3;
+}
+
+/* Modal açılış animasyonu */
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

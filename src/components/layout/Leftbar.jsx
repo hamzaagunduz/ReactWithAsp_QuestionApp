@@ -9,6 +9,7 @@ import housekeeper from '../../assets/housekeeper.png';
 import calender from '../../assets/calender.png';
 import speedometer from '../../assets/speedometer.png';
 import house from '../../assets/house.png';
+import card from '../../assets/card-game.png';
 
 export const Leftbar = () => {
     const location = useLocation(); // Geçerli sayfa bilgisini almak için useLocation kullanıyoruz
@@ -27,6 +28,16 @@ export const Leftbar = () => {
                     >
                         <img src={house} alt="Anasayfa" className="icon-size " /> {/* house.png ikonu */}
                         <span>Anasayfa</span>
+                    </Link>
+                </li>
+
+                <li>
+                    <Link
+                        to="/card"
+                        className={`nav-link ${location.pathname === '/card' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
+                    >
+                        <img src={card} alt="Sınavlar" className="icon-size " /> {/* speedometer.png ikonu */}
+                        <span>Kartlarım</span>
                     </Link>
                 </li>
 
