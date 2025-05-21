@@ -74,15 +74,9 @@ export const Rightbar = () => {
                         >
                             <div className="menu-trigger d-flex flex-column align-items-center">
                                 <img src={target} alt="Dil Seçimi" className="icon-sizes" />
-                                <p className="mb-0 small">YKS</p>
+                                <p className="mb-0 small">KPSS</p>
                             </div>
-                            {isHovered && (
-                                <ul className="menu-dropdown position-absolute">
-                                    <li className="menu-item">YKS</li>
-                                    <li className="menu-item">ALESS</li>
-                                    <li className="menu-item">KPSS</li>
-                                </ul>
-                            )}
+
                         </li>
 
                         <li className="mx-3 text-center">

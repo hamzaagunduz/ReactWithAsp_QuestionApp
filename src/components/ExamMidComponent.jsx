@@ -48,7 +48,7 @@ function ExamMidComponent() {
                         >
                             {option.name}
                             {selectedOption === option.name && (
-                                <span className="tik">✔</span>
+                                <span className="tik"></span>
                             )}
                         </button>
                     ))}

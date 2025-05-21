@@ -31,6 +31,18 @@ export const updateAppUserExam = createAsyncThunk(
     }
 );
 
+export const decreaseLife = createAsyncThunk(
+    'appUser/decreaseLife',
+    async (userId, { rejectWithValue }) => {
+        try {
+            // POST isteği atıyoruz (endpoint: /api/AppUser/{userId}/decreaselife)
+            const response = await apiClient.post(`AppUser/decreaselife/${userId}`);
+            return response.data;  // API'den dönen mesajı döndürelim
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
 const appUserSlice = createSlice({
     name: 'appUser',
     initialState: {
@@ -64,6 +76,20 @@ const appUserSlice = createSlice({
             .addCase(updateAppUserExam.rejected, (state, action) => {
                 state.status = 'failed';  // Hata durumunda
                 state.error = action.payload;  // Hata mesajını saklıyoruz
+            });
+
+        builder
+            .addCase(decreaseLife.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(decreaseLife.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+
+            })
+            .addCase(decreaseLife.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
     },
 });

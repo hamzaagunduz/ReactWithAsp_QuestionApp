@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
 import { fetchTopics } from '../../features/Topic/TopicSlice';
-import { fetchAppUser } from '../../features/AppUser/AppUserSlice';
 import ModalComponent from "./ModalComponent";
 
 import CardComponent from "./CardComponent"; // Card bileşenini import et

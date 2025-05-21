@@ -5,6 +5,8 @@ import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
 import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';
 import { FaArrowLeft } from "react-icons/fa";
 
+import { decreaseLife } from '../features/AppUser/AppUserSlice';  // thunk importu
+
 import QuestionCard from '../components/trainComponents/QuestionCard';
 import FlashCard from '../components/trainComponents/FlashCard';
 import TrainControls from '../components/trainComponents/TrainControls';
@@ -21,6 +23,7 @@ function TrainPage() {
     const [incorrectAnswers, setIncorrectAnswers] = useState(0);
     const [unansweredQuestions, setUnansweredQuestions] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const [answers, setAnswers] = useState({});
 
     const { testId } = useParams();
     const navigate = useNavigate();
@@ -29,31 +32,59 @@ function TrainPage() {
     const { questions } = useSelector(state => state.question);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
 
+    const userId = Number(localStorage.getItem('userId'));
     useEffect(() => {
         if (testId) {
             dispatch(fetchQuestionsByTestId(testId));
-            dispatch(fetchFlashCardsByTestId(testId)); // sadece bir kez tüm flashcard'ları çek
+            dispatch(fetchFlashCardsByTestId({ testId, userId }));
         }
     }, [testId, dispatch]);
 
     const handleStarClick = (flashCardID) => {
-        const appUserID = 1; // Auth'dan alınması gerekir
-        dispatch(toggleUserFlashCard({ appUserID, flashCardID }));
+        dispatch(toggleUserFlashCard({ appUserID: userId, flashCardID }));
     };
 
     const currentQuestion = questions?.[currentQuestionIndex];
+    const currentFlashCard = flashCards?.find(fc => fc.questionID === currentQuestion.questionID);
 
     const handleAnswerSelect = (optionIndex) => {
         if (result !== null) return;
+
+        const currentQID = currentQuestion.questionID;
+
         setSelectedAnswer(optionIndex);
+        setAnswers(prev => ({
+            ...prev,
+            [currentQID]: optionIndex
+        }));
+
         if (optionIndex === currentQuestion.answer) {
             setResult("correct");
             setCorrectAnswers(prev => prev + 1);
         } else {
             setResult("wrong");
             setIncorrectAnswers(prev => prev + 1);
+            dispatch(decreaseLife(userId));
+
         }
     };
+
+    useEffect(() => {
+        const currentQID = questions?.[currentQuestionIndex]?.questionID;
+        if (currentQID && answers[currentQID]) {
+            setSelectedAnswer(answers[currentQID]);
+            setResult(
+                answers[currentQID] === questions[currentQuestionIndex].answer
+                    ? "correct"
+                    : "wrong"
+            );
+        } else {
+            setSelectedAnswer(null);
+            setResult(null);
+        }
+        setFlipped(false);
+    }, [currentQuestionIndex, questions, answers]);
+
 
     const handleShowAnswer = () => {
         if (result === null) {
@@ -81,11 +112,25 @@ function TrainPage() {
     };
 
     const handleTestFinish = () => {
-        if (result === null) {
-            setUnansweredQuestions(prev => prev + 1);
-        }
+        let correct = 0;
+        let incorrect = 0;
+        questions.forEach(q => {
+            const userAnswer = answers[q.questionID];
+            if (userAnswer === undefined) return; // boş soru
+            if (userAnswer === q.answer) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        });
+        const unansweredCount = questions.length - Object.keys(answers).length;
+        setCorrectAnswers(correct);
+        setIncorrectAnswers(incorrect);
+        setUnansweredQuestions(unansweredCount);
         setShowModal(true);
     };
+
+
 
     if (!questions || questions.length === 0) {
         return <div>No questions available</div>;
@@ -118,6 +163,8 @@ function TrainPage() {
                     flashCard={flashCards?.find(fc => fc.questionID === currentQuestion.questionID)}
                     loading={cardStatus !== "succeeded"}
                     onStarClick={handleStarClick}
+                    isStarred={!!currentFlashCard?.isFavoried}  // Favori ise true, yoksa false
+
                 />
 
                 <TrainControls

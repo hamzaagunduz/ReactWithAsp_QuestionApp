@@ -8,7 +8,7 @@
     font-optical-sizing: auto;
     font-weight: 700;
     transition: all 0.3s ease;
-
+    padding-left: 15px;
 }
 
 .score {
@@ -173,7 +173,7 @@
 
 .info2 button:hover {
     color: rgb(14, 39, 62);
-    background-color: rgba(18, 215, 71, 0.66) !important;
+    background-color: rgba(145, 255, 0, 0.77) !important;
 
 }
 

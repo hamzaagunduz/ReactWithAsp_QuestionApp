@@ -15,12 +15,14 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
                     <button
                         key={option.key}
                         className={`btn btn-option ${selectedAnswer === option.key
-                            ? result === "correct" && option.key === question.answer
-                                ? "correct"
-                                : result === "wrong" && selectedAnswer === option.key
-                                    ? "wrong"
-                                    : "selected"
-                            : ""
+                                ? result === "correct" && option.key === question.answer
+                                    ? "correct"
+                                    : result === "wrong" && selectedAnswer === option.key
+                                        ? "wrong"
+                                        : "selected"
+                                : result === "wrong" && option.key === question.answer
+                                    ? "correct"
+                                    : ""
                             }`}
                         onClick={() => onSelect(option.key)}
                         disabled={result !== null}

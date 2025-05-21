@@ -24,8 +24,8 @@ export const fetchFavoriteFlashcardsByCourse = createAsyncThunk(
 
 export const fetchFlashCardsByTestId = createAsyncThunk(
     'flashCard/fetchByTestId',
-    async (testId) => {
-        const response = await apiClient.get(`FlashCards/GetFlashCardsByTestId/${testId}`);
+    async ({ testId, userId }) => {
+        const response = await apiClient.get(`FlashCards/GetFlashCardsByTestId/${testId}?userId=${userId}`);
         return response.data;
     }
 );

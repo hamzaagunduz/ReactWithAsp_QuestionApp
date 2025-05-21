@@ -15,7 +15,7 @@ export const Leftbar = () => {
     const location = useLocation(); // Geçerli sayfa bilgisini almak için useLocation kullanıyoruz
 
     return (
-        <div className="col-md-2 d-none d-md-flex flex-md-column bg-light position-fixed h-100 z-1 border-r ms-xxx">
+        <div className="col-md-2 d-none d-md-flex flex-md-column bg-light position-fixed h-100 z-1 border-r">
             <a href="/" className="d-flex align-items-center side-logo text-dark text-decoration-none">
                 <span className="logo-font">Dobi</span>
             </a>

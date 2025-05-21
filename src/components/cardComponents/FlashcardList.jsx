@@ -42,7 +42,14 @@ const FlashcardList = ({ flashcards }) => {
 
             {/* Modal */}
             {selectedIndex !== null && (
-                <div className="duo-modal-overlay">
+                <div
+                    className="duo-modal-overlay"
+                    onClick={(e) => {
+                        if (e.target.classList.contains("duo-modal-overlay")) {
+                            closeModal();
+                        }
+                    }}
+                >
                     <div className="duo-modal-content">
                         <button className="duo-modal-close" onClick={closeModal}>×</button>
                         <h4>{flashcards[selectedIndex].front}</h4>
@@ -55,6 +62,7 @@ const FlashcardList = ({ flashcards }) => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 };
