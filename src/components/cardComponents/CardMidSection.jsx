@@ -17,12 +17,12 @@ export const CardMidSection = React.memo(() => {
     const { favoriteFlashCards, favoriteStatus } = useSelector(state => state.flashCard);
 
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const userId = localStorage.getItem('userId');
 
     // Kullanıcıyı al
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch(fetchAppUser(Number(userId)));
+        if (!user) {
+            dispatch(fetchAppUser({ userId }));
         }
     }, [dispatch, user]);
 
@@ -42,7 +42,7 @@ export const CardMidSection = React.memo(() => {
     const handleCategorySelection = useCallback((categoryID) => {
         dispatch(clearTopics());
         setSelectedCategory(categoryID);
-        dispatch(fetchFavoriteFlashcardsByCourse({ appUserId: { userId }, courseId: categoryID }));
+        dispatch(fetchFavoriteFlashcardsByCourse({ appUserId: userId, courseId: categoryID }));
     }, [dispatch]);
 
     return (

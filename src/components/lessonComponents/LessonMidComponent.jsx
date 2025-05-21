@@ -1,12 +1,12 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
+import { fetchLivesInfo } from '../../features/Layout/LayoutSlice'; // fetchLivesInfo import
 import { fetchTopics } from '../../features/Topic/TopicSlice';
 import ModalComponent from "./ModalComponent";
+import NoLivesModalComponent from "./NoLivesModalComponent";
 
-import CardComponent from "./CardComponent"; // Card bileşenini import et
+import CardComponent from "./CardComponent";
 
 const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
@@ -14,32 +14,50 @@ const LessonMidComponent = ({ courseID }) => {
     const [selectedCategory, setSelectedCategory] = useState(courseID || null);
     const { topics } = useSelector(state => state.topic);
 
-
-    // Seçilen kategoriye göre konuları al
+    // layoutSlice'dan lives değerini alıyoruz
+    const healthResult = useSelector(state => state.layout.healthResult);
+    const userId = localStorage.getItem('userId');
+    const [showNoLivesModal, setShowNoLivesModal] = useState(false);
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchLivesInfo(userId));
+        }
+    }, [userId, dispatch]);
+    const lives = healthResult?.lives ?? 0;
     useEffect(() => {
         if (selectedCategory) {
-            dispatch(fetchTopics(selectedCategory)); // Seçilen kategoriye göre konuları al
+            dispatch(fetchTopics(selectedCategory));
         }
     }, [selectedCategory, dispatch]);
 
     const handleBack = useCallback(() => {
         setSelectedCategory(null);
-        navigate(-1); // Geri gitmek için navigate kullanıyoruz
+        navigate(-1);
     }, [navigate]);
 
     const handleNavigate = useCallback(
         (testId) => {
-            navigate(`/train/${testId}`); // testID'yi parametre olarak geçiriyoruz
+            if (lives <= 10) {
+                // Can kalmadıysa modal göster ve yönlendirme yapma
+                setShowNoLivesModal(true);
+            } else {
+                // Can varsa sınava yönlendir
+                navigate(`/train/${testId}`);
+            }
         },
-        [navigate]
+        [navigate, lives]
     );
 
+    const closeNoLivesModal = () => {
+        setShowNoLivesModal(false);
+    };
+
     const colorScale = [
-        "rgb(88, 204, 2)", // Yeşil
-        "rgb(139, 0, 255)", // Mor
-        "rgb(255, 69, 0)",  // Turuncu
-        "rgb(30, 144, 255)", // Mavi
-        "rgb(255, 215, 0)", // Sarı
+        "rgb(88, 204, 2)",
+        "rgb(139, 0, 255)",
+        "rgb(255, 69, 0)",
+        "rgb(30, 144, 255)",
+        "rgb(255, 215, 0)",
     ];
 
     const LessonContainer = ({ lesson, lessonIndex }) => {
@@ -73,7 +91,7 @@ const LessonMidComponent = ({ courseID }) => {
                                     description={card.description}
                                     buttonText={"Başla"}
                                     color={lessonColor}
-                                    onClick={() => handleNavigate(card.testID)} // testID'yi parametre olarak geçiriyoruz
+                                    onClick={() => handleNavigate(card.testID)}
                                 />
                             ))}
                         </div>
@@ -95,7 +113,11 @@ const LessonMidComponent = ({ courseID }) => {
             {topics.map((lesson, lessonIndex) => (
                 <LessonContainer key={lessonIndex} lesson={lesson} lessonIndex={lessonIndex} />
             ))}
-            <p style={{ height: '300vh' }}></p>
+            <NoLivesModalComponent
+                isOpen={showNoLivesModal}
+                onClose={closeNoLivesModal}
+                description={"Canınız kalmadı. Lütfen bir süre bekleyin veya can satın alın."}
+            />
         </div>
     );
 };

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
+import { fetchLivesInfo } from '../../features/Layout/LayoutSlice';
+import { useSelector, useDispatch } from "react-redux";
 
 import heart from '../../assets/heart.png';
 import goal from '../../assets/goal.png';
@@ -10,6 +12,21 @@ import diamond from '../../assets/diamond.png';
 
 
 export const Rightbar = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [livesData, setLivesData] = useState(null);
+    const userId = localStorage.getItem('userId');
+    const [timeLeft, setTimeLeft] = useState(null); // Bir sonraki can eklemeye kalan saniye
+
+    const dispatch = useDispatch();
+    const healthStatus = useSelector((state) => state.layout.healthStatus);
+    const healthResult = useSelector((state) => state.layout.healthResult);
+
+    const handleHeartClick = () => {
+        dispatch(fetchLivesInfo(userId));
+        setShowModal(true);  // Modal açmak için
+    };
+
+
     const sidebarRef = useRef(null);
     const contentWrapperRef = useRef(null);
 
@@ -51,6 +68,42 @@ export const Rightbar = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Zamanı dakika:saniye formatında gösterelim
+    const formatTime = (seconds) => {
+        const m = Math.floor(seconds / 60);
+        const s = Math.floor(seconds % 60);
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    };
+    const closeModal = () => setShowModal(false);
+
+    useEffect(() => {
+        if (!showModal) {
+            // Modal kapalıysa hiçbir şey yapma
+            return;
+        }
+
+        if (!healthResult?.lastLifeAddedTime) return;
+
+        const updateTimer = () => {
+            const lastLifeDate = new Date(healthResult.lastLifeAddedTime + "Z");
+            const now = new Date();
+            const elapsedSeconds = (now.getTime() - lastLifeDate.getTime()) / 1000;
+            const intervalSeconds = 20 * 60;
+            const secondsLeft = intervalSeconds - (elapsedSeconds % intervalSeconds);
+            setTimeLeft(secondsLeft);
+        };
+
+        updateTimer();
+
+        const timerId = setInterval(updateTimer, 1000);
+
+        return () => clearInterval(timerId);
+
+    }, [showModal, healthResult]);
+
+
+
+
     return (
         <div
             ref={sidebarRef}
@@ -87,13 +140,14 @@ export const Rightbar = () => {
                             <img src={goal} alt="Başarı" className="icon-sizes " />
                             <p className="mb-0 small">Başarı</p>
                         </li>
-                        <li className="mx-3 text-center">
+                        <li className="mx-3 text-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
                             <img src={heart} alt="Hearts" className="icon-sizes " />
                             <p className="mb-0 small">Can</p>
                         </li>
 
                     </ul>
                 </div>
+
 
                 <div className="info bg-light p-3 shadow-sm">
                     <div className="info_top"></div>
@@ -187,6 +241,37 @@ export const Rightbar = () => {
 
                 </div>
 
+                {showModal && (
+                    <div
+                        className="duo-modal-overlay"
+                        onClick={closeModal}
+                    >
+                        <div
+                            className="duo-modal-content"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                className="duo-modal-close"
+                                onClick={closeModal}
+                                aria-label="Close modal"
+                            >
+                                &times;
+                            </button>
+
+                            <h4>Can Durumu</h4>
+                            {healthStatus === 'succeeded' && healthResult ? (
+                                <>
+                                    <p>Can Sayısı: <strong>{healthResult.lives}</strong></p>
+                                    {timeLeft !== null && (
+                                        <p>Bir sonraki can eklemesine kalan süre: <strong>{formatTime(timeLeft)}</strong></p>
+                                    )}
+                                </>
+                            ) : (
+                                <p>Yükleniyor...</p>
+                            )}
+                        </div>
+                    </div>
+                )}
 
 
 

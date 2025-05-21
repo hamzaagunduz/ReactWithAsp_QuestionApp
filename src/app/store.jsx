@@ -6,6 +6,7 @@ import coursesReducer from '../features/Courses/CoursesSlice';  // AppUser slice
 import topicReducer from '../features/Topic/TopicSlice';  // AppUser slice'ı import ediyoruz
 import questioncReducer from '../features/Question/QuestionSlice';  // AppUser slice'ı import ediyoruz
 import flashCardReducer from '../features/FlashCard/FlashCardSlice';  // AppUser slice'ı import ediyoruz
+import layoutReducer from '../features/Layout/LayoutSlice';  // AppUser slice'ı import ediyoruz
 
 const store = configureStore({
     reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
         topic: topicReducer,  // AppUser slice'ını store'a ekliyoruz
         question: questioncReducer,  // AppUser slice'ını store'a ekliyoruz
         flashCard: flashCardReducer,
+        layout: layoutReducer,
 
     },
 });

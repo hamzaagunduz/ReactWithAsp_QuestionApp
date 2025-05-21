@@ -13,12 +13,12 @@
 
 .score {
     width: 80%;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .icon-sizes {
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
 }
 
 .language-menu {
@@ -210,4 +210,81 @@
 .task-img-small2 {
     width: 10%;
     margin-top: 19px;
+}
+
+
+.duo-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.duo-modal-content {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    border: none;
+    box-shadow: 0 4px 8px rgba(82, 161, 179, 0.38);
+    animation: popIn 0.3s ease-out;
+    position: relative;
+}
+
+.duo-modal-content h4 {
+    margin-bottom: 1rem;
+    color: #066d3d86;
+    font-size: 24px;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+}
+
+.duo-modal-content p {
+    color: #023047;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.duo-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 28px;
+    background: #ff6868;
+    border: none;
+    border-radius: 30%;
+    width: 36px;
+    height: 36px;
+    line-height: 32px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.duo-modal-close:hover {
+    transform: scale(1.1);
+}
+
+/* Cartoon pop-in animasyonu */
+@keyframes popIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
