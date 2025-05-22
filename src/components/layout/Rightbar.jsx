@@ -2,16 +2,25 @@ import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
-import { fetchLivesInfo } from '../../features/Layout/LayoutSlice';
 import { useSelector, useDispatch } from "react-redux";
 
 import heart from '../../assets/heart.png';
 import goal from '../../assets/goal.png';
 import target from '../../assets/target.png';
 import diamond from '../../assets/diamond.png';
+import achievement1 from '../../assets/achievement.png';
+import achievement2 from '../../assets/achievement2.png';
+import achievement3 from '../../assets/achievement3.png';
+import chest from '../../assets/chest.png';
+import chestopen from '../../assets/chest2.png';
+
+import { fetchLivesInfo } from '../../features/Layout/LayoutSlice';
+import { getUserDailyMissions } from '../../features/DailyMission/DailyMissionSlice';
 
 
 export const Rightbar = () => {
+    const achievements = [achievement1, achievement2, achievement3];
+
     const [showModal, setShowModal] = useState(false);
     const [livesData, setLivesData] = useState(null);
     const userId = localStorage.getItem('userId');
@@ -20,12 +29,17 @@ export const Rightbar = () => {
     const dispatch = useDispatch();
     const healthStatus = useSelector((state) => state.layout.healthStatus);
     const healthResult = useSelector((state) => state.layout.healthResult);
+    const { missions, missionsStatus, error } = useSelector(state => state.dailyMission);
 
     const handleHeartClick = () => {
         dispatch(fetchLivesInfo(userId));
         setShowModal(true);  // Modal açmak için
     };
-
+    useEffect(() => {
+        if (userId) {
+            dispatch(getUserDailyMissions(userId));
+        }
+    }, [dispatch, userId]);
 
     const sidebarRef = useRef(null);
     const contentWrapperRef = useRef(null);
@@ -177,68 +191,45 @@ export const Rightbar = () => {
                 <div className="task-list bg-light p-3 shadow-sm">
 
                     <div className="task-top-text d-flex justify-content-between gap-2">
-                        <p className="">Günlük Görevler</p>
-                        <p className="">Tümünü Göster</p>
+                        <p>Günlük Görevler</p>
                     </div>
 
 
-
-                    <div className="task-item d-flex align-items-center justify-content-between mb-3">
-                        <img className="task-img-small " src="https://d35aaqx5ub95lt.cloudfront.net/images/leagues/74d6ab6e5b6f92e7d16a4a6664d1fafd.svg" alt="" />
-                        <div className="task-item-text">
-                            <p>Süper'i ücretsiz dene</p>
-                            <div className="progress">
-                                <div className="progress-bar" role="progressbar" style={{ width: '120px' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-
+                    {missionsStatus === 'succeeded' && missions.map((mission, index) => {
+                        const percentage = Math.min(100, Math.round((mission.currentValue / mission.targetValue) * 100));
+                        const image = achievements[index % achievements.length]; // Doğru resim seçilir
+                        const progressColorClass = mission.isCompleted ? 'bg-success' : '';
+                        const chestImage = mission.isCompleted ? chestopen : chest;
+                        return (
+                            <div key={mission.dailyMissionId} className="task-item d-flex align-items-center justify-content-between mb-3">
+                                <img
+                                    className="task-img-small"
+                                    src={image}
+                                    alt=""
+                                />
+                                <div className="task-item-text">
+                                    <p>{mission.title}</p>
+                                    <div className="progress" style={{ width: '220px', height: '18px' }}>
+                                        <div
+                                            className={`progress-bar ${progressColorClass}`} // yeşil yapmak için Bootstrap sınıfı
+                                            role="progressbar"
+                                            style={{ width: `${percentage}%` }}
+                                            aria-valuenow={percentage}
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                        >
+                                            {percentage}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <img
+                                    className="task-img-small2"
+                                    src={chestImage} // Duruma göre kapalı ya da açık sandık
+                                    alt=""
+                                />
                             </div>
-
-                        </div>
-                        <img className="task-img-small2 " src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/df7eda7cc1cc833ba30cd1e82781b68f.svg" alt="" />
-
-                    </div>
-                    <div className="task-item d-flex align-items-center justify-content-between mb-3">
-                        <img className="task-img-small " src="https://d35aaqx5ub95lt.cloudfront.net/images/leagues/74d6ab6e5b6f92e7d16a4a6664d1fafd.svg" alt="" />
-                        <div className="task-item-text">
-                            <p>Süper'i ücretsiz dene</p>
-                            <div className="progress">
-                                <div className="progress-bar" role="progressbar" style={{ width: '120px' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-
-                            </div>
-
-                        </div>
-                        <img className="task-img-small2 " src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/df7eda7cc1cc833ba30cd1e82781b68f.svg" alt="" />
-
-                    </div>
-                    <div className="task-item d-flex align-items-center justify-content-between mb-3">
-                        <img className="task-img-small " src="https://d35aaqx5ub95lt.cloudfront.net/images/leagues/74d6ab6e5b6f92e7d16a4a6664d1fafd.svg" alt="" />
-                        <div className="task-item-text">
-                            <p>Süper'i ücretsiz dene</p>
-                            <div className="progress">
-                                <div className="progress-bar" role="progressbar" style={{ width: '120px' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-
-                            </div>
-
-                        </div>
-                        <img className="task-img-small2 " src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/df7eda7cc1cc833ba30cd1e82781b68f.svg" alt="" />
-
-                    </div>
-                    <div className="task-item d-flex align-items-center justify-content-between mb-3">
-                        <img className="task-img-small " src="https://d35aaqx5ub95lt.cloudfront.net/images/leagues/74d6ab6e5b6f92e7d16a4a6664d1fafd.svg" alt="" />
-                        <div className="task-item-text">
-                            <p>Süper'i ücretsiz dene</p>
-                            <div className="progress">
-                                <div className="progress-bar" role="progressbar" style={{ width: '120px' }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
-
-                            </div>
-
-                        </div>
-                        <img className="task-img-small2 " src="https://d35aaqx5ub95lt.cloudfront.net/images/goals/df7eda7cc1cc833ba30cd1e82781b68f.svg" alt="" />
-
-                    </div>
-
-
-
-
+                        );
+                    })}
                 </div>
 
                 {showModal && (

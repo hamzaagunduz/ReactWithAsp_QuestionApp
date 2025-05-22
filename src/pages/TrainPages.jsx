@@ -13,6 +13,7 @@ import '../style/train.css';
 import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
 import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';
 import { updateUserStatistics } from '../features/Statistics/StatisticsSlice';
+import { updateDailyMission } from '../features/DailyMission/DailyMissionSlice';
 
 function TrainPage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -133,6 +134,10 @@ function TrainPage() {
     const handleTestFinish = () => {
         // İsteği at
         dispatch(updateUserStatistics({
+            appUserId: parseInt(userId),
+            wrongAnswerCount: incorrectAnswers
+        }));
+        dispatch(updateDailyMission({
             appUserId: parseInt(userId),
             wrongAnswerCount: incorrectAnswers
         }));
