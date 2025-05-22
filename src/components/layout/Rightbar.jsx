@@ -262,9 +262,10 @@ export const Rightbar = () => {
                             {healthStatus === 'succeeded' && healthResult ? (
                                 <>
                                     <p>Can Sayısı: <strong>{healthResult.lives}</strong></p>
-                                    {timeLeft !== null && (
+                                    {timeLeft !== null && healthResult.lives < 10 && (
                                         <p>Bir sonraki can eklemesine kalan süre: <strong>{formatTime(timeLeft)}</strong></p>
                                     )}
+
                                 </>
                             ) : (
                                 <p>Yükleniyor...</p>

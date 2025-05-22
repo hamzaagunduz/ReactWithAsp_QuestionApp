@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { login } from '../app/authService.jsx';
+import '../style/LoginRegister/LoginPage.css'; // 👈 CSS dosyasını ekledik
 
 const LoginPage = () => {
     const [userName, setUserName] = useState('');
@@ -17,15 +18,15 @@ const LoginPage = () => {
     };
 
     return (
-        <div style={styles.container}>
-            <h2 style={styles.title}>Giriş Yap</h2>
-            <form onSubmit={handleSubmit} style={styles.form}>
+        <div className="login-container">
+            <h2 className="login-title">Giriş Yap</h2>
+            <form onSubmit={handleSubmit} className="login-form">
                 <input
                     type="text"
                     placeholder="Kullanıcı Adı"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    style={styles.input}
+                    className="login-input"
                     required
                 />
                 <input
@@ -33,50 +34,14 @@ const LoginPage = () => {
                     placeholder="Şifre"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={styles.input}
+                    className="login-input"
                     required
                 />
-                <button type="submit" style={styles.button}>Giriş</button>
+                <button type="submit" className="login-button">Giriş</button>
             </form>
-            {message && <p style={styles.message}>{message}</p>}
+            {message && <p className="login-message">{message}</p>}
         </div>
     );
-};
-
-const styles = {
-    container: {
-        maxWidth: '400px',
-        margin: '100px auto',
-        padding: '30px',
-        border: '1px solid #ccc',
-        borderRadius: '10px',
-        boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-        textAlign: 'center'
-    },
-    title: {
-        marginBottom: '20px'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '15px'
-    },
-    input: {
-        padding: '10px',
-        fontSize: '16px'
-    },
-    button: {
-        padding: '10px',
-        fontSize: '16px',
-        backgroundColor: '#007bff',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer'
-    },
-    message: {
-        marginTop: '15px'
-    }
 };
 
 export default LoginPage;

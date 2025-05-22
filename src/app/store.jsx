@@ -7,6 +7,7 @@ import topicReducer from '../features/Topic/TopicSlice';  // AppUser slice'ı im
 import questioncReducer from '../features/Question/QuestionSlice';  // AppUser slice'ı import ediyoruz
 import flashCardReducer from '../features/FlashCard/FlashCardSlice';  // AppUser slice'ı import ediyoruz
 import layoutReducer from '../features/Layout/LayoutSlice';  // AppUser slice'ı import ediyoruz
+import statisticsReducer from '../features/Statistics/StatisticsSlice';  // AppUser slice'ı import ediyoruz
 
 const store = configureStore({
     reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
         question: questioncReducer,  // AppUser slice'ını store'a ekliyoruz
         flashCard: flashCardReducer,
         layout: layoutReducer,
+        statistic: statisticsReducer,
 
     },
 });

@@ -30,62 +30,74 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(180, 30, 45, 0.75);
-    /* Koyu kırmızı transparan */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* duo-style yarı şeffaf siyah */
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    font-family: 'Quicksand', sans-serif;
     animation: fadeInBackdrop 0.3s ease forwards;
 }
 
 .modal-content_live {
-    background-color: #fff0f0;
-    /* Açık pembe/kırmızı */
-    padding: 30px 28px;
-    border-radius: 15px;
-    max-width: 480px;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 420px;
     width: 90%;
-    box-shadow: 0 8px 20px rgba(180, 30, 45, 0.3);
     text-align: center;
-    animation: slideInModal 0.3s ease forwards;
-    border: 2px solid #e03e3e;
-    /* Canlı kırmızı çerçeve */
+    border: none;
+    box-shadow: 0 4px 8px rgba(82, 161, 179, 0.381);
+    /* duo-style box shadow */
+    animation: popIn 0.3s ease-out;
+    position: relative;
 }
 
-.modal-title_live {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #b22222;
-    /* Koyu kırmızı */
-    margin-bottom: 16px;
+.modal-content_live h5 {
+    margin-bottom: 1rem;
+    color: #066d3d86;
+    /* duo-style yeşilimsi */
+    font-size: 24px;
+    text-shadow: 1px 1px #fff;
 }
 
-.modal-description_live {
-    font-size: 1.1rem;
-    color: #4a4a4a;
-    /* Koyu gri */
-    line-height: 1.5;
-    margin-bottom: 25px;
+.modal-content_live p {
+    color: #023047;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 1rem;
     white-space: pre-wrap;
 }
 
-.modal-close_btn {
-    background-color: #e03e3e;
-    /* Canlı kırmızı */
-    color: white;
-    padding: 10px 25px;
-    font-size: 1rem;
+.modal-content_live .btn {
+    background-color: rgb(0 166 255 / 42%);
+    color: #023047;
+    padding: 0.5rem 1.2rem;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    box-shadow: 0 4px 8px rgba(224, 62, 62, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background-color 0.2s;
 }
 
-.modal-close_btn:hover {
-    background-color: #a72a2a;
-    /* Koyu kırmızı */
+.modal-content_live .btn:hover {
+    background-color: #219ebc;
+    transform: translateY(-2px);
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes fadeInBackdrop {
@@ -94,18 +106,6 @@
     }
 
     to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideInModal {
-    from {
-        transform: translateY(-40px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
         opacity: 1;
     }
 }

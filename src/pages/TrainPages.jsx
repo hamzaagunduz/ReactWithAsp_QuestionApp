@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
-import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';
 import { FaArrowLeft } from "react-icons/fa";
-
 import { decreaseLife } from '../features/AppUser/AppUserSlice';  // thunk importu
-
 import QuestionCard from '../components/trainComponents/QuestionCard';
 import FlashCard from '../components/trainComponents/FlashCard';
 import TrainControls from '../components/trainComponents/TrainControls';
 import ResultModal from '../components/trainComponents/ResultModal';
 
 import '../style/train.css';
+
+import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
+import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';
+import { updateUserStatistics } from '../features/Statistics/StatisticsSlice';
 
 function TrainPage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -111,7 +111,7 @@ function TrainPage() {
         }
     };
 
-    const handleTestFinish = () => {
+    const handleFinishModal = () => {
         let correct = 0;
         let incorrect = 0;
         questions.forEach(q => {
@@ -128,6 +128,18 @@ function TrainPage() {
         setIncorrectAnswers(incorrect);
         setUnansweredQuestions(unansweredCount);
         setShowModal(true);
+    };
+
+    const handleTestFinish = () => {
+        // İsteği at
+        dispatch(updateUserStatistics({
+            appUserId: parseInt(userId),
+            wrongAnswerCount: incorrectAnswers
+        }));
+
+        // Modalı kapat ve geri dön
+        setShowModal(false);
+        navigate(-1);
     };
 
 
@@ -170,7 +182,7 @@ function TrainPage() {
                 <TrainControls
                     onNext={handleNext}
                     onPrevious={handlePrevious}
-                    onFinish={handleTestFinish}
+                    onFinish={handleFinishModal}
                     onShowAnswer={handleShowAnswer}
                     isLast={currentQuestionIndex === questions.length - 1}
                 />
@@ -182,10 +194,8 @@ function TrainPage() {
                     incorrect={incorrectAnswers}
                     unanswered={unansweredQuestions}
                     onClose={() => setShowModal(false)}
-                    onFinish={() => {
-                        setShowModal(false);
-                        navigate(-1);
-                    }}
+                    onFinish={handleTestFinish}
+
                 />
             )}
         </div>
