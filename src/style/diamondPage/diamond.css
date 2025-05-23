@@ -1,0 +1,112 @@
+.diamond-section-container {
+    width: 100%;
+    padding: 50px 20px;
+    background: #f9f9f9;
+    text-align: center;
+    font-family: "Quicksand", sans-serif;
+}
+
+.diamond-title {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: rgb(104 232 102);
+}
+
+.diamond-subtitle {
+    font-size: 18px;
+    margin-bottom: 40px;
+    font-weight: 800;
+    color: #444;
+}
+
+.diamond-package-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.diamond-card {
+    width: 280px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.diamond-card:hover {
+    transform: translateY(-10px);
+}
+
+.diamond-ribbon {
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 16px 16px 0 0;
+}
+
+.diamond-card.blue .diamond-ribbon {
+    background: rgb(0 166 255 / 42%);
+}
+
+.diamond-card.green .diamond-ribbon {
+    background: rgb(143 255 0 / 48%);
+}
+
+.diamond-card.red .diamond-ribbon {
+    background: rgba(255, 79, 79, 0.35);
+}
+
+.diamond-img {
+    width: 100px;
+    margin: 20px auto;
+    display: block;
+}
+
+.diamond-name {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.diamond-desc {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.diamond-price {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.diamond-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: rgb(0 166 255 / 42%);
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.diamond-card.green .diamond-button {
+    background-color: rgb(143 255 0 / 48%);
+}
+
+.diamond-card.red .diamond-button {
+    background-color: rgba(255, 79, 79, 0.5);
+}
+
+.diamond-button:hover {
+    background-color: rgb(0 166 255 / 66%);
+    color: #fff;
+}

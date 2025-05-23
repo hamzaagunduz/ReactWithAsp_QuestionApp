@@ -143,12 +143,15 @@ export const Rightbar = () => {
                             </div>
 
                         </li>
+                        <Link to="/diamond" style={{ textDecoration: 'none', color: 'inherit' }}>
 
-                        <li className="mx-3 text-center">
-                            <img src={diamond} alt="Gems" className="icon-sizes " />
-                            <p className="mb-0 small">Elmas</p>
-                        </li>
-                        <Link to="/achievements#" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <li className="mx-3 text-center">
+                                <img src={diamond} alt="Gems" className="icon-sizes " />
+                                <p className="mb-0 small">Elmas</p>
+                            </li>
+                        </Link>
+
+                        <Link to="/achievements" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <li className="mx-3 text-center cursor-pointer list-none">
                                 <img src={goal} alt="Başarı" className="icon-sizes" />
                                 <p className="mb-0 small">Başarı</p>
@@ -165,10 +168,10 @@ export const Rightbar = () => {
 
                 <div className="info bg-light p-3 shadow-sm">
                     <div className="info_top"></div>
-                    <p className="text-right-top">Sonuz Can Hakkı</p>
+                    <p className="text-right-top">Yapay Zeka Eklentisi</p>
 
                     <div className="text-container d-flex align-items-center">
-                        <p className="text-muted text-right ">Burada bilgi metni yer alacak. Kullanıcının aktiviteleri.</p>
+                        <p className="text-muted text-right ">Çözdüğün testlerin analizine istediğin an ulaş.</p>
                     </div>
                     <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png" alt="" />
 
@@ -181,7 +184,7 @@ export const Rightbar = () => {
                     <p className="text-right-top">Sonuz Can Hakkı</p>
 
                     <div className="text-container d-flex align-items-center">
-                        <p className="text-muted text-right ">Burada bilgi metni yer alacak. Kullanıcının aktiviteleri.</p>
+                        <p className="text-muted text-right ">Hiçbir kısıtlama olmadan sınırsız ders çalış</p>
                     </div>
                     <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/10473/10473357.png" alt="" />
 
