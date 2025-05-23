@@ -3,23 +3,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from 'react-router-dom'; // Link ve useLocation import edildi
 
 import heart from '../../assets/heart.png';
 import goal from '../../assets/goal.png';
 import target from '../../assets/target.png';
 import diamond from '../../assets/diamond.png';
-import achievement1 from '../../assets/achievement.png';
-import achievement2 from '../../assets/achievement2.png';
-import achievement3 from '../../assets/achievement3.png';
-import chest from '../../assets/chest.png';
-import chestopen from '../../assets/chest2.png';
+
+import DailyMissions from './DailyMissions'; // doğru path'e göre güncelleyin
+
 
 import { fetchLivesInfo } from '../../features/Layout/LayoutSlice';
 import { getUserDailyMissions } from '../../features/DailyMission/DailyMissionSlice';
 
 
 export const Rightbar = () => {
-    const achievements = [achievement1, achievement2, achievement3];
 
     const [showModal, setShowModal] = useState(false);
     const [livesData, setLivesData] = useState(null);
@@ -150,10 +148,12 @@ export const Rightbar = () => {
                             <img src={diamond} alt="Gems" className="icon-sizes " />
                             <p className="mb-0 small">Elmas</p>
                         </li>
-                        <li className="mx-3 text-center">
-                            <img src={goal} alt="Başarı" className="icon-sizes " />
-                            <p className="mb-0 small">Başarı</p>
-                        </li>
+                        <Link to="/achievements#" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <li className="mx-3 text-center cursor-pointer list-none">
+                                <img src={goal} alt="Başarı" className="icon-sizes" />
+                                <p className="mb-0 small">Başarı</p>
+                            </li>
+                        </Link>
                         <li className="mx-3 text-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
                             <img src={heart} alt="Hearts" className="icon-sizes " />
                             <p className="mb-0 small">Can</p>
@@ -187,50 +187,8 @@ export const Rightbar = () => {
 
                     <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
                 </div>
+                {missions && <DailyMissions missions={missions} />}
 
-                <div className="task-list bg-light p-3 shadow-sm">
-
-                    <div className="task-top-text d-flex justify-content-between gap-2">
-                        <p>Günlük Görevler</p>
-                    </div>
-
-
-                    {missionsStatus === 'succeeded' && missions.map((mission, index) => {
-                        const percentage = Math.min(100, Math.round((mission.currentValue / mission.targetValue) * 100));
-                        const image = achievements[index % achievements.length]; // Doğru resim seçilir
-                        const progressColorClass = mission.isCompleted ? 'bg-success' : '';
-                        const chestImage = mission.isCompleted ? chestopen : chest;
-                        return (
-                            <div key={mission.dailyMissionId} className="task-item d-flex align-items-center justify-content-between mb-3">
-                                <img
-                                    className="task-img-small"
-                                    src={image}
-                                    alt=""
-                                />
-                                <div className="task-item-text">
-                                    <p>{mission.title}</p>
-                                    <div className="progress" style={{ width: '220px', height: '18px' }}>
-                                        <div
-                                            className={`progress-bar ${progressColorClass}`} // yeşil yapmak için Bootstrap sınıfı
-                                            role="progressbar"
-                                            style={{ width: `${percentage}%` }}
-                                            aria-valuenow={percentage}
-                                            aria-valuemin="0"
-                                            aria-valuemax="100"
-                                        >
-                                            {percentage}%
-                                        </div>
-                                    </div>
-                                </div>
-                                <img
-                                    className="task-img-small2"
-                                    src={chestImage} // Duruma göre kapalı ya da açık sandık
-                                    alt=""
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
 
                 {showModal && (
                     <div
@@ -250,7 +208,7 @@ export const Rightbar = () => {
                             </button>
 
                             <h4>Can Durumu</h4>
-                            {healthStatus === 'succeeded' && healthResult ? (
+                            {healthResult ? (
                                 <>
                                     <p>Can Sayısı: <strong>{healthResult.lives}</strong></p>
                                     {timeLeft !== null && healthResult.lives < 10 && (

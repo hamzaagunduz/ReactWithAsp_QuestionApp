@@ -9,6 +9,7 @@ import ProfilePage from './pages/ProfilePage'; // Eğer doğru yol ise
 import LessonPage from './pages/LessonPage'; // Eğer doğru yol ise
 import CardPage from './pages/CardPage'; // Eğer doğru yol ise
 import LoginPage from './pages/LoginPage'; // Eğer doğru yol ise
+import AchievementsPage from './pages/AchievementsPage'; // Eğer doğru yol ise
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/profile' element={<ProfilePage />} />
         <Route path='/card' element={<CardPage />} />
         <Route path='/login' element={<LoginPage />} />
+        <Route path='/achievements' element={<AchievementsPage />} />
         <Route path="/lesson/:courseID" element={<LessonPage />} />
 
       </Routes>

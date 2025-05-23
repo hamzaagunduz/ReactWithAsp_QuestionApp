@@ -19,8 +19,7 @@ const ProfileMidComponent = () => {
         }
     }, [dispatch, userId]);
 
-    if (status === 'loading') return <p>Yükleniyor...</p>;
-    if (error) return <p>Hata: {error}</p>;
+
 
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
