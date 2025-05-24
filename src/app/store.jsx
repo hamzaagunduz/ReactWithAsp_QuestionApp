@@ -9,6 +9,7 @@ import flashCardReducer from '../features/FlashCard/FlashCardSlice';  // AppUser
 import layoutReducer from '../features/Layout/LayoutSlice';  // AppUser slice'ı import ediyoruz
 import statisticsReducer from '../features/Statistics/StatisticsSlice';  // AppUser slice'ı import ediyoruz
 import dailyMissionReducer from '../features/DailyMission/DailyMissionSlice';
+import signalrReducer from '../features/Signalr/SignalrSlice';
 
 const store = configureStore({
     reducer: {
@@ -20,7 +21,9 @@ const store = configureStore({
         flashCard: flashCardReducer,
         layout: layoutReducer,
         statistic: statisticsReducer,
-        dailyMission: dailyMissionReducer
+        dailyMission: dailyMissionReducer,
+        signalr: signalrReducer, // reducer'ı burada tanıt
+
 
     },
 });

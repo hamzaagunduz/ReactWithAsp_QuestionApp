@@ -1,8 +1,11 @@
+// src/app/apiClient.jsx
 import axios from 'axios';
 
-// API base URL'ini tanımlıyoruz
+export const baseURL = 'https://localhost:7172/api/';
+export const hubURL = 'https://localhost:7172/ai-hub';
+
 const apiClient = axios.create({
-    baseURL: 'https://localhost:7172/api/',  // API base URL
+    baseURL,
     headers: {
         'Content-Type': 'application/json',
     },
