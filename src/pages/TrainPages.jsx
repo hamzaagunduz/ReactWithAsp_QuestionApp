@@ -7,6 +7,7 @@ import QuestionCard from '../components/trainComponents/QuestionCard';
 import FlashCard from '../components/trainComponents/FlashCard';
 import TrainControls from '../components/trainComponents/TrainControls';
 import ResultModal from '../components/trainComponents/ResultModal';
+import AiChatModal from '../components/trainComponents/AiChatModal';
 
 import '../style/train.css';
 
@@ -26,6 +27,13 @@ function TrainPage() {
     const [showModal, setShowModal] = useState(false);
     const [answers, setAnswers] = useState({});
 
+    const [showAiModal, setShowAiModal] = useState(false);
+    const handleOpenAiModal = () => {
+        setShowAiModal(true);
+    };
+
+
+
     const { testId } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -34,6 +42,7 @@ function TrainPage() {
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
 
     const userId = Number(localStorage.getItem('userId'));
+
     useEffect(() => {
         if (testId) {
             dispatch(fetchQuestionsByTestId(testId));
@@ -148,7 +157,6 @@ function TrainPage() {
     };
 
 
-
     if (!questions || questions.length === 0) {
         return <div>No questions available</div>;
     }
@@ -191,6 +199,20 @@ function TrainPage() {
                     onShowAnswer={handleShowAnswer}
                     isLast={currentQuestionIndex === questions.length - 1}
                 />
+
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <button className='next-buton-train' onClick={handleOpenAiModal}>
+                        Yapay Zeka ile Çöz
+                    </button>
+
+                    {showAiModal && (
+                        <AiChatModal
+                            question={currentQuestion?.text || "Soru bulunamadı."}
+                            onClose={() => setShowAiModal(false)}
+                        />
+                    )}
+                </div>
+
             </div>
 
             {showModal && (
@@ -203,6 +225,9 @@ function TrainPage() {
 
                 />
             )}
+
+
+
         </div>
     );
 }
