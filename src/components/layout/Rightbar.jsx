@@ -174,8 +174,11 @@ export const Rightbar = () => {
                         <p className="text-muted text-right ">Çözdüğün testlerin analizine istediğin an ulaş.</p>
                     </div>
                     <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png" alt="" />
+                    <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>
 
-                    <button className=" info_btn_1 "> 2 HAFTA ÜCRETSİZ DENE</button>
+                        <button className=" info_btn_1 "> 2 HAFTA ÜCRETSİZ DENE</button>
+                    </Link>
+
                 </div>
 
 
@@ -187,8 +190,11 @@ export const Rightbar = () => {
                         <p className="text-muted text-right ">Hiçbir kısıtlama olmadan sınırsız ders çalış</p>
                     </div>
                     <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/10473/10473357.png" alt="" />
+                    <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>
 
-                    <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
+                        <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
+                    </Link>
+
                 </div>
                 {missions && <DailyMissions missions={missions} />}
 

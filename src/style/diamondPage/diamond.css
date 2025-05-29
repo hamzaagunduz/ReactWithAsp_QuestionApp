@@ -110,3 +110,10 @@
     background-color: rgb(0 166 255 / 66%);
     color: #fff;
 }
+
+.diamond-user-info {
+    margin-bottom: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #444;
+}

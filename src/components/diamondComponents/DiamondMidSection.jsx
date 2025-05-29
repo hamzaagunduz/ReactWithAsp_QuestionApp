@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './../../style/diamondPage/diamond.css';
 import DiamondPaymentModal from './DiamondPaymentModal';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchUserProfileStatistics } from '../../features/Statistics/StatisticsSlice';
 
 const DiamondMidSection = () => {
     const [selectedPackage, setSelectedPackage] = useState(null);
     const userId = localStorage.getItem('userId');
+
+    const dispatch = useDispatch();
+
+    const { data: statistics, status } = useSelector((state) => state.statistic.profileStats);
+
+    useEffect(() => {
+        if (userId) {
+            dispatch(fetchUserProfileStatistics(userId));
+        }
+    }, [dispatch, userId]);
 
     const diamondPackages = [
         {
@@ -41,6 +52,16 @@ const DiamondMidSection = () => {
         <div className="diamond-section-container">
             <h2 className="diamond-title">Elmas Paketleri</h2>
             <p className="diamond-subtitle">İhtiyacına uygun elmas paketini seç ve hemen satın al!</p>
+
+            {/* 💎 Kullanıcının mevcut elmas sayısı */}
+            <div className="diamond-user-info">
+                {status === 'loading' && <p>Yükleniyor...</p>}
+                {status === 'succeeded' && statistics?.diamond != null && (
+                    <p>💎 Mevcut Elmas: <strong>{statistics.diamond}</strong></p>
+                )}
+                {status === 'failed' && <p>Elmas bilgisi alınamadı</p>}
+            </div>
+
             <div className="diamond-package-wrapper">
                 {diamondPackages.map((pkg, index) => (
                     <div key={index} className={`diamond-card ${pkg.color}`}>

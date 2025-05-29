@@ -20,7 +20,6 @@ const ProfileMidComponent = () => {
     }, [dispatch, userId]);
 
 
-
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
             <div className="profile-container">
@@ -30,8 +29,13 @@ const ProfileMidComponent = () => {
                     <div className="profile-content">
                         <div className="user-details">
                             <h5 className="user-name">{statistics?.firstName} {statistics?.surName}</h5>
-                            <p className="user-info">E-posta: {statistics?.email}</p>
-                            <p className="user-info">Toplam Can:{statistics?.lives} </p>
+                            <p className="user-info"> E-posta: <span>{statistics?.email} 📧</span></p>
+                            <p className="user-info">
+                                Can: <span>{statistics?.lives}❤️</span>
+                            </p>
+                            <p className="user-info">
+                                Elmas: <span>{statistics?.diamond}💎</span>
+                            </p>
                         </div>
                         <div className="profile-image">
                             <img src={statistics?.imageURL || human} alt="Profil Resmi" className="profile-pic" />

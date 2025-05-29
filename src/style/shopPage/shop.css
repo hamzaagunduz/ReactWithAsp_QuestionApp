@@ -99,3 +99,16 @@
 .shop-button:hover {
     background-color: #e66a00;
 }
+
+.shop-status {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.shop-status.purchased {
+    background-color: rgba(0, 200, 0, 0.1);
+    color: #009e0f;
+}
