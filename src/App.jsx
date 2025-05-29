@@ -14,6 +14,7 @@ import AchievementsPage from './pages/AchievementsPage'; // Eğer doğru yol ise
 import DiamondPage from './pages/DiamondPage'; // Eğer doğru yol ise
 import AiPage from './pages/AiPage'; // Eğer doğru yol ise
 import ShopPage from './pages/Shop'; // Eğer doğru yol ise
+import AnalysisPage from './pages/Analysis'; // Eğer doğru yol ise
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 
@@ -34,6 +35,7 @@ function App() {
         <Route path='/diamond' element={<DiamondPage />} />
         <Route path='/ai' element={<AiPage />} />
         <Route path='/shop' element={<ShopPage />} />
+        <Route path='/analysis' element={<AnalysisPage />} />
 
 
       </Routes>

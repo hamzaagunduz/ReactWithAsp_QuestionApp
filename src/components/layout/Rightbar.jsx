@@ -132,17 +132,21 @@ export const Rightbar = () => {
                 <div className="score">
                     <ul className="list-unstyled d-flex justify-content-center align-items-center">
                         {/* Dil Seçimi Menüsü */}
-                        <li
-                            className="mx-3 text-center position-relative"
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
-                        >
-                            <div className="menu-trigger d-flex flex-column align-items-center">
-                                <img src={target} alt="Dil Seçimi" className="icon-sizes" />
-                                <p className="mb-0 small">KPSS</p>
-                            </div>
+                        <Link to="/analysis" style={{ textDecoration: 'none', color: 'inherit' }}>
 
-                        </li>
+                            <li
+                                className="mx-3 text-center position-relative"
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
+                            >
+                                <div className="menu-trigger d-flex flex-column align-items-center">
+                                    <img src={target} alt="Dil Seçimi" className="icon-sizes" />
+                                    <p className="mb-0 small">Analiz</p>
+                                </div>
+
+                            </li>
+                        </Link>
+
                         <Link to="/diamond" style={{ textDecoration: 'none', color: 'inherit' }}>
 
                             <li className="mx-3 text-center">

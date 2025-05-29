@@ -12,6 +12,7 @@ import dailyMissionReducer from '../features/DailyMission/DailyMissionSlice';
 import signalrReducer from '../features/Signalr/SignalrSlice';
 import purchaseReducer from '../features/Purchase/PurchaseSlice';
 import shopReducer from '../features/Shop/ShopSlice';
+import analiysisReducer from '../features/Analysis/AnalysisSlice';
 
 const store = configureStore({
     reducer: {
@@ -27,6 +28,7 @@ const store = configureStore({
         signalr: signalrReducer, // reducer'ı burada tanıt
         purchase: purchaseReducer,
         shop: shopReducer,
+        analysis: analiysisReducer,
 
 
     },

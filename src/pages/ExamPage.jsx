@@ -13,8 +13,10 @@ function ExamPage() {
         <div className="container-fluid">
             <div className="row ">
                 <Leftbar />
-                <ExamMidComponent />
+                <div className="col-12 col-md-6 offset-md-2">
 
+                    <ExamMidComponent />
+                </div>
                 <Rightbar />
             </div>
         </div>

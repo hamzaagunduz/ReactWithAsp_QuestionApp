@@ -54,6 +54,7 @@ const LessonMidComponent = ({ courseID }) => {
 
     const colorScale = [
         "rgb(88, 204, 2)",
+        "rgba(28, 176, 246, 0.8)",
         "rgb(139, 0, 255)",
         "rgb(255, 69, 0)",
         "rgb(30, 144, 255)",
