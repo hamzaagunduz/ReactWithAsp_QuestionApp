@@ -1,0 +1,123 @@
+.diamond-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.diamond-modal {
+    background: linear-gradient(145deg, #ffffff, #f2faff);
+    border-radius: 24px;
+    padding: 35px 30px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+    font-family: 'Segoe UI', sans-serif;
+    color: #333;
+    position: relative;
+    animation: scaleIn 0.3s ease;
+    border: 1px solid rgba(28, 176, 246, 0.1);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.diamond-modal h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(28, 176, 246);
+    text-align: center;
+    margin-bottom: 24px;
+    text-shadow: 1px 1px 2px rgba(28, 176, 246, 0.15);
+}
+
+.diamond-payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.diamond-payment-form input {
+    padding: 14px 16px;
+    border: none;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 1px solid #d0e5f6;
+    font-size: 15px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    outline: none;
+    color: #222;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.diamond-payment-form input:focus {
+    border-color: rgb(28, 176, 246);
+    background-color: rgba(255, 255, 255, 0.65);
+}
+
+.diamond-submit-button {
+    padding: 14px;
+    background: linear-gradient(to right, rgba(28, 176, 246, 0.95), rgba(28, 176, 246, 0.8));
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 14px rgba(28, 176, 246, 0.3);
+}
+
+.diamond-submit-button:hover {
+    background: linear-gradient(to right, rgba(28, 176, 246, 1), rgba(0, 153, 204, 0.9));
+    transform: translateY(-1.5px);
+    box-shadow: 0 10px 20px rgba(28, 176, 246, 0.4);
+}
+
+.diamond-close-button {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 20%;
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.diamond-close-button:hover {
+    background-color: rgba(255, 0, 0, 0.9);
+}
+
+.diamond-status-message {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #444;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 245, 0.5);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}

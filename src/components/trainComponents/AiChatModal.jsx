@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendChatMessage } from '../../features/Signalr/SignalrSlice';
 import { startConnection, getConnection } from '../../services/signalrService';
-import '../../style/AiChatModal.css';
+import '../../style/Train/AiChatModal.css';
 
 const AiChatModal = ({ question, onClose }) => {
     const [connectionId, setConnectionId] = useState('');
@@ -13,7 +13,6 @@ const AiChatModal = ({ question, onClose }) => {
     const dispatch = useDispatch();
     const { status, error } = useSelector((state) => state.signalr);
 
-    const questionAddedRef = useRef(false);
 
 
 
@@ -88,7 +87,6 @@ const AiChatModal = ({ question, onClose }) => {
 
         if (e) e.preventDefault();
 
-
         setMessages(prev => [...prev, { text: input, sender: 'user' }]);
         dispatch(sendChatMessage({ prompt: input, connectionId }));
         setInput('');
@@ -112,7 +110,7 @@ const AiChatModal = ({ question, onClose }) => {
                     {messages.map((msg, i) => {
                         return (
                             <div key={i} className={`ai-message ${msg.sender}`}>
-                                <strong>{msg.sender === 'user' ? '' : 'Dobe'}:</strong> {msg.text}
+                                <strong>{msg.sender === 'user' ? '' : 'Dobe:'}</strong> {msg.text}
                             </div>
                         );
                     })}

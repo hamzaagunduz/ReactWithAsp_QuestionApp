@@ -1,11 +1,19 @@
-import "./../../style/diamondPage/diamond.css";
+import { useState } from 'react';
+import './../../style/diamondPage/diamond.css';
+import DiamondPaymentModal from './DiamondPaymentModal';
+import { useSelector } from 'react-redux';
 
 const DiamondMidSection = () => {
+    const [selectedPackage, setSelectedPackage] = useState(null);
+    const userId = localStorage.getItem('userId');
+
     const diamondPackages = [
         {
             name: "Mavi Elmas",
             description: "100 Elmas + %5 Bonus",
             price: "₺50",
+            amount: 50,
+            diamondCount: 105,
             color: "blue",
             image: "../../../src/assets/diamond.png",
         },
@@ -13,6 +21,8 @@ const DiamondMidSection = () => {
             name: "Yeşil Elmas",
             description: "250 Elmas + %10 Bonus",
             price: "₺100",
+            amount: 100,
+            diamondCount: 275,
             color: "green",
             image: "../../../src/assets/diamond.png",
         },
@@ -20,6 +30,8 @@ const DiamondMidSection = () => {
             name: "Kırmızı Elmas",
             description: "500 Elmas + %20 Bonus",
             price: "₺180",
+            amount: 180,
+            diamondCount: 600,
             color: "red",
             image: "../../../src/assets/diamond.png",
         },
@@ -38,11 +50,21 @@ const DiamondMidSection = () => {
                             <h4 className="diamond-name">{pkg.name}</h4>
                             <p className="diamond-desc">{pkg.description}</p>
                             <div className="diamond-price">{pkg.price}</div>
-                            <button className="diamond-button">Satın Al</button>
+                            <button className="diamond-button" onClick={() => setSelectedPackage(pkg)}>
+                                Satın Al
+                            </button>
                         </div>
                     </div>
                 ))}
             </div>
+
+            {selectedPackage && (
+                <DiamondPaymentModal
+                    packageInfo={selectedPackage}
+                    userId={userId}
+                    onClose={() => setSelectedPackage(null)}
+                />
+            )}
         </div>
     );
 };

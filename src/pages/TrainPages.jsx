@@ -9,7 +9,7 @@ import TrainControls from '../components/trainComponents/TrainControls';
 import ResultModal from '../components/trainComponents/ResultModal';
 import AiChatModal from '../components/trainComponents/AiChatModal';
 
-import '../style/train.css';
+import '../style/Train/train.css';
 
 import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
 import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';

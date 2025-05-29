@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom'; // Link ve useLocation imp
 
 // Resimleri import et
 import housekeeper from '../../assets/housekeeper.png';
-import calender from '../../assets/calender.png';
+import store from '../../assets/store.png';
 import speedometer from '../../assets/speedometer.png';
 import house from '../../assets/house.png';
 import card from '../../assets/card-game.png';
@@ -52,10 +52,13 @@ export const Leftbar = () => {
                 </li>
 
                 <li>
-                    <a href="#" className="nav-link">
-                        <img src={calender} alt="Konular" className="icon-size" /> {/* calender.png ikonu */}
-                        <span>Konular</span>
-                    </a>
+                    <Link
+                        to="/shop"
+                        className={`nav-link ${location.pathname === '/shop' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
+                    >
+                        <img src={store} alt="Konular" className="icon-size" /> {/* calender.png ikonu */}
+                        <span>Mağaza</span>
+                    </Link>
                 </li>
 
                 <li>

@@ -10,6 +10,8 @@ import layoutReducer from '../features/Layout/LayoutSlice';  // AppUser slice'ı
 import statisticsReducer from '../features/Statistics/StatisticsSlice';  // AppUser slice'ı import ediyoruz
 import dailyMissionReducer from '../features/DailyMission/DailyMissionSlice';
 import signalrReducer from '../features/Signalr/SignalrSlice';
+import purchaseReducer from '../features/Purchase/PurchaseSlice';
+import shopReducer from '../features/Shop/ShopSlice';
 
 const store = configureStore({
     reducer: {
@@ -23,6 +25,8 @@ const store = configureStore({
         statistic: statisticsReducer,
         dailyMission: dailyMissionReducer,
         signalr: signalrReducer, // reducer'ı burada tanıt
+        purchase: purchaseReducer,
+        shop: shopReducer,
 
 
     },
