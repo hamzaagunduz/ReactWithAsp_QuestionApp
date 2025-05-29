@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import "../../style/lesson/topic_description_modal.css";
 
-const ModalComponent = ({ isOpen, onClose, description }) => {
+const ModalComponent = ({ isOpen, onClose, description, videoLink }) => {
     const [showDescription, setShowDescription] = useState(false);
-
+    console.log(videoLink)
     if (!isOpen) return null;
 
     const toggleDescription = () => {
@@ -21,7 +21,7 @@ const ModalComponent = ({ isOpen, onClose, description }) => {
                     <iframe
                         width="100%"
                         height="315"
-                        src="https://www.youtube.com/embed/jV73jb_FSbE"
+                        src={videoLink}
                         title="YouTube video"
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

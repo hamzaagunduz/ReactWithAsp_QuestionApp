@@ -103,6 +103,7 @@ const LessonMidComponent = ({ courseID }) => {
                     isOpen={showModal}
                     onClose={handleCloseModal}
                     description={lesson.description}
+                    videoLink={lesson.videoLink}
                 />
             </div>
         );

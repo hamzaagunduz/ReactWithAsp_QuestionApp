@@ -88,6 +88,13 @@
     transform: translateY(-2px);
 }
 
+.test-card-body {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 @keyframes popIn {
     0% {
         transform: scale(0.7);

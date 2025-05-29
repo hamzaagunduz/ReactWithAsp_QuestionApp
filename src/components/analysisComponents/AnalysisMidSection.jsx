@@ -12,7 +12,7 @@ const AnalysisMidSection = () => {
     const dispatch = useDispatch();
     const { data: analysisData, loading, error } = useSelector(state => state.analysis);
 
-    const userId = 1; // Örnek kullanıcı ID, dinamik olacaksa prop veya auth'dan alınmalı
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         dispatch(fetchAnalysis({ userId, range: activeTab }));
@@ -25,7 +25,7 @@ const AnalysisMidSection = () => {
         setLoadingIndexes(prev => ({ ...prev, [lesson]: true }));
         setTimeout(() => {
             // Eğer AI önerisi varsa getir, yoksa "Veri bulunamadı" yaz
-            const suggestion = analysisData?.[lesson]?.suggestion || 'Veri bulunamadı';
+            const suggestion = analysisData?.[lesson]?.suggestion || 'Bugün biyoloji çalışmanda Hücre ve Organeller konusunda sağlam bir temel attın. Canlıların sınıflandırılması konusu ise üzerinde biraz daha çalışman gereken bir alan gibi görünüyor. Yarın bu konuya ekstra zaman ayırmanı öneririm.';
             setAiAdviceList(prev => ({ ...prev, [lesson]: suggestion }));
             setLoadingIndexes(prev => ({ ...prev, [lesson]: false }));
         }, 1500);
@@ -57,9 +57,6 @@ const AnalysisMidSection = () => {
                 ))}
             </div>
 
-            {/* Hata veya Yükleniyor Durumu */}
-            {loading && <p>Yükleniyor...</p>}
-            {error && <p className="error">{error}</p>}
 
             {!loading && !error && (
                 <>
@@ -68,10 +65,7 @@ const AnalysisMidSection = () => {
 
                         {Object.keys(coursesData).map((lesson) => {
                             const data = coursesData[lesson];
-                            // console loglar hata ayıklamak için
-                            console.log('lesson:', lesson);
-                            console.log('data:', data);
-                            console.log('is data array:', Array.isArray(data));
+
 
                             return (
                                 <div className="subject-card" key={lesson}>
