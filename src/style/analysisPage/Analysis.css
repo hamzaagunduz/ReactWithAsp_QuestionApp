@@ -2,7 +2,6 @@
     padding: 2rem;
     border-radius: 20px;
     margin-top: 2rem;
-    background-color: #f9fcff;
 }
 
 .analysis-tabs {
@@ -160,4 +159,24 @@
     gap: 1rem;
     font-size: 0.95rem;
     color: #333;
+}
+
+.ai-result-box strong {
+    color: #0077b6;
+    font-weight: bold;
+}
+
+.ai-result-box em {
+    color: #495057;
+    font-style: italic;
+}
+
+.ai-result-box ul {
+    margin: 0.5rem 0;
+    padding-left: 1.2rem;
+}
+
+.ai-result-box li {
+    margin-bottom: 0.4rem;
+    line-height: 1.5;
 }

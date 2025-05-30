@@ -13,6 +13,7 @@ import signalrReducer from '../features/Signalr/SignalrSlice';
 import purchaseReducer from '../features/Purchase/PurchaseSlice';
 import shopReducer from '../features/Shop/ShopSlice';
 import analiysisReducer from '../features/Analysis/AnalysisSlice';
+import performanceReducer from '../features/Performance/PerformanceSlice';
 
 const store = configureStore({
     reducer: {
@@ -29,6 +30,7 @@ const store = configureStore({
         purchase: purchaseReducer,
         shop: shopReducer,
         analysis: analiysisReducer,
+        performance: performanceReducer,
 
 
     },

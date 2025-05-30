@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import apiClient from '../../app/apiClient';
 
-// AsyncThunk – API'den analiz verilerini çek
+// Performans verilerini getirir
 export const fetchAnalysis = createAsyncThunk(
     'analysis/fetchAnalysis',
     async ({ userId, range }, { rejectWithValue }) => {
@@ -14,16 +14,37 @@ export const fetchAnalysis = createAsyncThunk(
     }
 );
 
+// Performans verileriyle AI'dan analiz iste
+export const fetchAISuggestions = createAsyncThunk(
+    'analysis/fetchAISuggestions',
+    async ({ analysisType, data }, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('/AI/analyze', {
+                analysisType,
+                data
+            });
+            return response.data;
+        } catch (err) {
+            return rejectWithValue(err.response?.data || 'AI analiz alınamadı');
+        }
+    }
+);
+
 const analysisSlice = createSlice({
     name: 'analysis',
     initialState: {
-        data: {},
+        data: {},           // API'den gelen doğru/yanlış/süre verileri
         loading: false,
         error: null,
+
+        aiSuggestions: {},  // AI'dan gelen öneriler
+        aiLoading: false,
+        aiError: null,
     },
     reducers: {},
     extraReducers: builder => {
         builder
+            // Performans verisi
             .addCase(fetchAnalysis.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -35,6 +56,20 @@ const analysisSlice = createSlice({
             .addCase(fetchAnalysis.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+            })
+
+            // AI öneri verisi
+            .addCase(fetchAISuggestions.pending, (state) => {
+                state.aiLoading = true;
+                state.aiError = null;
+            })
+            .addCase(fetchAISuggestions.fulfilled, (state, action) => {
+                state.aiLoading = false;
+                state.aiSuggestions = action.payload;
+            })
+            .addCase(fetchAISuggestions.rejected, (state, action) => {
+                state.aiLoading = false;
+                state.aiError = action.payload;
             });
     }
 });

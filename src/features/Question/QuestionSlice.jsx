@@ -12,26 +12,52 @@ export const fetchQuestionsByTestId = createAsyncThunk(
     }
 );
 
+export const fetchTestById = createAsyncThunk(
+    'question/fetchTestById',
+    (testId, { rejectWithValue }) => {
+        return apiClient.get(`Tests/${testId}`)
+            .then(response => response.data)
+            .catch(error => rejectWithValue(error.response?.data || 'Test API hata mesajı'));
+    }
+);
+
 const questionSlice = createSlice({
     name: 'question',
     initialState: {
-        questions: [],  // Burada questions dizisini başlatıyoruz
-        status: 'idle',  // idle | loading | succeeded | failed
+        questions: [],
+        test: null,            // 👈 Test bilgisi için alan
+        status: 'idle',
+        testStatus: 'idle',    // 👈 Test yüklenme durumu
         error: null,
+        testError: null,       // 👈 Test hata mesajı
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // ✅ Sorular
             .addCase(fetchQuestionsByTestId.pending, (state) => {
-                state.status = 'loading';  // Yükleniyor durumunu ayarlıyoruz
+                state.status = 'loading';
             })
             .addCase(fetchQuestionsByTestId.fulfilled, (state, action) => {
-                state.status = 'succeeded';  // Veri başarıyla alındığında
-                state.questions = action.payload;  // API'den gelen veriyi questions'a kaydediyoruz
+                state.status = 'succeeded';
+                state.questions = action.payload;
             })
             .addCase(fetchQuestionsByTestId.rejected, (state, action) => {
-                state.status = 'failed';  // Hata durumunda
+                state.status = 'failed';
                 state.error = action.payload;
+            })
+
+            // ✅ Test
+            .addCase(fetchTestById.pending, (state) => {
+                state.testStatus = 'loading';
+            })
+            .addCase(fetchTestById.fulfilled, (state, action) => {
+                state.testStatus = 'succeeded';
+                state.test = action.payload;
+            })
+            .addCase(fetchTestById.rejected, (state, action) => {
+                state.testStatus = 'failed';
+                state.testError = action.payload;
             });
     },
 });

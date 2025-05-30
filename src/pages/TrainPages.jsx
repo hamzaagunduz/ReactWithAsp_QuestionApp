@@ -11,10 +11,11 @@ import AiChatModal from '../components/trainComponents/AiChatModal';
 
 import '../style/Train/train.css';
 
-import { fetchQuestionsByTestId } from '../features/Question/QuestionSlice';
+import { fetchQuestionsByTestId, fetchTestById } from '../features/Question/QuestionSlice';
 import { fetchFlashCardsByTestId, toggleUserFlashCard } from '../features/FlashCard/FlashCardSlice';
 import { updateUserStatistics } from '../features/Statistics/StatisticsSlice';
 import { updateDailyMission } from '../features/DailyMission/DailyMissionSlice';
+import { submitPerformance } from '../features/Performance/PerformanceSlice';
 
 function TrainPage() {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -26,6 +27,8 @@ function TrainPage() {
     const [unansweredQuestions, setUnansweredQuestions] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [answers, setAnswers] = useState({});
+    const [startTime, setStartTime] = useState(null);
+
 
     const [showAiModal, setShowAiModal] = useState(false);
     const handleOpenAiModal = () => {
@@ -39,6 +42,7 @@ function TrainPage() {
     const dispatch = useDispatch();
 
     const { questions } = useSelector(state => state.question);
+    const test = useSelector(state => state.question.test);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
 
     const userId = Number(localStorage.getItem('userId'));
@@ -46,7 +50,10 @@ function TrainPage() {
     useEffect(() => {
         if (testId) {
             dispatch(fetchQuestionsByTestId(testId));
+            dispatch(fetchTestById(testId));
             dispatch(fetchFlashCardsByTestId({ testId, userId }));
+            setStartTime(Date.now());  // Test başlar başlamaz zamanı kaydet
+
         }
     }, [testId, dispatch]);
 
@@ -141,6 +148,10 @@ function TrainPage() {
     };
 
     const handleTestFinish = () => {
+
+        const endTime = Date.now();
+        const durationMs = endTime - startTime;
+        const durationInMinutes = Math.ceil(durationMs / (1000 * 60)); // saniyeyi dakikaya çevir ve yukarı yuvarla
         // İsteği at
         dispatch(updateUserStatistics({
             appUserId: parseInt(userId),
@@ -151,7 +162,22 @@ function TrainPage() {
             wrongAnswerCount: incorrectAnswers
         }));
 
-        // Modalı kapat ve geri dön
+        dispatch(submitPerformance({
+            appUserId: parseInt(userId),
+            completedAt: new Date().toISOString(),
+            performances: [
+                {
+                    topicId: test.topicID, // veya questions[0].topicId
+                    correctCount: correctAnswers,
+                    wrongCount: incorrectAnswers,
+                    durationInMinutes: durationInMinutes
+                }
+            ]
+        }));
+
+
+
+
         setShowModal(false);
         navigate(-1);
     };

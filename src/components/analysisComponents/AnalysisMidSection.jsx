@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAnalysis } from '../../features/Analysis/AnalysisSlice';
+import { fetchAnalysis, fetchAISuggestions } from '../../features/Analysis/AnalysisSlice';
 
 const AnalysisMidSection = () => {
     const [activeTab, setActiveTab] = useState('daily');
@@ -16,19 +16,43 @@ const AnalysisMidSection = () => {
 
     useEffect(() => {
         dispatch(fetchAnalysis({ userId, range: activeTab }));
+        setAiAdviceList({});
+        setLoadingIndexes({});
     }, [dispatch, userId, activeTab]);
 
-    // Dersler courses objesi altında olduğu için kolay erişim
     const coursesData = analysisData?.courses || {};
 
-    const handleEvaluateClick = (lesson) => {
+    const handleEvaluateClick = async (lesson) => {
         setLoadingIndexes(prev => ({ ...prev, [lesson]: true }));
-        setTimeout(() => {
-            // Eğer AI önerisi varsa getir, yoksa "Veri bulunamadı" yaz
-            const suggestion = analysisData?.[lesson]?.suggestion || 'Bugün biyoloji çalışmanda Hücre ve Organeller konusunda sağlam bir temel attın. Canlıların sınıflandırılması konusu ise üzerinde biraz daha çalışman gereken bir alan gibi görünüyor. Yarın bu konuya ekstra zaman ayırmanı öneririm.';
-            setAiAdviceList(prev => ({ ...prev, [lesson]: suggestion }));
+
+        const lessonTopics = coursesData[lesson];
+
+        if (!Array.isArray(lessonTopics)) {
+            setAiAdviceList(prev => ({ ...prev, [lesson]: 'Veri yok' }));
             setLoadingIndexes(prev => ({ ...prev, [lesson]: false }));
-        }, 1500);
+            return;
+        }
+
+        const formattedData = lessonTopics.map(topic => ({
+            topic: topic.name,
+            correct: topic.correct,
+            wrong: topic.wrong,
+            duration: topic.time
+        }));
+
+        try {
+            const response = await dispatch(fetchAISuggestions({
+                analysisType: activeTab,
+                data: formattedData
+            })).unwrap();
+
+            const fullSuggestion = Object.values(response).join('\n\n');
+            setAiAdviceList(prev => ({ ...prev, [lesson]: fullSuggestion }));
+        } catch (error) {
+            setAiAdviceList(prev => ({ ...prev, [lesson]: 'AI değerlendirme hatası.' }));
+        }
+
+        setLoadingIndexes(prev => ({ ...prev, [lesson]: false }));
     };
 
     const handleGeneralEvaluate = () => {
@@ -39,9 +63,20 @@ const AnalysisMidSection = () => {
         }, 1500);
     };
 
+    const formatAIText = (text) => {
+        if (!text) return '';
+
+        return text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')      // Bold
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')                 // Italic
+            .replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>')         // Bullet List
+            .replace(/(?:<li>.*<\/li>)/gs, '<ul>$&</ul>')         // Wrap list
+            .replace(/\n{2,}/g, '<br/><br/>')                     // Double newline to break
+            .replace(/\n/g, '<br/>');                             // Single newline to <br/>
+    };
+
     return (
         <div className="analysis-wrapper">
-            {/* Tab Seçimi */}
             <div className="analysis-tabs">
                 {['daily', 'weekly', 'monthly', 'overall'].map(tab => (
                     <button
@@ -57,7 +92,6 @@ const AnalysisMidSection = () => {
                 ))}
             </div>
 
-
             {!loading && !error && (
                 <>
                     <div className="subject-list">
@@ -65,7 +99,6 @@ const AnalysisMidSection = () => {
 
                         {Object.keys(coursesData).map((lesson) => {
                             const data = coursesData[lesson];
-
 
                             return (
                                 <div className="subject-card" key={lesson}>
@@ -95,24 +128,15 @@ const AnalysisMidSection = () => {
                                             {loadingIndexes[lesson] ? 'Değerlendiriliyor...' : 'Yapay Zeka Değerlendir'}
                                         </button>
                                         {aiAdviceList[lesson] && (
-                                            <div className="ai-result-box">{aiAdviceList[lesson]}</div>
+                                            <div
+                                                className="ai-result-box"
+                                                dangerouslySetInnerHTML={{ __html: formatAIText(aiAdviceList[lesson]) }}
+                                            />
                                         )}
                                     </div>
                                 </div>
                             );
                         })}
-                    </div>
-
-                    <div className="general-eval">
-                        <h3>Genel Durum Değerlendirmesi</h3>
-                        <button
-                            className="evaluate-btn"
-                            onClick={handleGeneralEvaluate}
-                            disabled={generalLoading}
-                        >
-                            {generalLoading ? 'Değerlendiriliyor...' : 'Genel Yapay Zeka Değerlendir'}
-                        </button>
-                        {generalAdvice && <div className="ai-result-box">{generalAdvice}</div>}
                     </div>
                 </>
             )}
