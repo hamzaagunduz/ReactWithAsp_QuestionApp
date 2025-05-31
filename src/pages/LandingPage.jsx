@@ -1,131 +1,270 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Navigation } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
 import '../style/LandingPage/LandingPage.css';
 
 const LandingPage = () => {
+    const [scrolled, setScrolled] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const colors = [
+        '#ec4899', // Pembe
+        '#3b82f6', // Mavi
+        '#ef4444', // Kırmızı
+        '#f472b6',
+        '#60a5fa',
+        '#f87171',
+        '#f9a8d4',
+        '#93c5fd',
+        '#fca5a5',
+        '#e879f9'
+    ];
+
     useEffect(() => {
         AOS.init({ duration: 1000 });
+
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 10);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % colors.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [colors.length]);
+
+    const prevSlide = () => {
+        setCurrentIndex((prev) => (prev - 1 + colors.length) % colors.length);
+    };
+
+    const nextSlide = () => {
+        setCurrentIndex((prev) => (prev + 1) % colors.length);
+    };
 
     return (
         <div className="landing">
             {/* Navbar */}
-            <header className="navbar">
-                <div className="logo">Dobe</div>
-                <nav>
-                    <a href="#features">Özellikler</a>
-                    <a href="#screenshots">Ekranlar</a>
-                    <a href="#faq">SSS</a>
-                    <a href="/login">Giriş Yap</a>
-                    <a href="/register" className="btn-register">Kayıt Ol</a>
-                </nav>
-            </header>
+            <nav className={`navbar`}>
+                <div className="navbar-container">
+                    <div className="logo">Dobe</div>
+                    <div className="nav-links">
+                        <div className="nav-button">Özellikler</div>
+                        <div className="nav-button">Kullanıcılar</div>
+                        <div className="nav-button">Yenilikler</div>
+                    </div>
+                    <div className="nav-button">Giriş Yap</div>
+                </div>
+            </nav>
 
-            {/* Hero */}
+            {/* Hero Section */}
             <section className="hero">
-                <div className="hero-content" data-aos="fade-right">
-                    <h1><span>Dobe</span> ile Geleceğini Şekillendir</h1>
-                    <p>Yapay zeka destekli sınav platformu ile başarıya ulaş.</p>
-                    <a href="/register" className="cta">Hemen Başla</a>
-                </div>
-                <div className="hero-image" data-aos="fade-left">
-                    <Swiper modules={[Autoplay, Navigation]} autoplay={{ delay: 3000 }} navigation loop>
-                        <SwiperSlide><img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="AI Learning" /></SwiperSlide>
-                        <SwiperSlide><img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="Study Education" /></SwiperSlide>
-                        <SwiperSlide><img src="https://images.unsplash.com/photo-1588072432836-e10032774350" alt="Students" /></SwiperSlide>
-                    </Swiper>
-                </div>
-            </section>
+                <div className="container">
+                    <h1 data-aos="fade-up">
+                        Dobe İle Tanışın <br /> Eğitimin Yeni Yüzü
+                    </h1>
+                    <p data-aos="fade-up" data-aos-delay="200">
+                        Yapay zeka destekli sınav platformu ile başarıya ulaş.
+                    </p>
 
-            {/* Trust */}
-            <section className="trusted" data-aos="zoom-in">
-                <p className="trusted-title">25.000+ öğrenci Dobe kullanıyor</p>
-                <div className="logo-bar text-only">
-                    <span>YKS</span>
-                    <span>ALES</span>
-                    <span>KPSS</span>
-                    <span>AI</span>
-                </div>
+                    {/* SLIDER */}
+                    <div className="slider-container" style={{ position: 'relative', overflow: 'hidden', maxWidth: '100%', marginTop: '3rem' }}>
+                        <div
+                            className="slider-track"
+                            style={{
+                                display: 'flex',
+                                transition: 'transform 0.7s ease-in-out',
+                                transform: `translateX(-${currentIndex * (100 / colors.length)}%)`,
+                                width: `${colors.length * 100}%`,
+                            }}
+                        >
+                            {colors.map((color, index) => (
+                                <div
+                                    key={index}
+                                    className="card"
+                                    style={{
+                                        flex: '0 0 auto',
+                                        width: `${100 / colors.length}%`,
+                                        height: '300px',
+                                        borderRadius: '1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'white',
+                                        fontSize: '1.5rem',
+                                        fontWeight: 'bold',
+                                        backgroundColor: color, // ✅ RENK BURAYA EKLENDİ
+                                    }}
+                                >
+                                    Kart {index + 1}
+                                </div>
+                            ))}
+                        </div>
 
-            </section>
-
-            {/* Features */}
-            <section className="features" id="features" data-aos="fade-up">
-                <h2>Neden <span>Dobe?</span></h2>
-                <div className="feature-list">
-                    <div className="feature-card" data-aos="flip-left">
-                        <h3>📚 Tüm Sınavlar</h3>
-                        <p>YKS, ALES, KPSS ve daha fazlası tek yerde.</p>
-                    </div>
-                    <div className="feature-card" data-aos="flip-left" data-aos-delay="100">
-                        <h3>🤖 Yapay Zeka</h3>
-                        <p>Anında soru çözüm desteği ile daha hızlı öğren.</p>
-                    </div>
-                    <div className="feature-card" data-aos="flip-left" data-aos-delay="200">
-                        <h3>🎮 Oyunlaştırma</h3>
-                        <p>Rozetler, seviyeler ve rekabetçi lig sistemi.</p>
-                    </div>
-                    <div className="feature-card" data-aos="flip-left" data-aos-delay="300">
-                        <h3>📊 Kişisel Analiz</h3>
-                        <p>Gelişimini gör, zayıf yönlerini keşfet.</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Screenshots */}
-            <section className="screenshots" id="screenshots" data-aos="fade-up">
-                <h2>Platformdan Görseller</h2>
-                <div className="screenshot-grid">
-                    <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e" alt="screen3" />
-
-                    <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e" alt="screen3" />
-
-                    <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e" alt="screen2" />
-                </div>
-            </section>
-
-            {/* Testimonials */}
-            <section className="testimonials" data-aos="fade-up">
-                <h2>Öğrenciler Ne Diyor?</h2>
-                <div className="testimonial-cards">
-                    <div className="testimonial">
-                        <p>"Dobe sayesinde KPSS'ye çok daha hazırlıklı girdim. AI çözüm özelliği mükemmel!"</p>
-                        <span>- Ayşe T.</span>
-                    </div>
-                    <div className="testimonial">
-                        <p>"Gamification sistemi beni gerçekten motive etti. Lig sistemi harika!"</p>
-                        <span>- Mehmet B.</span>
-                    </div>
-                </div>
-            </section>
-
-            {/* FAQ */}
-            <section className="faq" id="faq" data-aos="fade-up">
-                <h2>Sıkça Sorulan Sorular</h2>
-                <div className="faq-list">
-                    <div className="faq-item">
-                        <h4>Dobe hangi sınavları destekliyor?</h4>
-                        <p>YKS, KPSS, ALES, DGS gibi birçok sınavı kapsıyoruz.</p>
-                    </div>
-                    <div className="faq-item">
-                        <h4>Yapay zeka nasıl çalışıyor?</h4>
-                        <p>Kullanıcının gönderdiği soruları anında analiz ederek çözüm sunar.</p>
+                        {/* Slider Buttons */}
+                        <button
+                            onClick={prevSlide}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '10px',
+                                transform: 'translateY(-50%)',
+                                backgroundColor: 'rgba(255,255,255,0.8)',
+                                border: 'none',
+                                borderRadius: '999px',
+                                padding: '0.5rem 1rem',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                            }}
+                        >
+                            ‹
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                right: '10px',
+                                transform: 'translateY(-50%)',
+                                backgroundColor: 'rgba(255,255,255,0.8)',
+                                border: 'none',
+                                borderRadius: '999px',
+                                padding: '0.5rem 1rem',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                            }}
+                        >
+                            ›
+                        </button>
                     </div>
                 </div>
             </section>
 
-            {/* Footer */}
-            <footer className="footer">
-                <p>© 2025 Dobe. Tüm hakları saklıdır.</p>
-                <div className="footer-links">
-                    <a href="#">Gizlilik</a> | <a href="#">Kullanım Şartları</a>
+            {/* İkinci Hero */}
+            <section className="hero">
+                <div className="container">
+                    <h1 data-aos="fade-up">
+                        AI Reimagined, <br /> Possibilities Amplified
+                    </h1>
+                    <p data-aos="fade-up" data-aos-delay="200">
+                        Crafting intelligent solutions that turn your wildest tech dreams into reality.
+                    </p>
+                    <a href="/register" className="cta-btn" data-aos="fade-up" data-aos-delay="400">
+                        Get started ⚡
+                    </a>
                 </div>
-            </footer>
+            </section>
+
+            {/* Features Section */}
+            <section className="features" id="features">
+                <div className="container">
+                    <div className="feature" data-aos="fade-up">
+                        <h3>Akıllı Test Sistemi</h3>
+                        <p>Sana özel test önerileriyle sınava etkili hazırlan.</p>
+                    </div>
+                    <div className="feature" data-aos="fade-up" data-aos-delay="100">
+                        <h3>Yapay Zeka ile Soru Çözümü</h3>
+                        <p>Çözemediklerini anında analiz et ve öğren.</p>
+                    </div>
+                    <div className="feature" data-aos="fade-up" data-aos-delay="200">
+                        <h3>İstatistik ve Gelişim Takibi</h3>
+                        <p>Başarını ölç, zayıf noktalarını keşfet.</p>
+                    </div>
+                </div>
+            </section>
+            <section className="hero">
+                <div className="container">
+                    <h1 data-aos="fade-up">
+                        Dobe İle Tanışın <br /> Eğitimin Yeni Yüzü
+                    </h1>
+                    <p data-aos="fade-up" data-aos-delay="200">
+                        Yapay zeka destekli sınav platformu ile başarıya ulaş.
+                    </p>
+
+                    {/* SLIDER */}
+                    <div className="slider-container" style={{ position: 'relative', overflow: 'hidden', maxWidth: '100%', marginTop: '3rem' }}>
+                        <div
+                            className="slider-track"
+                            style={{
+                                display: 'flex',
+                                transition: 'transform 0.7s ease-in-out',
+                                transform: `translateX(-${currentIndex * (100 / colors.length)}%)`,
+                                width: `${colors.length * 100}%`,
+                            }}
+                        >
+                            {colors.map((color, index) => (
+                                <div
+                                    key={index}
+                                    className="card"
+                                    style={{
+                                        flex: '0 0 auto',
+                                        width: `${100 / colors.length}%`,
+                                        height: '300px',
+                                        borderRadius: '1rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'white',
+                                        fontSize: '1.5rem',
+                                        fontWeight: 'bold',
+                                        backgroundColor: color, // ✅ RENK BURAYA EKLENDİ
+                                    }}
+                                >
+                                    Kart {index + 1}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Slider Buttons */}
+                        <button
+                            onClick={prevSlide}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '10px',
+                                transform: 'translateY(-50%)',
+                                backgroundColor: 'rgba(255,255,255,0.8)',
+                                border: 'none',
+                                borderRadius: '999px',
+                                padding: '0.5rem 1rem',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                            }}
+                        >
+                            ‹
+                        </button>
+                        <button
+                            onClick={nextSlide}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                right: '10px',
+                                transform: 'translateY(-50%)',
+                                backgroundColor: 'rgba(255,255,255,0.8)',
+                                border: 'none',
+                                borderRadius: '999px',
+                                padding: '0.5rem 1rem',
+                                cursor: 'pointer',
+                                fontSize: '1.5rem',
+                            }}
+                        >
+                            ›
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            {/* CTA Section */}
+            <section className="cta-section">
+                <div className="container" data-aos="zoom-in">
+                    <h2>Dobe ile hemen çalışmaya başla</h2>
+                    <a href="/register" className="cta large">Kayıt Ol</a>
+                </div>
+            </section>
         </div>
     );
 };

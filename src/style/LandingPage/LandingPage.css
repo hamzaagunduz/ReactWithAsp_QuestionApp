@@ -1,388 +1,241 @@
-/* Kök Yapı */
 .landing {
     font-family: 'Poppins', sans-serif;
     color: #1c1c1c;
-    background-color: #f5f7fa;
-    line-height: 1.6;
+    background-color: #f9f9fb;
     overflow-x: hidden;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
+    font-family: "Quicksand", sans-serif;
+
+}
+
+.container {
+    max-width: 1200px;
+    text-align: center;
 }
 
 /* Navbar */
 .navbar {
+    position: fixed;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 1200px;
+    padding: 0px 20px;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    backdrop-filter: none;
+    border-radius: 8px;
+    height: 60px;
+    background-color: #ffffff !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.044);
+
+
+}
+
+.nav-button {
+    width: 8%;
+    height: 35px;
+    background-color: rgb(0 166 255 / 42%);
+    border-radius: 16px;
+    box-shadow: rgba(34, 148, 236, 0.645) 0px 4px 0px 0px;
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-button:hover {
+    color: rgb(14, 39, 62);
+    background-color: rgb(0 166 255 / 66%);
+
+}
+
+.nav-links {
+    gap: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.nav-links div {
+    text-decoration: none;
+    color: #1c1c1c;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    width: 100%;
+    padding: 10px;
+    height: 35px;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    user-select: none;
+    cursor: pointer;
+
+
+}
+
+.nav-links li a:hover {
+    color: #2a4fd7;
+}
+
+
+
+
+
+.navbar-container {
+    width: 100%;
+    max-width: 1200px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 5%;
-    background-color: #ffffff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.logo-bar.text-only {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #2a4fd7;
-    margin-top: 1rem;
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 30px;
     font-weight: 700;
-    color: #2a4fd7;
-    letter-spacing: 1px;
+    color: rgb(104 232 102);
+    text-shadow: 1px 1.5px 0 #8be6bc;
+    font-family: "Quicksand", sans-serif;
 }
 
-.navbar nav a {
-    margin-left: 1.2rem;
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
 
-.navbar nav a:hover {
-    color: #2a4fd7;
-}
 
-.btn-register {
-    background-color: #2a4fd7;
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-register:hover {
-    background-color: #1f38a0;
-}
-
-/* Hero */
+/* Hero Section */
 .hero {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
-    padding: 4rem 5%;
-    background: linear-gradient(to right, #eef1ff, #ffffff);
-}
-
-.hero-content {
-    flex: 1;
-    min-width: 300px;
-    padding-right: 2rem;
-}
-
-.hero-content h1 {
-    font-size: 2.8rem;
-    margin-bottom: 1rem;
-    color: #2a2a2a;
-}
-
-.hero-content h1 span {
-    color: #2a4fd7;
-}
-
-.hero-content p {
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-    color: #555;
-}
-
-.cta {
-    display: inline-block;
-    background-color: #2a4fd7;
-    color: #fff;
-    padding: 0.8rem 1.8rem;
-    border-radius: 10px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-.cta:hover {
-    background-color: #203baf;
-}
-
-.hero-image {
-    flex: 1;
-    min-width: 320px;
-    padding-left: 2rem;
-}
-
-.hero-image img {
-    width: 100%;
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(42, 79, 215, 0.15);
-}
-
-/* Features */
-.features {
-    padding: 5rem 5%;
-    background-color: #ffffff;
-    text-align: center;
-}
-
-.features h2 {
-    font-size: 2.4rem;
-    margin-bottom: 3rem;
-    font-weight: bold;
-}
-
-.features h2 span {
-    color: #2a4fd7;
-}
-
-.feature-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2.5rem;
-}
-
-.feature-card {
-    background: #f9f9f9;
-    border-radius: 14px;
-    padding: 2rem;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: default;
-}
-
-.feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 30px rgba(42, 79, 215, 0.25);
-}
-
-.feature-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    color: #2a4fd7;
-}
-
-.feature-card p {
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-/* Footer */
-.footer {
-    background-color: #f7f7f7;
-    padding: 2.5rem 5%;
-    text-align: center;
-    font-size: 14px;
-    color: #666;
-    border-top: 1px solid #ddd;
-    margin-top: 4rem;
-}
-
-.footer a {
-    color: #666;
-    margin: 0 10px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.footer a:hover {
-    color: #2a4fd7;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .hero {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-content,
-    .hero-image {
-        padding: 0;
-    }
-
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-
-    .hero-image img {
-        max-width: 90vw;
-    }
-}
-
-@media (max-width: 500px) {
-    .navbar {
-        flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .navbar nav {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .features h2 {
-        font-size: 2rem;
-    }
-
-    .cta {
-        font-size: 0.95rem;
-        padding: 0.7rem 1.4rem;
-    }
-}
-
-/* ... (önceki CSS aynı kalıyor) ... */
-
-/* Trusted Section */
-.trusted {
-    text-align: center;
-    padding: 3rem 5%;
-    background-color: #eef1ff;
-}
-
-.trusted-title {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #2a4fd7;
-    margin-bottom: 2rem;
-}
-
-.logo-bar {
-    display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-}
-
-.logo-bar img {
-    height: 50px;
-    object-fit: contain;
-    filter: grayscale(100%);
-    transition: filter 0.3s ease;
-}
-
-.logo-bar img:hover {
-    filter: grayscale(0%);
-}
-
-/* Screenshots Section */
-.screenshots {
-    padding: 5rem 5%;
-    background-color: #fff;
     text-align: center;
+    padding: 0rem 2rem;
+    min-height: 100vh;
+    /* ekranın çoğunu kaplar ama sabit değil */
+    background: linear-gradient(90deg, #e8e0ff, #f7f2ff, #f0fff4);
+    flex-direction: column;
 }
 
-.screenshot-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+
+.hero h1 {
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1.2;
+    color: #64d940;
+    margin-bottom: 0.2rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #333;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+}
+
+.slider-container {
     margin-top: 2rem;
 }
 
-.screenshot-grid img {
-    width: 100%;
+.card {
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+
+
+
+
+
+
+
+.cta-btn {
+    display: inline-block;
+    background-color: #0f0f0f;
+    color: #ffffff;
+    padding: 0.9rem 2rem;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Testimonials */
-.testimonials {
-    background-color: #f5f7fa;
-    padding: 5rem 5%;
-    text-align: center;
+.cta-btn:hover {
+    background-color: #1c1c1c;
+    transform: translateY(-2px);
 }
 
-.testimonials h2 {
-    font-size: 2.2rem;
-    margin-bottom: 3rem;
-    color: #2a2a2a;
+
+
+
+.cta {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: #2a4fd7;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    text-decoration: none;
 }
 
-.testimonial-cards {
+.cta:hover {
+    background-color: #1d39b4;
+}
+
+.cta.large {
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+}
+
+/* Features Section */
+.features {
+    background-color: #ffffff;
+    padding: 4rem 2rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-.testimonial {
-    background-color: #ffffff;
+.feature {
+    background-color: #f0f3fa;
     padding: 2rem;
-    border-radius: 14px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-    max-width: 500px;
-    transition: transform 0.3s ease;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.testimonial:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 30px rgba(42, 79, 215, 0.15);
-}
-
-.testimonial p {
-    font-size: 1rem;
-    color: #444;
+.feature h3 {
+    font-size: 1.5rem;
     margin-bottom: 1rem;
-    line-height: 1.6;
 }
 
-.testimonial span {
-    font-weight: 600;
-    color: #2a4fd7;
+.feature p {
+    font-size: 1rem;
+    color: #666;
 }
 
-
-/* FAQ */
-.faq {
-    background-color: #ffffff;
-    padding: 5rem 5%;
+/* CTA Section */
+.cta-section {
+    background-color: #2a4fd7;
+    color: white;
+    padding: 4rem 2rem;
     text-align: center;
 }
 
-.faq h2 {
-    font-size: 2.2rem;
-    margin-bottom: 3rem;
-    color: #2a2a2a;
-}
-
-.faq-list {
-    max-width: 900px;
-    margin: 0 auto;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.faq-item {
-    background-color: #f9f9f9;
-    padding: 1.8rem 2rem;
-    border-radius: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    transition: box-shadow 0.3s ease;
-}
-
-.faq-item:hover {
-    box-shadow: 0 8px 24px rgba(42, 79, 215, 0.1);
-}
-
-.faq-item h4 {
-    font-size: 1.2rem;
-    color: #2a4fd7;
-    margin-bottom: 0.8rem;
-}
-
-.faq-item p {
-    font-size: 1rem;
-    color: #555;
-    line-height: 1.6;
+.cta-section h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
