@@ -2,62 +2,40 @@ import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import '../style/LandingPage/LandingPage.css';
-import Carousel3D from '../components/landingComponents/Carousel3D';
+import FeatureShowcase from '../components/landingComponents/FeatureShowcase';
+import SmartLearningSection from '../components/landingComponents/SmartLearningSection';
+import HeroSection from '../components/landingComponents/HeroSection';
+
+import atom from "../assets/landingpage/education/atom.png";
+import deskLamp from "../assets/landingpage/education/desk-lamp.png";
+import dictionary from "../assets/landingpage/education/dictionary.png";
+import diploma from "../assets/landingpage/education/diploma.png";
+import dna from "../assets/landingpage/education/dna.png";
+import flask from "../assets/landingpage/education/flask.png";
+import fountainPen from "../assets/landingpage/education/fountain-pen.png";
+import laptop from "../assets/landingpage/education/laptop.png";
+import microscope from "../assets/landingpage/education/microscope.png";
+import ruler from "../assets/landingpage/education/ruler.png";
+
 
 const LandingPage = () => {
     const [scrolled, setScrolled] = useState(false);
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     const items = [
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
-            title: "ehe"
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
-            title: ""
-        }, {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
-            title: ""
-        },
-        {
-            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
-            title: ""
-        },
-
-
-
+        { image: atom, title: "Bilimsel Temeller" },
+        { image: dna, title: "Kişiselleştirilmiş Öğrenme" },
+        { image: deskLamp, title: "Odaklanmış Çalışma Ortamı" },
+        { image: dictionary, title: "Kelime ve Kavram Bilgisi" },
+        { image: diploma, title: "Sınav Başarısı" },
+        { image: dna, title: "Konu Takibi & Gelişim" },
+        { image: flask, title: "Deneyimsel Öğrenme" },
+        { image: fountainPen, title: "Not Alma & Hafıza Güçlendirme" },
+        { image: laptop, title: "Dijital İçeriklerle Öğrenme" },
+        { image: microscope, title: "Detaylı Konu Analizi" },
+        { image: dna, title: "Öğrenciye Özel Tavsiyeler" },
+        { image: fountainPen, title: "Verimli Çalışma Alışkanlıkları" },
+        { image: ruler, title: "Ölçme ve Değerlendirme" },
     ];
-
-
 
     useEffect(() => {
         AOS.init({ duration: 1000 });
@@ -70,6 +48,13 @@ const LandingPage = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Scroll işlemi
+    const scrollToSection = (id) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <div className="landing">
@@ -78,83 +63,24 @@ const LandingPage = () => {
                 <div className="navbar-container">
                     <div className="logo">Dobe</div>
                     <div className="nav-links">
-                        <div className="nav-button">Özellikler</div>
-                        <div className="nav-button">Kullanıcılar</div>
-                        <div className="nav-button">Yenilikler</div>
+                        <div className="nav-button" onClick={() => scrollToSection('hero-section')}>Özellikler</div>
+                        <div className="nav-button" onClick={() => scrollToSection('feature-showcase')}>Kullanıcılar</div>
+                        <div className="nav-button" onClick={() => scrollToSection('smart-learning')}>Yenilikler</div>
                     </div>
-                    <div className="nav-button">Giriş Yap</div>
+                    <a href="/login" className="nav-button">Giriş Yap</a>
                 </div>
             </nav>
 
-            {/* Hero Section */}
-            <section className="hero">
-                <div className="container">
-                    <h1 data-aos="fade-up">
-                        Dobe İle Tanışın <br /> Eğitimin Yeni Yüzü
-                    </h1>
-                    <p data-aos="fade-up" data-aos-delay="200">
-                        Yapay zeka destekli sınav platformu ile başarıya ulaş.
-                    </p>
-
-                    {/* SLIDER */}
-                    <Carousel3D items={items} />
-
-                </div>
-            </section>
-
-            {/* İkinci Hero */}
-            <section className="hero">
-                <div className="container">
-                    <h1 data-aos="fade-up">
-                        AI Reimagined, <br /> Possibilities Amplified
-                    </h1>
-                    <p data-aos="fade-up" data-aos-delay="200">
-                        Crafting intelligent solutions that turn your wildest tech dreams into reality.
-                    </p>
-                    <a href="/register" className="cta-btn" data-aos="fade-up" data-aos-delay="400">
-                        Get started ⚡
-                    </a>
-                </div>
-            </section>
-
-            {/* Features Section */}
-            <section className="features" id="features">
-                <div className="container">
-                    <div className="feature" data-aos="fade-up">
-                        <h3>Akıllı Test Sistemi</h3>
-                        <p>Sana özel test önerileriyle sınava etkili hazırlan.</p>
-                    </div>
-                    <div className="feature" data-aos="fade-up" data-aos-delay="100">
-                        <h3>Yapay Zeka ile Soru Çözümü</h3>
-                        <p>Çözemediklerini anında analiz et ve öğren.</p>
-                    </div>
-                    <div className="feature" data-aos="fade-up" data-aos-delay="200">
-                        <h3>İstatistik ve Gelişim Takibi</h3>
-                        <p>Başarını ölç, zayıf noktalarını keşfet.</p>
-                    </div>
-                </div>
-            </section>
-            <section className="hero">
-                <div className="container">
-                    <h1 data-aos="fade-up">
-                        Dobe İle Tanışın <br /> Eğitimin Yeni Yüzü
-                    </h1>
-                    <p data-aos="fade-up" data-aos-delay="200">
-                        Yapay zeka destekli sınav platformu ile başarıya ulaş.
-                    </p>
-
-                    {/* SLIDER */}
-
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="cta-section">
-                <div className="container" data-aos="zoom-in">
-                    <h2>Dobe ile hemen çalışmaya başla</h2>
-                    <a href="/register" className="cta large">Kayıt Ol</a>
-                </div>
-            </section>
+            {/* Bölümler */}
+            <div id="hero-section">
+                <HeroSection items={items} />
+            </div>
+            <div id="feature-showcase">
+                <FeatureShowcase />
+            </div>
+            <div id="smart-learning">
+                <SmartLearningSection />
+            </div>
         </div>
     );
 };
