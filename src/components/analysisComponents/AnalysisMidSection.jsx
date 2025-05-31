@@ -15,7 +15,7 @@ const AnalysisMidSection = () => {
     const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        dispatch(fetchAnalysis({ userId, range: activeTab }));
+        dispatch(fetchAnalysis({ range: activeTab }));
         setAiAdviceList({});
         setLoadingIndexes({});
     }, [dispatch, userId, activeTab]);

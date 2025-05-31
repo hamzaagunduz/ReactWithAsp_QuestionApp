@@ -4,9 +4,9 @@ import apiClient from '../../app/apiClient';
 // Kullanıcı profiline ait temel istatistikleri getirir
 export const fetchUserProfileStatistics = createAsyncThunk(
     'statistics/fetchUserProfileStatistics',
-    async (userId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {  // userId parametresi kaldırıldı
         try {
-            const response = await apiClient.get(`Statistics/${userId}`);
+            const response = await apiClient.get('Statistics');
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Profil istatistikleri alınamadı');
@@ -14,25 +14,11 @@ export const fetchUserProfileStatistics = createAsyncThunk(
     }
 );
 
-// Örnek: Haftalık skor grafiği gibi başka bir API isteği
-export const fetchWeeklyScoreGraph = createAsyncThunk(
-    'statistics/fetchWeeklyScoreGraph',
-    async (userId, { rejectWithValue }) => {
-        try {
-            const response = await apiClient.get(`Statistics/WeeklyGraph/${userId}`);
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response?.data || 'Grafik verisi alınamadı');
-        }
-    }
-);
-
 export const updateUserStatistics = createAsyncThunk(
     'statistics/updateUserStatistics',
-    async ({ appUserId, wrongAnswerCount }, { rejectWithValue }) => {
+    async ({ wrongAnswerCount }, { rejectWithValue }) => {
         try {
             const response = await apiClient.post('Statistics/update', {
-                appUserId,
                 wrongAnswerCount
             });
             return response.data;
@@ -42,15 +28,11 @@ export const updateUserStatistics = createAsyncThunk(
     }
 );
 
+
 const statisticsSlice = createSlice({
     name: 'statistics',
     initialState: {
         profileStats: {
-            data: null,
-            status: 'idle',
-            error: null,
-        },
-        weeklyGraph: {
             data: null,
             status: 'idle',
             error: null,
@@ -78,19 +60,6 @@ const statisticsSlice = createSlice({
                 state.profileStats.error = action.payload;
             })
 
-            // Weekly Graph
-            .addCase(fetchWeeklyScoreGraph.pending, (state) => {
-                state.weeklyGraph.status = 'loading';
-                state.weeklyGraph.error = null;
-            })
-            .addCase(fetchWeeklyScoreGraph.fulfilled, (state, action) => {
-                state.weeklyGraph.status = 'succeeded';
-                state.weeklyGraph.data = action.payload;
-            })
-            .addCase(fetchWeeklyScoreGraph.rejected, (state, action) => {
-                state.weeklyGraph.status = 'failed';
-                state.weeklyGraph.error = action.payload;
-            })
             // Update Statistics
             .addCase(updateUserStatistics.pending, (state) => {
                 state.updateStatus.status = 'loading';

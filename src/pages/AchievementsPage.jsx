@@ -8,15 +8,14 @@ import '../style/AchievementsPage.css';  // Yeni CSS dosyasını ekle
 
 const AchievementsPage = () => {
     const dispatch = useDispatch();
-    const userId = localStorage.getItem('userId');
 
     const { missions, missionsStatus } = useSelector(state => state.dailyMission);
 
     useEffect(() => {
-        if (userId && missionsStatus === 'idle') {
-            dispatch(getUserDailyMissions(userId));
+        if (missionsStatus === 'idle') {
+            dispatch(getUserDailyMissions());
         }
-    }, [dispatch, userId, missionsStatus]);
+    }, [dispatch, missionsStatus]);
 
     return (
         <div className="achievements-page container-fluid">

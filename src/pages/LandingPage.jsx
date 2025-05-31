@@ -64,7 +64,7 @@ const LandingPage = () => {
                     <div className="logo">Dobe</div>
                     <div className="nav-links">
                         <div className="nav-button" onClick={() => scrollToSection('hero-section')}>Özellikler</div>
-                        <div className="nav-button" onClick={() => scrollToSection('feature-showcase')}>Kullanıcılar</div>
+                        <div className="nav-button" onClick={() => scrollToSection('feature-showcase')}>Dobe </div>
                         <div className="nav-button" onClick={() => scrollToSection('smart-learning')}>Yenilikler</div>
                     </div>
                     <a href="/login" className="nav-button">Giriş Yap</a>

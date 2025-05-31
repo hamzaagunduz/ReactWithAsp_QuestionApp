@@ -5,7 +5,6 @@ import "../../style/lesson/topic_description_modal.css";
 
 const ModalComponent = ({ isOpen, onClose, description, videoLink }) => {
     const [showDescription, setShowDescription] = useState(false);
-    console.log(videoLink)
     if (!isOpen) return null;
 
     const toggleDescription = () => {

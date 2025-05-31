@@ -14,28 +14,37 @@ export const fetchFlashCardsByQuestionId = createAsyncThunk(
 // 2. Kullanıcıya ve derse göre favori kartları getirme
 export const fetchFavoriteFlashcardsByCourse = createAsyncThunk(
     'flashCard/fetchFavoritesByCourse',
-    async ({ appUserId, courseId }) => {
-        const response = await apiClient.get(`FlashCards/favorites/bycourse`, {
-            params: { appUserId, courseId }
-        });
-        return response.data;
+    async ({ courseId }, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`FlashCards/favorites/bycourse`, {
+                params: { courseId },  // burada sadece primitive değer gönderiyoruz
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Veriler alınamadı');
+        }
     }
 );
 
+
 export const fetchFlashCardsByTestId = createAsyncThunk(
     'flashCard/fetchByTestId',
-    async ({ testId, userId }) => {
-        const response = await apiClient.get(`FlashCards/GetFlashCardsByTestId/${testId}?userId=${userId}`);
-        return response.data;
+    async (testId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`FlashCards/GetFlashCardsByTestId/${testId}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Veriler alınamadı');
+        }
     }
 );
+
 
 // 3. Kullanıcının flash kart favorisini değiştirme (toggle etme)
 export const toggleUserFlashCard = createAsyncThunk(
     'flashCard/toggleUserFlashCard',
-    async ({ appUserID, flashCardID }) => {
+    async ({ flashCardID }) => {
         const response = await apiClient.post(`FlashCards/ToggleUserFlashCard`, {
-            appUserID,
             flashCardID,
         });
         return response.data;

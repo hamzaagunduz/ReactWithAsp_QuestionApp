@@ -12,7 +12,7 @@ function ExamMidComponent() {
     const { user } = useSelector(state => state.appUser);
 
     useEffect(() => {
-        dispatch(fetchAppUser(1));
+        dispatch(fetchAppUser());
         dispatch(fetchExamOptions());
     }, [dispatch]);
 
@@ -27,9 +27,7 @@ function ExamMidComponent() {
 
     const handleSelect = (exam) => {
         setSelectedOption(exam.name);
-        if (user) {
-            dispatch(updateAppUserExam({ userId: user.userId, examID: exam.examID }));
-        }
+        dispatch(updateAppUserExam({ examID: exam.examID }));
     };
 
     return (

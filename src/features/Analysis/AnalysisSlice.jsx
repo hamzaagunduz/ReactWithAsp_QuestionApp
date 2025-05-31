@@ -4,15 +4,16 @@ import apiClient from '../../app/apiClient';
 // Performans verilerini getirir
 export const fetchAnalysis = createAsyncThunk(
     'analysis/fetchAnalysis',
-    async ({ userId, range }, { rejectWithValue }) => {
+    async ({ range }, { rejectWithValue }) => {  // burada destructure
         try {
-            const response = await apiClient.get(`/Performance/${userId}?range=${range}`);
+            const response = await apiClient.get(`/Performance/performance?range=${range}`);
             return response.data;
         } catch (err) {
             return rejectWithValue(err.response?.data || 'Veri alınamadı');
         }
     }
 );
+
 
 // Performans verileriyle AI'dan analiz iste
 export const fetchAISuggestions = createAsyncThunk(

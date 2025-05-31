@@ -7,17 +7,14 @@ import human from '../assets/human.png';
 
 const ProfileMidComponent = () => {
     const dispatch = useDispatch();
-    const userId = localStorage.getItem('userId');
     const MAX_CONSECUTIVE_DAYS = 60;
     const MAX_TOTAL_SCORE = 20000;
 
     const { data: statistics, status, error } = useSelector((state) => state.statistic.profileStats);
 
     useEffect(() => {
-        if (userId) {
-            dispatch(fetchUserProfileStatistics(userId));
-        }
-    }, [dispatch, userId]);
+        dispatch(fetchUserProfileStatistics());
+    }, [dispatch]);
 
 
     return (

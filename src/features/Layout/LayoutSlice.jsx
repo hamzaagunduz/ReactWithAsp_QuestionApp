@@ -4,9 +4,9 @@ import apiClient from '../../app/apiClient';
 // Kullanıcının can (lives) ve son can eklenme zamanını çekmek için thunk
 export const fetchLivesInfo = createAsyncThunk(
     'layout/fetchLivesInfo',
-    async (userId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await apiClient.get(`AppUser/lives/${userId}`);
+            const response = await apiClient.get('AppUser/lives');
             return response.data; // { Lives: int, LastLifeAddedTime: datetime }
         } catch (error) {
             return rejectWithValue(error.response?.data || 'API hata mesajı');

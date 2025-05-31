@@ -16,13 +16,10 @@ const LessonMidComponent = ({ courseID }) => {
 
     // layoutSlice'dan lives değerini alıyoruz
     const healthResult = useSelector(state => state.layout.healthResult);
-    const userId = localStorage.getItem('userId');
     const [showNoLivesModal, setShowNoLivesModal] = useState(false);
     useEffect(() => {
-        if (userId) {
-            dispatch(fetchLivesInfo(userId));
-        }
-    }, [userId, dispatch]);
+        dispatch(fetchLivesInfo());
+    }, [, dispatch]);
     const lives = healthResult?.lives ?? 0;
     useEffect(() => {
         if (selectedCategory) {

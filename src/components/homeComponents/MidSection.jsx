@@ -15,11 +15,9 @@ export const MidSection = React.memo(() => {
     const { user, status: userStatus, error: userError } = useSelector(state => state.appUser);
 
     useEffect(() => {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-            dispatch(fetchAppUser(Number(userId)));
-        }
+        dispatch(fetchAppUser());
     }, [dispatch]);
+
 
     useEffect(() => {
         if (userStatus === "succeeded" && user?.examID) {

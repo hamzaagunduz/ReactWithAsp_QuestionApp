@@ -59,7 +59,7 @@ const LoginPage = () => {
 
                 <div className="login-links">
                     <a href="#" className="login-link">🔐 Şifreni mi unuttun?</a>
-                    <a href="#" className="login-link">📝 Hesabın yok mu? Kayıt ol</a>
+                    <a href="/register" className="login-link">📝 Hesabın yok mu? Kayıt ol</a>
                 </div>
 
                 <div className="social-icons">

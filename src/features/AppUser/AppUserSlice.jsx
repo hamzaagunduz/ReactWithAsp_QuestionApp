@@ -5,44 +5,45 @@ import apiClient from '../../app/apiClient';  // apiClient'ı import ediyoruz
 // API'den AppUser bilgilerini almak için thunk fonksiyonu
 export const fetchAppUser = createAsyncThunk(
     'appUser/fetchAppUser',
-    async (userId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await apiClient.get(`AppUser/${userId}`);  // API'ye istek atıyoruz
-            return response.data;  // Gelen veriyi döndürüyoruz
+            // userId yok, doğrudan token’dan bilgiyi alan endpoint
+            const response = await apiClient.get('AppUser/me');
+            return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'API hata mesajı');  // Hata durumunda mesaj
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
         }
     }
 );
 
+
 // AppUser'ı güncellemek için thunk fonksiyonu
 export const updateAppUserExam = createAsyncThunk(
-    'AppUser/UpdateUserExam',
-    async ({ userId, examID }, { rejectWithValue }) => {
+    'AppUser/updateUserExam',
+    async ({ examID }, { rejectWithValue }) => {
         try {
-            const response = await apiClient.put(`AppUser/UpdateUserExam`, {
-                userId: userId,
+            const response = await apiClient.put('AppUser/updateUserExam', {
                 examID: examID,
             });
-            return response.data;  // Başarılı güncellemeyi döndürüyoruz
+            return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'API hata mesajı');  // Hata durumunda mesaj
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
         }
     }
 );
 
 export const decreaseLife = createAsyncThunk(
     'appUser/decreaseLife',
-    async (userId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            // POST isteği atıyoruz (endpoint: /api/AppUser/{userId}/decreaselife)
-            const response = await apiClient.post(`AppUser/decreaselife/${userId}`);
-            return response.data;  // API'den dönen mesajı döndürelim
+            const response = await apiClient.post('AppUser/decreaselife');
+            return response.data; // API'den dönen mesajı döndürüyoruz
         } catch (error) {
             return rejectWithValue(error.response?.data || 'API hata mesajı');
         }
     }
 );
+
 const appUserSlice = createSlice({
     name: 'appUser',
     initialState: {

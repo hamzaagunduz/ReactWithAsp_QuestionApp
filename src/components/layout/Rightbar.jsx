@@ -21,7 +21,6 @@ export const Rightbar = () => {
 
     const [showModal, setShowModal] = useState(false);
     const [livesData, setLivesData] = useState(null);
-    const userId = localStorage.getItem('userId');
     const [timeLeft, setTimeLeft] = useState(null); // Bir sonraki can eklemeye kalan saniye
 
     const dispatch = useDispatch();
@@ -30,14 +29,14 @@ export const Rightbar = () => {
     const { missions, missionsStatus, error } = useSelector(state => state.dailyMission);
 
     const handleHeartClick = () => {
-        dispatch(fetchLivesInfo(userId));
+        dispatch(fetchLivesInfo());
         setShowModal(true);  // Modal açmak için
     };
     useEffect(() => {
-        if (userId) {
-            dispatch(getUserDailyMissions(userId));
-        }
-    }, [dispatch, userId]);
+
+        dispatch(getUserDailyMissions());
+
+    }, [dispatch]);
 
     const sidebarRef = useRef(null);
     const contentWrapperRef = useRef(null);

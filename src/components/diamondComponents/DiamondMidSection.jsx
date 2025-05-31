@@ -6,17 +6,14 @@ import { fetchUserProfileStatistics } from '../../features/Statistics/Statistics
 
 const DiamondMidSection = () => {
     const [selectedPackage, setSelectedPackage] = useState(null);
-    const userId = localStorage.getItem('userId');
 
     const dispatch = useDispatch();
 
     const { data: statistics, status } = useSelector((state) => state.statistic.profileStats);
 
     useEffect(() => {
-        if (userId) {
-            dispatch(fetchUserProfileStatistics(userId));
-        }
-    }, [dispatch, userId]);
+        dispatch(fetchUserProfileStatistics());
+    }, [dispatch]);
 
     const diamondPackages = [
         {
@@ -82,7 +79,6 @@ const DiamondMidSection = () => {
             {selectedPackage && (
                 <DiamondPaymentModal
                     packageInfo={selectedPackage}
-                    userId={userId}
                     onClose={() => setSelectedPackage(null)}
                 />
             )}

@@ -4,10 +4,9 @@ import apiClient from '../../app/apiClient';
 // Günlük görevleri güncelleyen thunk
 export const updateDailyMission = createAsyncThunk(
     'dailyMission/updateDailyMission',
-    async ({ appUserId, wrongAnswerCount }, { rejectWithValue }) => {
+    async ({ wrongAnswerCount }, { rejectWithValue }) => {
         try {
             const response = await apiClient.post('DailyMission/update', {
-                appUserId,
                 wrongAnswerCount
             });
             return response.data;
@@ -17,17 +16,20 @@ export const updateDailyMission = createAsyncThunk(
     }
 );
 
+
+
 export const getUserDailyMissions = createAsyncThunk(
     'dailyMission/getUserDailyMissions',
-    async (userId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const response = await apiClient.get(`DailyMission/missions/${userId}`);
+            const response = await apiClient.get('DailyMission/missions');
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Günlük görevler getirilemedi');
         }
     }
 );
+
 
 const DailyMissionSlice = createSlice({
     name: 'dailyMission',

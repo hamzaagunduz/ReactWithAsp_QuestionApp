@@ -6,16 +6,15 @@ import "./../../style/shopPage/shop.css";
 const ShopMidSection = () => {
     const dispatch = useDispatch();
     const { items: shopItems, status, error } = useSelector((state) => state.shop);
-    const userId = parseInt(localStorage.getItem("userId")); // localStorage’dan userId al
 
     useEffect(() => {
-        dispatch(fetchUserShopItems(userId));
-    }, [dispatch, userId]);
+        dispatch(fetchUserShopItems());
+    }, [dispatch]);
 
     const handlePurchase = (shopItemId) => {
-        dispatch(purchaseShopItem({ userId, shopItemId }))
+        dispatch(purchaseShopItem({ shopItemId }))
             .then(() => {
-                dispatch(fetchUserShopItems(userId)); // Satın alma sonrası güncelle
+                dispatch(fetchUserShopItems()); // Satın alma sonrası güncelle
             });
     };
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { purchaseDiamond } from '../../features/Purchase/PurchaseSlice';
 import './../../style/diamondPage/diamondPaymentModal.css';
 
-const DiamondPaymentModal = ({ onClose, packageInfo, userId }) => {
+const DiamondPaymentModal = ({ onClose, packageInfo }) => {
     const dispatch = useDispatch();
     const { status, error, successMessage } = useSelector(state => state.purchase);
 
@@ -20,7 +20,6 @@ const DiamondPaymentModal = ({ onClose, packageInfo, userId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(purchaseDiamond({
-            userId,
             diamondCount: packageInfo.diamondCount,
             amount: packageInfo.amount,
             cardNumber: form.cardNumber,

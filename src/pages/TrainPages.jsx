@@ -45,20 +45,19 @@ function TrainPage() {
     const test = useSelector(state => state.question.test);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
 
-    const userId = Number(localStorage.getItem('userId'));
 
     useEffect(() => {
         if (testId) {
             dispatch(fetchQuestionsByTestId(testId));
             dispatch(fetchTestById(testId));
-            dispatch(fetchFlashCardsByTestId({ testId, userId }));
+            dispatch(fetchFlashCardsByTestId(testId));
             setStartTime(Date.now());  // Test başlar başlamaz zamanı kaydet
 
         }
     }, [testId, dispatch]);
 
     const handleStarClick = (flashCardID) => {
-        dispatch(toggleUserFlashCard({ appUserID: userId, flashCardID }));
+        dispatch(toggleUserFlashCard({ flashCardID }));
     };
 
     const currentQuestion = questions?.[currentQuestionIndex];
@@ -81,7 +80,7 @@ function TrainPage() {
         } else {
             setResult("wrong");
             setIncorrectAnswers(prev => prev + 1);
-            dispatch(decreaseLife(userId));
+            dispatch(decreaseLife());
 
         }
     };
@@ -154,16 +153,13 @@ function TrainPage() {
         const durationInMinutes = Math.ceil(durationMs / (1000 * 60)); // saniyeyi dakikaya çevir ve yukarı yuvarla
         // İsteği at
         dispatch(updateUserStatistics({
-            appUserId: parseInt(userId),
-            wrongAnswerCount: incorrectAnswers
-        }));
-        dispatch(updateDailyMission({
-            appUserId: parseInt(userId),
             wrongAnswerCount: incorrectAnswers
         }));
 
+        dispatch(updateDailyMission({ wrongAnswerCount: incorrectAnswers }));
+
+
         dispatch(submitPerformance({
-            appUserId: parseInt(userId),
             completedAt: new Date().toISOString(),
             performances: [
                 {
