@@ -11,25 +11,30 @@ const AiChatModal = ({ question, onClose }) => {
     const [messages, setMessages] = useState([]);
     const chatBoxRef = useRef(null);
     const dispatch = useDispatch();
-    const { status, error } = useSelector((state) => state.signalr);
+    const { status } = useSelector((state) => state.signalr);
 
-
-
-
-
-
+    // AI'dan gelen metni HTML'e çevir
+    const formatAIText = (text) => {
+        if (!text) return '';
+        return text
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')      // Bold
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')                 // Italic
+            .replace(/^\s*[-•]\s+(.*)$/gm, '<li>$1</li>')         // Bullet List
+            .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')           // Wrap list
+            .replace(/\n{2,}/g, '<br/><br/>')                     // Double newline to break
+            .replace(/\n/g, '<br/>');                             // Single newline to <br/>
+    };
 
     useEffect(() => {
         const initializeSignalR = async () => {
             await startConnection();
-
             const connection = getConnection();
 
             if (!connection) return;
 
             let retries = 0;
             while (!connection.connectionId && retries < 10) {
-                await new Promise(res => setTimeout(res, 300)); // 300 ms bekle
+                await new Promise(res => setTimeout(res, 300));
                 retries++;
             }
 
@@ -37,11 +42,8 @@ const AiChatModal = ({ question, onClose }) => {
             setMessages(prev => [...prev, { text: question, sender: 'user' }]);
 
             connection.on("ReceiveMessage", (responseMessage) => {
-
                 setMessages(prevMessages => {
                     const lastMsg = prevMessages[prevMessages.length - 1];
-
-                    // Son mesaj AI'dan geldiyse onun üstüne ekle
                     if (lastMsg && lastMsg.sender === 'ai') {
                         const updatedMessages = [...prevMessages];
                         updatedMessages[updatedMessages.length - 1] = {
@@ -50,26 +52,16 @@ const AiChatModal = ({ question, onClose }) => {
                         };
                         return updatedMessages;
                     } else {
-                        // Aksi halde yeni AI mesajı olarak ekle
                         return [...prevMessages, { text: responseMessage, sender: 'ai' }];
                     }
                 });
 
                 scrollToBottom();
             });
-
         };
 
         initializeSignalR();
-
     }, []);
-
-
-
-    console.log(question)
-
-
-
 
     useEffect(() => {
         if (question && connectionId) {
@@ -84,45 +76,38 @@ const AiChatModal = ({ question, onClose }) => {
     };
 
     const handleSend = (e) => {
-
         if (e) e.preventDefault();
+        if (!input.trim()) return;
 
         setMessages(prev => [...prev, { text: input, sender: 'user' }]);
         dispatch(sendChatMessage({ prompt: input, connectionId }));
         setInput('');
-
     };
 
     return (
-        <div
-            className="ai-modal-overlay"
-            onClick={onClose} // modal dışı tıklama
-        >
-            <div
-                className="ai-modal"
-                onClick={(e) => e.stopPropagation()} // modal içi tıklamayı durdur
-            >
+        <div className="ai-modal-overlay" onClick={onClose}>
+            <div className="ai-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="ai-close-icon" onClick={onClose}>×</button>
-
                 <h3>Yapay Zeka Yardımcısı</h3>
 
                 <div className="ai-chat-box" ref={chatBoxRef}>
-                    {messages.map((msg, i) => {
-                        return (
-                            <div key={i} className={`ai-message ${msg.sender}`}>
-                                <strong>{msg.sender === 'user' ? '' : 'Dobe:'}</strong> {msg.text}
-                            </div>
-                        );
-                    })}
-
+                    {messages.map((msg, i) => (
+                        <div key={i} className={`ai-message ${msg.sender}`}>
+                            {msg.sender === 'user' ? (
+                                <span>{msg.text}</span>
+                            ) : (
+                                <span dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }} />
+                            )}
+                        </div>
+                    ))}
                 </div>
+
                 {status === 'loading' && (
                     <div className="ai-typing-indicator">
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span></span><span></span><span></span>
                     </div>
                 )}
+
                 <form className="ai-form" onSubmit={handleSend}>
                     <input
                         type="text"
@@ -132,12 +117,9 @@ const AiChatModal = ({ question, onClose }) => {
                     />
                     <button type="submit">Gönder</button>
                 </form>
-
-
             </div>
         </div>
     );
-
 };
 
 export default AiChatModal;

@@ -14,6 +14,8 @@ import purchaseReducer from '../features/Purchase/PurchaseSlice';
 import shopReducer from '../features/Shop/ShopSlice';
 import analiysisReducer from '../features/Analysis/AnalysisSlice';
 import performanceReducer from '../features/Performance/PerformanceSlice';
+import RegisterReducer from '../features/Register/RegisterSlice';
+
 
 const store = configureStore({
     reducer: {
@@ -31,6 +33,7 @@ const store = configureStore({
         shop: shopReducer,
         analysis: analiysisReducer,
         performance: performanceReducer,
+        register: RegisterReducer,
 
 
     },

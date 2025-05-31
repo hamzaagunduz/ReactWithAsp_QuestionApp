@@ -2,42 +2,125 @@ import React from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import HomePage from './pages/HomePage'; // Eğer doğru yol ise
-import TrainPages from './pages/TrainPages'; // Eğer doğru yol ise
-import ExamPage from './pages/ExamPage'; // Eğer doğru yol ise
-import ProfilePage from './pages/ProfilePage'; // Eğer doğru yol ise
-import LessonPage from './pages/LessonPage'; // Eğer doğru yol ise
-import CardPage from './pages/CardPage'; // Eğer doğru yol ise
-import LoginPage from './pages/LoginPage'; // Eğer doğru yol ise
-import RegisterPage from './pages/RegisterPage'; // Eğer doğru yol ise
-import AchievementsPage from './pages/AchievementsPage'; // Eğer doğru yol ise
-import DiamondPage from './pages/DiamondPage'; // Eğer doğru yol ise
-import AiPage from './pages/AiPage'; // Eğer doğru yol ise
-import ShopPage from './pages/Shop'; // Eğer doğru yol ise
-import AnalysisPage from './pages/Analysis'; // Eğer doğru yol ise
+
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 
+// Sayfalar
+import HomePage from './pages/HomePage';
+import TrainPages from './pages/TrainPages';
+import ExamPage from './pages/ExamPage';
+import ProfilePage from './pages/ProfilePage';
+import LessonPage from './pages/LessonPage';
+import CardPage from './pages/CardPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import AchievementsPage from './pages/AchievementsPage';
+import DiamondPage from './pages/DiamondPage';
+import AiPage from './pages/AiPage';
+import ShopPage from './pages/Shop';
+import AnalysisPage from './pages/Analysis';
+import LandingPage from './pages/LandingPage';
+
+import ProtectedRoute from './components/ProtectedRoute'; // Yeni eklenen
 
 function App() {
   return (
-
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage key={window.location.pathname} />} />
-        <Route path="/train/:testId" element={<TrainPages />} />
-        <Route path='/exam' element={<ExamPage />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/card' element={<CardPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path="/lesson/:courseID" element={<LessonPage />} />
-        <Route path='/achievements' element={<AchievementsPage />} />
-        <Route path='/diamond' element={<DiamondPage />} />
-        <Route path='/ai' element={<AiPage />} />
-        <Route path='/shop' element={<ShopPage />} />
-        <Route path='/analysis' element={<AnalysisPage />} />
+        {/* Giriş yapılmadan erişilebilecek sayfalar */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/landing" element={<LandingPage />} />
 
-
+        {/* Giriş yapılması gereken sayfalar */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <HomePage key={window.location.pathname} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/train/:testId"
+          element={
+            <ProtectedRoute>
+              <TrainPages />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/exam"
+          element={
+            <ProtectedRoute>
+              <ExamPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/lesson/:courseID"
+          element={
+            <ProtectedRoute>
+              <LessonPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/card"
+          element={
+            <ProtectedRoute>
+              <CardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/achievements"
+          element={
+            <ProtectedRoute>
+              <AchievementsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/diamond"
+          element={
+            <ProtectedRoute>
+              <DiamondPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ai"
+          element={
+            <ProtectedRoute>
+              <AiPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/shop"
+          element={
+            <ProtectedRoute>
+              <ShopPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analysis"
+          element={
+            <ProtectedRoute>
+              <AnalysisPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

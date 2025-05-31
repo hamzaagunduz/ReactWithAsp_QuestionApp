@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
-import { login } from '../app/authService.jsx';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login, isLoggedIn } from '../app/authService.jsx';
 import '../style/LoginRegister/LoginPage.css';
 
 const LoginPage = () => {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    // Eğer kullanıcı zaten giriş yaptıysa direkt yönlendir
+    useEffect(() => {
+        if (isLoggedIn()) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await login(userName, password);
-            setMessage('✅ Giriş başarılı, token alındı.');
+            setMessage('✅ Giriş başarılı, yönlendiriliyorsunuz...');
+            setTimeout(() => {
+                navigate('/');
+            }, 1000); // 1 saniye bekleyip yönlendir
         } catch (error) {
             setMessage('❌ Giriş başarısız. Bilgileri kontrol edin.');
         }

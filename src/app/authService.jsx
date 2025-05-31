@@ -15,3 +15,21 @@ export const login = async (userName, password) => {
 
     return token;
 };
+export const isLoggedIn = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+
+    try {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+        return decoded.exp && decoded.exp > currentTime;
+    } catch (error) {
+        return false;
+    }
+};
+
+// Oturumu sonlandır
+export const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+};
