@@ -30,17 +30,17 @@
     z-index: 1000;
     transition: background 0.3s ease, backdrop-filter 0.3s ease;
     backdrop-filter: none;
-    border-radius: 8px;
-    height: 60px;
+    border-radius: 20px;
+    height: 80px;
     background-color: #ffffff !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.044);
+    box-shadow: rgb(162, 203, 234) 0px 6px 0px 0px;
 
 
 }
 
 .nav-button {
     width: 8%;
-    height: 35px;
+    height: 45px;
     background-color: rgb(0 166 255 / 42%);
     border-radius: 16px;
     box-shadow: rgba(34, 148, 236, 0.645) 0px 4px 0px 0px;
@@ -77,7 +77,7 @@
     transition: color 0.2s ease;
     width: 100%;
     padding: 10px;
-    height: 35px;
+    height: 45px;
     font-weight: 700;
     font-size: 13px;
     color: white;
@@ -128,10 +128,11 @@
 
 
 .hero h1 {
-    font-size: 5rem;
+    margin-top: 140px;
+    font-size: 6rem;
     font-weight: 900;
     line-height: 1.2;
-    color: #64d940;
+    color: rgb(104 232 102);
     margin-bottom: 0.2rem;
 }
 
@@ -142,17 +143,7 @@
     margin: 0 auto 2.5rem;
 }
 
-.slider-container {
-    margin-top: 2rem;
-}
 
-.card {
-    transition: all 0.3s ease-in-out;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
 
 
 
@@ -238,4 +229,116 @@
 .cta-section h2 {
     font-size: 2rem;
     margin-bottom: 2rem;
+}
+
+
+
+.carousel-container {
+    position: relative;
+    width: 500px;
+    height: 420px;
+    margin: 0 auto;
+    perspective: 1800px;
+    transform-origin: center center;
+    overflow: visible;
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+.carousel-item {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 300px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -150px;
+
+    border: none;
+    border-radius: 15%;
+
+    background: linear-gradient(90deg, #f3fff8, #f9f9fb, #edf6ff);
+
+    padding: 1rem;
+    text-align: center;
+
+    font-family: 'Fredoka', 'Comic Sans MS', cursive;
+    font-size: 1.1rem;
+    color: #3a3a3a;
+
+    /* Daha sade ve doğal başlangıç gölgesi */
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.05),
+        0 1px 3px rgba(144, 202, 249, 0.2);
+
+    transition: transform 0.3s ease, box-shadow 0.5s ease;
+    backface-visibility: visible;
+    will-change: box-shadow, transform;
+}
+
+.carousel-item:hover {
+    /* Hover'da hafif parlaklık ve derinlik verir */
+    box-shadow:
+        0 10px 24px rgba(144, 202, 249, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.05);
+
+    transform: scale(1.05) translateY(-5px);
+}
+
+
+.carousel-img {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    user-select: none;
+    /* metin/resim seçimini engeller */
+    pointer-events: none;
+    /* tıklanamaz/sürüklenemez yapar */
+    -webkit-user-drag: none;
+    /* Safari için sürüklemeyi engeller */
+
+}
+
+.carousel-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.nav-button-carausel {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 2rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+    z-index: 100;
+}
+
+.nav-button-carausel:hover {
+    background-color: #f0f0f0;
+}
+
+.left {
+    left: -60px;
+}
+
+.right {
+    right: -60px;
 }

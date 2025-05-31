@@ -2,23 +2,62 @@ import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import '../style/LandingPage/LandingPage.css';
+import Carousel3D from '../components/landingComponents/Carousel3D';
 
 const LandingPage = () => {
     const [scrolled, setScrolled] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const colors = [
-        '#ec4899', // Pembe
-        '#3b82f6', // Mavi
-        '#ef4444', // Kırmızı
-        '#f472b6',
-        '#60a5fa',
-        '#f87171',
-        '#f9a8d4',
-        '#93c5fd',
-        '#fca5a5',
-        '#e879f9'
+    const items = [
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
+            title: "ehe"
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
+            title: ""
+        }, {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140051.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140063.png",
+            title: ""
+        },
+        {
+            image: "https://cdn-icons-png.flaticon.com/512/4140/4140072.png",
+            title: ""
+        },
+
+
+
     ];
+
+
 
     useEffect(() => {
         AOS.init({ duration: 1000 });
@@ -31,20 +70,6 @@ const LandingPage = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prev) => (prev + 1) % colors.length);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [colors.length]);
-
-    const prevSlide = () => {
-        setCurrentIndex((prev) => (prev - 1 + colors.length) % colors.length);
-    };
-
-    const nextSlide = () => {
-        setCurrentIndex((prev) => (prev + 1) % colors.length);
-    };
 
     return (
         <div className="landing">
@@ -72,75 +97,8 @@ const LandingPage = () => {
                     </p>
 
                     {/* SLIDER */}
-                    <div className="slider-container" style={{ position: 'relative', overflow: 'hidden', maxWidth: '100%', marginTop: '3rem' }}>
-                        <div
-                            className="slider-track"
-                            style={{
-                                display: 'flex',
-                                transition: 'transform 0.7s ease-in-out',
-                                transform: `translateX(-${currentIndex * (100 / colors.length)}%)`,
-                                width: `${colors.length * 100}%`,
-                            }}
-                        >
-                            {colors.map((color, index) => (
-                                <div
-                                    key={index}
-                                    className="card"
-                                    style={{
-                                        flex: '0 0 auto',
-                                        width: `${100 / colors.length}%`,
-                                        height: '300px',
-                                        borderRadius: '1rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                        backgroundColor: color, // ✅ RENK BURAYA EKLENDİ
-                                    }}
-                                >
-                                    Kart {index + 1}
-                                </div>
-                            ))}
-                        </div>
+                    <Carousel3D items={items} />
 
-                        {/* Slider Buttons */}
-                        <button
-                            onClick={prevSlide}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '10px',
-                                transform: 'translateY(-50%)',
-                                backgroundColor: 'rgba(255,255,255,0.8)',
-                                border: 'none',
-                                borderRadius: '999px',
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                fontSize: '1.5rem',
-                            }}
-                        >
-                            ‹
-                        </button>
-                        <button
-                            onClick={nextSlide}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                right: '10px',
-                                transform: 'translateY(-50%)',
-                                backgroundColor: 'rgba(255,255,255,0.8)',
-                                border: 'none',
-                                borderRadius: '999px',
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                fontSize: '1.5rem',
-                            }}
-                        >
-                            ›
-                        </button>
-                    </div>
                 </div>
             </section>
 
@@ -186,75 +144,7 @@ const LandingPage = () => {
                     </p>
 
                     {/* SLIDER */}
-                    <div className="slider-container" style={{ position: 'relative', overflow: 'hidden', maxWidth: '100%', marginTop: '3rem' }}>
-                        <div
-                            className="slider-track"
-                            style={{
-                                display: 'flex',
-                                transition: 'transform 0.7s ease-in-out',
-                                transform: `translateX(-${currentIndex * (100 / colors.length)}%)`,
-                                width: `${colors.length * 100}%`,
-                            }}
-                        >
-                            {colors.map((color, index) => (
-                                <div
-                                    key={index}
-                                    className="card"
-                                    style={{
-                                        flex: '0 0 auto',
-                                        width: `${100 / colors.length}%`,
-                                        height: '300px',
-                                        borderRadius: '1rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        fontWeight: 'bold',
-                                        backgroundColor: color, // ✅ RENK BURAYA EKLENDİ
-                                    }}
-                                >
-                                    Kart {index + 1}
-                                </div>
-                            ))}
-                        </div>
 
-                        {/* Slider Buttons */}
-                        <button
-                            onClick={prevSlide}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                left: '10px',
-                                transform: 'translateY(-50%)',
-                                backgroundColor: 'rgba(255,255,255,0.8)',
-                                border: 'none',
-                                borderRadius: '999px',
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                fontSize: '1.5rem',
-                            }}
-                        >
-                            ‹
-                        </button>
-                        <button
-                            onClick={nextSlide}
-                            style={{
-                                position: 'absolute',
-                                top: '50%',
-                                right: '10px',
-                                transform: 'translateY(-50%)',
-                                backgroundColor: 'rgba(255,255,255,0.8)',
-                                border: 'none',
-                                borderRadius: '999px',
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                fontSize: '1.5rem',
-                            }}
-                        >
-                            ›
-                        </button>
-                    </div>
                 </div>
             </section>
 
