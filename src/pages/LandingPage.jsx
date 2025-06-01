@@ -61,11 +61,11 @@ const LandingPage = () => {
             {/* Navbar */}
             <nav className={`navbar`}>
                 <div className="navbar-container">
-                    <div className="logo">Dobe</div>
+                    <div className="logo">Dobi</div>
                     <div className="nav-links">
-                        <div className="nav-button" onClick={() => scrollToSection('hero-section')}>Özellikler</div>
-                        <div className="nav-button" onClick={() => scrollToSection('feature-showcase')}>Dobe </div>
-                        <div className="nav-button" onClick={() => scrollToSection('smart-learning')}>Yenilikler</div>
+                        <div className="nav-item" onClick={() => scrollToSection('hero-section')}>Özellikler</div>
+                        <div className="nav-item" onClick={() => scrollToSection('feature-showcase')}>Dobi </div>
+                        <div className="nav-item" onClick={() => scrollToSection('smart-learning')}>Yenilikler</div>
                     </div>
                     <a href="/login" className="nav-button">Giriş Yap</a>
                 </div>

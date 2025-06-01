@@ -17,7 +17,7 @@ const SmartLearningSection = () => {
                 <div className="smart-learning-content" data-aos="fade-right">
                     <h2>Daha Akıllı, Daha Hızlı Öğren</h2>
                     <p>
-                        Dobe'un gelişmiş algoritmaları, sana özel öğrenme yolları oluşturur.
+                        Dobi'nin gelişmiş algoritmaları, sana özel öğrenme yolları oluşturur.
                         Eksik konularını tespit eder ve seni en verimli şekilde sınavlara hazırlar.
                     </p>
                     <div className="learning-highlights">

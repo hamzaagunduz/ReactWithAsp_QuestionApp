@@ -5,10 +5,10 @@ import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom'; // Link ve useLocation import edildi
 
-import heart from '../../assets/heart.png';
-import goal from '../../assets/goal.png';
-import target from '../../assets/target.png';
-import diamond from '../../assets/diamond.png';
+import heart from '../../assets/rightbar/rightTopIcons/heart.png';
+import goal from '../../assets/rightbar/rightTopIcons/goal.png';
+import target from '../../assets/rightbar/rightTopIcons/target.png';
+import diamond from '../../assets/rightbar/rightTopIcons/diamond.png';
 
 import DailyMissions from './DailyMissions'; // doğru path'e göre güncelleyin
 

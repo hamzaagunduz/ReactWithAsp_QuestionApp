@@ -54,9 +54,9 @@
 
 
 .question-text {
-
     font-weight: 600;
-    font-size: 15px;
+    font-size: 20px;
+    text-align: start;
 }
 
 

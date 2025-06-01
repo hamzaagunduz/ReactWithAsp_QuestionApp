@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfileStatistics } from '../features/Statistics/StatisticsSlice';
+import { logout } from '../app/authService';
+
 import '../style/profile.css';
-import { FaUser, FaTrophy, FaUsers, FaStar } from 'react-icons/fa';
 import human from '../assets/human.png';
+import { useNavigate } from 'react-router-dom'; // <--- EKLE
 
 const ProfileMidComponent = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate(); // <--- EKLE
+
     const MAX_CONSECUTIVE_DAYS = 60;
     const MAX_TOTAL_SCORE = 20000;
 
@@ -15,7 +19,10 @@ const ProfileMidComponent = () => {
     useEffect(() => {
         dispatch(fetchUserProfileStatistics());
     }, [dispatch]);
-
+    const handleLogout = () => {
+        logout(); // localStorage temizle
+        navigate('/login'); // login sayfasına yönlendir
+    };
 
     return (
         <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
@@ -92,7 +99,7 @@ const ProfileMidComponent = () => {
                 {/* Butonlar */}
                 <div className="profile-actions">
                     <button className="action-btn edit-profile">Profili Düzenle</button>
-                    <button className="action-btn logout">Çıkış Yap</button>
+                    <button className="action-btn logout" onClick={handleLogout}>Çıkış Yap</button>
                 </div>
             </div>
         </div>

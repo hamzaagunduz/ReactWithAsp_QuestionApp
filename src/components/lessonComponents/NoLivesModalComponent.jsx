@@ -7,7 +7,7 @@ const NoLivesModalComponent = ({ isOpen, onClose, description }) => {
     return (
         <div className="modal-backdrop_live" onClick={onClose}>
             <div className="modal-content_live" onClick={(e) => e.stopPropagation()}>
-                <h5>Konu Özeti</h5>
+                <h5>Canınız Kalmadı</h5>
                 <p>{description}</p>
                 <button className="btn btn-secondary mt-3" onClick={onClose}>
                     Kapat

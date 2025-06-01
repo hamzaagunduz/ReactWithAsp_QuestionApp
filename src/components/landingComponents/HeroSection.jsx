@@ -8,11 +8,13 @@ const HeroSection = ({ items }) => {
         <section className="hero">
             <div className="container">
                 <h1 data-aos="fade-up">
-                    Dobe İle Tanışın <br /> Eğitimin Yeni Yüzü
+                    <span class="highlight-purple">Dobi</span> İle Tanışın <br />
+                    Eğitimin <span class="highlight-yellow">Yeni Yüzü</span>
                 </h1>
                 <p data-aos="fade-up" data-aos-delay="200">
                     Yapay zeka destekli sınav platformu ile başarıya ulaş.
                 </p>
+
 
                 {/* SLIDER */}
                 <Carousel3D items={items} />

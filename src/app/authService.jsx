@@ -11,7 +11,7 @@ export const login = async (userName, password) => {
     localStorage.setItem('token', token);
     const decoded = jwtDecode(token);
 
-    localStorage.setItem('userId', decoded.userId); // Opsiyonel
+    // localStorage.setItem('userId', decoded.userId); // Opsiyonel
 
     return token;
 };

@@ -31,10 +31,10 @@ const LessonMidComponent = ({ courseID }) => {
         setSelectedCategory(null);
         navigate(-1);
     }, [navigate]);
-
+    console.log(lives)
     const handleNavigate = useCallback(
         (testId) => {
-            if (lives < 0) {
+            if (lives <= 0) {
                 // Can kalmadıysa modal göster ve yönlendirme yapma
                 setShowNoLivesModal(true);
             } else {

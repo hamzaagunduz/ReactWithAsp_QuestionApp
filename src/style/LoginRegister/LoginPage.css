@@ -71,6 +71,14 @@
     box-shadow: rgba(91, 236, 34, 0.8) 0px 4px;
 }
 
+.login-button:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
+}
+
+
+
 .login-message {
     margin-top: 18px;
     font-size: 15px;

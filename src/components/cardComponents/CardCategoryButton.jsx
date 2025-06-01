@@ -9,7 +9,7 @@ const CardCategoryButton = React.memo(({ category, onClick }) => {
             onClick={() => onClick(category.courseID)} // Kategori seçildiğinde onClick tetikleniyor
         >
             <img
-                src={`src${category.iconURL}`}
+                src={`src/${category.iconURL}`}
                 alt={category.name}
                 className="category-image mb-2"
                 style={{ width: "50px", height: "50px" }}

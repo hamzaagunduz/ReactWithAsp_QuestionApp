@@ -32,11 +32,9 @@
     transition: background 0.3s ease, backdrop-filter 0.3s ease;
     backdrop-filter: none;
     border-radius: 20px;
-    height: 80px;
+    height: 65px;
     background-color: #ffffff !important;
-    box-shadow: rgb(162, 203, 234) 0px 6px 0px 0px;
-
-
+    box-shadow: rgb(162, 203, 234) 0px 5px 0px 0px;
 }
 
 .nav-button {
@@ -67,6 +65,13 @@
 
 }
 
+.nav-button:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
+}
+
+
 .nav-links {
     gap: 1.5rem;
     display: flex;
@@ -75,26 +80,32 @@
 }
 
 
-.nav-links div {
-    text-decoration: none;
-    color: #1c1c1c;
-    font-weight: 500;
-    transition: color 0.2s ease;
-    width: 100%;
-    padding: 10px;
-    height: 45px;
-    font-weight: 700;
-    font-size: 13px;
-    color: white;
-    user-select: none;
+.nav-item {
+    width: 100px;
+    /* Biraz daha geniş */
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 50px;
+    border: 1.5px solid #3498db;
+    color: #3498db;
+    font-weight: 600;
     cursor: pointer;
-
-
+    transition: all 0.3s ease;
+    /* Hafif gölge */
 }
 
-.nav-links li a:hover {
-    color: #2a4fd7;
+.nav-item:hover {
+    background-color: #3498db;
+    /* Hover'da arka plan canlı mavi */
+    color: white;
+    /* Yazı beyaz olur */
+    box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+    /* Gölge artar */
+    transform: translateY(-3px);
+    /* Hafif yukarı kayma efekti */
 }
+
 
 
 
@@ -132,21 +143,41 @@
 
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Quicksand:wght@300..700&display=swap');
 
 .hero h1 {
-    margin-top: 140px;
+    margin-top: 120px;
     font-size: 6rem;
-    font-weight: 900;
+    font-weight: 400;
     line-height: 1.2;
-    color: rgb(104 232 102);
     margin-bottom: 0.2rem;
+    color: #000000;
 }
+
+
 
 .hero p {
     font-size: 1.2rem;
     color: #333;
     max-width: 700px;
     margin: 0 auto 2.5rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.highlight-purple {
+    color: #5de588;
+    font-style: normal;
+    font-family: 'Fredoka', 'Comic Sans MS', cursive;
+
+}
+
+.highlight-yellow {
+    color: #FCA311;
+    font-weight: 400;
+    font-style: normal;
+    font-family: 'Fredoka', 'Comic Sans MS', cursive;
+
 }
 
 
@@ -177,12 +208,13 @@
     align-items: center;
     flex-direction: column;
     width: 300px;
-    height: 280px;
-    top: 50%;
+    height: 230px;
+    top: 35%;
     left: 50%;
     margin-left: -150px;
     margin-top: -150px;
-    background: linear-gradient(135deg, rgba(0, 166, 255, 0.35), rgba(255, 255, 255, 0.2), rgba(143, 255, 0, 0.25));
+    background: linear-gradient(135deg, rgba(251, 254, 255, 0.771), rgba(95, 235, 237, 0.16), rgba(204, 210, 212, 0.771));
+    font-family: "Quicksand", sans-serif;
 
     border: none;
     border-radius: 15%;
@@ -191,7 +223,6 @@
     padding: 1rem;
     text-align: center;
 
-    font-family: 'Fredoka', 'Comic Sans MS', cursive;
     font-size: 1.1rem;
 
     /* Daha sade ve doğal başlangıç gölgesi */

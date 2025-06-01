@@ -6,14 +6,22 @@ import { fetchUserProfileStatistics } from '../../features/Statistics/Statistics
 
 const DiamondMidSection = () => {
     const [selectedPackage, setSelectedPackage] = useState(null);
-
     const dispatch = useDispatch();
 
     const { data: statistics, status } = useSelector((state) => state.statistic.profileStats);
+    const { successMessage } = useSelector((state) => state.purchase);
 
+    // Sayfa ilk yüklendiğinde istatistikleri al
     useEffect(() => {
         dispatch(fetchUserProfileStatistics());
     }, [dispatch]);
+
+    // Satın alma başarılı olursa istatistikleri tekrar al
+    useEffect(() => {
+        if (successMessage) {
+            dispatch(fetchUserProfileStatistics());
+        }
+    }, [successMessage, dispatch]);
 
     const diamondPackages = [
         {
@@ -23,7 +31,7 @@ const DiamondMidSection = () => {
             amount: 50,
             diamondCount: 105,
             color: "blue",
-            image: "../../../src/assets/diamond.png",
+            image: "src/assets/rightbar/rightTopIcons/diamond.png",
         },
         {
             name: "Yeşil Elmas",
@@ -32,7 +40,7 @@ const DiamondMidSection = () => {
             amount: 100,
             diamondCount: 275,
             color: "green",
-            image: "../../../src/assets/diamond.png",
+            image: "src/assets/rightbar/rightTopIcons/diamond.png",
         },
         {
             name: "Kırmızı Elmas",
@@ -41,7 +49,7 @@ const DiamondMidSection = () => {
             amount: 180,
             diamondCount: 600,
             color: "red",
-            image: "../../../src/assets/diamond.png",
+            image: "src/assets/rightbar/rightTopIcons/diamond.png",
         },
     ];
 
@@ -50,7 +58,6 @@ const DiamondMidSection = () => {
             <h2 className="diamond-title">Elmas Paketleri</h2>
             <p className="diamond-subtitle">İhtiyacına uygun elmas paketini seç ve hemen satın al!</p>
 
-            {/* 💎 Kullanıcının mevcut elmas sayısı */}
             <div className="diamond-user-info">
                 {status === 'loading' && <p>Yükleniyor...</p>}
                 {status === 'succeeded' && statistics?.diamond != null && (

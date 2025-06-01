@@ -1,10 +1,10 @@
 // components/DailyMissions.jsx
 import React from "react";
-import chest from '../../assets/chest.png';
-import chestopen from '../../assets/chest2.png';
-import achievement1 from '../../assets/achievement.png';
-import achievement2 from '../../assets/achievement2.png';
-import achievement3 from '../../assets/achievement3.png';
+import chest from '../../assets/rightbar/dailyMissions/chest.png';
+import chestopen from '../../assets/rightbar/dailyMissions/chest2.png';
+import achievement1 from '../../assets/rightbar/dailyMissions/achievement.png';
+import achievement2 from '../../assets/rightbar/dailyMissions/achievement2.png';
+import achievement3 from '../../assets/rightbar/dailyMissions/achievement3.png';
 import { Link } from 'react-router-dom'; // Link ve useLocation import edildi
 
 const achievements = [achievement1, achievement2, achievement3];

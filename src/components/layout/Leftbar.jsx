@@ -3,17 +3,22 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../style/leftbar.css'; // leftbar.css dosyasını import ettik
 import { Link, useLocation } from 'react-router-dom'; // Link ve useLocation import edildi
+import { logout } from '../../app/authService';
 
 // Resimleri import et
-import housekeeper from '../../assets/housekeeper.png';
-import store from '../../assets/store.png';
-import speedometer from '../../assets/speedometer.png';
-import house from '../../assets/house.png';
-import card from '../../assets/card-game.png';
+import housekeeper from '../../assets/leftbar/housekeeper.png';
+import store from '../../assets/leftbar/store.png';
+import speedometer from '../../assets/leftbar/speedometer.png';
+import house from '../../assets/leftbar/house.png';
+import card from '../../assets/leftbar/card-game.png';
+import logoutIcon from '../../assets/leftbar/logout.png';
 
 export const Leftbar = () => {
     const location = useLocation(); // Geçerli sayfa bilgisini almak için useLocation kullanıyoruz
-
+    const handleLogout = () => {
+        logout();           // localStorage'dan token'ı sil
+        navigate('/login'); // login sayfasına yönlendir
+    };
     return (
         <div className="col-md-2 d-none d-md-flex flex-md-column bg-light position-fixed h-100 z-1 border-r">
             <a href="/" className="d-flex align-items-center side-logo text-dark text-decoration-none">
@@ -68,6 +73,15 @@ export const Leftbar = () => {
                     >
                         <img src={housekeeper} alt="Profil" className="icon-size " /> {/* speedometer.png ikonu */}
                         <span>Profil</span>
+                    </Link>
+                </li>
+                <li>
+                    <Link
+                        onClick={handleLogout}
+                        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}
+                    >
+                        <img src={logoutIcon} alt="Çıkış" className="icon-size" />
+                        <span>Çıkış</span>
                     </Link>
                 </li>
 
