@@ -3,7 +3,13 @@
 
 
 .train-container {
-    width: 70%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -12,13 +18,16 @@
     gap: 30px;
 }
 
-/* .question-container {   } */
+.question-container {
+    max-width: 1100px;
+}
 
 
 .progress-bar-train {
     width: 75%;
     height: 20px;
-    background: linear-gradient(to right, #45d2e835, #9be8f6c0);
+    background: rgb(143 255 0 / 48%);
+
     margin-bottom: -3px;
     overflow: hidden;
     border-radius: 10px 10px 3px 3px;
@@ -30,7 +39,7 @@
 
 .progress-bar-fill-train {
     height: 100%;
-    background: linear-gradient(to right, #1cb0f6, #006b9d8a);
+    background: rgb(143 255 0 / 48%);
     transition: width 0.3s ease-in-out;
     border-radius: 10px 10px 3px 3px;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
@@ -49,7 +58,8 @@
     border: none;
     height: auto;
     z-index: 2;
-
+    padding: 30px 20px 40px 20px !important;
+    /* Üst ve alt: 50px, sağ ve sol: 0 */
 }
 
 
@@ -57,34 +67,58 @@
     font-weight: 600;
     font-size: 20px;
     text-align: start;
+    min-height: 50px;
 }
 
 
 
 .options-container button {
-    display: flex;
-    align-items: center;
-    border: none;
     width: 100%;
-    height: 60px;
-    margin-top: 20px;
+    height: 55px;
+    margin-top: 15px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    min-width: 55px;
+    background-color: rgba(38, 255, 0, 0.549);
     border-radius: 16px;
+    box-shadow: rgba(12, 206, 57, 0.645) 0px 4px 0px 0px;
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
     font-weight: 700;
     font-size: 20px;
-    color: rgb(28, 176, 246);
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: st;
+    color: white;
+    user-select: none;
+    cursor: pointer;
+    text-decoration: none;
 }
+
+.options-container button:hover {
+    background-color: rgba(38, 255, 0, 0.858);
+    color: #000;
+}
+
+.btn.btn-option[disabled]:not(.correct):not(.wrong):not(.selected) {
+    background-color: rgb(0 166 255 / 42%);
+    box-shadow: rgba(34, 148, 236, 0.645) 0px 4px 0px 0px;
+    cursor: not-allowed;
+}
+
+
 
 .train-title {
     font-family: "Quicksand", sans-serif;
     font-weight: 800;
     font-size: 30px;
-
+    margin-top: 20px;
 }
 
 .question-card2 {
-
-    background: rgb(28, 176, 246);
+    background-color: rgb(0 166 255 / 42%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,7 +144,7 @@
     justify-content: center;
     font-size: 25px;
     font-weight: bold;
-    background-color: rgb(113, 196, 248);
+    background-color: rgba(0, 166, 255, 0.177);
     transition: all 0.5s;
 }
 
@@ -129,21 +163,10 @@
     width: 80%;
 }
 
-/* .question-card2:hover::before,
-.question-card2:hover::after {
-    width: 100%;
-    height: 100%;
-    transition: all 0.5s;
-}
 
-.question-card2:hover:after {
-    content: "Cevabı biliyosun";
-} */
 
-/* Tıklama animasyonu */
 .question-card2.flip {
     transform: rotateY(180deg);
-    /* Kartı döndür */
 }
 
 .question-card2 .card-front,
@@ -159,14 +182,14 @@
     justify-content: center;
     font-size: 25px;
     font-weight: bold;
+
 }
 
 .question-card2 .card-front {
-    background-color: rgb(28, 176, 246);
+    color: white;
 }
 
 .question-card2 .card-back {
-    background-color: rgb(113, 196, 248);
     transform: rotateY(180deg);
     /* Arka yüzeyi döndür */
     color: white;
@@ -187,7 +210,6 @@
 
 .next-buton-train-container {
     height: 10vh;
-    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -196,25 +218,33 @@
 }
 
 .next-buton-train {
-    align-items: center;
-    background: rgb(0 166 255 / 42%);
-    border: 0;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    color: rgba(8, 30, 15, 0.8);
-    cursor: pointer;
-    display: flex;
+    min-width: 55px;
+    height: 45px;
+    background-color: rgb(0 166 255 / 42%);
+    border-radius: 16px;
+    box-shadow: rgba(34, 148, 236, 0.645) 0px 4px 0px 0px;
+    border: none;
     font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: 16px;
+    color: white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    line-height: 1.5rem;
-    padding: 15px;
-    text-align: center;
-    transition: 0.2s;
+    color: white;
     user-select: none;
-    white-space: nowrap;
-    width: max-content;
-    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
 }
+
+.next-buton-train:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
+}
+
 
 .modal {
     position: fixed;
@@ -296,14 +326,16 @@
 
 .correct {
     background-color: green !important;
+    box-shadow: rgba(4, 104, 31, 0.849) 0px 4px 0px 0px !important;
+
     color: white !important;
     animation: correctAnimation 1s ease;
 }
 
 .wrong {
     background-color: red !important;
+    box-shadow: rgba(97, 11, 11, 0.849) 0px 4px 0px 0px !important;
     color: white !important;
-
     animation: wrongAnimation 1s ease;
 }
 
@@ -334,7 +366,8 @@
 }
 
 .back-button-train:hover {
-    background-color: #e0e0e0;
+    background-color: #2ea4f244;
+    color: #000;
 }
 
 

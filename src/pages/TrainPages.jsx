@@ -180,7 +180,7 @@ function TrainPage() {
 
 
     if (!questions || questions.length === 0) {
-        return <div>No questions available</div>;
+        return <div></div>;
     }
 
     return (
@@ -224,7 +224,7 @@ function TrainPage() {
 
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <button className='next-buton-train' onClick={handleOpenAiModal}>
-                        Yapay Zeka ile Çöz
+                        Yapay Zeka
                     </button>
 
                     {showAiModal && (

@@ -78,7 +78,7 @@ export const Leftbar = () => {
                 <li>
                     <Link
                         onClick={handleLogout}
-                        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`}
+                        className={`nav-link }`}
                     >
                         <img src={logoutIcon} alt="Çıkış" className="icon-size" />
                         <span>Çıkış</span>

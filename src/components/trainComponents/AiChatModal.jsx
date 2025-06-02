@@ -12,6 +12,10 @@ const AiChatModal = ({ question, onClose }) => {
     const chatBoxRef = useRef(null);
     const dispatch = useDispatch();
     const { status } = useSelector((state) => state.signalr);
+    // Eklenen state
+    const [upgradeMessage, setUpgradeMessage] = useState('');
+    const [showChat, setShowChat] = useState(true); // Chat modalı gösterilsin mi?
+
 
     // AI'dan gelen metni HTML'e çevir
     const formatAIText = (text) => {
@@ -63,11 +67,24 @@ const AiChatModal = ({ question, onClose }) => {
         initializeSignalR();
     }, []);
 
+    // useEffect içindeki dispatch kısmı güncellendi:
     useEffect(() => {
         if (question && connectionId) {
-            dispatch(sendChatMessage({ prompt: question, connectionId }));
+            dispatch(sendChatMessage({ prompt: question, connectionId }))
+                .unwrap()
+                .then(res => {
+                    if (res?.data) {
+                        setUpgradeMessage(res.data); // Alert yerine modal mesajı ayarla
+                        setShowChat(false); // Chat gösterilmesin
+                    }
+                })
+                .catch(err => {
+                    console.error("Mesaj gönderilirken hata oluştu:", err);
+                });
         }
     }, [connectionId, question]);
+
+
 
     const scrollToBottom = () => {
         if (chatBoxRef.current) {
@@ -83,43 +100,70 @@ const AiChatModal = ({ question, onClose }) => {
         dispatch(sendChatMessage({ prompt: input, connectionId }));
         setInput('');
     };
-
+    // return kısmı GÜNCELLENDİ:
     return (
         <div className="ai-modal-overlay" onClick={onClose}>
             <div className="ai-modal" onClick={(e) => e.stopPropagation()}>
                 <button className="ai-close-icon" onClick={onClose}>×</button>
-                <h3>Yapay Zeka Yardımcısı</h3>
 
-                <div className="ai-chat-box" ref={chatBoxRef}>
-                    {messages.map((msg, i) => (
-                        <div key={i} className={`ai-message ${msg.sender}`}>
-                            {msg.sender === 'user' ? (
-                                <span>{msg.text}</span>
-                            ) : (
-                                <span dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }} />
-                            )}
-                        </div>
-                    ))}
-                </div>
-
-                {status === 'loading' && (
-                    <div className="ai-typing-indicator">
-                        <span></span><span></span><span></span>
+                {upgradeMessage && !showChat ? (
+                    <div className="ai-upgrade-modal">
+                        <h3>Uyarı</h3>
+                        <p>{upgradeMessage}</p>
+                        <button
+                            onClick={onClose}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#ff5252',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '8px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                fontSize: '1rem',
+                                marginTop: '1rem'
+                            }}
+                        >
+                            Tamam
+                        </button>
                     </div>
-                )}
+                ) : (
+                    <>
+                        <h3>Yapay Zeka Yardımcısı</h3>
 
-                <form className="ai-form" onSubmit={handleSend}>
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder="Mesajınızı yazın..."
-                    />
-                    <button type="submit">Gönder</button>
-                </form>
+                        <div className="ai-chat-box" ref={chatBoxRef}>
+                            {messages.map((msg, i) => (
+                                <div key={i} className={`ai-message ${msg.sender}`}>
+                                    {msg.sender === 'user' ? (
+                                        <span>{msg.text}</span>
+                                    ) : (
+                                        <span dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }} />
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {status === 'loading' && (
+                            <div className="ai-typing-indicator">
+                                <span></span><span></span><span></span>
+                            </div>
+                        )}
+
+                        <form className="ai-form" onSubmit={handleSend}>
+                            <input
+                                type="text"
+                                value={input}
+                                onChange={(e) => setInput(e.target.value)}
+                                placeholder="Mesajınızı yazın..."
+                            />
+                            <button type="submit">Gönder</button>
+                        </form>
+                    </>
+                )}
             </div>
         </div>
     );
+
 };
 
 export default AiChatModal;

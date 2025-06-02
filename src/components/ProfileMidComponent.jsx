@@ -6,6 +6,7 @@ import { logout } from '../app/authService';
 import '../style/profile.css';
 import human from '../assets/human.png';
 import { useNavigate } from 'react-router-dom'; // <--- EKLE
+import foreverIcon from '../assets/forever.png';
 
 const ProfileMidComponent = () => {
     const dispatch = useDispatch();
@@ -35,8 +36,24 @@ const ProfileMidComponent = () => {
                             <h5 className="user-name">{statistics?.firstName} {statistics?.surName}</h5>
                             <p className="user-info"> E-posta: <span>{statistics?.email} 📧</span></p>
                             <p className="user-info">
-                                Can: <span>{statistics?.lives}❤️</span>
+                                Can: <span>
+                                    {statistics?.lives > 100 ? (
+                                        <>
+                                            <img
+                                                src={foreverIcon}
+                                                alt="Sonsuz"
+                                                style={{ width: '30px', height: '30px', display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}
+                                            />
+                                        </>
+                                    ) : (
+                                        <>
+                                            {statistics?.lives}❤️
+                                        </>
+                                    )}
+                                </span>
                             </p>
+
+
                             <p className="user-info">
                                 Elmas: <span>{statistics?.diamond}💎</span>
                             </p>

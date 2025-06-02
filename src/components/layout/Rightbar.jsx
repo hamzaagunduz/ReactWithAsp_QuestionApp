@@ -4,6 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom'; // Link ve useLocation import edildi
+import foreverIcon from '../../assets/forever.png';
 
 import heart from '../../assets/rightbar/rightTopIcons/heart.png';
 import goal from '../../assets/rightbar/rightTopIcons/goal.png';
@@ -222,15 +223,25 @@ export const Rightbar = () => {
                             <h4>Can Durumu</h4>
                             {healthResult ? (
                                 <>
-                                    <p>Can Sayısı: <strong>{healthResult.lives}</strong></p>
+                                    <p>
+                                        Can Sayısı: <strong>
+                                            {healthResult.lives > 100 ? (
+                                                <img src={foreverIcon} alt="Sonsuz" style={{ width: '30px', height: '30px', display: 'inline-block', verticalAlign: 'middle' }} />
+                                            ) : (
+                                                healthResult.lives
+                                            )}
+                                        </strong>
+                                    </p>
+
+
                                     {timeLeft !== null && healthResult.lives < 10 && (
                                         <p>Bir sonraki can eklemesine kalan süre: <strong>{formatTime(timeLeft)}</strong></p>
                                     )}
-
                                 </>
                             ) : (
                                 <p>Yükleniyor...</p>
                             )}
+
                         </div>
                     </div>
                 )}

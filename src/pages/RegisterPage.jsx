@@ -118,7 +118,7 @@ const RegisterPage = () => {
                         name="examID"
                         value={formData.examID}
                         onChange={handleChange}
-                        className="register-input"
+                        className="exam-select"
                         required
                     >
                         <option value={0} disabled>📘 Sınav Türü Seçin</option>

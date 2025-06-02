@@ -1,6 +1,6 @@
 function TrainControls({ onNext, onPrevious, onFinish, onShowAnswer, isLast }) {
     return (
-        <div className="col-12 next-buton-train-container mt-3">
+        <div className="col-12 next-buton-train-container">
             <button className="next-buton-train" onClick={onPrevious}>Geri</button>
             <button className="next-buton-train" onClick={onShowAnswer}>Cevap</button>
             {isLast ? (
