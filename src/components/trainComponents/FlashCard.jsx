@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
 const exampleFrontList = [
@@ -9,27 +9,32 @@ const exampleFrontList = [
     "Sence doğru cevap ne?",
 ];
 
-function FlashCard({ flipped, onFlip, flashCard, loading, onStarClick, isStarred }) {
-    const [starred, setStarred] = useState(isStarred);
+function FlashCard({ flipped, onFlip, flashCard, loading, onStarClick }) {
     const [randomFrontText, setRandomFrontText] = useState("");
-
-    useEffect(() => {
-        setStarred(isStarred);
-    }, [isStarred]);
+    const [isFavorited, setIsFavorited] = useState(flashCard?.isFavoried);
 
     useEffect(() => {
         const randomIndex = Math.floor(Math.random() * exampleFrontList.length);
         setRandomFrontText(exampleFrontList[randomIndex]);
     }, []);
 
+    // flashCardID veya isFavoried değişirse local state güncellenir
+    useEffect(() => {
+        setIsFavorited(flashCard?.isFavoried);
+    }, [flashCard?.flashCardID, flashCard?.isFavoried]);
+
     const handleStarClick = (e) => {
-        e.stopPropagation();
-        onStarClick(flashCard.flashCardID);
-        setStarred(prev => !prev);
+        e.stopPropagation(); // Kartın fliplenmesini engelle
+        setIsFavorited(prev => !prev); // Yerel state anında güncellenir
+        onStarClick(flashCard.flashCardID); // Redux ya da API tetikle
     };
 
     return (
-        <div className={`card col-3 question-card2 p-4 ${flipped ? "flip" : ""}`} onClick={onFlip} style={{ position: 'relative' }}>
+        <div
+            className={`card col-3 question-card2 p-4 ${flipped ? "flip" : ""}`}
+            onClick={onFlip}
+            style={{ position: 'relative' }}
+        >
             <div className="card-front">
                 <h4 className="question-text">{!loading && randomFrontText}</h4>
             </div>
@@ -38,7 +43,7 @@ function FlashCard({ flipped, onFlip, flashCard, loading, onStarClick, isStarred
                 <FaStar
                     onClick={handleStarClick}
                     size={24}
-                    color={starred ? 'gold' : 'gray'}
+                    color={isFavorited ? 'gold' : 'gray'}
                     style={{
                         position: 'absolute',
                         top: 10,

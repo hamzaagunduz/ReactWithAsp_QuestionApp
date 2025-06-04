@@ -44,7 +44,7 @@ function TrainPage() {
     const { questions } = useSelector(state => state.question);
     const test = useSelector(state => state.question.test);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
-
+    console.log(questions)
 
     useEffect(() => {
         if (testId) {
@@ -207,12 +207,11 @@ function TrainPage() {
                 <FlashCard
                     flipped={flipped}
                     onFlip={() => setFlipped(!flipped)}
-                    flashCard={flashCards?.find(fc => fc.questionID === currentQuestion.questionID)}
+                    flashCard={currentFlashCard}
                     loading={cardStatus !== "succeeded"}
                     onStarClick={handleStarClick}
-                    isStarred={!!currentFlashCard?.isFavoried}  // Favori ise true, yoksa false
-
                 />
+
 
                 <TrainControls
                     onNext={handleNext}
