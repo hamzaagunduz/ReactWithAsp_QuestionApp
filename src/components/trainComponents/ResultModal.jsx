@@ -11,8 +11,8 @@ function ResultModal({ correct, incorrect, unanswered, onClose, onFinish }) {
                     <p>Boş Sorular: {unanswered}</p>
                 </div>
                 <div className="modal-footer">
-                    <button onClick={onFinish}>Testi Bitir</button>
-                    <button onClick={onClose}>İncele</button>
+                    <button className="next-buton-train" onClick={onFinish}>Testi Bitir</button>
+                    <button className="next-buton-train" onClick={onClose}>İncele</button>
                 </div>
             </div>
         </div>

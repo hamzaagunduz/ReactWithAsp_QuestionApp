@@ -332,21 +332,6 @@
     gap: 20px;
 }
 
-.modal-footer button {
-    background-color: #62aaf2b7;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    font-family: "Quicksand", sans-serif;
-    transition: 0.2s;
-}
-
-.modal-footer button:hover {
-    background-color: #6d6df7;
-    box-shadow: -5px -5px 20px 0 #fff, 5px 5px 20px 0 #1d0dca17;
-}
 
 
 .next-buton-train:hover {

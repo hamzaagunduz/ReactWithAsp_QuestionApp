@@ -14,6 +14,19 @@ export const fetchTopics = createAsyncThunk(
     }
 );
 
+export const fetchTopicsWithGroupedTests = createAsyncThunk(
+    'topic/fetchTopicsWithGroupedTests',
+    async (courseId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`Topics/course/${courseId}/grouped-tests`);
+            return response.data;  // Topic -> TestGroups -> Tests yapısı
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
+
 const initialState = {
     topics: [],
     statusTopics: 'idle',  // idle, loading, succeeded, failed
@@ -42,7 +55,19 @@ const topicSlice = createSlice({
             .addCase(fetchTopics.rejected, (state, action) => {
                 state.statusTopics = 'failed';  // Hata durumu
                 state.errorTopics = action.payload || 'Bir hata oluştu';
-            });
+            })
+            .addCase(fetchTopicsWithGroupedTests.pending, (state) => {
+                state.statusTopics = 'loading';
+            })
+            .addCase(fetchTopicsWithGroupedTests.fulfilled, (state, action) => {
+                state.statusTopics = 'succeeded';
+                state.topics = action.payload;
+            })
+            .addCase(fetchTopicsWithGroupedTests.rejected, (state, action) => {
+                state.statusTopics = 'failed';
+                state.errorTopics = action.payload || 'Bir hata oluştu';
+            })
+
     },
 });
 export const { clearTopics } = topicSlice.actions;

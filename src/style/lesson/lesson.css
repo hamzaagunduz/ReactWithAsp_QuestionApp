@@ -95,13 +95,40 @@
     justify-content: space-around;
 }
 
+.custom-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    animation: fadeInBackdrop 0.3s ease forwards;
+}
+
+.custom-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    max-width: 800px;
+    width: 90%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    animation: popIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+    font-family: 'Quicksand', sans-serif;
+}
+
 @keyframes popIn {
-    0% {
-        transform: scale(0.7);
+    from {
+        transform: scale(0.8);
         opacity: 0;
     }
 
-    100% {
+    to {
         transform: scale(1);
         opacity: 1;
     }
@@ -115,4 +142,12 @@
     to {
         opacity: 1;
     }
+}
+
+.group-card {
+    transition: transform 0.2s;
+}
+
+.group-card:hover {
+    transform: scale(1.02);
 }
