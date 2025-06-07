@@ -20,6 +20,8 @@ import AiPage from './pages/AiPage';
 import ShopPage from './pages/Shop';
 import AnalysisPage from './pages/Analysis';
 import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/admin/AdminDasboardPage';
+import Question from './pages/admin/QuestionPage';
 
 import ProtectedRoute from './components/ProtectedRoute'; // Yeni eklenen
 
@@ -31,6 +33,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/landing" element={<LandingPage />} />
+        <Route path="admin/dashboard" element={<Dashboard />} />
+        <Route path="admin/question" element={<Question />} />
 
         {/* Giriş yapılması gereken sayfalar */}
         <Route
