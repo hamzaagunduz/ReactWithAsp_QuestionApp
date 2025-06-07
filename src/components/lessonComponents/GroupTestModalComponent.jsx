@@ -1,16 +1,20 @@
 import React from "react";
-import CardComponent from "./CardComponent";
+import GroupTestModalCardComponent from "./GroupTestModalCardComponent";
+import { FaTimes } from "react-icons/fa";
 
 const GroupTestModalComponent = ({ isOpen, onClose, tests, color, onNavigate }) => {
     if (!isOpen || !tests) return null;
 
     return (
-        <div className="custom-modal-backdrop" onClick={onClose}>
-            <div className="custom-modal-content" onClick={(e) => e.stopPropagation()}>
-                <h5 className="mb-3">Testler</h5>
+        <div className="TestModal-backdrop" onClick={onClose}>
+            <div className="TestModal-content" onClick={(e) => e.stopPropagation()}>
+                <button className="TestModal-closeButton" onClick={onClose}>
+                    <FaTimes size={18} />
+                </button>
+                <h5 className="TestModal-title mb-4">Tüm Testler</h5>
                 <div className="row">
                     {tests.map((test, index) => (
-                        <CardComponent
+                        <GroupTestModalCardComponent
                             key={index}
                             title={test.title}
                             description={test.description}
@@ -20,7 +24,6 @@ const GroupTestModalComponent = ({ isOpen, onClose, tests, color, onNavigate }) 
                         />
                     ))}
                 </div>
-                <button className="btn btn-danger mt-4" onClick={onClose}>Kapat</button>
             </div>
         </div>
     );

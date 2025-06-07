@@ -95,12 +95,14 @@
     justify-content: space-around;
 }
 
-.custom-modal-backdrop {
+/* Gruplanmış test tasarım */
+.TestModal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     min-height: 100vh;
+    border: none;
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
@@ -109,7 +111,8 @@
     animation: fadeInBackdrop 0.3s ease forwards;
 }
 
-.custom-modal-content {
+.TestModal-content {
+    position: relative;
     background: white;
     padding: 2rem;
     border-radius: 20px;
@@ -121,6 +124,106 @@
     overflow-y: auto;
     font-family: 'Quicksand', sans-serif;
 }
+
+.TestModal-closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgb(241, 56, 56);
+    border-radius: 12%;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.TestModal-closeButton:hover {
+    background-color: #cc0000;
+}
+
+/* Gruplanmış test card tasarım */
+
+.TestModalCard-container {
+    height: 100%;
+    min-height: 230px;
+    border-radius: 20px;
+    padding: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    font-family: "Quicksand", sans-serif;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.384);
+    position: relative;
+    overflow: hidden;
+
+}
+
+
+
+
+
+.TestModalCard-content {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+
+}
+
+.TestModal-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.TestModalCard-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.TestModalCard-description {
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.TestModalCard-buttonArea {
+    width: 100%;
+}
+
+.TestModalCard-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    background-color: rgb(0, 166, 255);
+    border-radius: 16px;
+    box-shadow: rgb(34, 148, 236) 0px 4px 0px 0px;
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.TestModalCard-button:hover {
+    color: rgb(215, 215, 215);
+    background-color: rgb(25, 171, 250);
+}
+
+.TestModalCard-button:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
+}
+
 
 @keyframes popIn {
     from {
