@@ -22,7 +22,7 @@ const Sidebar = () => {
             <ul>
                 {[
                     { path: "/admin/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
-                    { path: "/admin/users", icon: <FaUsers />, label: "Users" },
+                    { path: "/admin/question", icon: <FaUsers />, label: "İşlemler" },
                     { path: "/admin/analytics", icon: <FaChartLine />, label: "Analytics" },
                     { path: "/admin/reports", icon: <FaFileAlt />, label: "Reports" },
                     { path: "/admin/settings", icon: <FaCog />, label: "Settings" },
