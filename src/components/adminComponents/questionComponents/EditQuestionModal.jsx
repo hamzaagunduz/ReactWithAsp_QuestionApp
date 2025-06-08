@@ -6,11 +6,13 @@ const EditQuestionModal = ({
     onClose,
     onSubmit,
     onDelete,
-    testGroups
+    testTopic
 }) => {
+    const [selectedTopic, setSelectedTopic] = useState(''); // Yeni: seçilen topicID
     const [selectedTestGroup, setSelectedTestGroup] = useState('');
     const [selectedTest, setSelectedTest] = useState('');
-    const [testsList, setTestsList] = useState([]); // testsList state eklendi
+    const [testsList, setTestsList] = useState([]);
+    const [testGroupsList, setTestGroupsList] = useState([]);
     const [questions, setQuestions] = useState([]);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
@@ -21,40 +23,53 @@ const EditQuestionModal = ({
     const [difficulty, setDifficulty] = useState('medium');
     const [explanation, setExplanation] = useState('');
 
-    // Mock tests data - Gerçek uygulamada API'den çekilecek
-    const tests = [
-        { id: 1, name: 'Test 1', testGroupId: 1 },
-        { id: 2, name: 'Test 2', testGroupId: 1 },
-        { id: 3, name: 'Test 3', testGroupId: 2 },
-    ];
-
-    // Mock questions data - Gerçek uygulamada API'den çekilecek
+    // Mock questions data (örnek olarak, gerçek API ile değiştirilecek)
     const mockQuestions = [
         { id: 1, text: 'Hücrenin temel yapı birimleri nelerdir?', testId: 1 },
         { id: 2, text: 'Mitokondrinin görevi nedir?', testId: 1 },
         { id: 3, text: 'Fotosentez denklemi nasıldır?', testId: 2 },
     ];
 
-    // Seçilen test grubuna göre testleri filtrele
+    // Topic seçildiğinde ilgili test gruplarını getir
+    useEffect(() => {
+        if (selectedTopic) {
+            const topic = testTopic.find(t => t.topicID === parseInt(selectedTopic));
+            if (topic) {
+                setTestGroupsList(topic.testGroups);
+            } else {
+                setTestGroupsList([]);
+            }
+            setSelectedTestGroup('');
+            setSelectedTest('');
+            setTestsList([]);
+            setQuestions([]);
+            setSelectedQuestion(null);
+        }
+    }, [selectedTopic, testTopic]);
+
+    // Test grubu seçildiğinde ilgili testleri getir
     useEffect(() => {
         if (selectedTestGroup) {
-            const filteredTests = tests.filter(test =>
-                test.testGroupId === parseInt(selectedTestGroup)
-            );
-            setTestsList(filteredTests); // Düzeltme: testsList state'i güncellendi
+            const testGroup = testGroupsList.find(g => g.testGroupID === parseInt(selectedTestGroup));
+            if (testGroup) {
+                setTestsList(testGroup.tests);
+            } else {
+                setTestsList([]);
+            }
             setSelectedTest('');
             setQuestions([]);
             setSelectedQuestion(null);
         }
-    }, [selectedTestGroup]);
+    }, [selectedTestGroup, testGroupsList]);
 
-    // Seçilen teste göre soruları getir
+    // Test seçildiğinde soruları getir (mockQuestions veya API'den)
     useEffect(() => {
         if (selectedTest) {
-            const filteredQuestions = mockQuestions.filter(question =>
-                question.testId === parseInt(selectedTest)
-            );
+            const filteredQuestions = mockQuestions.filter(q => q.testId === parseInt(selectedTest));
             setQuestions(filteredQuestions);
+            setSelectedQuestion(null);
+        } else {
+            setQuestions([]);
             setSelectedQuestion(null);
         }
     }, [selectedTest]);
@@ -62,10 +77,8 @@ const EditQuestionModal = ({
     // Seçilen soruyu forma yükle
     useEffect(() => {
         if (selectedQuestion) {
-            // Gerçek uygulamada API'den detaylı soru bilgisi çekilecek
-            // Burada mock veri kullanıyoruz
             setQuestionText(selectedQuestion.text);
-            setOptions(['Hücre zarı', 'Mitokondri', 'Ribozom', 'Lizozom', 'Çekirdek']);
+            setOptions(['Hücre zarı', 'Mitokondri', 'Ribozom', 'Lizozom', 'Çekirdek']); // mock options
             setCorrectAnswer(1);
             setDifficulty('hard');
             setExplanation('Hücrede enerji üretiminden sorumlu organeldir.');
@@ -108,20 +121,39 @@ const EditQuestionModal = ({
 
                 <div className={styles.selectionSection}>
                     <div className={styles.formGroup}>
-                        <label className={styles.inputLabel}>Test Grubu Seçin*</label>
+                        <label className={styles.inputLabel}>Konu Seçin*</label>
                         <select
-                            value={selectedTestGroup}
-                            onChange={(e) => setSelectedTestGroup(e.target.value)}
+                            value={selectedTopic}
+                            onChange={(e) => setSelectedTopic(e.target.value)}
                             className={styles.selectInput}
                         >
-                            <option value="">Test Grubu Seçin</option>
-                            {testGroups.map(group => (
-                                <option key={group.id} value={group.id}>
-                                    {group.name}
+                            <option value="">Konu Seçin</option>
+                            {testTopic.map(topic => (
+                                <option key={topic.topicID} value={topic.topicID}>
+                                    {topic.name}
                                 </option>
                             ))}
                         </select>
                     </div>
+
+                    {selectedTopic && (
+                        <div className={styles.formGroup}>
+                            <label className={styles.inputLabel}>Test Grubu Seçin*</label>
+                            <select
+                                value={selectedTestGroup}
+                                onChange={(e) => setSelectedTestGroup(e.target.value)}
+                                className={styles.selectInput}
+                                disabled={!selectedTopic}
+                            >
+                                <option value="">Test Grubu Seçin</option>
+                                {testGroupsList.map(group => (
+                                    <option key={group.testGroupID} value={group.testGroupID}>
+                                        {group.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    )}
 
                     {selectedTestGroup && (
                         <div className={styles.formGroup}>
@@ -134,8 +166,8 @@ const EditQuestionModal = ({
                             >
                                 <option value="">Test Seçin</option>
                                 {testsList.map(test => (
-                                    <option key={test.id} value={test.id}>
-                                        {test.name}
+                                    <option key={test.testID} value={test.testID}>
+                                        {test.title}
                                     </option>
                                 ))}
                             </select>

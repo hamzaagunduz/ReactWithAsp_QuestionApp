@@ -1,0 +1,571 @@
+.userManagementContainer {
+    padding: 30px;
+    margin: 0 auto;
+    height: 100%;
+    background-color: #f8fafc;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    color: #0c4a6e;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr;
+    gap: 30px;
+}
+
+.userListSection,
+.userDetailSection {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+}
+
+.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #94a3b8;
+    font-size: 1.2rem;
+}
+
+/* Filtreleme Stilleri */
+.filterSection {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filterGroup label {
+    font-weight: 500;
+    color: #475569;
+}
+
+.filterGroup select,
+.searchGroup input {
+    padding: 10px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+}
+
+.searchGroup input {
+    width: 250px;
+}
+
+/* Tablo Stilleri */
+.userTable {
+    display: flex;
+    flex-direction: column;
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    padding: 15px 10px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 10px;
+}
+
+.tableBody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    padding: 15px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+}
+
+.tableRow:hover {
+    background: #f0f9ff;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
+}
+
+.tableRow.banned {
+    opacity: 0.6;
+    background: #fef2f2;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #0ea5e9;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.userName {
+    font-weight: 600;
+    color: #0c4a6e;
+}
+
+.userEmail {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Badge Stilleri */
+.statusBadge,
+.typeBadge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.statusBadge.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.statusBadge.banned {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.statusBadge.inactive {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.typeBadge.premium {
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    color: #0c4a6e;
+    font-weight: 600;
+}
+
+.typeBadge.free {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.diamondCount {
+    font-weight: 600;
+    color: #0c4a6e;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Profil Stilleri */
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.profileAvatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #0ea5e9;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.userStatus {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.statusCard {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid #e0f2fe;
+}
+
+.statusLabel {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.statusValue {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.statusValue.active {
+    color: #166534;
+}
+
+.statusValue.banned {
+    color: #b91c1c;
+}
+
+.statusValue.premium {
+    color: #0c4a6e;
+}
+
+.statusValue.free {
+    color: #475569;
+}
+
+/* İstatistik Grid */
+.statsSection {
+    margin-bottom: 30px;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.statCard {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+}
+
+.statIcon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.statValue {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #0c4a6e;
+    margin-bottom: 5px;
+}
+
+.statLabel {
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+/* Elmas Yönetimi */
+.diamondContainer {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.currentDiamonds {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.diamondIcon {
+    font-size: 28px;
+}
+
+.diamondCount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #0c4a6e;
+}
+
+.diamondLabel {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+.diamondControls {
+    margin-bottom: 20px;
+}
+
+.controlGroup {
+    margin-bottom: 15px;
+}
+
+.controlGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.controlGroup input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 15px;
+}
+
+.addButton,
+.removeButton {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.addButton {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.addButton:hover {
+    background: #bbf7d0;
+}
+
+.removeButton {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.removeButton:hover {
+    background: #fecaca;
+}
+
+.diamondHistory ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
+}
+
+.diamondHistory li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.diamondHistory li span:first-child {
+    font-weight: 600;
+    color: #0c4a6e;
+    width: 100px;
+}
+
+.diamondHistory li span:nth-child(2) {
+    flex: 1;
+}
+
+/* İşlem Butonları */
+.actionButtons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.banButton,
+.premiumButton,
+.deleteButton {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.banButton {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.banButton:hover {
+    background: #fed7aa;
+}
+
+.premiumButton {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.premiumButton:hover {
+    background: #bfdbfe;
+}
+
+.deleteButton {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.deleteButton:hover {
+    background: #fecaca;
+}
+
+/* UserActions Stilleri */
+.actionsContainer {
+    position: relative;
+}
+
+.actionButton {
+    background: #f1f5f9;
+    border: none;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    font-weight: bold;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.actionButton:hover {
+    background: #e2e8f0;
+    color: #0c4a6e;
+}
+
+.actionMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 180px;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.menuItem {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.menuItem:last-child {
+    border-bottom: none;
+}
+
+.menuItem:hover {
+    background: #f8fafc;
+}
+
+.ban {
+    color: #b91c1c;
+}
+
+.unban {
+    color: #166534;
+}
+
+.addPremium {
+    color: #1e40af;
+}
+
+.removePremium {
+    color: #9a3412;
+}
+
+.delete {
+    color: #b91c1c;
+    font-weight: 500;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 1200px) {
+    .content {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .userListSection,
+    .userDetailSection {
+        height: auto;
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .filterSection {
+        flex-direction: column;
+    }
+
+    .searchGroup input {
+        width: 100%;
+    }
+
+    .tableHeader,
+    .tableRow {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .userStatus,
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .actionButtons {
+        flex-direction: column;
+    }
+}

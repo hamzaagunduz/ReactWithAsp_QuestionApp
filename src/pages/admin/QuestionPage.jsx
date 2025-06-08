@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions } from '../../features/Exam/ExamSlice';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
-import { fetchTopics } from '../../features/Topic/TopicSlice';
+import { fetchTopics, fetchTopicsWithGroupedTests } from '../../features/Topic/TopicSlice';
 
 import AdminLayout from './AdminLayout';
 import AddTopicModal from '../../components/adminComponents/questionComponents/AddTopicModal';
 import AddTestGroupModal from '../../components/adminComponents/questionComponents/AddTestGroupModal';
 import AddQuestionModal from '../../components/adminComponents/questionComponents/AddQuestionModal';
 import EditQuestionModal from '../../components/adminComponents/questionComponents/EditQuestionModal';
+import AddTestModal from '../../components/adminComponents/questionComponents/AddTestModal';
 
 import styles from '../../style/adminPage/Question/Question.module.css';
 
@@ -23,13 +24,15 @@ const QuestionPage = () => {
     const [selectedExamId, setSelectedExamId] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedAction, setSelectedAction] = useState(null);
+    const [groupedTests, setGroupedTests] = useState([]);
 
     const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
     const [isTestGroupModalOpen, setIsTestGroupModalOpen] = useState(false);
     const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
     const [isEditQuestionModalOpen, setIsEditQuestionModalOpen] = useState(false);
+    const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false);
 
-    const actions = ['Konu Ekle', 'Test Grubu Ekle', 'Soru Ekle', 'Soru Düzenle'];
+    const actions = ['Konu Ekle', 'Test Grubu Ekle', 'Test Ekle', 'Soru Ekle', 'Soru Düzenle'];
 
     useEffect(() => {
         if (examStatus === 'idle') dispatch(fetchExamOptions());
@@ -44,6 +47,17 @@ const QuestionPage = () => {
         if (selectedCourse?.courseID) dispatch(fetchTopics(selectedCourse.courseID));
     }, [dispatch, selectedSubject, courses]);
 
+    useEffect(() => {
+        const selectedCourse = courses.find((c) => c.name === selectedSubject);
+        if (selectedCourse?.courseID) {
+            dispatch(fetchTopicsWithGroupedTests(selectedCourse.courseID))
+                .unwrap()
+                .then((data) => setGroupedTests(data))
+                .catch((error) => console.error("Hata:", error));
+        }
+    }, [dispatch, selectedSubject, courses]);
+
+
     const selectedCourseID = courses.find((c) => c.name === selectedSubject)?.courseID || null;
 
     const testsForSelectedCourse = topics
@@ -56,6 +70,8 @@ const QuestionPage = () => {
         else if (action === 'Test Grubu Ekle') setIsTestGroupModalOpen(true);
         else if (action === 'Soru Ekle') setIsQuestionModalOpen(true);
         else if (action === 'Soru Düzenle') setIsEditQuestionModalOpen(true);
+        else if (action === 'Test Ekle') setIsAddTestModalOpen(true);
+
     };
 
     const handleReset = () => {
@@ -152,6 +168,8 @@ const QuestionPage = () => {
                                     <div className={styles.optionIcon}>
                                         {action === 'Konu Ekle' && '📚'}
                                         {action === 'Test Grubu Ekle' && '📝'}
+                                        {action === 'Test Ekle' && '✏️'}
+
                                         {action === 'Soru Ekle' && '✏️'}
                                         {action === 'Soru Düzenle' && '🛠️'}
                                     </div>
@@ -195,8 +213,17 @@ const QuestionPage = () => {
                     onClose={() => setIsEditQuestionModalOpen(false)}
                     onSubmit={handleUpdateQuestion}
                     onDelete={handleDeleteQuestion}
-                    testGroups={testsForSelectedCourse}
+                    testTopic={groupedTests}
                 />
+
+                <AddTestModal
+                    isOpen={isAddTestModalOpen}
+                    onClose={() => setIsAddTestModalOpen(false)}
+                    tests={groupedTests}
+                    onSubmit={(data) => console.log("Eklenecek Test:", data)}
+                />
+
+
             </div>
         </AdminLayout>
     );

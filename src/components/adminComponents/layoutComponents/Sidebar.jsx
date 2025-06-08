@@ -1,7 +1,14 @@
 // Sidebar.jsx
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaTachometerAlt, FaUsers, FaCog, FaChartLine, FaFileAlt, FaSignOutAlt } from 'react-icons/fa';
+import {
+    FaChartPie,
+    FaQuestionCircle,
+    FaUserFriends,
+    FaStore,
+    FaSlidersH,
+    FaSignOutAlt
+} from "react-icons/fa";
 import styles from '../../../style/adminPage/Layout/Layout.module.css';
 
 const Sidebar = () => {
@@ -21,12 +28,14 @@ const Sidebar = () => {
 
             <ul>
                 {[
-                    { path: "/admin/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
-                    { path: "/admin/question", icon: <FaUsers />, label: "İşlemler" },
-                    { path: "/admin/analytics", icon: <FaChartLine />, label: "Analytics" },
-                    { path: "/admin/reports", icon: <FaFileAlt />, label: "Reports" },
-                    { path: "/admin/settings", icon: <FaCog />, label: "Settings" },
-                    { path: "/logout", icon: <FaSignOutAlt />, label: "Logout" }
+                    { path: "/admin/dashboard", icon: <FaChartPie />, label: "Dashboard" }, // Genel gösterge için daha uygun
+                    { path: "/admin/question", icon: <FaQuestionCircle />, label: "İşlemler" }, // Soru veya işlem için uygun
+                    { path: "/admin/exam", icon: <FaQuestionCircle />, label: "Sınavlar" }, // Soru veya işlem için uygun
+                    { path: "/admin/user", icon: <FaUserFriends />, label: "Kullanıcılar" }, // Kullanıcılar için daha anlamlı
+                    { path: "/admin/shop", icon: <FaStore />, label: "Mağaza" }, // Mağaza için direkt ikon
+                    { path: "/admin/settings", icon: <FaSlidersH />, label: "Settings" }, // Ayarlar için modern bir alternatif
+                    { path: "/logout", icon: <FaSignOutAlt />, label: "Logout" } // Çıkış ikonu zaten uygun
+
                 ].map((item, index) => (
                     <li
                         key={index}

@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
-// Redux için gerekli hook'u import ediyoruz
 import { useDispatch } from 'react-redux';
-// createFullQuestion thunk'ını import ediyoruz
 import { createFullQuestion } from '../../../features/Question/QuestionSlice';
-// Stil dosyasını import ediyoruz
 import styles from '../../../style/adminPage/Question/AddQuestionModal.module.css';
 
 const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
-    // Redux dispatch fonksiyonunu alıyoruz
+    console.log(tests)
     const dispatch = useDispatch();
 
-    // Form için state'lerimizi tanımlıyoruz
     const [questionText, setQuestionText] = useState('');
     const [optionA, setOptionA] = useState('');
     const [optionB, setOptionB] = useState('');
     const [optionC, setOptionC] = useState('');
     const [optionD, setOptionD] = useState('');
     const [optionE, setOptionE] = useState('');
-    // tests dizisi boş değilse ilk testin id'sini al, boşsa boş string
     const [testId, setTestId] = useState(tests.length > 0 ? tests[0].testID : '');
     const [answer, setAnswer] = useState('');
+    const [flashCardFront, setFlashCardFront] = useState('');
+    const [flashCardBack, setFlashCardBack] = useState('');
     const [questionImage, setQuestionImage] = useState(null);
     const [optionAImage, setOptionAImage] = useState(null);
     const [optionBImage, setOptionBImage] = useState(null);
@@ -27,23 +24,8 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
     const [optionDImage, setOptionDImage] = useState(null);
     const [optionEImage, setOptionEImage] = useState(null);
 
-    // Eğer modal açık değilse hiçbir şey render etme
     if (!isOpen) return null;
 
-    // FileReader ile dosyayı base64 formatına çevirmek için yardımcı fonksiyon
-    const toBase64 = (file) =>
-        new Promise((resolve, reject) => {
-            if (!file) {
-                resolve(null);  // Dosya yoksa null döndür
-                return;
-            }
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-
-    // Form gönderildiğinde tetiklenecek fonksiyon
     const handleSubmit = async () => {
         try {
             const formData = new FormData();
@@ -55,6 +37,8 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
             formData.append('OptionE', optionE);
             formData.append('TestId', testId);
             formData.append('Answer', answer);
+            formData.append('FlashCardFront', flashCardFront || '');  // boş geçilmesine izin veriliyor
+            formData.append('FlashCardBack', flashCardBack || '');
 
             if (questionImage) formData.append('QuestionImage', questionImage);
             if (optionAImage) formData.append('OptionAImage', optionAImage);
@@ -66,7 +50,7 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
             const resultAction = await dispatch(createFullQuestion(formData));
 
             if (createFullQuestion.fulfilled.match(resultAction)) {
-                onSubmit(); // formData dönmene gerek yok, zaten server'dan dönüş var
+                onSubmit();
                 onClose();
             } else {
                 alert('Soru oluşturulamadı: ' + (resultAction.payload || 'Bilinmeyen hata'));
@@ -76,14 +60,11 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
         }
     };
 
-
-    // Seçenek inputlarını render eden fonksiyon (text + image)
     const renderOptionInput = (label, value, setValue, image, setImage) => (
         <div className={styles.optionGroup}>
             <div className={styles.optionHeader}>
                 <span className={styles.optionLabel}>{label}</span>
                 <div className={styles.optionControls}>
-                    {/* Text input */}
                     <input
                         type="text"
                         placeholder={`${label} metni`}
@@ -91,7 +72,6 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                         onChange={e => setValue(e.target.value)}
                         className={styles.optionInput}
                     />
-                    {/* Resim yükleme */}
                     <div className={styles.fileUpload}>
                         <label className={styles.fileUploadLabel}>
                             <input
@@ -118,11 +98,9 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                     <button className={styles.closeButton} onClick={onClose}>×</button>
                 </div>
 
-                {/* Soru Bilgileri */}
                 <div className={styles.formSection}>
                     <h3 className={styles.sectionTitle}>Soru Bilgileri</h3>
 
-                    {/* Test seçimi */}
                     <div className={styles.formGroup}>
                         <label className={styles.inputLabel}>Test Grubu</label>
                         <select
@@ -138,7 +116,6 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                         </select>
                     </div>
 
-                    {/* Soru metni */}
                     <div className={styles.formGroup}>
                         <label className={styles.inputLabel}>Soru Metni</label>
                         <textarea
@@ -150,7 +127,6 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                         />
                     </div>
 
-                    {/* Soru resmi */}
                     <div className={styles.formGroup}>
                         <label className={styles.inputLabel}>Soru Resmi</label>
                         <div className={styles.fileUpload}>
@@ -169,7 +145,6 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                     </div>
                 </div>
 
-                {/* Seçenekler */}
                 <div className={styles.formSection}>
                     <h3 className={styles.sectionTitle}>Seçenekler</h3>
                     {renderOptionInput("A", optionA, setOptionA, optionAImage, setOptionAImage)}
@@ -179,7 +154,6 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                     {renderOptionInput("E", optionE, setOptionE, optionEImage, setOptionEImage)}
                 </div>
 
-                {/* Doğru cevap */}
                 <div className={styles.formSection}>
                     <h3 className={styles.sectionTitle}>Doğru Cevap</h3>
                     <div className={styles.formGroup}>
@@ -199,7 +173,31 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
                     </div>
                 </div>
 
-                {/* Butonlar */}
+                {/* Flashcard Alanları */}
+                <div className={styles.formSection}>
+                    <h3 className={styles.sectionTitle}>Flashcard Bilgileri</h3>
+                    <div className={styles.formGroup}>
+                        <label className={styles.inputLabel}>FlashCard Front</label>
+                        <textarea
+                            placeholder="Flash kartın ön yüzü..."
+                            value={flashCardFront}
+                            onChange={e => setFlashCardFront(e.target.value)}
+                            rows={2}
+                            className={styles.textArea}
+                        />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label className={styles.inputLabel}>FlashCard Back</label>
+                        <textarea
+                            placeholder="Flash kartın arka yüzü..."
+                            value={flashCardBack}
+                            onChange={e => setFlashCardBack(e.target.value)}
+                            rows={2}
+                            className={styles.textArea}
+                        />
+                    </div>
+                </div>
+
                 <div className={styles.actions}>
                     <button className={styles.cancelButton} onClick={onClose}>İptal</button>
                     <button className={styles.submitButton} onClick={handleSubmit}>Soruyu Kaydet</button>

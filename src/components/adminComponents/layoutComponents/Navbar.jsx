@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { FaBell, FaUserCircle, FaSearch, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import styles from '../../../style/adminPage/Layout/Layout.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [notifications] = useState([
         { id: 1, text: 'Yeni kullanıcı kaydoldu', time: '2 dakika önce' },
@@ -65,10 +68,11 @@ const Navbar = () => {
 
                             <div className={styles.dropdownDivider}></div>
 
-                            <button className={styles.dropdownItem}>
+                            <button className={styles.dropdownItem} onClick={() => navigate('/admin/profile')}>
                                 <FaUserCircle className={styles.dropdownIcon} />
                                 <span>Profilim</span>
                             </button>
+
 
                             <button className={styles.dropdownItem}>
                                 <FaCog className={styles.dropdownIcon} />

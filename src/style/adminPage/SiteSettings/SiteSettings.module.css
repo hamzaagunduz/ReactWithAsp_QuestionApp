@@ -1,0 +1,295 @@
+.settingsContainer {
+    padding: 30px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    color: #0c4a6e;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+}
+
+.settingsTabs {
+    display: flex;
+    gap: 30px;
+}
+
+.tabButtons {
+    flex: 0 0 220px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+}
+
+.tabButton {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 25px;
+    background: none;
+    border: none;
+    text-align: left;
+    font-size: 1rem;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tabButton:hover {
+    background: #f1f5f9;
+    color: #0c4a6e;
+}
+
+.tabButton.active {
+    background: #f0f9ff;
+    color: #0ea5e9;
+    font-weight: 500;
+    border-right: 3px solid #0ea5e9;
+}
+
+.tabButton i {
+    width: 24px;
+    text-align: center;
+}
+
+.tabContent {
+    flex: 1;
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.settingsForm h2 {
+    font-size: 1.6rem;
+    color: #0c4a6e;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.imageUpload {
+    position: relative;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageUpload:hover {
+    border-color: #0ea5e9;
+    background: #f0f9ff;
+}
+
+.logoPreview {
+    max-height: 100px;
+    max-width: 100%;
+}
+
+.faviconPreview {
+    width: 32px;
+    height: 32px;
+}
+
+.uploadPlaceholder {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.uploadPlaceholder i {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+    color: #94a3b8;
+}
+
+.fileInput {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.colorPicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.colorPicker input[type="color"] {
+    width: 50px;
+    height: 40px;
+    padding: 3px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #cbd5e1;
+}
+
+.themePreview,
+.maintenancePreview {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.previewBox {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.previewHeader {
+    padding: 20px;
+    color: white;
+    font-weight: 600;
+    text-align: center;
+}
+
+.previewContent {
+    padding: 20px;
+}
+
+.previewButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 15px;
+    cursor: default;
+}
+
+.charCount {
+    text-align: right;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-top: 5px;
+}
+
+.formGroup label i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+    color: #64748b;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.saveButton {
+    padding: 12px 30px;
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.saveButton:hover {
+    background: #0284c7;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 992px) {
+    .settingsTabs {
+        flex-direction: column;
+    }
+
+    .tabButtons {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        padding: 0;
+    }
+
+    .tabButton {
+        border-right: none;
+        border-bottom: 3px solid transparent;
+        justify-content: center;
+    }
+
+    .tabButton.active {
+        border-right: none;
+        border-bottom: 3px solid #0ea5e9;
+    }
+}
+
+@media (max-width: 768px) {
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}

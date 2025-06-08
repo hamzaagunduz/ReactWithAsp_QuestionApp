@@ -1,0 +1,606 @@
+.adminProfileContainer {
+    padding: 20px;
+    margin: 0 auto;
+    height: 100%;
+    background-color: #f8fafc;
+}
+
+.profileHeader {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+}
+
+.headerTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.userInfo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatarContainer {
+    position: relative;
+}
+
+.profileAvatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #f0f9ff;
+    object-fit: cover;
+}
+
+.editAvatarButton {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(14, 165, 233, 0.3);
+}
+
+.userInfo h1 {
+    font-size: 1.8rem;
+    color: #0c4a6e;
+    margin: 0 0 5px 0;
+}
+
+.userTitle {
+    background: #e0f2fe;
+    color: #0c4a6e;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-block;
+    margin: 0;
+}
+
+.editProfileButton {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #475569;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editProfileButton:hover {
+    background: #e2e8f0;
+    color: #0ea5e9;
+    border-color: #bae6fd;
+}
+
+.profileTabs {
+    display: flex;
+    border-bottom: 1px solid #f1f5f9;
+    overflow-x: auto;
+}
+
+.tab {
+    padding: 12px 25px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.tab:hover {
+    color: #0c4a6e;
+}
+
+.tab.active {
+    color: #0ea5e9;
+    font-weight: 600;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #0ea5e9;
+    border-radius: 3px 3px 0 0;
+}
+
+.profileContent {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.profileGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.leftColumn,
+.rightColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Kart Stilleri */
+.infoCard,
+.securityCard,
+.activityCard,
+.notificationCard {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid #f1f5f9;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.cardHeader h2 {
+    font-size: 1.4rem;
+    color: #0c4a6e;
+    margin: 0;
+}
+
+.editButton,
+.cancelButton,
+.exportButton {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 15px;
+    color: #475569;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.editButton:hover {
+    background: #e2e8f0;
+    color: #0ea5e9;
+    border-color: #bae6fd;
+}
+
+.cancelButton:hover {
+    background: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.exportButton:hover {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+/* Bilgi Kartı */
+.infoContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.infoItem {
+    margin-bottom: 15px;
+}
+
+.infoItem label {
+    display: block;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.infoItem p {
+    font-weight: 500;
+    color: #0c4a6e;
+    margin: 0;
+}
+
+.editForm {
+    display: grid;
+    gap: 15px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.saveButton {
+    background: #0ea5e9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.saveButton:hover {
+    background: #0284c7;
+}
+
+/* Güvenlik Kartı */
+.settingsGroup {
+    margin-bottom: 30px;
+}
+
+.settingItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #f1f5f9;
+    margin-bottom: 15px;
+}
+
+.settingItem h3,
+.settingItem h4 {
+    margin: 0 0 5px 0;
+    color: #0c4a6e;
+    font-size: 1.1rem;
+}
+
+.settingItem p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.toggleSwitch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+.toggleSwitch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggleSwitch label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.toggleSwitch label:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+.toggleSwitch input:checked+label {
+    background-color: #0ea5e9;
+}
+
+.toggleSwitch input:checked+label:before {
+    transform: translateX(24px);
+}
+
+.actionButton {
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 15px;
+    color: #475569;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.actionButton:hover {
+    background: #e2e8f0;
+    color: #0ea5e9;
+    border-color: #bae6fd;
+}
+
+.sessionsSection h3 {
+    font-size: 1.2rem;
+    color: #0c4a6e;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.sessionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sessionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 12px;
+    background: white;
+    border: 1px solid #f1f5f9;
+}
+
+.sessionInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sessionDevice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sessionDevice i {
+    font-size: 1.2rem;
+    color: #0ea5e9;
+}
+
+.sessionDevice strong {
+    display: block;
+    color: #0c4a6e;
+}
+
+.sessionDevice span {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.sessionStatus {
+    font-size: 0.9rem;
+    color: #10b981;
+    font-weight: 500;
+}
+
+.logoutButton {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 8px 15px;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logoutButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.logoutButton:hover:not(:disabled) {
+    background: #fecaca;
+}
+
+/* Aktivite Kartı */
+.activityList {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.activityItem {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.activityItem:last-child {
+    border-bottom: none;
+}
+
+.activityIcon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f9ff;
+    color: #0ea5e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.activityContent {
+    flex: 1;
+}
+
+.activityAction {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.activityAction strong {
+    color: #0c4a6e;
+}
+
+.activityAction span {
+    color: #64748b;
+}
+
+.activityTime {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.seeAll {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.seeAllButton {
+    background: none;
+    border: none;
+    color: #0ea5e9;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.seeAllButton:hover {
+    text-decoration: underline;
+}
+
+/* Bildirim Ayarları */
+.notificationCard p {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.notificationTypes {
+    margin-bottom: 30px;
+}
+
+.notificationTypes h3 {
+    font-size: 1.2rem;
+    color: #0c4a6e;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.settingGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.settingItem {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid #f1f5f9;
+}
+
+.settingItem h4 {
+    margin: 0 0 5px 0;
+    color: #0c4a6e;
+    font-size: 1rem;
+}
+
+.settingItem p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.saveSettings {
+    text-align: right;
+    margin-top: 20px;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 1200px) {
+    .profileGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .headerTop {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .infoContent {
+        grid-template-columns: 1fr;
+    }
+
+    .settingGrid {
+        grid-template-columns: 1fr;
+    }
+}

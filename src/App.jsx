@@ -20,8 +20,13 @@ import AiPage from './pages/AiPage';
 import ShopPage from './pages/Shop';
 import AnalysisPage from './pages/Analysis';
 import LandingPage from './pages/LandingPage';
-import Dashboard from './pages/admin/AdminDasboardPage';
-import Question from './pages/admin/QuestionPage';
+import AdminDashboard from './pages/admin/AdminDasboardPage';
+import AdminQuestion from './pages/admin/QuestionPage';
+import AdminUser from './pages/admin/UserManagementPage';
+import AdminShop from './pages/admin/ShopManagementPage';
+import AdminSettings from './pages/admin/SiteSettingsPage';
+import AdminExam from './pages/admin/ExamsManagementPage';
+import AdminProfile from './pages/admin/AdminProfilePage';
 
 import ProtectedRoute from './components/ProtectedRoute'; // Yeni eklenen
 
@@ -33,8 +38,13 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/landing" element={<LandingPage />} />
-        <Route path="admin/dashboard" element={<Dashboard />} />
-        <Route path="admin/question" element={<Question />} />
+        <Route path="admin/dashboard" element={<AdminDashboard />} />
+        <Route path="admin/question" element={<AdminQuestion />} />
+        <Route path="admin/user" element={<AdminUser />} />
+        <Route path="admin/shop" element={<AdminShop />} />
+        <Route path="admin/settings" element={<AdminSettings />} />
+        <Route path="admin/exam" element={<AdminExam />} />
+        <Route path="admin/profile" element={<AdminProfile />} />
 
         {/* Giriş yapılması gereken sayfalar */}
         <Route

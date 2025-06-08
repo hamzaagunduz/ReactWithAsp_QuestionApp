@@ -1,0 +1,390 @@
+.shopManagementContainer {
+    padding: 30px;
+    margin: 0 auto;
+    height: 100%;
+    background-color: #f8fafc;
+}
+
+.header {
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.header h1 {
+    font-size: 2.2rem;
+    color: #0c4a6e;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+}
+
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 25px;
+}
+
+.tabButton {
+    padding: 12px 25px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.tabButton:hover {
+    color: #0c4a6e;
+}
+
+.tabButton.active {
+    color: #0ea5e9;
+    font-weight: 600;
+}
+
+.tabButton.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #0ea5e9;
+    border-radius: 3px 3px 0 0;
+}
+
+/* Ürün Listesi Stilleri */
+.productListContainer {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.filterSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filterGroup label {
+    font-weight: 500;
+    color: #475569;
+}
+
+.filterGroup select {
+    padding: 10px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    min-width: 200px;
+}
+
+.stats {
+    font-size: 0.95rem;
+    color: #64748b;
+}
+
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* Ürün Kartı Stilleri */
+.productCard {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    background: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.productCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.productHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.productType {
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e0f2fe;
+    color: #0c4a6e;
+}
+
+.productActions {
+    display: flex;
+    gap: 8px;
+}
+
+.editButton,
+.deleteButton {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editButton {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.editButton:hover {
+    background: #bfdbfe;
+}
+
+.deleteButton {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.deleteButton:hover {
+    background: #fecaca;
+}
+
+.productImage {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    overflow: hidden;
+}
+
+.productImage img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e2e8f0;
+    color: #64748b;
+    font-style: italic;
+}
+
+.productInfo {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.productInfo h3 {
+    font-size: 1.3rem;
+    color: #0c4a6e;
+    margin-bottom: 10px;
+}
+
+.productDescription {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.productDetails {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #0c4a6e;
+}
+
+.duration {
+    background: #f0fdf4;
+    color: #166534;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Renk Sınıfları */
+.colorBlue .productType {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.colorPurple .productType {
+    background: #f3e8ff;
+    color: #7e22ce;
+}
+
+.colorGold .productType {
+    background: #fef9c3;
+    color: #a16207;
+}
+
+.colorOrange .productType {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.colorBlue .price {
+    color: #1e40af;
+}
+
+.colorPurple .price {
+    color: #7e22ce;
+}
+
+.colorGold .price {
+    color: #a16207;
+}
+
+.colorOrange .price {
+    color: #9a3412;
+}
+
+/* Ürün Formu Stilleri */
+.productFormContainer {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.productFormContainer h2 {
+    font-size: 1.6rem;
+    color: #0c4a6e;
+    margin-bottom: 25px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #475569;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.cancelButton,
+.saveButton {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancelButton {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.cancelButton:hover {
+    background: #e2e8f0;
+}
+
+.saveButton {
+    background: #0ea5e9;
+    color: white;
+}
+
+.saveButton:hover {
+    background: #0284c7;
+}
+
+/* Responsive Tasarım */
+@media (max-width: 992px) {
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .productGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .filterSection {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tabs {
+        overflow-x: auto;
+    }
+}
