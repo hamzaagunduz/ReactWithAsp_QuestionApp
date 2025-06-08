@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createTestGroup } from '../../../features/TestGroup/TestGroupSlice';
 import styles from '../../../style/adminPage/Question/AddTestGroupModal.module.css';
 
-const AddTestGroupModal = ({ isOpen, onClose, onSubmit, availableTopics = [] }) => {
+const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
+    const dispatch = useDispatch();
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [test, setTest] = useState('');
     const [topicID, setTopicID] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const testGroupData = {
             title,
             description,
             test,
             topicID: topicID ? parseInt(topicID, 10) : null,
         };
-        onSubmit(testGroupData);
-        onClose();
+
+        await dispatch(createTestGroup(testGroupData)); // Redux slice ile create
+        onClose(); // modal'ı kapat
     };
 
     if (!isOpen) return null;
@@ -76,7 +81,7 @@ const AddTestGroupModal = ({ isOpen, onClose, onSubmit, availableTopics = [] }) 
                         >
                             <option value="">Konu seçin (opsiyonel)</option>
                             {availableTopics.map((topic) => (
-                                <option key={topic.id} value={topic.id}>
+                                <option key={topic.topicID} value={topic.topicID}>
                                     {topic.name}
                                 </option>
                             ))}

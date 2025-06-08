@@ -21,6 +21,21 @@ export const fetchTestById = createAsyncThunk(
     }
 );
 
+export const createFullQuestion = createAsyncThunk(
+    'question/createFullQuestion',
+    async (formData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('Questions/create-full-question', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Soru oluşturulamadı');
+        }
+    }
+);
+
+
 const questionSlice = createSlice({
     name: 'question',
     initialState: {
@@ -30,6 +45,8 @@ const questionSlice = createSlice({
         testStatus: 'idle',    // 👈 Test yüklenme durumu
         error: null,
         testError: null,       // 👈 Test hata mesajı
+        createStatus: 'idle',   // ✅ yeni eklendi
+        createError: null,      // ✅ yeni eklendi
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -58,7 +75,21 @@ const questionSlice = createSlice({
             .addCase(fetchTestById.rejected, (state, action) => {
                 state.testStatus = 'failed';
                 state.testError = action.payload;
-            });
+            })
+            .addCase(createFullQuestion.pending, (state) => {
+                state.createStatus = 'loading';
+                state.createError = null;
+            })
+            .addCase(createFullQuestion.fulfilled, (state, action) => {
+                state.createStatus = 'succeeded';
+                // İsteğe bağlı: yeni eklenen soruyu listeye ekleyebilirsiniz
+                // state.questions.push(action.payload);
+            })
+            .addCase(createFullQuestion.rejected, (state, action) => {
+                state.createStatus = 'failed';
+                state.createError = action.payload;
+            })
+
     },
 });
 

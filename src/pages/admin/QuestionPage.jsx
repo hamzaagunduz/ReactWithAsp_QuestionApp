@@ -1,196 +1,193 @@
-import React, { useState } from 'react';
-import styles from '../../style/adminPage/Question/Question.module.css';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchExamOptions } from '../../features/Exam/ExamSlice';
+import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
+import { fetchTopics } from '../../features/Topic/TopicSlice';
+
 import AdminLayout from './AdminLayout';
 import AddTopicModal from '../../components/adminComponents/questionComponents/AddTopicModal';
 import AddTestGroupModal from '../../components/adminComponents/questionComponents/AddTestGroupModal';
 import AddQuestionModal from '../../components/adminComponents/questionComponents/AddQuestionModal';
 import EditQuestionModal from '../../components/adminComponents/questionComponents/EditQuestionModal';
 
+import styles from '../../style/adminPage/Question/Question.module.css';
+
 const QuestionPage = () => {
+    const dispatch = useDispatch();
+
+    const { options: exams, status: examStatus, error: examError } = useSelector((state) => state.exam);
+    const { courses, status: courseStatus, error: courseError } = useSelector((state) => state.courses);
+    const { topics, status: topicStatus, error: topicError } = useSelector((state) => state.topic);
+
     const [selectedExam, setSelectedExam] = useState(null);
+    const [selectedExamId, setSelectedExamId] = useState(null);
     const [selectedSubject, setSelectedSubject] = useState(null);
     const [selectedAction, setSelectedAction] = useState(null);
+
     const [isTopicModalOpen, setIsTopicModalOpen] = useState(false);
     const [isTestGroupModalOpen, setIsTestGroupModalOpen] = useState(false);
     const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
     const [isEditQuestionModalOpen, setIsEditQuestionModalOpen] = useState(false);
-    const handleUpdateQuestion = (updatedQuestion) => {
-        console.log("Güncellenen Soru:", updatedQuestion);
-        // API güncelleme işlemi burada yapılacak
-    };
-
-    const handleDeleteQuestion = (questionId) => {
-        console.log("Silinecek Soru ID:", questionId);
-        // API silme işlemi burada yapılacak
-        alert(`Soru (ID: ${questionId}) başarıyla silindi!`);
-    };
-
-
-
-    const exams = ['YKS', 'ALES', 'LGS', 'KPSS'];
-
-    const subjects = {
-        YKS: ['Biyoloji', 'Kimya', 'Fizik'],
-        ALES: ['Sözel', 'Sayısal'],
-        LGS: ['Fen Bilimleri', 'Matematik'],
-        KPSS: ['Genel Yetenek', 'Eğitim Bilimleri'],
-    };
-
-    // Örnek test grupları, backend'den çekilebilir.
-    const testGroups = [
-        { id: 1, name: 'Test Grubu 1' },
-        { id: 2, name: 'Test Grubu 2' },
-        { id: 3, name: 'Test Grubu 3' },
-    ];
 
     const actions = ['Konu Ekle', 'Test Grubu Ekle', 'Soru Ekle', 'Soru Düzenle'];
 
+    useEffect(() => {
+        if (examStatus === 'idle') dispatch(fetchExamOptions());
+    }, [dispatch, examStatus]);
+
+    useEffect(() => {
+        if (selectedExamId) dispatch(fetchCoursesByExamId(selectedExamId));
+    }, [dispatch, selectedExamId]);
+
+    useEffect(() => {
+        const selectedCourse = courses.find((c) => c.name === selectedSubject);
+        if (selectedCourse?.courseID) dispatch(fetchTopics(selectedCourse.courseID));
+    }, [dispatch, selectedSubject, courses]);
+
+    const selectedCourseID = courses.find((c) => c.name === selectedSubject)?.courseID || null;
+
+    const testsForSelectedCourse = topics
+        .filter((t) => t.tests && t.tests.length > 0)
+        .flatMap((t) => t.tests);
+
+    const handleActionClick = (action) => {
+        setSelectedAction(action);
+        if (action === 'Konu Ekle') setIsTopicModalOpen(true);
+        else if (action === 'Test Grubu Ekle') setIsTestGroupModalOpen(true);
+        else if (action === 'Soru Ekle') setIsQuestionModalOpen(true);
+        else if (action === 'Soru Düzenle') setIsEditQuestionModalOpen(true);
+    };
+
     const handleReset = () => {
         setSelectedExam(null);
+        setSelectedExamId(null);
         setSelectedSubject(null);
         setSelectedAction(null);
     };
 
-    const handleActionClick = (action) => {
-        setSelectedAction(action);
-        if (action === 'Konu Ekle') {
-            setIsTopicModalOpen(true);
-        } else if (action === 'Test Grubu Ekle') {
-            setIsTestGroupModalOpen(true);
-        } else if (action === 'Soru Ekle') {
-            setIsQuestionModalOpen(true);
-        }
-        else if (action === 'Soru Düzenle') {
-            setIsEditQuestionModalOpen(true);
-        }
-    };
-
-    const handleAddTopic = (topicData) => {
-        console.log("Eklenecek Konu Verisi:", topicData);
-        // API çağrısı buraya gelecek
-    };
-
-    const handleAddTestGroup = (testGroupData) => {
-        console.log("Eklenecek Test Grubu Verisi:", testGroupData);
-        // API çağrısı buraya gelecek
-    };
-
-    const handleAddQuestion = (questionData) => {
-        console.log("Eklenecek Soru Verisi:", questionData);
-        // API çağrısı buraya gelecek
+    const handleAddTopic = (data) => console.log("Eklenecek Konu:", data);
+    const handleAddTestGroup = (data) => console.log("Eklenecek Test Grubu:", data);
+    const handleAddQuestion = (data) => console.log("Eklenecek Soru:", data);
+    const handleUpdateQuestion = (data) => console.log("Güncellenen Soru:", data);
+    const handleDeleteQuestion = (id) => {
+        console.log("Silinecek Soru ID:", id);
+        alert(`Soru (ID: ${id}) silindi!`);
     };
 
     return (
         <AdminLayout>
             <div className={styles.questionPage}>
                 <div className={styles.header}>
-                    <p>Sınav, konu ve işlem seçerek soru ekleme/düzenleme işlemlerinizi gerçekleştirin</p>
+                    <p>Sınav, konu ve işlem seçerek soru yönetimini gerçekleştirin</p>
                 </div>
 
-                <div className={styles.selectionFlow}>
-                    {/* Adım 1: Sınav Seçimi */}
-                    <div className={`${styles.selectionStep} ${selectedExam ? styles.completed : ''}`}>
+                {/* Adım 1 - Sınav Seçimi */}
+                <div className={`${styles.selectionStep} ${selectedExam ? styles.completed : ''}`}>
+                    <div className={styles.stepHeader}>
+                        <div className={styles.stepIndicator}>1</div>
+                        <h2>Sınav Seçin</h2>
+                    </div>
+                    <div className={styles.optionsContainer}>
+                        {examStatus === 'loading' && <p>Yükleniyor...</p>}
+                        {examStatus === 'failed' && <p>Hata: {examError}</p>}
+                        {examStatus === 'succeeded' && exams.map((exam) => (
+                            <div
+                                key={exam.id}
+                                className={`${styles.optionCard} ${selectedExam === exam.name ? styles.selected : ''}`}
+                                onClick={() => {
+                                    setSelectedExam(exam.name);
+                                    setSelectedExamId(exam.examID);
+                                    setSelectedSubject(null);
+                                    setSelectedAction(null);
+                                }}
+                            >
+                                <div className={styles.optionIcon}>{exam.name[0]}</div>
+                                <div className={styles.optionLabel}>{exam.name}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Adım 2 - Ders Seçimi */}
+                {selectedExam && (
+                    <div className={`${styles.selectionStep} ${selectedSubject ? styles.completed : ''}`}>
                         <div className={styles.stepHeader}>
-                            <div className={styles.stepIndicator}>1</div>
-                            <h2>Sınav Türünü Seçin</h2>
+                            <div className={styles.stepIndicator}>2</div>
+                            <h2>Ders Seçin</h2>
                         </div>
                         <div className={styles.optionsContainer}>
-                            {exams.map((exam) => (
+                            {courseStatus === 'loading' && <p>Yükleniyor...</p>}
+                            {courseStatus === 'failed' && <p>Hata: {courseError}</p>}
+                            {courseStatus === 'succeeded' && courses.map((course) => (
                                 <div
-                                    key={exam}
-                                    className={`${styles.optionCard} ${selectedExam === exam ? styles.selected : ''}`}
+                                    key={course.id}
+                                    className={`${styles.optionCard} ${selectedSubject === course.name ? styles.selected : ''}`}
                                     onClick={() => {
-                                        setSelectedExam(exam);
-                                        setSelectedSubject(null);
+                                        setSelectedSubject(course.name);
                                         setSelectedAction(null);
                                     }}
                                 >
-                                    <div className={styles.optionIcon}>{exam.charAt(0)}</div>
-                                    <div className={styles.optionLabel}>{exam}</div>
+                                    <div className={styles.optionIcon}>{course.name[0]}</div>
+                                    <div className={styles.optionLabel}>{course.name}</div>
                                 </div>
                             ))}
                         </div>
                     </div>
+                )}
 
-                    {/* Adım 2: Konu Seçimi */}
-                    {selectedExam && (
-                        <div className={`${styles.selectionStep} ${selectedSubject ? styles.completed : ''}`}>
-                            <div className={styles.stepHeader}>
-                                <div className={styles.stepIndicator}>2</div>
-                                <h2>{selectedExam} İçin Konu Seçin</h2>
-                            </div>
-                            <div className={styles.optionsContainer}>
-                                {subjects[selectedExam].map((subject) => (
-                                    <div
-                                        key={subject}
-                                        className={`${styles.optionCard} ${selectedSubject === subject ? styles.selected : ''}`}
-                                        onClick={() => {
-                                            setSelectedSubject(subject);
-                                            setSelectedAction(null);
-                                        }}
-                                    >
-                                        <div className={styles.optionIcon}>{subject.charAt(0)}</div>
-                                        <div className={styles.optionLabel}>{subject}</div>
+                {/* Adım 3 - İşlem Seçimi */}
+                {selectedSubject && (
+                    <div className={`${styles.selectionStep} ${selectedAction ? styles.completed : ''}`}>
+                        <div className={styles.stepHeader}>
+                            <div className={styles.stepIndicator}>3</div>
+                            <h2>İşlem Seçin</h2>
+                        </div>
+                        <div className={styles.optionsContainer}>
+                            {actions.map((action) => (
+                                <div
+                                    key={action}
+                                    className={`${styles.optionCard} ${selectedAction === action ? styles.selected : ''}`}
+                                    onClick={() => handleActionClick(action)}
+                                >
+                                    <div className={styles.optionIcon}>
+                                        {action === 'Konu Ekle' && '📚'}
+                                        {action === 'Test Grubu Ekle' && '📝'}
+                                        {action === 'Soru Ekle' && '✏️'}
+                                        {action === 'Soru Düzenle' && '🛠️'}
                                     </div>
-                                ))}
-                            </div>
+                                    <div className={styles.optionLabel}>{action}</div>
+                                </div>
+                            ))}
                         </div>
-                    )}
+                    </div>
+                )}
 
-                    {/* Adım 3: İşlem Seçimi */}
-                    {selectedSubject && (
-                        <div className={`${styles.selectionStep} ${selectedAction ? styles.completed : ''}`}>
-                            <div className={styles.stepHeader}>
-                                <div className={styles.stepIndicator}>3</div>
-                                <h2>{selectedSubject} İçin İşlem Seçin</h2>
-                            </div>
-                            <div className={styles.optionsContainer}>
-                                {actions.map((action) => (
-                                    <div
-                                        key={action}
-                                        className={`${styles.optionCard} ${selectedAction === action ? styles.selected : ''}`}
-                                        onClick={() => handleActionClick(action)}
-                                    >
-                                        <div className={styles.optionIcon}>
-                                            {action === 'Konu Ekle' && '📚'}
-                                            {action === 'Test Grubu Ekle' && '📝'}
-                                            {action === 'Soru Ekle' && '✏️'}
-                                        </div>
-                                        <div className={styles.optionLabel}>{action}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Reset Butonu */}
-                    {(selectedExam || selectedSubject || selectedAction) && (
-                        <div className={styles.resetContainer}>
-                            <button className={styles.resetButton} onClick={handleReset}>
-                                Seçimleri Sıfırla
-                            </button>
-                        </div>
-                    )}
-                </div>
+                {/* Reset */}
+                {(selectedExam || selectedSubject || selectedAction) && (
+                    <div className={styles.resetContainer}>
+                        <button className={styles.resetButton} onClick={handleReset}>Seçimleri Sıfırla</button>
+                    </div>
+                )}
 
                 {/* Modallar */}
                 <AddTopicModal
                     isOpen={isTopicModalOpen}
                     onClose={() => setIsTopicModalOpen(false)}
-                    onSubmit={handleAddTopic}
+                    selectedCourseID={selectedCourseID}
                 />
 
                 <AddTestGroupModal
                     isOpen={isTestGroupModalOpen}
                     onClose={() => setIsTestGroupModalOpen(false)}
                     onSubmit={handleAddTestGroup}
+                    availableTopics={topics}
                 />
 
                 <AddQuestionModal
                     isOpen={isQuestionModalOpen}
                     onClose={() => setIsQuestionModalOpen(false)}
                     onSubmit={handleAddQuestion}
-                    tests={testGroups}
+                    tests={testsForSelectedCourse}
                 />
 
                 <EditQuestionModal
@@ -198,7 +195,7 @@ const QuestionPage = () => {
                     onClose={() => setIsEditQuestionModalOpen(false)}
                     onSubmit={handleUpdateQuestion}
                     onDelete={handleDeleteQuestion}
-                    testGroups={testGroups}
+                    testGroups={testsForSelectedCourse}
                 />
             </div>
         </AdminLayout>

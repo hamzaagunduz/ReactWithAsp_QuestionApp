@@ -24,6 +24,18 @@ export const fetchCoursesByExamId = createAsyncThunk(
     }
 );
 
+export const createCourse = createAsyncThunk(
+    'Courses/createCourse',
+    async (courseData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('Courses', courseData);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
 const CoursesSlice = createSlice({
     name: 'Courses',
     initialState: {
@@ -45,6 +57,18 @@ const CoursesSlice = createSlice({
             .addCase(fetchCoursesByExamId.rejected, (state, action) => {
                 state.status = 'failed';  // Hata durumunda
                 state.error = action.payload;
+            })
+            // createCourse
+            .addCase(createCourse.pending, (state) => {
+                state.createStatus = 'loading';
+            })
+            .addCase(createCourse.fulfilled, (state, action) => {
+                state.createStatus = 'succeeded';
+                state.courses.push(action.payload); // Yeni kursu ekliyoruz
+            })
+            .addCase(createCourse.rejected, (state, action) => {
+                state.createStatus = 'failed';
+                state.createError = action.payload;
             });
 
     },

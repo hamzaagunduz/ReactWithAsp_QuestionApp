@@ -15,6 +15,7 @@ import shopReducer from '../features/Shop/ShopSlice';
 import analiysisReducer from '../features/Analysis/AnalysisSlice';
 import performanceReducer from '../features/Performance/PerformanceSlice';
 import RegisterReducer from '../features/Register/RegisterSlice';
+import TestGroupReducer from '../features/TestGroup/TestGroupSlice';
 
 
 const store = configureStore({
@@ -34,6 +35,7 @@ const store = configureStore({
         analysis: analiysisReducer,
         performance: performanceReducer,
         register: RegisterReducer,
+        testGroup: TestGroupReducer
 
 
     },

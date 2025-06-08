@@ -26,11 +26,27 @@ export const fetchTopicsWithGroupedTests = createAsyncThunk(
     }
 );
 
+// Yeni konu oluşturma thunk'ı
+export const createTopic = createAsyncThunk(
+    'topic/createTopic',
+    async (topicData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('Topics', topicData);
+            return response.data;  // API'den dönen yeni konu verisi
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Konu oluşturulurken bir hata oluştu');
+        }
+    }
+);
+
+
 
 const initialState = {
     topics: [],
     statusTopics: 'idle',  // idle, loading, succeeded, failed
     errorTopics: null,
+    createTopicStatus: 'idle',
+    createTopicError: null,
 };
 
 const topicSlice = createSlice({
@@ -67,6 +83,18 @@ const topicSlice = createSlice({
                 state.statusTopics = 'failed';
                 state.errorTopics = action.payload || 'Bir hata oluştu';
             })
+            .addCase(createTopic.pending, (state) => {
+                state.createTopicStatus = 'loading';
+            })
+            .addCase(createTopic.fulfilled, (state, action) => {
+                state.createTopicStatus = 'succeeded';
+                state.topics.push(action.payload);  // Yeni konu mevcut listeye ekleniyor
+            })
+            .addCase(createTopic.rejected, (state, action) => {
+                state.createTopicStatus = 'failed';
+                state.createTopicError = action.payload;
+            })
+
 
     },
 });
