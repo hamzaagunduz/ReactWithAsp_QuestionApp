@@ -1,0 +1,140 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    border-radius: 12px;
+    width: 420px;
+    max-width: 90vw;
+    padding: 24px 28px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modalHeader h2 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #222;
+    margin: 0;
+}
+
+.closeButton {
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease-in-out;
+}
+
+.closeButton:hover {
+    color: #e63946;
+}
+
+.formSection {
+    flex-grow: 1;
+}
+
+.formGroup {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputLabel {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 6px;
+    user-select: none;
+}
+
+.textInput,
+.textArea,
+select {
+    padding: 10px 12px;
+    font-size: 1rem;
+    border: 1.8px solid #ccc;
+    border-radius: 8px;
+    outline-offset: 2px;
+    outline-color: transparent;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    font-family: 'Quicksand', sans-serif;
+    color: #222;
+    resize: vertical;
+}
+
+.textInput:focus,
+.textArea:focus,
+select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+.textArea {
+    min-height: 80px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.cancelButton,
+.submitButton {
+    padding: 10px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    user-select: none;
+}
+
+.cancelButton {
+    background-color: #e0e0e0;
+    color: #555;
+}
+
+.cancelButton:hover {
+    background-color: #cacaca;
+}
+
+.submitButton {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+.submitButton:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+    color: #ddd;
+}
+
+.submitButton:not(:disabled):hover {
+    background-color: #2563eb;
+}

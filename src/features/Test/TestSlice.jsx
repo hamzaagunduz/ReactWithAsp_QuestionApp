@@ -28,6 +28,17 @@ export const createTest = createAsyncThunk(
     }
 );
 
+export const updateTest = createAsyncThunk(
+    'test/updateTest',
+    async (updatedTestData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put('Tests', updatedTestData);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
 const testSlice = createSlice({
     name: 'test',
     initialState: {
@@ -35,7 +46,9 @@ const testSlice = createSlice({
         status: 'idle',         // fetch işlemi için durum
         error: null,
         createStatus: 'idle',   // create işlemi için durum
-        createError: null
+        createError: null,
+        updateStatus: 'idle',
+        updateError: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -64,6 +77,20 @@ const testSlice = createSlice({
             .addCase(createTest.rejected, (state, action) => {
                 state.createStatus = 'failed';
                 state.createError = action.payload;
+            })
+            .addCase(updateTest.pending, (state) => {
+                state.updateStatus = 'loading';
+            })
+            .addCase(updateTest.fulfilled, (state, action) => {
+                state.updateStatus = 'succeeded';
+                const index = state.tests.findIndex(test => test.testID === action.payload.testID);
+                if (index !== -1) {
+                    state.tests[index] = action.payload;
+                }
+            })
+            .addCase(updateTest.rejected, (state, action) => {
+                state.updateStatus = 'failed';
+                state.updateError = action.payload;
             });
     },
 });

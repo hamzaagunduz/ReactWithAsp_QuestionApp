@@ -11,6 +11,8 @@ import AddQuestionModal from '../../components/adminComponents/questionComponent
 import EditQuestionModal from '../../components/adminComponents/questionComponents/EditQuestionModal';
 import AddTestModal from '../../components/adminComponents/questionComponents/AddTestModal';
 import EditTopicModal from '../../components/adminComponents/questionComponents/EditTopicModal';
+import EditTestModal from '../../components/adminComponents/questionComponents/EditTestModal';
+import EditTestGroupModal from '../../components/adminComponents/questionComponents/EditTestGroupModal';
 
 import styles from '../../style/adminPage/Question/Question.module.css';
 
@@ -33,9 +35,18 @@ const QuestionPage = () => {
     const [isEditQuestionModalOpen, setIsEditQuestionModalOpen] = useState(false);
     const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false);
     const [isEditTopicModalOpen, setIsEditTopicModalOpen] = useState(false);
-
-    const actions = ['Konu Ekle', 'Konu Düzenle', 'Test Grubu Ekle', 'Test Ekle', 'Soru Ekle', 'Soru Düzenle'];
-
+    const [isEditTestModalOpen, setIsEditTestModalOpen] = useState(false);
+    const [isEditTestGroupModalOpen, setIsEditTestGroupModalOpen] = useState(false);
+    const actions = [
+        'Konu Ekle',
+        'Konu Düzenle',
+        'Test Grubu Ekle',
+        'Test Grubu Düzenle',
+        'Test Ekle',
+        'Test Düzenle',
+        'Soru Ekle',
+        'Soru Düzenle',
+    ];
     useEffect(() => {
         if (examStatus === 'idle') dispatch(fetchExamOptions());
     }, [dispatch, examStatus]);
@@ -70,10 +81,13 @@ const QuestionPage = () => {
         setSelectedAction(action);
         if (action === 'Konu Ekle') setIsTopicModalOpen(true);
         else if (action === 'Test Grubu Ekle') setIsTestGroupModalOpen(true);
+        else if (action === 'Test Grubu Düzenle') setIsEditTestGroupModalOpen(true);
         else if (action === 'Soru Ekle') setIsQuestionModalOpen(true);
         else if (action === 'Soru Düzenle') setIsEditQuestionModalOpen(true);
         else if (action === 'Test Ekle') setIsAddTestModalOpen(true);
         else if (action === 'Konu Düzenle') setIsEditTopicModalOpen(true);
+        else if (action === 'Test Düzenle') setIsEditTestModalOpen(true); // Yeni aksiyon handler
+
 
     };
 
@@ -91,6 +105,9 @@ const QuestionPage = () => {
     const handleDeleteQuestion = (id) => {
         console.log("Silinecek Soru ID:", id);
         alert(`Soru (ID: ${id}) silindi!`);
+    };
+    const handleUpdateTest = (data) => {
+        console.log("Güncellenen Test:", data);
     };
 
     return (
@@ -170,8 +187,11 @@ const QuestionPage = () => {
                                 >
                                     <div className={styles.optionIcon}>
                                         {action === 'Konu Ekle' && '📚'}
+                                        {action === 'Konu Düzenle' && '🛠️'}
                                         {action === 'Test Grubu Ekle' && '📝'}
+                                        {action === 'Test Grubu Düzenle' && '🛠️'}
                                         {action === 'Test Ekle' && '✏️'}
+                                        {action === 'Test Düzenle' && '🛠️'}
                                         {action === 'Soru Ekle' && '✏️'}
                                         {action === 'Soru Düzenle' && '🛠️'}
                                     </div>
@@ -231,7 +251,18 @@ const QuestionPage = () => {
 
                 />
 
-
+                <EditTestModal
+                    isOpen={isEditTestModalOpen}
+                    onClose={() => isEditTestGroupModalOpen(false)}
+                    onSubmit={handleUpdateTest}
+                    tests={groupedTests}
+                />
+                <EditTestGroupModal
+                    isOpen={isEditTestGroupModalOpen}
+                    onClose={() => setIsEditTestGroupModalOpen(false)} // Doğru
+                    onSubmit={handleUpdateTest}
+                    topics={groupedTests}
+                />
 
 
             </div>

@@ -36,8 +36,7 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
         }
 
         const updatedTopic = {
-            // topicID backend tarafından URL parametresi olarak kullanılıyor,
-            // gövde olarak sadece güncellenen alanları gönderiyoruz:
+            topicID: parseInt(selectedTopicID), // Dinamik olarak selectedTopicID'den
             name: form.name,
             description: form.description,
             videoLink: form.videoLink,
@@ -45,13 +44,15 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
 
         try {
             // Güncelleme thunk'ını dispatch ediyoruz
-            await dispatch(updateTopic({ topicID: parseInt(selectedTopicID), updatedData: updatedTopic })).unwrap();
+            await dispatch(updateTopic(updatedTopic)).unwrap();
+
             alert('Konu başarıyla güncellendi!');
             onClose();
         } catch (error) {
             alert('Konu güncellenirken hata oluştu: ' + error);
         }
     };
+
 
 
     if (!isOpen) return null;
