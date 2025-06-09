@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    createShopItem,
+    updateShopItem,
+} from '../../../features/Shop/ShopSlice';
+import {
+    createDiamondPackItem,
+    updateDiamondPackItem
+} from '../../../features/DiamondPackItem/DiamondPackItemSlice';
 import styles from '../../../style/adminPage/ShopManagement/ShopManagement.module.css';
 
 const ProductForm = ({ product, onComplete }) => {
-    // Form state
+    const dispatch = useDispatch();
+    const shopState = useSelector(state => state.shop);
+    const diamondState = useSelector(state => state.diamondPackItem);
+
+    // Durum değişkenleri
     const [formData, setFormData] = useState({
         id: 0,
         name: '',
@@ -10,48 +23,101 @@ const ProductForm = ({ product, onComplete }) => {
         price: 0,
         color: 'blue',
         imageUrl: '',
-        durationInDays: 0,
-        type: 'diamond'
+        durationInDays: 30,
+        type: 'premium',
+        // Elmas paketleri için ek alanlar
+        diamondAmount: 0,
+        bonusPercentage: 0,
+        priceInTL: 0
     });
 
-    // Düzenleme modunda ise mevcut ürün bilgilerini yükle
+    // Yükleme durumları
+    const createStatus = formData.type === 'diamond'
+        ? diamondState.createStatus
+        : shopState.createStatus;
+
+    const updateStatus = formData.type === 'diamond'
+        ? diamondState.updateStatus
+        : shopState.updateStatus;
+
+    const error = formData.type === 'diamond'
+        ? diamondState.createError || diamondState.updateError
+        : shopState.createError || shopState.updateError;
+
+    // Ürün prop'u değiştiğinde formu güncelle
     useEffect(() => {
         if (product) {
             setFormData({
-                id: product.id,
-                name: product.name,
-                description: product.description,
-                price: product.price,
-                color: product.color,
-                imageUrl: product.imageUrl,
-                durationInDays: product.durationInDays,
-                type: product.type
+                ...formData,
+                ...product,
+                // Elmas paketleri için ek alanları doldur
+                diamondAmount: product.diamondAmount || 0,
+                bonusPercentage: product.bonusPercentage || 0,
+                priceInTL: product.priceInTL || 0
             });
         }
     }, [product]);
 
-    // Input değişikliklerini işle
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === 'price' || name === 'durationInDays' ? parseInt(value) || 0 : value
+            [name]: ['price', 'durationInDays', 'diamondAmount', 'bonusPercentage', 'priceInTL'].includes(name)
+                ? parseInt(value) || 0
+                : value
         }));
     };
 
-    // Form gönderme
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Burada API çağrısı yapılacak
-        alert(product ? 'Ürün başarıyla güncellendi!' : 'Yeni ürün başarıyla eklendi!');
-        onComplete();
+        try {
+            // Hangi aksiyonu göndereceğimizi belirle
+            let action;
+
+            if (formData.type === 'diamond') {
+                // Elmas paketi için veri hazırla
+                const diamondData = {
+                    id: formData.id,
+                    name: formData.name,
+                    description: formData.description,
+                    imageUrl: formData.imageUrl,
+                    diamondAmount: formData.diamondAmount,
+                    bonusPercentage: formData.bonusPercentage,
+                    priceInTL: formData.priceInTL
+                };
+
+                action = product
+                    ? updateDiamondPackItem(diamondData)
+                    : createDiamondPackItem(diamondData);
+            } else {
+                // Premium ürün için veri hazırla
+                const shopData = {
+                    id: formData.id,
+                    name: formData.name,
+                    description: formData.description,
+                    price: formData.price,
+                    color: formData.color,
+                    imageUrl: formData.imageUrl,
+                    durationInDays: formData.durationInDays
+                };
+
+                action = product
+                    ? updateShopItem(shopData)
+                    : createShopItem(shopData);
+            }
+
+            await dispatch(action).unwrap();
+            alert(`Ürün başarıyla ${product ? 'güncellendi' : 'eklendi'}!`);
+            onComplete();
+        } catch (err) {
+            alert(`Hata: ${err.message || err}`);
+        }
     };
 
     return (
         <div className={styles.productFormContainer}>
             <h2>{product ? 'Ürünü Düzenle' : 'Yeni Ürün Ekle'}</h2>
-
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label>Ürün Tipi</label>
@@ -61,8 +127,8 @@ const ProductForm = ({ product, onComplete }) => {
                         onChange={handleChange}
                         required
                     >
+                        <option value="premium">Premium Ürün</option>
                         <option value="diamond">Elmas Paketi</option>
-                        <option value="premium">Premium Üyelik</option>
                     </select>
                 </div>
 
@@ -73,7 +139,6 @@ const ProductForm = ({ product, onComplete }) => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Ürün adı giriniz"
                         required
                     />
                 </div>
@@ -84,54 +149,10 @@ const ProductForm = ({ product, onComplete }) => {
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        placeholder="Ürün açıklaması"
                         rows="3"
                         required
                     />
                 </div>
-
-                <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                        <label>Fiyat (Elmas)</label>
-                        <input
-                            type="number"
-                            name="price"
-                            value={formData.price}
-                            onChange={handleChange}
-                            min="0"
-                            required
-                        />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                        <label>Renk</label>
-                        <select
-                            name="color"
-                            value={formData.color}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="blue">Mavi</option>
-                            <option value="purple">Mor</option>
-                            <option value="gold">Altın</option>
-                            <option value="orange">Turuncu</option>
-                        </select>
-                    </div>
-                </div>
-
-                {formData.type === 'premium' && (
-                    <div className={styles.formGroup}>
-                        <label>Süre (Gün)</label>
-                        <input
-                            type="number"
-                            name="durationInDays"
-                            value={formData.durationInDays}
-                            onChange={handleChange}
-                            min="0"
-                            required
-                        />
-                    </div>
-                )}
 
                 <div className={styles.formGroup}>
                     <label>Görsel URL</label>
@@ -140,9 +161,96 @@ const ProductForm = ({ product, onComplete }) => {
                         name="imageUrl"
                         value={formData.imageUrl}
                         onChange={handleChange}
-                        placeholder="https://example.com/image.png"
                     />
                 </div>
+
+                {/* ELMAS PAKETİ ALANLARI */}
+                {formData.type === 'diamond' && (
+                    <div className={styles.formRow}>
+                        <div className={styles.formGroup}>
+                            <label>Elmas Miktarı</label>
+                            <input
+                                type="number"
+                                name="diamondAmount"
+                                value={formData.diamondAmount}
+                                onChange={handleChange}
+                                min="0"
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Bonus Yüzdesi (%)</label>
+                            <input
+                                type="number"
+                                name="bonusPercentage"
+                                value={formData.bonusPercentage}
+                                onChange={handleChange}
+                                min="0"
+                                max="100"
+                                required
+                            />
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Fiyat (TL)</label>
+                            <input
+                                type="number"
+                                name="priceInTL"
+                                value={formData.priceInTL}
+                                onChange={handleChange}
+                                min="0"
+                                required
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* PREMIUM ÜRÜN ALANLARI */}
+                {formData.type === 'premium' && (
+                    <>
+                        <div className={styles.formRow}>
+                            <div className={styles.formGroup}>
+                                <label>Fiyat (Elmas)</label>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    value={formData.price}
+                                    onChange={handleChange}
+                                    min="0"
+                                    required
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label>Renk</label>
+                                <select
+                                    name="color"
+                                    value={formData.color}
+                                    onChange={handleChange}
+                                    required
+                                >
+                                    <option value="blue">Mavi</option>
+                                    <option value="purple">Mor</option>
+                                    <option value="gold">Altın</option>
+                                    <option value="orange">Turuncu</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>Süre (Gün)</label>
+                            <input
+                                type="number"
+                                name="durationInDays"
+                                value={formData.durationInDays}
+                                onChange={handleChange}
+                                min="0"
+                                required
+                            />
+                        </div>
+                    </>
+                )}
 
                 <div className={styles.formActions}>
                     <button
@@ -155,10 +263,19 @@ const ProductForm = ({ product, onComplete }) => {
                     <button
                         type="submit"
                         className={styles.saveButton}
+                        disabled={createStatus === 'loading' || updateStatus === 'loading'}
                     >
-                        {product ? 'Güncelle' : 'Ürün Ekle'}
+                        {createStatus === 'loading' || updateStatus === 'loading'
+                            ? 'İşleniyor...'
+                            : (product ? 'Güncelle' : 'Ürün Ekle')}
                     </button>
                 </div>
+
+                {error && (
+                    <p className={styles.errorText}>
+                        Hata: {error}
+                    </p>
+                )}
             </form>
         </div>
     );

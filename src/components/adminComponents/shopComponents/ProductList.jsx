@@ -1,69 +1,76 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard';
 import styles from '../../../style/adminPage/ShopManagement/ShopManagement.module.css';
+import { fetchAllShopItems, deleteShopItem } from '../../../features/Shop/ShopSlice';
+import { fetchDiamondPackItems, deleteDiamondPackItem } from '../../../features/DiamondPackItem/DiamondPackItemSlice';
 
 const ProductList = ({ onEditProduct }) => {
+    const dispatch = useDispatch();
+
+    // Shop item'ları için state
+    const { allItems: shopItems, allItemsStatus: shopItemsStatus, allItemsError: shopItemsError } = useSelector(state => state.shop);
+
+    // Diamond pack item'ları için state
+    const { items: diamondPackItems, status: diamondPackItemsStatus, error: diamondPackItemsError } = useSelector(state => state.diamondPackItem);
+
     const [products, setProducts] = useState([]);
     const [filter, setFilter] = useState('all'); // 'diamond', 'premium', 'all'
 
-    // Örnek ürün verileri
+    // API'den shop item'larını ve diamond pack item'larını çek
     useEffect(() => {
-        const mockProducts = [
-            {
-                id: 1,
-                name: "100 Elmas Paketi",
-                description: "Hızlı alışveriş için ideal başlangıç paketi",
-                price: 99,
-                color: "blue",
-                imageUrl: "/images/diamonds/100.png",
-                durationInDays: 0,
-                type: "diamond"
-            },
-            {
-                id: 2,
-                name: "500 Elmas Paketi",
-                description: "En çok tercih edilen popüler paket",
-                price: 449,
-                color: "purple",
-                imageUrl: "/images/diamonds/500.png",
-                durationInDays: 0,
-                type: "diamond"
-            },
-            {
-                id: 3,
-                name: "Aylık Premium Üyelik",
-                description: "30 gün boyunca tüm premium özelliklere erişim",
-                price: 299,
-                color: "gold",
-                imageUrl: "/images/premium/monthly.png",
-                durationInDays: 30,
-                type: "premium"
-            },
-            {
-                id: 4,
-                name: "Yıllık Premium Üyelik",
-                description: "1 yıl boyunca premium özellikler + 500 elmas hediye",
-                price: 2599,
-                color: "orange",
-                imageUrl: "/images/premium/yearly.png",
-                durationInDays: 365,
-                type: "premium"
-            }
-        ];
+        dispatch(fetchAllShopItems());
+        dispatch(fetchDiamondPackItems());
+    }, [dispatch]);
 
-        setProducts(mockProducts);
-    }, []);
+    // Veriler değiştiğinde veya geldiğinde products state'ini güncelle
+    useEffect(() => {
+        // Shop item'larını premium olarak map et
+        const shopProducts = shopItems.map(item => ({
+            ...item,
+            type: 'premium',      // Shop item'ları premium olarak işaretlendi
+            durationInDays: 30,    // Varsayılan süre
+            itemType: 'shopItem'   // Silme ve düzenleme işlemleri için tür belirteci
+        }));
 
-    // Filtrelenmiş ürünler
-    const filteredProducts = filter === 'all'
-        ? products
-        : products.filter(p => p.type === filter);
+        // Diamond pack item'larını diamond olarak map et
+        const diamondProducts = diamondPackItems.map(item => ({
+            ...item,
+            id: item.id,           // DiamondPackItem'ın id'si
+            name: item.name,
+            description: item.description,
+            priceInTL: item.priceInTL,
+            imageUrl: item.imageUrl,
+            type: 'diamond',      // Diamond pack'ler diamond olarak işaretlendi
+            durationInDays: 0,     // Diamond pack'lerin süresi olmaz
+            itemType: 'diamondPackItem' // Tür belirteci
+        }));
+
+        // İki listeyi birleştir
+        const allProducts = [...shopProducts, ...diamondProducts];
+        setProducts(allProducts);
+    }, [shopItems, diamondPackItems]);
+
+    // Filtrelenmiş ürünler - DÜZELTİLMİŞ VERSİYON
+    const filteredProducts = products.filter(product => {
+        if (filter === 'all') return true;
+        if (filter === 'diamond') return product.type === 'diamond';
+        if (filter === 'premium') return product.type === 'premium';
+        return true;
+    });
 
     // Ürün silme
-    const handleDelete = (id) => {
+    const handleDelete = (id, itemType) => {
         if (window.confirm('Bu ürünü silmek istediğinize emin misiniz?')) {
-            setProducts(products.filter(p => p.id !== id));
-            alert('Ürün başarıyla silindi!');
+            // Eğer itemType 'diamondPackItem' ise diamondPackItem silme aksiyonunu, değilse shopItem silme aksiyonunu çağır
+            const deleteAction = itemType === 'diamondPackItem'
+                ? deleteDiamondPackItem(id)
+                : deleteShopItem(id);
+
+            dispatch(deleteAction)
+                .unwrap()
+                .then(() => alert('Ürün başarıyla silindi!'))
+                .catch((err) => alert(`Hata: ${err}`));
         }
     };
 
@@ -75,7 +82,7 @@ const ProductList = ({ onEditProduct }) => {
                     <select value={filter} onChange={(e) => setFilter(e.target.value)}>
                         <option value="all">Tüm Ürünler</option>
                         <option value="diamond">Elmas Paketleri</option>
-                        <option value="premium">Premium Üyelikler</option>
+                        <option value="premium">Premium Ürünler</option>
                     </select>
                 </div>
 
@@ -90,10 +97,15 @@ const ProductList = ({ onEditProduct }) => {
                         key={product.id}
                         product={product}
                         onEdit={() => onEditProduct(product)}
-                        onDelete={() => handleDelete(product.id)}
+                        onDelete={() => handleDelete(product.id, product.itemType)}
                     />
                 ))}
             </div>
+
+            {/* Yükleniyor ve hata durumları */}
+            {(shopItemsStatus === 'loading' || diamondPackItemsStatus === 'loading') && <p>Yükleniyor...</p>}
+            {shopItemsStatus === 'failed' && <p>Hata (Shop): {shopItemsError}</p>}
+            {diamondPackItemsStatus === 'failed' && <p>Hata (Diamond): {diamondPackItemsError}</p>}
         </div>
     );
 };

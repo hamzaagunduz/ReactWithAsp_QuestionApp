@@ -1,12 +1,16 @@
+// src/components/adminComponents/examsComponents/ExamForm.jsx
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createExam, updateExam } from '../../../features/Exam/ExamSlice';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
 
 const ExamForm = ({ exam, onBack, onComplete }) => {
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
-        id: exam?.id || 0,
+        examID: exam?.examID || 0,
         name: exam?.name || '',
-        description: exam?.description || '',
-        imageUrl: exam?.imageUrl || ''
+        year: exam?.year || new Date().toISOString()
     });
 
     const handleChange = (e) => {
@@ -14,23 +18,18 @@ const ExamForm = ({ exam, onBack, onComplete }) => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Burada API çağrısı yapılacak
-        alert(exam ? 'Sınav başarıyla güncellendi!' : 'Yeni sınav başarıyla eklendi!');
-        onComplete();
-    };
-
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setFormData(prev => ({ ...prev, imageUrl: e.target.result }));
-            };
-            reader.readAsDataURL(file);
+        if (exam) {
+            await dispatch(updateExam(formData));
+            alert('Sınav başarıyla güncellendi!');
+        } else {
+            await dispatch(createExam(formData));
+            alert('Yeni sınav başarıyla eklendi!');
         }
+
+        onComplete();
     };
 
     return (
@@ -56,44 +55,14 @@ const ExamForm = ({ exam, onBack, onComplete }) => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label>Açıklama</label>
-                    <textarea
-                        name="description"
-                        value={formData.description}
+                    <label>Sınav Yılı</label>
+                    <input
+                        type="datetime-local"
+                        name="year"
+                        value={formData.year.slice(0, 16)} // ISO formatını uygun hale getiriyoruz
                         onChange={handleChange}
-                        placeholder="Sınav hakkında kısa açıklama"
-                        rows="3"
                         required
                     />
-                </div>
-
-                <div className={styles.formGroup}>
-                    <label>Sınav Görseli</label>
-                    <div className={styles.imageUpload}>
-                        {formData.imageUrl ? (
-                            <div className={styles.imagePreview}>
-                                <img src={formData.imageUrl} alt="Sınav görseli" />
-                                <button
-                                    type="button"
-                                    className={styles.removeImage}
-                                    onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
-                                >
-                                    <i className="fas fa-times"></i>
-                                </button>
-                            </div>
-                        ) : (
-                            <div className={styles.uploadPlaceholder}>
-                                <i className="fas fa-cloud-upload-alt"></i>
-                                <span>Görsel Yükle</span>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    className={styles.fileInput}
-                                    onChange={handleImageChange}
-                                />
-                            </div>
-                        )}
-                    </div>
                 </div>
 
                 <div className={styles.formActions}>

@@ -17,6 +17,7 @@ import performanceReducer from '../features/Performance/PerformanceSlice';
 import RegisterReducer from '../features/Register/RegisterSlice';
 import TestGroupReducer from '../features/TestGroup/TestGroupSlice';
 import testReducer from '../features/Test/TestSlice';
+import diamondReducer from '../features/DiamondPackItem/DiamondPackItemSlice';
 
 
 const store = configureStore({
@@ -38,6 +39,7 @@ const store = configureStore({
         register: RegisterReducer,
         testGroup: TestGroupReducer,
         test: testReducer,
+        diamondPackItem: diamondReducer,
 
 
 
