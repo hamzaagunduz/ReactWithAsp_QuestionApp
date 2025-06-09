@@ -1,112 +1,213 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditQuestionModal.module.css';
+import { fetchQuestionsByTestId } from '../../../features/Question/QuestionSlice';
+import { fetchFlashCardsByQuestionId } from '../../../features/FlashCard/FlashCardSlice'; // Import the flashcard action
+import { updateFullQuestion } from '../../../features/Question/QuestionSlice'; // doğru importu unutma
 
 const EditQuestionModal = ({
     isOpen,
     onClose,
     onSubmit,
     onDelete,
-    testTopic
+    testTopics
 }) => {
-    const [selectedTopic, setSelectedTopic] = useState(''); // Yeni: seçilen topicID
+    const dispatch = useDispatch();
+    const { questions, status, error } = useSelector(state => state.question);
+    const { flashCards, status: flashCardStatus } = useSelector(state => state.flashCard);
+
+    const [selectedTopic, setSelectedTopic] = useState('');
     const [selectedTestGroup, setSelectedTestGroup] = useState('');
     const [selectedTest, setSelectedTest] = useState('');
     const [testsList, setTestsList] = useState([]);
     const [testGroupsList, setTestGroupsList] = useState([]);
-    const [questions, setQuestions] = useState([]);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
     // Form state
-    const [questionText, setQuestionText] = useState('');
-    const [options, setOptions] = useState(['', '', '', '', '']);
-    const [correctAnswer, setCorrectAnswer] = useState(0);
-    const [difficulty, setDifficulty] = useState('medium');
-    const [explanation, setExplanation] = useState('');
+    const [formData, setFormData] = useState({
+        questionID: null,
+        questionText: '',
+        options: ['', '', '', '', ''],
+        answer: 0,
+        flashCardFront: '',
+        flashCardBack: '',
+        removeFlashCard: false,
+        questionImage: null,
+        optionAImage: null,
+        optionBImage: null,
+        optionCImage: null,
+        optionDImage: null,
+        optionEImage: null,
+        existingImages: {}
+    });
 
-    // Mock questions data (örnek olarak, gerçek API ile değiştirilecek)
-    const mockQuestions = [
-        { id: 1, text: 'Hücrenin temel yapı birimleri nelerdir?', testId: 1 },
-        { id: 2, text: 'Mitokondrinin görevi nedir?', testId: 1 },
-        { id: 3, text: 'Fotosentez denklemi nasıldır?', testId: 2 },
-    ];
+    // Find selected topic object
+    const currentTopic = testTopics?.find(t => t.topicID === parseInt(selectedTopic));
 
-    // Topic seçildiğinde ilgili test gruplarını getir
+    // Find selected test group object
+    const currentTestGroup = currentTopic?.testGroups?.find(
+        g => g.testGroupID === parseInt(selectedTestGroup)
+    );
+
+    // Find selected test object
+    const currentTest = currentTestGroup?.tests?.find(
+        t => t.testID === parseInt(selectedTest)
+    );
+
+    // Topic selection handler
     useEffect(() => {
         if (selectedTopic) {
-            const topic = testTopic.find(t => t.topicID === parseInt(selectedTopic));
-            if (topic) {
-                setTestGroupsList(topic.testGroups);
-            } else {
-                setTestGroupsList([]);
-            }
+            setTestGroupsList(currentTopic?.testGroups || []);
             setSelectedTestGroup('');
             setSelectedTest('');
             setTestsList([]);
-            setQuestions([]);
             setSelectedQuestion(null);
         }
-    }, [selectedTopic, testTopic]);
+    }, [selectedTopic]);
 
-    // Test grubu seçildiğinde ilgili testleri getir
+    // Test group selection handler
     useEffect(() => {
         if (selectedTestGroup) {
-            const testGroup = testGroupsList.find(g => g.testGroupID === parseInt(selectedTestGroup));
-            if (testGroup) {
-                setTestsList(testGroup.tests);
-            } else {
-                setTestsList([]);
-            }
+            setTestsList(currentTestGroup?.tests || []);
             setSelectedTest('');
-            setQuestions([]);
             setSelectedQuestion(null);
         }
-    }, [selectedTestGroup, testGroupsList]);
+    }, [selectedTestGroup]);
 
-    // Test seçildiğinde soruları getir (mockQuestions veya API'den)
+    // Test selection handler
     useEffect(() => {
         if (selectedTest) {
-            const filteredQuestions = mockQuestions.filter(q => q.testId === parseInt(selectedTest));
-            setQuestions(filteredQuestions);
+            // Dispatch the Redux action to fetch questions
+            dispatch(fetchQuestionsByTestId(selectedTest));
             setSelectedQuestion(null);
         } else {
-            setQuestions([]);
-            setSelectedQuestion(null);
+            // Clear questions if no test is selected
+            dispatch({ type: 'question/fetchQuestionsByTestId/fulfilled', payload: [] });
         }
-    }, [selectedTest]);
+    }, [selectedTest, dispatch]);
 
-    // Seçilen soruyu forma yükle
+    // When a question is selected, fetch its flashcard
+    useEffect(() => {
+        if (selectedQuestion && selectedQuestion.questionID) {
+            dispatch(fetchFlashCardsByQuestionId(selectedQuestion.questionID));
+        }
+    }, [selectedQuestion, dispatch]);
+
+    // Update form data when flashcard is loaded
+    useEffect(() => {
+        if (selectedQuestion && flashCards.length > 0) {
+            const flashCard = flashCards[0]; // Get the first flashcard
+            setFormData(prev => ({
+                ...prev,
+                flashCardFront: flashCard.front,
+                flashCardBack: flashCard.back
+            }));
+        }
+    }, [flashCards, selectedQuestion]);
+
+    // Load selected question data
     useEffect(() => {
         if (selectedQuestion) {
-            setQuestionText(selectedQuestion.text);
-            setOptions(['Hücre zarı', 'Mitokondri', 'Ribozom', 'Lizozom', 'Çekirdek']); // mock options
-            setCorrectAnswer(1);
-            setDifficulty('hard');
-            setExplanation('Hücrede enerji üretiminden sorumlu organeldir.');
+            // Create existing images object
+            const existingImages = {};
+
+            // Process images array to map by type
+            selectedQuestion.images?.forEach(image => {
+                const typeMap = {
+                    0: 'question',
+                    1: 'optionA',
+                    2: 'optionB',
+                    3: 'optionC',
+                    4: 'optionD',
+                    5: 'optionE'
+                };
+
+                if (typeMap[image.type] !== undefined) {
+                    existingImages[typeMap[image.type]] = image.imageUrl;
+                }
+            });
+
+            setFormData({
+                questionID: selectedQuestion.questionID,
+                questionText: selectedQuestion.text,
+                options: [
+                    selectedQuestion.optionA || '',
+                    selectedQuestion.optionB || '',
+                    selectedQuestion.optionC || '',
+                    selectedQuestion.optionD || '',
+                    selectedQuestion.optionE || ''
+                ],
+                answer: selectedQuestion.answer - 1, // Adjust for 0-based index
+                flashCardFront: '', // Will be set by flashcard effect
+                flashCardBack: '',  // Will be set by flashcard effect
+                removeFlashCard: false,
+                questionImage: null,
+                optionAImage: null,
+                optionBImage: null,
+                optionCImage: null,
+                optionDImage: null,
+                optionEImage: null,
+                existingImages
+            });
         }
     }, [selectedQuestion]);
 
     const handleOptionChange = (index, value) => {
-        const newOptions = [...options];
+        const newOptions = [...formData.options];
         newOptions[index] = value;
-        setOptions(newOptions);
+        setFormData({ ...formData, options: newOptions });
     };
 
-    const handleSubmit = () => {
-        const updatedQuestion = {
-            id: selectedQuestion.id,
-            text: questionText,
-            options,
-            correctAnswer,
-            difficulty,
-            explanation
-        };
-        onSubmit(updatedQuestion);
-        onClose();
+    const handleImageChange = (field, file) => {
+        setFormData({
+            ...formData,
+            [field]: file,
+            existingImages: {
+                ...formData.existingImages,
+                [field.split('Image')[0]]: null // Clear existing image preview
+            }
+        });
     };
 
+    const handleSubmit = async () => {
+        const payload = new FormData();
+        payload.append('questionID', formData.questionID);
+        payload.append('text', formData.questionText);
+        payload.append('optionA', formData.options[0]);
+        payload.append('optionB', formData.options[1]);
+        payload.append('optionC', formData.options[2]);
+        payload.append('optionD', formData.options[3]);
+        payload.append('optionE', formData.options[4]);
+        payload.append('answer', formData.answer + 1); // DB için 1-based index
+
+        if (formData.questionImage) payload.append('questionImage', formData.questionImage);
+        if (formData.optionAImage) payload.append('optionAImage', formData.optionAImage);
+        if (formData.optionBImage) payload.append('optionBImage', formData.optionBImage);
+        if (formData.optionCImage) payload.append('optionCImage', formData.optionCImage);
+        if (formData.optionDImage) payload.append('optionDImage', formData.optionDImage);
+        if (formData.optionEImage) payload.append('optionEImage', formData.optionEImage);
+
+        // Flashcard bilgisi varsa gönder
+        payload.append('flashCardFront', formData.flashCardFront || '');
+        payload.append('flashCardBack', formData.flashCardBack || '');
+        payload.append('removeFlashCard', formData.removeFlashCard);
+
+        try {
+            await dispatch(updateFullQuestion(payload)).unwrap();
+            alert("Soru başarıyla güncellendi");
+            onSubmit(); // Güncellemeden sonra liste vs. güncellenecekse
+            onClose();
+        } catch (error) {
+            console.error('Güncelleme hatası:', error);
+            alert("Soru güncellenirken bir hata oluştu.");
+        }
+    };
     const handleDelete = (questionId) => {
-        onDelete(questionId);
-        setSelectedQuestion(null);
+        if (window.confirm('Bu soruyu silmek istediğinize emin misiniz?')) {
+            // Simulate deletion
+            // In a real app, you would dispatch a delete action here
+            alert("Silme işlemi simüle edildi (API entegrasyonu sonra eklenecek)");
+        }
     };
 
     if (!isOpen) return null;
@@ -128,7 +229,7 @@ const EditQuestionModal = ({
                             className={styles.selectInput}
                         >
                             <option value="">Konu Seçin</option>
-                            {testTopic.map(topic => (
+                            {testTopics?.map(topic => (
                                 <option key={topic.topicID} value={topic.topicID}>
                                     {topic.name}
                                 </option>
@@ -143,10 +244,9 @@ const EditQuestionModal = ({
                                 value={selectedTestGroup}
                                 onChange={(e) => setSelectedTestGroup(e.target.value)}
                                 className={styles.selectInput}
-                                disabled={!selectedTopic}
                             >
                                 <option value="">Test Grubu Seçin</option>
-                                {testGroupsList.map(group => (
+                                {currentTopic.testGroups.map(group => (
                                     <option key={group.testGroupID} value={group.testGroupID}>
                                         {group.title}
                                     </option>
@@ -162,10 +262,9 @@ const EditQuestionModal = ({
                                 value={selectedTest}
                                 onChange={(e) => setSelectedTest(e.target.value)}
                                 className={styles.selectInput}
-                                disabled={!selectedTestGroup}
                             >
                                 <option value="">Test Seçin</option>
-                                {testsList.map(test => (
+                                {currentTestGroup.tests.map(test => (
                                     <option key={test.testID} value={test.testID}>
                                         {test.title}
                                     </option>
@@ -175,26 +274,32 @@ const EditQuestionModal = ({
                     )}
                 </div>
 
-                {questions.length > 0 && (
+                {status === 'loading' && (
+                    <div className={styles.loadingSection}>
+                        <p>Sorular yükleniyor...</p>
+                    </div>
+                )}
+
+                {status === 'succeeded' && questions.length > 0 && (
                     <div className={styles.questionsSection}>
                         <h3 className={styles.sectionTitle}>Sorular</h3>
                         <div className={styles.questionsList}>
                             {questions.map(question => (
                                 <div
-                                    key={question.id}
-                                    className={`${styles.questionItem} ${selectedQuestion?.id === question.id ? styles.selected : ''}`}
+                                    key={question.questionID}
+                                    className={`${styles.questionItem} ${selectedQuestion?.questionID === question.questionID ? styles.selected : ''}`}
                                     onClick={() => setSelectedQuestion(question)}
                                 >
                                     <div className={styles.questionText}>
-                                        {question.text.length > 60
+                                        {question.text && question.text.length > 60
                                             ? `${question.text.substring(0, 60)}...`
-                                            : question.text}
+                                            : question.text || 'Metinsiz soru'}
                                     </div>
                                     <button
                                         className={styles.deleteButton}
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            handleDelete(question.id);
+                                            handleDelete(question.questionID);
                                         }}
                                     >
                                         Sil
@@ -205,6 +310,18 @@ const EditQuestionModal = ({
                     </div>
                 )}
 
+                {status === 'succeeded' && questions.length === 0 && selectedTest && (
+                    <div className={styles.noQuestions}>
+                        <p>Bu test için soru bulunamadı</p>
+                    </div>
+                )}
+
+                {status === 'failed' && (
+                    <div className={styles.errorSection}>
+                        <p>Hata: {error || 'Soru yüklenirken bir hata oluştu'}</p>
+                    </div>
+                )}
+
                 {selectedQuestion && (
                     <div className={styles.editSection}>
                         <h3 className={styles.sectionTitle}>Soru Düzenle</h3>
@@ -212,66 +329,131 @@ const EditQuestionModal = ({
                         <div className={styles.formGroup}>
                             <label className={styles.inputLabel}>Soru Metni*</label>
                             <textarea
-                                value={questionText}
-                                onChange={(e) => setQuestionText(e.target.value)}
+                                value={formData.questionText}
+                                onChange={(e) => setFormData({ ...formData, questionText: e.target.value })}
                                 className={styles.textArea}
                                 rows={3}
+                            />
+                        </div>
+
+                        {/* Question Image */}
+                        <div className={styles.formGroup}>
+                            <label className={styles.inputLabel}>Soru Görseli</label>
+                            {formData.existingImages.question && (
+                                <div className={styles.imagePreview}>
+                                    <img
+                                        src={formData.existingImages.question}
+                                        alt="Mevcut soru görseli"
+                                        className={styles.existingImage}
+                                    />
+                                    <span>Mevcut Görsel</span>
+                                </div>
+                            )}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => handleImageChange('questionImage', e.target.files[0])}
+                                className={styles.fileInput}
                             />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label className={styles.inputLabel}>Seçenekler*</label>
-                            {options.map((option, index) => (
-                                <div key={index} className={styles.optionRow}>
-                                    <input
-                                        type="radio"
-                                        name="correctAnswer"
-                                        checked={correctAnswer === index}
-                                        onChange={() => setCorrectAnswer(index)}
-                                        className={styles.optionRadio}
-                                    />
-                                    <input
-                                        type="text"
-                                        value={option}
-                                        onChange={(e) => handleOptionChange(index, e.target.value)}
-                                        className={styles.optionInput}
-                                        placeholder={`Seçenek ${index + 1}`}
-                                    />
+                            {formData.options.map((option, index) => (
+                                <div key={index} className={styles.optionContainer}>
+                                    <div className={styles.optionRow}>
+                                        <input
+                                            type="radio"
+                                            name="correctAnswer"
+                                            checked={formData.answer === index}
+                                            onChange={() => setFormData({ ...formData, answer: index })}
+                                            className={styles.optionRadio}
+                                        />
+                                        <input
+                                            type="text"
+                                            value={option}
+                                            onChange={(e) => handleOptionChange(index, e.target.value)}
+                                            className={styles.optionInput}
+                                            placeholder={`${String.fromCharCode(65 + index)} Seçeneği`}
+                                        />
+                                    </div>
+
+                                    {/* Option Image */}
+                                    <div className={styles.optionImageContainer}>
+                                        {formData.existingImages[`option${String.fromCharCode(65 + index)}`] && (
+                                            <div className={styles.imagePreview}>
+                                                <img
+                                                    src={formData.existingImages[`option${String.fromCharCode(65 + index)}`]}
+                                                    alt={`${String.fromCharCode(65 + index)} seçeneği mevcut görsel`}
+                                                    className={styles.existingImage}
+                                                />
+                                                <span>Mevcut</span>
+                                            </div>
+                                        )}
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleImageChange(`option${String.fromCharCode(65 + index)}Image`, e.target.files[0])}
+                                            className={styles.fileInput}
+                                        />
+                                    </div>
                                 </div>
                             ))}
                         </div>
 
-                        <div className={styles.formRow}>
-                            <div className={styles.formGroup}>
-                                <label className={styles.inputLabel}>Zorluk*</label>
-                                <select
-                                    value={difficulty}
-                                    onChange={(e) => setDifficulty(e.target.value)}
-                                    className={styles.selectInput}
-                                >
-                                    <option value="easy">Kolay</option>
-                                    <option value="medium">Orta</option>
-                                    <option value="hard">Zor</option>
-                                </select>
-                            </div>
+                        {/* Flashcard Section */}
+                        <div className={styles.flashcardSection}>
+                            <h4 className={styles.subSectionTitle}>Bilgi Kartı</h4>
 
-                            <div className={styles.formGroup}>
-                                <label className={styles.inputLabel}>Doğru Cevap</label>
-                                <div className={styles.correctAnswer}>
-                                    {options[correctAnswer] || 'Seçenek belirtilmedi'}
-                                </div>
-                            </div>
-                        </div>
+                            {flashCardStatus === 'loading' && (
+                                <p>Bilgi kartı yükleniyor...</p>
+                            )}
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.inputLabel}>Çözüm Açıklaması</label>
-                            <textarea
-                                value={explanation}
-                                onChange={(e) => setExplanation(e.target.value)}
-                                className={styles.textArea}
-                                rows={3}
-                                placeholder="Soru çözümünü buraya yazın"
-                            />
+                            {flashCardStatus === 'succeeded' && flashCards.length > 0 && (
+                                <>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.inputLabel}>Ön Yüz</label>
+                                        <input
+                                            type="text"
+                                            value={formData.flashCardFront}
+                                            onChange={(e) => setFormData({ ...formData, flashCardFront: e.target.value })}
+                                            className={styles.textInput}
+                                            placeholder="Bilgi kartının ön yüzü"
+                                        />
+                                    </div>
+
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.inputLabel}>Arka Yüz</label>
+                                        <textarea
+                                            value={formData.flashCardBack}
+                                            onChange={(e) => setFormData({ ...formData, flashCardBack: e.target.value })}
+                                            className={styles.textArea}
+                                            rows={2}
+                                            placeholder="Bilgi kartının arka yüzü"
+                                        />
+                                    </div>
+
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.checkboxLabel}>
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.removeFlashCard}
+                                                onChange={(e) => setFormData({ ...formData, removeFlashCard: e.target.checked })}
+                                                className={styles.checkboxInput}
+                                            />
+                                            Bilgi kartını kaldır
+                                        </label>
+                                    </div>
+                                </>
+                            )}
+
+                            {flashCardStatus === 'succeeded' && flashCards.length === 0 && (
+                                <p>Bu soru için bilgi kartı bulunamadı</p>
+                            )}
+
+                            {flashCardStatus === 'failed' && (
+                                <p>Bilgi kartı yüklenirken hata oluştu</p>
+                            )}
                         </div>
                     </div>
                 )}

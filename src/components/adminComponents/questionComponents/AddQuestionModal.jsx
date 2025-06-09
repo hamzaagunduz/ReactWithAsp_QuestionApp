@@ -4,7 +4,6 @@ import { createFullQuestion } from '../../../features/Question/QuestionSlice';
 import styles from '../../../style/adminPage/Question/AddQuestionModal.module.css';
 
 const AddQuestionModal = ({ isOpen, onClose, onSubmit, tests }) => {
-    console.log(tests)
     const dispatch = useDispatch();
 
     const [questionText, setQuestionText] = useState('');

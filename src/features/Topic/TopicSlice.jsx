@@ -25,6 +25,19 @@ export const fetchTopicsWithGroupedTests = createAsyncThunk(
         }
     }
 );
+// Mevcut bir konuyu güncelleme thunk'ı
+export const updateTopic = createAsyncThunk(
+    'topic/updateTopic',
+    async (updatedTopicData, { rejectWithValue }) => {
+        try {
+            // PUT isteği, URL sabit 'Topics', tüm topic objesi body'de
+            const response = await apiClient.put('Topics', updatedTopicData);
+            return response.data;  // Güncellenmiş konu verisi
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Konu güncellenirken bir hata oluştu');
+        }
+    }
+);
 
 // Yeni konu oluşturma thunk'ı
 export const createTopic = createAsyncThunk(
@@ -47,6 +60,8 @@ const initialState = {
     errorTopics: null,
     createTopicStatus: 'idle',
     createTopicError: null,
+    updateTopicStatus: 'idle',
+    updateTopicError: null,
 };
 
 const topicSlice = createSlice({
@@ -94,6 +109,22 @@ const topicSlice = createSlice({
                 state.createTopicStatus = 'failed';
                 state.createTopicError = action.payload;
             })
+            .addCase(updateTopic.pending, (state) => {
+                state.updateTopicStatus = 'loading';
+            })
+            .addCase(updateTopic.fulfilled, (state, action) => {
+                state.updateTopicStatus = 'succeeded';
+                const updatedTopic = action.payload;
+                const index = state.topics.findIndex((topic) => topic.topicID === updatedTopic.topicID);
+                if (index !== -1) {
+                    state.topics[index] = updatedTopic;
+                }
+            })
+            .addCase(updateTopic.rejected, (state, action) => {
+                state.updateTopicStatus = 'failed';
+                state.updateTopicError = action.payload;
+            })
+
 
 
     },

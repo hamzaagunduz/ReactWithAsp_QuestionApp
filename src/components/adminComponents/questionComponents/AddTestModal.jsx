@@ -15,7 +15,6 @@ const AddTestModal = ({ isOpen, onClose, tests }) => {
     // Bütün test gruplarını tek liste haline getir:
     const allTestGroups = topics.flatMap(topic => topic.testGroups || []);
     const [selectedTestID, setSelectedTestID] = useState('');
-    // console.log(tests)
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setForm((prev) => ({ ...prev, [name]: value }));

@@ -10,6 +10,7 @@ import AddTestGroupModal from '../../components/adminComponents/questionComponen
 import AddQuestionModal from '../../components/adminComponents/questionComponents/AddQuestionModal';
 import EditQuestionModal from '../../components/adminComponents/questionComponents/EditQuestionModal';
 import AddTestModal from '../../components/adminComponents/questionComponents/AddTestModal';
+import EditTopicModal from '../../components/adminComponents/questionComponents/EditTopicModal';
 
 import styles from '../../style/adminPage/Question/Question.module.css';
 
@@ -31,8 +32,9 @@ const QuestionPage = () => {
     const [isQuestionModalOpen, setIsQuestionModalOpen] = useState(false);
     const [isEditQuestionModalOpen, setIsEditQuestionModalOpen] = useState(false);
     const [isAddTestModalOpen, setIsAddTestModalOpen] = useState(false);
+    const [isEditTopicModalOpen, setIsEditTopicModalOpen] = useState(false);
 
-    const actions = ['Konu Ekle', 'Test Grubu Ekle', 'Test Ekle', 'Soru Ekle', 'Soru Düzenle'];
+    const actions = ['Konu Ekle', 'Konu Düzenle', 'Test Grubu Ekle', 'Test Ekle', 'Soru Ekle', 'Soru Düzenle'];
 
     useEffect(() => {
         if (examStatus === 'idle') dispatch(fetchExamOptions());
@@ -71,6 +73,7 @@ const QuestionPage = () => {
         else if (action === 'Soru Ekle') setIsQuestionModalOpen(true);
         else if (action === 'Soru Düzenle') setIsEditQuestionModalOpen(true);
         else if (action === 'Test Ekle') setIsAddTestModalOpen(true);
+        else if (action === 'Konu Düzenle') setIsEditTopicModalOpen(true);
 
     };
 
@@ -169,7 +172,6 @@ const QuestionPage = () => {
                                         {action === 'Konu Ekle' && '📚'}
                                         {action === 'Test Grubu Ekle' && '📝'}
                                         {action === 'Test Ekle' && '✏️'}
-
                                         {action === 'Soru Ekle' && '✏️'}
                                         {action === 'Soru Düzenle' && '🛠️'}
                                     </div>
@@ -207,21 +209,29 @@ const QuestionPage = () => {
                     onSubmit={handleAddQuestion}
                     tests={testsForSelectedCourse}
                 />
-
-                <EditQuestionModal
-                    isOpen={isEditQuestionModalOpen}
-                    onClose={() => setIsEditQuestionModalOpen(false)}
-                    onSubmit={handleUpdateQuestion}
-                    onDelete={handleDeleteQuestion}
-                    testTopic={groupedTests}
-                />
-
                 <AddTestModal
                     isOpen={isAddTestModalOpen}
                     onClose={() => setIsAddTestModalOpen(false)}
                     tests={groupedTests}
                     onSubmit={(data) => console.log("Eklenecek Test:", data)}
                 />
+
+                <EditQuestionModal
+                    isOpen={isEditQuestionModalOpen}
+                    onClose={() => setIsEditQuestionModalOpen(false)}
+                    onSubmit={handleUpdateQuestion}
+                    onDelete={handleDeleteQuestion}
+                    testTopics={groupedTests}
+                />
+                <EditTopicModal
+                    isOpen={isEditTopicModalOpen}
+                    onClose={() => setIsEditTopicModalOpen(false)}
+                    selectedCourseID={selectedCourseID}
+                    testTopics={groupedTests}
+
+                />
+
+
 
 
             </div>

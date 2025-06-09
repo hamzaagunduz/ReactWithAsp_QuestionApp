@@ -35,6 +35,20 @@ export const createFullQuestion = createAsyncThunk(
     }
 );
 
+export const updateFullQuestion = createAsyncThunk(
+    'question/updateFullQuestion',
+    async (formData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put('Questions/update-full-question', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Soru güncellenemedi');
+        }
+    }
+);
+
 
 const questionSlice = createSlice({
     name: 'question',
@@ -47,6 +61,8 @@ const questionSlice = createSlice({
         testError: null,       // 👈 Test hata mesajı
         createStatus: 'idle',   // ✅ yeni eklendi
         createError: null,      // ✅ yeni eklendi
+        updateStatus: 'idle',     // ✅ Güncelleme durumu
+        updateError: null,        // ✅ Güncelleme hatası
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -89,6 +105,22 @@ const questionSlice = createSlice({
                 state.createStatus = 'failed';
                 state.createError = action.payload;
             })
+            .addCase(updateFullQuestion.pending, (state) => {
+                state.updateStatus = 'loading';
+                state.updateError = null;
+            })
+            .addCase(updateFullQuestion.fulfilled, (state, action) => {
+                state.updateStatus = 'succeeded';
+                const updatedQuestion = action.payload;
+                const index = state.questions.findIndex(q => q.QuestionID === updatedQuestion.QuestionID);
+                if (index !== -1) {
+                    state.questions[index] = updatedQuestion;
+                }
+            })
+            .addCase(updateFullQuestion.rejected, (state, action) => {
+                state.updateStatus = 'failed';
+                state.updateError = action.payload;
+            });
 
     },
 });
