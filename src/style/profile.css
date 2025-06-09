@@ -4,12 +4,12 @@ body {
     font-family: "Quicksand", sans-serif;
     background-color: #f9f9f9;
     margin: 0;
-    padding: 20px;
     color: #333;
 }
 
 /* Ana Konteyner */
 .profile-container {
+    padding: 20px;
 
     max-width: 90%;
     margin: 0 auto;

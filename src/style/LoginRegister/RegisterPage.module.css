@@ -1,0 +1,154 @@
+.registerBody {
+    background: linear-gradient(135deg, rgba(0, 166, 255, 0.35), rgba(255, 255, 255, 0.2), rgba(143, 255, 0, 0.25));
+    width: 100%;
+    min-height: 100vh;
+    margin: 0px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerContainer {
+    position: relative;
+    max-width: 420px;
+    margin: auto;
+    padding: 0 20px;
+    text-align: center;
+    color: #333;
+}
+
+.registerTitle {
+    font-size: 38px;
+    font-weight: 800;
+    color: rgb(28, 176, 246);
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(246, 28, 164, 0.15);
+}
+
+.registerSubtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.registerInput {
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.registerInput:focus {
+    border-bottom-color: rgb(246, 28, 164);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.examSelect {
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-bottom: 2px solid #ccc;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    outline: none;
+    color: #555;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 16px;
+}
+
+.examSelect:focus {
+    border-bottom-color: rgb(246, 28, 164);
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.registerButton {
+    padding: 14px;
+    font-size: 18px;
+    background-color: rgba(255, 187, 0, 0.4);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 3px rgba(255, 166, 0, 0.4);
+    transition: all 0.3s ease;
+}
+
+.registerButton:hover:not(:disabled) {
+    background-color: rgba(255, 187, 0, 0.7);
+    transform: translateY(-2px);
+    box-shadow: rgba(255, 166, 0, 0.8) 0px 4px;
+}
+
+.registerButton:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: rgba(255, 166, 0, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
+}
+
+.registerButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.registerMessage {
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #444;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 10px 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+    white-space: pre-line;
+}
+
+.registerLinks {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.registerLink {
+    font-size: 14px;
+    color: #cc0077;
+    text-decoration: none;
+}
+
+.registerLink:hover {
+    color: #a3005f;
+    text-decoration: underline;
+}
+
+.registerFooter {
+    margin-top: 40px;
+    font-size: 13px;
+    color: #888;
+}
+
+.registerFooter a {
+    color: #888;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.registerFooter a:hover {
+    text-decoration: underline;
+    color: #444;
+}

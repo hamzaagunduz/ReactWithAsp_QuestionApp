@@ -16,6 +16,18 @@ export const fetchAppUser = createAsyncThunk(
     }
 );
 
+// Tüm kullanıcıları API'den çekmek için yeni thunk
+export const fetchAllAppUser = createAsyncThunk(
+    'appUser/fetchAllAppUser',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get('AppUser');
+            return response.data;  // Tüm kullanıcılar burada
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
 
 // AppUser'ı güncellemek için thunk fonksiyonu
 export const updateAppUserExam = createAsyncThunk(
@@ -44,53 +56,110 @@ export const decreaseLife = createAsyncThunk(
     }
 );
 
+export const toggleUserBan = createAsyncThunk(
+    'appUser/toggleBan',
+    async ({ userId, banStatus }, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put('AppUser/ban', {
+                userId,
+                banStatus
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Ban işlemi sırasında hata oluştu');
+        }
+    }
+);
+
 const appUserSlice = createSlice({
     name: 'appUser',
     initialState: {
-        user: null,  // Kullanıcı bilgilerini tutacak state
-        status: 'idle',  // idle | loading | succeeded | failed
+        user: null,          // Tekil kullanıcı bilgisi
+        users: [],           // Tüm kullanıcıların listesi için yeni state
+        status: 'idle',      // idle | loading | succeeded | failed
         error: null,
+        banOperation: { // Separate state for ban operations
+            status: 'idle',
+            error: null
+        }
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // AppUser bilgilerini getirme işlemi
+            // Tek kullanıcıyı getirme işlemi
             .addCase(fetchAppUser.pending, (state) => {
-                state.status = 'loading';  // Yükleniyor durumunu ayarlıyoruz
+                state.status = 'loading';
             })
             .addCase(fetchAppUser.fulfilled, (state, action) => {
-                state.status = 'succeeded';  // Veri başarıyla alındığında
-                state.user = action.payload;  // API'den gelen kullanıcı verisini kaydediyoruz
+                state.status = 'succeeded';
+                state.user = action.payload;
             })
             .addCase(fetchAppUser.rejected, (state, action) => {
-                state.status = 'failed';  // Hata durumunda
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            // Tüm kullanıcıları getirme işlemi
+            .addCase(fetchAllAppUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchAllAppUser.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.users = action.payload;  // API'den dönen tüm kullanıcılar
+            })
+            .addCase(fetchAllAppUser.rejected, (state, action) => {
+                state.status = 'failed';
                 state.error = action.payload;
             })
             // AppUser'ı güncelleme işlemi
             .addCase(updateAppUserExam.pending, (state) => {
-                state.status = 'loading';  // Güncelleme işlemi sırasında yükleniyor
+                state.status = 'loading';
             })
             .addCase(updateAppUserExam.fulfilled, (state, action) => {
-                state.status = 'succeeded';  // Veri başarıyla güncellendiğinde
-                state.user.examID = action.payload.examID;  // Kullanıcının examID'sini güncelliyoruz
+                state.status = 'succeeded';
+                if (state.user) {
+                    state.user.examID = action.payload.examID;
+                }
             })
             .addCase(updateAppUserExam.rejected, (state, action) => {
-                state.status = 'failed';  // Hata durumunda
-                state.error = action.payload;  // Hata mesajını saklıyoruz
-            });
-
-        builder
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            // Can azaltma işlemi
             .addCase(decreaseLife.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
             })
             .addCase(decreaseLife.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-
             })
             .addCase(decreaseLife.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(toggleUserBan.pending, (state) => {
+                state.banOperation.status = 'loading';
+                state.banOperation.error = null;
+            })
+            .addCase(toggleUserBan.fulfilled, (state, action) => {
+                state.banOperation.status = 'succeeded';
+
+                // Update user in users array
+                const userId = action.payload.userId;
+                const newBanStatus = action.payload.newBanStatus;
+
+                // Update in users list
+                state.users = state.users.map(user =>
+                    user.userId === userId ? { ...user, ban: newBanStatus } : user
+                );
+
+                // Update in current user if it's the same user
+                if (state.user && state.user.userId === userId) {
+                    state.user.ban = newBanStatus;
+                }
+            })
+            .addCase(toggleUserBan.rejected, (state, action) => {
+                state.banOperation.status = 'failed';
+                state.banOperation.error = action.payload;
             });
     },
 });

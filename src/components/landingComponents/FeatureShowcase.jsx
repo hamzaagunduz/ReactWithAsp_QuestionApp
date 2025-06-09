@@ -1,61 +1,64 @@
 import React from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import styles from './FeatureShowcase.module.css';
 
-import bir from "../../assets/landingpage/1.jpg";
-import iki from "../../assets/landingpage/2.jpg";
-import uc from "../../assets/landingpage/3.jpg";
+import { FaRobot } from 'react-icons/fa';
+import { RiFileList2Line } from 'react-icons/ri';
+import { BiBarChartAlt2 } from 'react-icons/bi';
+import { GiArchiveResearch } from 'react-icons/gi';
 
 const FeatureShowcase = () => {
     React.useEffect(() => {
-        AOS.init({ duration: 800 });
+        AOS.init({ duration: 800, once: true });
     }, []);
 
     const features = [
         {
+            icon: <FaRobot size={40} />,
             title: "Yapay Zeka ile Soru Çözümü",
-            description: "Zorlandığın ya da çözemediğin soruları saniyeler içinde analiz eder. Yanlış yaptığın noktayı tespit eder, adım adım çözüm yolu sunar ve eksik kavramlarını tamamlamana yardımcı olur. Tıpkı birebir özel ders gibi, ama 7/24 ulaşılabilir bir asistanla!",
-            image: bir,
-            reverse: false
+            description: "Zorlandığın soruları saniyeler içinde analiz eder, adım adım çözüm yolu sunar."
         },
         {
+            icon: <RiFileList2Line size={40} />,
             title: "Kişisel Test Önerileri",
-            description: "Sistem, çözüm geçmişini analiz ederek hangi konularda zayıf olduğunu tespit eder ve sana özel testler oluşturur. Böylece rastgele değil, hedefe yönelik çalışırsın. Tam olarak ihtiyacın olan konulara odaklanır, zaman kaybetmeden gelişirsin.",
-            image: iki,
-            reverse: true
+            description: "Çözüm geçmişini analiz ederek zayıf olduğun konulara özel testler oluşturur."
         },
         {
-            title: "Gelişim ve İstatistik Takibi",
-            description: "Çalışmalarını sadece hislerine göre değil, veriye dayalı olarak takip et. Günlük, haftalık ve aylık performans grafiklerinle ilerlemeni net bir şekilde gör. Hangi konularda ilerlediğini, nerede takıldığını fark et ve çalışma planını buna göre optimize et.",
-            image: uc,
-            reverse: false
+            icon: <BiBarChartAlt2 size={40} />,
+            title: "Gelişim Takibi",
+            description: "Performans grafiklerinle ilerlemeni net bir şekilde gör ve çalışma planını optimize et."
         },
         {
+            icon: <GiArchiveResearch size={40} />,
             title: "Kapsamlı Soru Bankası",
-            description: "Binlerce özgün ve seviyelere göre kategorize edilmiş sorudan oluşan devasa bir havuz seni bekliyor. Konu bazlı filtreleme ile tam olarak ihtiyacın olan soruları çöz, farklı soru tarzlarını görerek sınava her açıdan hazırlan.",
-            image: bir,
-            reverse: true
+            description: "Binlerce özgün ve seviyelere göre kategorize edilmiş sorudan oluşan devasa havuz."
         }
     ];
 
-
     return (
-        <section className="feature-showcase-section">
-            {features.map((feature, index) => (
-                <div
-                    className={`feature-showcase ${feature.reverse ? 'reverse' : ''}`}
-                    key={index}
-                    data-aos="fade-up"
-                >
-                    <div className="feature-text">
-                        <h2>{feature.title}</h2>
+        <section className={styles.featureShowcase}>
+            <div className={styles.sectionHeader}>
+                <h2 data-aos="fade-up">Güçlü Özellikler</h2>
+                <p data-aos="fade-up" data-aos-delay="100">Dobi ile öğrenme deneyiminizi dönüştürün</p>
+            </div>
+
+            <div className={styles.featuresGrid}>
+                {features.map((feature, index) => (
+                    <div
+                        className={styles.featureCard}
+                        key={index}
+                        data-aos="fade-up"
+                        data-aos-delay={index * 100}
+                    >
+                        <div className={styles.featureIcon}>
+                            {feature.icon}
+                        </div>
+                        <h3>{feature.title}</h3>
                         <p>{feature.description}</p>
                     </div>
-                    <div className="feature-image">
-                        <img src={feature.image} alt={feature.title} />
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </section>
     );
 };

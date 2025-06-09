@@ -17,6 +17,7 @@ const ProductList = ({ onEditProduct }) => {
     const [products, setProducts] = useState([]);
     const [filter, setFilter] = useState('all'); // 'diamond', 'premium', 'all'
 
+
     // API'den shop item'larını ve diamond pack item'larını çek
     useEffect(() => {
         dispatch(fetchAllShopItems());

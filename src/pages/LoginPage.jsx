@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, isLoggedIn } from '../app/authService.jsx';
-import '../style/LoginRegister/LoginPage.css';
+import styles from '../style/LoginRegister/LoginPage.module.css';
 
 const LoginPage = () => {
     const [userName, setUserName] = useState('');
@@ -9,7 +9,6 @@ const LoginPage = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    // Eğer kullanıcı zaten giriş yaptıysa direkt yönlendir
     useEffect(() => {
         if (isLoggedIn()) {
             navigate('/');
@@ -23,25 +22,27 @@ const LoginPage = () => {
             setMessage('✅ Giriş başarılı, yönlendiriliyorsunuz...');
             setTimeout(() => {
                 navigate('/');
-            }, 1000); // 1 saniye bekleyip yönlendir
+            }, 1000);
         } catch (error) {
             setMessage('❌ Giriş başarısız. Bilgileri kontrol edin.');
         }
     };
 
     return (
-        <div className='login-body'>
-            <div className="login-container">
-                <h2 className="login-title">Giriş Yap</h2>
-                <p className="login-subtitle">Hoş geldiniz 👋 <br /> Devam etmek için bilgilerinizi girin.</p>
+        <div className={styles.loginBody}>
+            <div className={styles.loginContainer}>
+                <h2 className={styles.loginTitle}>Giriş Yap</h2>
+                <p className={styles.loginSubtitle}>
+                    Hoş geldiniz 👋 <br /> Devam etmek için bilgilerinizi girin.
+                </p>
 
-                <form onSubmit={handleSubmit} className="login-form">
+                <form onSubmit={handleSubmit} className={styles.loginForm}>
                     <input
                         type="text"
                         placeholder="Kullanıcı Adı"
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
-                        className="login-input"
+                        className={styles.loginInput}
                         required
                     />
                     <input
@@ -49,26 +50,26 @@ const LoginPage = () => {
                         placeholder="Şifre"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="login-input"
+                        className={styles.loginInput}
                         required
                     />
-                    <button type="submit" className="login-button">Giriş</button>
+                    <button type="submit" className={styles.loginButton}>Giriş</button>
                 </form>
 
-                {message && <p className="login-message">{message}</p>}
+                {message && <p className={styles.loginMessage}>{message}</p>}
 
-                <div className="login-links">
-                    <a href="#" className="login-link">🔐 Şifreni mi unuttun?</a>
-                    <a href="/register" className="login-link">📝 Hesabın yok mu? Kayıt ol</a>
+                <div className={styles.loginLinks}>
+                    <a href="#" className={styles.loginLink}>🔐 Şifreni mi unuttun?</a>
+                    <a href="/register" className={styles.loginLink}>📝 Hesabın yok mu? Kayıt ol</a>
                 </div>
 
-                <div className="social-icons">
+                <div className={styles.socialIcons}>
                     <i className="fab fa-facebook-f"></i>
                     <i className="fab fa-google"></i>
                     <i className="fab fa-github"></i>
                 </div>
 
-                <footer className="login-footer">
+                <footer className={styles.loginFooter}>
                     <p>© 2025 Dobe. Tüm hakları saklıdır. | <a href="#">Gizlilik</a> • <a href="#">Şartlar</a></p>
                 </footer>
             </div>

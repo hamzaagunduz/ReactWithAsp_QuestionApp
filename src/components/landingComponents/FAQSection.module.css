@@ -1,0 +1,137 @@
+/* FAQSection.module.css */
+.faqSection {
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.sectionHeader h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.sectionHeader h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: #00a6ff;
+    border-radius: 2px;
+}
+
+.sectionHeader p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 2rem auto 0;
+}
+
+.faqContainer {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.faqItem {
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.faqItem.active {
+    background: rgba(0, 166, 255, 0.05);
+}
+
+.faqQuestion {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.faqItem.active .faqQuestion {
+    color: #00a6ff;
+}
+
+.faqQuestion:hover {
+    color: #00a6ff;
+}
+
+.faqIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(0, 166, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00a6ff;
+    transition: all 0.3s ease;
+}
+
+.faqItem.active .faqIcon {
+    background: #00a6ff;
+    color: white;
+    transform: rotate(180deg);
+}
+
+.faqAnswer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.faqItem.active .faqAnswer {
+    max-height: 500px;
+}
+
+.faqAnswer p {
+    padding: 0 1.5rem 1.5rem;
+    color: #475569;
+    line-height: 1.7;
+}
+
+.ctaContainer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(0, 166, 255, 0.05);
+    border-radius: 16px;
+}
+
+.ctaContainer p {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 0;
+}
+
+.ctaContainer a {
+    color: #00a6ff;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.ctaContainer a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,158 @@
+.testimonialsSection {
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 0 1rem;
+}
+
+.sectionHeader h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.sectionHeader h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: #4361ee;
+    border-radius: 2px;
+}
+
+.sectionHeader p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 2rem auto 0;
+}
+
+.testimonialContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.testimonialCard {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: #4361ee;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto 1.5rem;
+}
+
+.testimonialContent p {
+    font-size: 1.1rem;
+    color: #495057;
+    line-height: 1.8;
+    font-style: italic;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.testimonialContent p:before,
+.testimonialContent p:after {
+    content: '"';
+    font-size: 3rem;
+    color: rgba(67, 97, 238, 0.1);
+    position: absolute;
+}
+
+.testimonialContent p:before {
+    top: -20px;
+    left: -30px;
+}
+
+.testimonialContent p:after {
+    bottom: -40px;
+    right: -30px;
+}
+
+.authorInfo h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 0.3rem;
+}
+
+.authorInfo span {
+    font-size: 0.95rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.controlButton {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4361ee;
+    font-size: 1.2rem;
+}
+
+.controlButton:hover {
+    background: #4361ee;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.2);
+}
+
+.dots {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #dee2e6;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: #4361ee;
+    transform: scale(1.2);
+}

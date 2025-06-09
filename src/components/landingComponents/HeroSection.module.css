@@ -1,0 +1,238 @@
+/* HeroSection.module.css */
+.hero {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 3rem;
+}
+
+.heroContent {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #0f172a;
+}
+
+.highlight {
+    color: #00a6ff;
+    position: relative;
+    display: inline-block;
+}
+
+.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 166, 255, 0.2);
+    z-index: -1;
+    border-radius: 4px;
+}
+
+.hero p {
+    font-size: 1.15rem;
+    color: #475569;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.ctaButton {
+    padding: 0.9rem 2.2rem;
+    background: #00a6ff;
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 166, 255, 0.3);
+}
+
+.ctaButton:hover {
+    background: #0086d6;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 166, 255, 0.4);
+}
+
+.secondaryButton {
+    padding: 0.9rem 2.2rem;
+    background: transparent;
+    color: #00a6ff;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid #00a6ff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+    background: rgba(0, 166, 255, 0.05);
+    transform: translateY(-3px);
+}
+
+.stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.statItem {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.statValue {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #00a6ff;
+    margin-bottom: 0.3rem;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.heroImage {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.appMockup {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    background: white;
+}
+
+.mockupScreen {
+    position: relative;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f0f9ff, #e6fffa);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.screenContent {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    z-index: 2;
+}
+
+.appHeader {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #00a6ff;
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.appFeature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-radius: 12px;
+    margin: 1rem 0;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.appFeature:hover {
+    transform: translateX(10px);
+}
+
+.featureIcon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 166, 255, 0.1);
+    color: #00a6ff;
+    border-radius: 10px;
+    font-size: 1.2rem;
+}
+
+.featureText {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .heroContent {
+        max-width: 100%;
+    }
+
+    .stats {
+        justify-content: center;
+    }
+
+    .buttonGroup {
+        justify-content: center;
+    }
+
+    .statItem {
+        align-items: center;
+    }
+
+    .heroImage {
+        margin-top: 3rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .stats {
+        flex-wrap: wrap;
+    }
+}

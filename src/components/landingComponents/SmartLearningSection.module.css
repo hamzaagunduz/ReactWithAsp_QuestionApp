@@ -1,0 +1,104 @@
+.smartLearning {
+    padding: 6rem 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.smartContent {
+    flex: 1;
+}
+
+.smartContent h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+}
+
+.smartContent p {
+    font-size: 1.1rem;
+    color: #495057;
+    margin-bottom: 2rem;
+    line-height: 1.7;
+}
+
+.learningPoints {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.learningPoint {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.learningPoint:hover {
+    transform: translateX(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.pointIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(67, 97, 238, 0.05);
+    border-radius: 50%;
+}
+
+.learningPoint span {
+    font-weight: 500;
+    color: #212529;
+    font-size: 1.05rem;
+}
+
+.smartImage {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.smartImage img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .smartContent {
+        order: 2;
+        text-align: center;
+    }
+
+    .learningPoint {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .smartImage {
+        order: 1;
+    }
+}

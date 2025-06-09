@@ -44,7 +44,6 @@ function TrainPage() {
     const { questions } = useSelector(state => state.question);
     const test = useSelector(state => state.question.test);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
-    console.log(questions)
 
     useEffect(() => {
         if (testId) {
@@ -159,11 +158,14 @@ function TrainPage() {
         dispatch(updateDailyMission({ wrongAnswerCount: incorrectAnswers }));
 
 
+        const localDate = new Date();
+        const localISOString = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
+
         dispatch(submitPerformance({
-            completedAt: new Date().toISOString(),
+            completedAt: localISOString,
             performances: [
                 {
-                    topicId: test.topicID, // veya questions[0].topicId
+                    topicId: test.topicID,
                     correctCount: correctAnswers,
                     wrongCount: incorrectAnswers,
                     durationInMinutes: durationInMinutes
@@ -173,17 +175,18 @@ function TrainPage() {
 
 
 
-
         setShowModal(false);
         navigate(-1);
     };
 
 
     if (!questions || questions.length === 0) {
-        return <div></div>;
+        return <div>Sorular yükleniyor</div>;
     }
 
+
     return (
+
         <div className="train-container">
             <div className="back-button-train" onClick={() => navigate(-1)}>
                 <FaArrowLeft size={50} /> Geri

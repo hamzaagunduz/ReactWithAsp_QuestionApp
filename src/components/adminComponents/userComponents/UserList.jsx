@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import UserActions from './UserActions';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';
+import { fetchAllAppUser } from '../../../features/AppUser/AppUserSlice';
 
 const UserList = ({ onSelectUser }) => {
-    const [users, setUsers] = useState([]);
+    const dispatch = useDispatch();
+    const { users: appUsers, status, error } = useSelector(state => state.appUser);
+
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filters, setFilters] = useState({
         status: 'all',
@@ -11,57 +15,35 @@ const UserList = ({ onSelectUser }) => {
         search: ''
     });
 
-    // Örnek kullanıcı verileri
+    // Kullanıcı verilerini çek
     useEffect(() => {
-        const mockUsers = [
-            {
-                id: 1,
-                name: 'Ahmet Yılmaz',
-                email: 'ahmet@example.com',
-                status: 'active',
-                type: 'premium',
-                diamonds: 150,
-                joinedDate: '2023-01-15'
-            },
-            {
-                id: 2,
-                name: 'Mehmet Kaya',
-                email: 'mehmet@example.com',
-                status: 'active',
-                type: 'free',
-                diamonds: 50,
-                joinedDate: '2023-03-22'
-            },
-            {
-                id: 3,
-                name: 'Zeynep Demir',
-                email: 'zeynep@example.com',
-                status: 'banned',
-                type: 'free',
-                diamonds: 0,
-                joinedDate: '2023-05-10'
-            },
-            {
-                id: 4,
-                name: 'Selin Şahin',
-                email: 'selin@example.com',
-                status: 'active',
-                type: 'premium',
-                diamonds: 300,
-                joinedDate: '2023-02-01'
-            }
-        ];
-
-        setUsers(mockUsers);
-        setFilteredUsers(mockUsers);
-    }, []);
+        dispatch(fetchAllAppUser());
+    }, [dispatch]);
 
     // Filtreleme fonksiyonu
     useEffect(() => {
-        let result = users;
+        if (!appUsers || appUsers.length === 0) {
+            setFilteredUsers([]);
+            return;
+        }
+
+        // API'den gelen kullanıcıları bileşenin beklediği formata dönüştür
+        const mappedUsers = appUsers.map(user => ({
+            id: user.userId,
+            name: `${user.firstName} ${user.surName}`,
+            email: user.email,
+            status: user.ban ? 'banned' : 'active',
+            type: user.diamond > 500 ? 'premium' : 'free', // Örnek premium belirleme mantığı
+            diamonds: user.diamond,
+            rawData: user // Orijinal veriyi sakla
+        }));
+
+        let result = mappedUsers;
 
         if (filters.status !== 'all') {
-            result = result.filter(user => user.status === filters.status);
+            result = result.filter(user =>
+                filters.status === 'banned' ? user.rawData.ban : !user.rawData.ban
+            );
         }
 
         if (filters.type !== 'all') {
@@ -77,10 +59,19 @@ const UserList = ({ onSelectUser }) => {
         }
 
         setFilteredUsers(result);
-    }, [filters, users]);
+    }, [filters, appUsers]);
 
     const handleFilterChange = (name, value) => {
         setFilters(prev => ({ ...prev, [name]: value }));
+    };
+
+    // Kullanıcı avatarı oluştur
+    const getAvatar = (name) => {
+        if (!name) return '?';
+        const names = name.split(' ');
+        return names.length > 1
+            ? `${names[0].charAt(0)}${names[1].charAt(0)}`
+            : name.charAt(0);
     };
 
     return (
@@ -95,7 +86,6 @@ const UserList = ({ onSelectUser }) => {
                         <option value="all">Tümü</option>
                         <option value="active">Aktif</option>
                         <option value="banned">Banlı</option>
-                        <option value="inactive">Pasif</option>
                     </select>
                 </div>
 
@@ -121,50 +111,85 @@ const UserList = ({ onSelectUser }) => {
                 </div>
             </div>
 
-            <div className={styles.userTable}>
-                <div className={styles.tableHeader}>
-                    <div>Kullanıcı</div>
-                    <div>Durum</div>
-                    <div>Tip</div>
-                    <div>Elmas</div>
-                    <div>İşlemler</div>
+            {status === 'loading' && (
+                <div className={styles.loadingContainer}>
+                    <p>Kullanıcılar yükleniyor...</p>
                 </div>
+            )}
 
-                <div className={styles.tableBody}>
-                    {filteredUsers.map(user => (
-                        <div
-                            key={user.id}
-                            className={`${styles.tableRow} ${user.status === 'banned' ? styles.banned : ''}`}
-                            onClick={() => onSelectUser(user)}
-                        >
-                            <div className={styles.userInfo}>
-                                <div className={styles.avatar}>{user.name.charAt(0)}</div>
-                                <div>
-                                    <div className={styles.userName}>{user.name}</div>
-                                    <div className={styles.userEmail}>{user.email}</div>
-                                </div>
-                            </div>
-                            <div>
-                                <span className={`${styles.statusBadge} ${styles[user.status]}`}>
-                                    {user.status === 'active' ? 'Aktif' :
-                                        user.status === 'banned' ? 'Banlı' : 'Pasif'}
-                                </span>
-                            </div>
-                            <div>
-                                <span className={`${styles.typeBadge} ${styles[user.type]}`}>
-                                    {user.type === 'premium' ? 'Premium' : 'Ücretsiz'}
-                                </span>
-                            </div>
-                            <div className={styles.diamondCount}>
-                                <span>💎</span> {user.diamonds}
-                            </div>
-                            <div>
-                                <UserActions user={user} />
-                            </div>
-                        </div>
-                    ))}
+            {status === 'failed' && (
+                <div className={styles.errorContainer}>
+                    <p>Hata: {error || 'Kullanıcılar alınamadı'}</p>
                 </div>
-            </div>
+            )}
+
+            {status === 'succeeded' && (
+                <div className={styles.userTable}>
+                    <div className={styles.tableHeader}>
+                        <div>Kullanıcı</div>
+                        <div>Durum</div>
+                        <div>Lig</div>
+                        <div>Testler</div>
+                        <div>Elmas</div>
+                        <div>İşlemler</div>
+                    </div>
+
+                    <div className={styles.tableBody}>
+                        {filteredUsers.length > 0 ? (
+                            filteredUsers.map(user => (
+                                <div
+                                    key={user.id}
+                                    className={`${styles.tableRow} ${user.status === 'banned' ? styles.banned : ''}`}
+                                    onClick={() => onSelectUser(user.rawData)}
+                                >
+                                    <div className={styles.userInfo}>
+                                        <div className={styles.avatar}>
+                                            {getAvatar(user.name)}
+                                        </div>
+                                        <div>
+                                            <div className={styles.userName}>{user.name}</div>
+                                            {/* <div className={styles.userEmail}>{user.email}</div> */}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <span className={`${styles.statusBadge} ${styles[user.status]}`}>
+                                            {user.status === 'banned' ? 'Banlı' : 'Aktif'}
+                                        </span>
+                                    </div>
+                                    {/* Add League Badge */}
+                                    <div>
+                                        <span className={`${styles.leagueBadge} ${styles[user.rawData.league?.toLowerCase() || 'bronze']}`}>
+                                            {user.rawData.league || 'Bronze'}
+                                        </span>
+                                    </div>
+                                    {/* Add Test Stats */}
+                                    <div className={styles.testStats}>
+                                        <div className={styles.testStat}>
+                                            <span>📝</span> {user.rawData.totalTestsCompleted || 0}
+                                        </div>
+                                        <div className={styles.testStat}>
+                                            <span>⭐</span> {user.rawData.perfectTestsCompleted || 0}
+                                        </div>
+                                        <div className={styles.testStat}>
+                                            <span>📊</span> {user.rawData.averageScore || 0}%
+                                        </div>
+                                    </div>
+                                    <div className={styles.diamondCount}>
+                                        <span>💎</span> {user.diamonds}
+                                    </div>
+                                    <div>
+                                        <UserActions user={user.rawData} />
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className={styles.noResults}>
+                                <p>Filtrenizle eşleşen kullanıcı bulunamadı</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

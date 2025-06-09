@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../style/LoginRegister/RegisterPage.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions } from '../features/Exam/ExamSlice';
 import { registerUser } from '../features/Register/RegisterSlice';
 import { useNavigate } from 'react-router-dom';
+import styles from '../style/LoginRegister/RegisterPage.module.css'; // CSS Module import
 
 const RegisterPage = () => {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const RegisterPage = () => {
 
     useEffect(() => {
         if (registerState.status === 'succeeded') {
-            setMessage('✅ Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...');
+            setMessage('✅ Yönlendiriliyorsunuz...');
             setTimeout(() => {
                 navigate('/login');
             }, 1500);
@@ -69,21 +69,21 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="register-body">
-            <div className="register-container">
-                <h2 className="register-title">Kayıt Ol</h2>
-                <p className="register-subtitle">
+        <div className={styles.registerBody}>
+            <div className={styles.registerContainer}>
+                <h2 className={styles.registerTitle}>Kayıt Ol</h2>
+                <p className={styles.registerSubtitle}>
                     Yeni bir hesap oluşturun 🚀<br />Tüm özelliklerden yararlanın.
                 </p>
 
-                <form onSubmit={handleRegister} className="register-form">
+                <form onSubmit={handleRegister} className={styles.registerForm}>
                     <input
                         type="text"
                         name="userName"
                         placeholder="Kullanıcı Adı"
                         value={formData.userName}
                         onChange={handleChange}
-                        className="register-input"
+                        className={styles.registerInput}
                         required
                     />
                     <input
@@ -92,7 +92,7 @@ const RegisterPage = () => {
                         placeholder="Email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="register-input"
+                        className={styles.registerInput}
                         required
                     />
                     <input
@@ -101,7 +101,7 @@ const RegisterPage = () => {
                         placeholder="Şifre"
                         value={formData.password}
                         onChange={handleChange}
-                        className="register-input"
+                        className={styles.registerInput}
                         required
                     />
                     <input
@@ -110,7 +110,7 @@ const RegisterPage = () => {
                         placeholder="Şifreyi Onayla"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        className="register-input"
+                        className={styles.registerInput}
                         required
                     />
 
@@ -118,7 +118,7 @@ const RegisterPage = () => {
                         name="examID"
                         value={formData.examID}
                         onChange={handleChange}
-                        className="exam-select"
+                        className={styles.examSelect}
                         required
                     >
                         <option value={0} disabled>📘 Sınav Türü Seçin</option>
@@ -129,24 +129,26 @@ const RegisterPage = () => {
                         ))}
                     </select>
 
-                    <button type="submit" className="register-button" disabled={registerState.status === 'loading'}>
+                    <button
+                        type="submit"
+                        className={styles.registerButton}
+                        disabled={registerState.status === 'loading'}
+                    >
                         {registerState.status === 'loading' ? 'Kaydediliyor...' : 'Kayıt Ol'}
                     </button>
                 </form>
 
                 {message && (
-                    <div className="register-message">
-                        {message.split('\n').map((msg, idx) => (
-                            <p key={idx}>{msg}</p>
-                        ))}
+                    <div className={styles.registerMessage}>
+                        {message}
                     </div>
                 )}
 
-                <div className="register-links">
-                    <a href="/login" className="register-link">🔐 Zaten hesabın var mı? Giriş yap</a>
+                <div className={styles.registerLinks}>
+                    <a href="/login" className={styles.registerLink}>🔐 Zaten hesabın var mı? Giriş yap</a>
                 </div>
 
-                <footer className="register-footer">
+                <footer className={styles.registerFooter}>
                     <p>© 2025 Dobe. Tüm hakları saklıdır. | <a href="#">Gizlilik</a> • <a href="#">Şartlar</a></p>
                 </footer>
             </div>

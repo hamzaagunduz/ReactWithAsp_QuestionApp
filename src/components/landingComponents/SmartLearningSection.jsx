@@ -1,45 +1,62 @@
 import React from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import smart from "../../assets/landingpage/smartlearn.jpg";
-import bir from "../../assets/landingpage/1.jpg";
-import iki from "../../assets/landingpage/2.jpg";
-import uc from "../../assets/landingpage/3.jpg";
+import styles from './SmartLearningSection.module.css';
+
+import learningImage from '../../assets/landingpage/1.jpg';
 
 const SmartLearningSection = () => {
     React.useEffect(() => {
-        AOS.init({ duration: 1000 });
+        AOS.init({ duration: 1000, once: true });
     }, []);
 
+    const learningPoints = [
+        "Kişiye özel öğrenme yolları",
+        "Eksik konu tespiti ve tamamlama",
+        "Verimli çalışma planları",
+        "Gerçek zamanlı performans analizi",
+        "Yapay zeka destekli tavsiyeler"
+    ];
+
     return (
-        <section className="smart-learning-section">
-            <div className="container smart-learning-container">
-                <div className="smart-learning-content" data-aos="fade-right">
-                    <h2>Daha Akıllı, Daha Hızlı Öğren</h2>
+        <section className={styles.smartLearning}>
+            <div className={styles.container}>
+                <div
+                    className={styles.smartContent}
+                    data-aos="fade-right"
+                >
+                    <h2>Akıllı Öğrenme Sistemi</h2>
                     <p>
-                        Dobi'nin gelişmiş algoritmaları, sana özel öğrenme yolları oluşturur.
-                        Eksik konularını tespit eder ve seni en verimli şekilde sınavlara hazırlar.
+                        Dobi'nin gelişmiş algoritmaları, öğrenme stilinize uygun kişiselleştirilmiş
+                        yol haritaları oluşturur. Eksiklerinizi tespit eder ve en verimli şekilde
+                        sınavlara hazırlanmanızı sağlar.
                     </p>
-                    <div className="learning-highlights">
-                        <div className="smart-highlight" data-aos="fade-up" data-aos-delay="100">
-                            <img src={bir} alt="Konu Gelişimi" />
-                            <span>Konu Bazlı Gelişim</span>
-                        </div>
-                        <div className="smart-highlight" data-aos="fade-up" data-aos-delay="200">
-                            <img src={iki} alt="Analiz" />
-                            <span>Gerçek Zamanlı Analiz</span>
-                        </div>
-                        <div className="smart-highlight" data-aos="fade-up" data-aos-delay="300">
-                            <img src={uc} alt="Tavsiye" />
-                            <span>Yapay Zeka Destekli Tavsiyeler</span>
-                        </div>
+
+                    <div className={styles.learningPoints}>
+                        {learningPoints.map((point, index) => (
+                            <div
+                                key={index}
+                                className={styles.learningPoint}
+                                data-aos="fade-up"
+                                data-aos-delay={index * 100}
+                            >
+                                <div className={styles.pointIcon}>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#4361ee" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                                <span>{point}</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                <div className="smart-learning-image" data-aos="fade-left">
-                    <img
-                        src={smart}
-                        alt="Smart Learning Illustration"
-                    />
+
+                <div
+                    className={styles.smartImage}
+                    data-aos="fade-left"
+                    data-aos-delay="200"
+                >
+                    <img src={learningImage} alt="Smart Learning" />
                 </div>
             </div>
         </section>
