@@ -1,16 +1,104 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
-
-body {
-    font-family: "Quicksand", sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    color: #333;
+/* RESPONSIVE DÜZENLEMELER */
+@media (max-width: 1200px) {
+    .profile-container {
+        max-width: 95%;
+    }
 }
 
-/* Ana Konteyner */
+@media (max-width: 992px) {
+    .profile-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .user-details {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .profile-progress-bar {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-block {
+        padding: 20px;
+    }
+
+    .profile-top {
+        padding: 20px;
+    }
+
+    .profile-stats {
+        flex-direction: column;
+    }
+
+    .stat-item {
+        flex: 1 1 100%;
+        margin-bottom: 10px;
+    }
+
+    .achievement-item {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .achievement-info {
+        align-items: center;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: 100%;
+        max-width: 300px;
+        margin: 5px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-container {
+        margin-top: 15px;
+        gap: 15px;
+    }
+
+    .profile-pic {
+        width: 90px;
+        height: 90px;
+    }
+
+    .user-name {
+        font-size: 18px;
+    }
+
+    .user-info {
+        font-size: 14px;
+    }
+
+    .block-header {
+        font-size: 20px;
+    }
+
+    .stat-item {
+        padding: 15px;
+    }
+
+    .achievement-title {
+        font-size: 18px;
+    }
+}
+
+/* GENEL STİLLER (GÜNCELLENMİŞ) */
 .profile-container {
     padding: 20px;
-
     max-width: 90%;
     margin: 0 auto;
     margin-top: 30px;
@@ -48,7 +136,6 @@ body {
     padding-top: 10px;
 }
 
-/* Profil Bilgileri */
 .profile-image {
     text-align: center;
 }
@@ -60,17 +147,20 @@ body {
     object-fit: cover;
     margin-bottom: 20px;
     transition: all 0.3s ease;
-
 }
 
 .profile-pic:hover {
-    background-color: #2575fc;
-    color: #fff;
     transform: translateY(-5px);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-
 }
 
+.forever-icon {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+}
 
 .user-name {
     font-size: 20px;
@@ -84,7 +174,6 @@ body {
     color: #777;
 }
 
-/* İstatistikler */
 .profile-stats {
     display: flex;
     flex-wrap: wrap;
@@ -101,6 +190,7 @@ body {
     text-align: center;
     font-size: 16px;
     flex: 1 1 45%;
+    min-width: 200px;
 }
 
 .stat-title {
@@ -115,8 +205,6 @@ body {
     color: rgb(255, 255, 255);
 }
 
-
-/* Başarılar */
 .achievement-item {
     width: 100%;
     display: flex;
@@ -125,25 +213,31 @@ body {
     justify-content: space-between;
 }
 
+.progress-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 .achievement-info {
     display: flex;
-    align-items: end;
-    justify-content: end;
-    text-align: end;
+    align-items: flex-end;
     flex-direction: column;
     color: #333;
-    right: 0px;
+    min-width: 150px;
 }
 
 .profile-progress-bar {
     position: relative;
-
     color: white;
     width: 400px;
     height: 16px;
     background-color: rgb(183, 183, 183);
     border-radius: 12px;
     margin-top: 20px;
+    flex-grow: 1;
+    max-width: 100%;
 }
 
 .achievement-title {
@@ -164,6 +258,9 @@ body {
 
 .profile-actions {
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .action-btn {
@@ -177,10 +274,22 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+}
 
+.action-btn.logout {
+    background-color: #ff6b6b;
 }
 
 .action-btn:hover {
-    background-color: rgb(102, 205, 79);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
 
+.action-btn.edit-profile:hover {
+    background-color: rgb(102, 205, 79);
+}
+
+.action-btn.logout:hover {
+    background-color: #ff5252;
 }

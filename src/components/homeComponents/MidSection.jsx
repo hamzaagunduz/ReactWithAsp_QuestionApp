@@ -53,7 +53,7 @@ export const MidSection = React.memo(() => {
 
 
     return (
-        <div className="col-12 col-md-6 bg-light position-relative">
+        <div className="col-12 col-md-6  position-relative">
             {!selectedCategory ? (
                 <div className="category-selection">
                     <div className="text-center lesson-title">Çalışmak İstediğin Dersi Seç</div>

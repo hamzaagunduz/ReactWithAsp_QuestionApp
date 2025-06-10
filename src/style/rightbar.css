@@ -77,7 +77,7 @@ body {
     flex-direction: column; */
 
     min-width: 280px;
-    background: #f8f9fa;
+    background: #ffff;
     padding: 20px;
     height: auto;
     z-index: 100;
@@ -166,7 +166,7 @@ body {
 }
 
 .promo-title {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: 700;
     margin-top: 35px;
     margin-bottom: 10px;
@@ -174,7 +174,7 @@ body {
 }
 
 .promo-description {
-    font-size: 14px;
+    font-size: 18px;
     color: #666;
     width: 70%;
     margin-bottom: 15px;

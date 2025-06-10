@@ -229,15 +229,16 @@ function TrainPage() {
                         Yapay Zeka
                     </button>
 
-                    {showAiModal && (
-                        <AiChatModal
-                            question={currentQuestion?.text || "Soru bulunamadı."}
-                            onClose={() => setShowAiModal(false)}
-                        />
-                    )}
+
                 </div>
 
             </div>
+            {showAiModal && (
+                <AiChatModal
+                    question={currentQuestion?.text || "Soru bulunamadı."}
+                    onClose={() => setShowAiModal(false)}
+                />
+            )}
 
             {showModal && (
                 <ResultModal

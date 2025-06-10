@@ -421,3 +421,144 @@
 
 
 }
+
+/* Existing styles remain unchanged */
+
+/* ========== RESPONSIVE ADJUSTMENTS ========== */
+/* Mobile: 0-576px */
+@media (max-width: 576px) {
+    .train-container {
+        padding: 10px;
+    }
+
+    .back-button-train {
+        top: 10px;
+        left: 10px;
+        width: 50px;
+        height: 30px;
+    }
+
+    .back-button-train svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .back-text {
+        display: none;
+    }
+
+    .train-title {
+        font-size: 24px;
+        margin-top: 40px;
+    }
+
+    .progress-bar-train {
+        width: 100%;
+    }
+
+    .question-text {
+        font-size: 18px;
+    }
+
+    .options-container button {
+        min-height: 45px;
+        font-size: 16px;
+    }
+
+    .question-card,
+    .question-card2 {
+        padding: 15px;
+    }
+
+    .next-buton-train {
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+}
+
+/* Tablet: 577-992px */
+@media (min-width: 577px) and (max-width: 992px) {
+    .train-container {
+        padding: 20px;
+    }
+
+    .back-button-train {
+        top: 15px;
+        left: 15px;
+    }
+
+    .train-title {
+        font-size: 26px;
+    }
+
+    .progress-bar-train {
+        width: 85%;
+    }
+
+    .question-text {
+        font-size: 19px;
+    }
+
+    .options-container button {
+        min-height: 50px;
+        font-size: 18px;
+    }
+
+    .next-buton-train {
+        height: 45px;
+        font-size: 16px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+}
+
+/* Desktop: 993px+ */
+@media (min-width: 993px) {
+    .progress-bar-train {
+        width: 75%;
+    }
+}
+
+/* Orientation adjustments */
+@media (max-width: 992px) and (orientation: landscape) {
+    .train-container {
+        padding: 10px;
+    }
+
+    .question-card,
+    .question-card2 {
+        min-height: auto;
+        padding: 10px;
+    }
+
+    .options-container button {
+        min-height: 40px;
+        margin-top: 8px;
+        padding: 5px 10px;
+    }
+}
+
+/* Height adjustments for small screens */
+@media (max-height: 700px) {
+    .train-title {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .question-text {
+        font-size: 18px;
+        min-height: auto;
+    }
+
+    .options-container button {
+        min-height: 40px;
+        margin-top: 10px;
+    }
+}

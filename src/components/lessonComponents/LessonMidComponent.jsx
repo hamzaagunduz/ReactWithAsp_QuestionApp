@@ -12,7 +12,7 @@ const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState(courseID || null);
-    const { topics } = useSelector((state) => state.topic);
+    const { topics, status: topicsStatus, error: topicsError } = useSelector((state) => state.topic);
     const healthResult = useSelector((state) => state.layout.healthResult);
     const lives = healthResult?.lives ?? 0;
 
@@ -54,24 +54,75 @@ const LessonMidComponent = ({ courseID }) => {
     }, [navigate, lives]);
 
     const openGroupModal = (tests, color) => {
-        setSelectedGroupTests(tests);
-        setSelectedGroupColor(color);
+        if (tests && tests.length > 0) {
+            setSelectedGroupTests(tests);
+            setSelectedGroupColor(color);
+        }
     };
 
     const closeGroupModal = () => {
         setSelectedGroupTests(null);
     };
 
+    // Loading state
+    if (topicsStatus === 'loading') {
+        return (
+            <div className="col-12 col-md-6 position-relative">
+                <button className="back-button" onClick={handleBack}></button>
+                <div className="d-flex justify-content-center mt-5">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (topicsStatus === 'failed') {
+        return (
+            <div className="col-12 col-md-6 position-relative">
+                <button className="back-button" onClick={handleBack}></button>
+                <div className="alert alert-danger mt-3">
+                    {topicsError || 'Error loading topics'}
+                    <button
+                        className="btn btn-sm btn-primary ms-2"
+                        onClick={() => dispatch(fetchTopicsWithGroupedTests(selectedCategory))}
+                    >
+                        Try Again
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Empty state
+    if (topicsStatus === 'succeeded' && (!topics || topics.length === 0)) {
+        return (
+            <div className="col-12 col-md-6 position-relative">
+                <button className="back-button" onClick={handleBack}></button>
+                <div className="alert alert-info mt-3">
+                    No topics available for this course.
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="col-12 col-md-6  bg-light position-relative">
+        <div className="col-12 col-md-6 position-relative">
             <button className="back-button" onClick={handleBack}></button>
 
             {topics.map((lesson, lessonIndex) => {
                 const lessonColor = colorScale[lessonIndex % colorScale.length];
                 const showModal = activeModalLessonIndex === lessonIndex;
 
+                // Filter out empty test groups
+                const validTestGroups = lesson.testGroups?.filter(group =>
+                    group.tests && group.tests.length >= 0
+                ) || [];
+
                 return (
-                    <div className="lesson-container" key={lessonIndex}>
+                    <div className="lesson-container" key={lesson.topicID || lessonIndex}>
                         <div className="d-flex flex-column align-items-center">
                             <div className="mid-top-card" style={{ backgroundColor: lessonColor }}>
                                 <div className="card-body d-flex flex-column flex-grow-1">
@@ -91,16 +142,24 @@ const LessonMidComponent = ({ courseID }) => {
                         <div className="card-container">
                             <div className="container mt-4 mb-4">
                                 <div className="row">
-                                    {lesson.testGroups?.map((group, groupIndex) => (
-                                        <CardComponent
-                                            key={groupIndex}
-                                            title={group.title}
-                                            description="Tıklayarak testleri görüntüleyin"
-                                            buttonText="Başla"
-                                            color={lessonColor}
-                                            onClick={() => openGroupModal(group.tests, lessonColor)}
-                                        />
-                                    ))}
+                                    {validTestGroups.length > 0 ? (
+                                        validTestGroups.map((group, groupIndex) => (
+                                            <CardComponent
+                                                key={group.testGroupID || groupIndex}
+                                                title={group.title}
+                                                description={group.description || "Tıklayarak testleri görüntüleyin"}
+                                                buttonText="Başla"
+                                                color={lessonColor}
+                                                onClick={() => openGroupModal(group.tests, lessonColor)}
+                                            />
+                                        ))
+                                    ) : (
+                                        <div className="col-12">
+                                            <div className="alert alert-warning">
+                                                Bu konu için henüz test bulunmamaktadır.
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
