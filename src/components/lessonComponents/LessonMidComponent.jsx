@@ -63,7 +63,7 @@ const LessonMidComponent = ({ courseID }) => {
     };
 
     return (
-        <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
+        <div className="col-12 col-md-6  bg-light position-relative">
             <button className="back-button" onClick={handleBack}></button>
 
             {topics.map((lesson, lessonIndex) => {

@@ -1,9 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import '../../style/rightbar.css'; // leftbar.css dosyasını import ettik
+import '../../style/rightbar.css';
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom'; // Link ve useLocation import edildi
+import { Link } from 'react-router-dom';
 import foreverIcon from '../../assets/forever.png';
 
 import heart from '../../assets/rightbar/rightTopIcons/heart.png';
@@ -11,18 +9,16 @@ import goal from '../../assets/rightbar/rightTopIcons/goal.png';
 import target from '../../assets/rightbar/rightTopIcons/target.png';
 import diamond from '../../assets/rightbar/rightTopIcons/diamond.png';
 
-import DailyMissions from './DailyMissions'; // doğru path'e göre güncelleyin
-
+import DailyMissions from './DailyMissions';
 
 import { fetchLivesInfo } from '../../features/Layout/LayoutSlice';
 import { getUserDailyMissions } from '../../features/DailyMission/DailyMissionSlice';
 
-
 export const Rightbar = () => {
-
     const [showModal, setShowModal] = useState(false);
     const [livesData, setLivesData] = useState(null);
-    const [timeLeft, setTimeLeft] = useState(null); // Bir sonraki can eklemeye kalan saniye
+    const [timeLeft, setTimeLeft] = useState(null);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const dispatch = useDispatch();
     const healthStatus = useSelector((state) => state.layout.healthStatus);
@@ -31,70 +27,30 @@ export const Rightbar = () => {
 
     const handleHeartClick = () => {
         dispatch(fetchLivesInfo());
-        setShowModal(true);  // Modal açmak için
+        setShowModal(true);
     };
+
     useEffect(() => {
-
         dispatch(getUserDailyMissions());
-
     }, [dispatch]);
 
     const sidebarRef = useRef(null);
     const contentWrapperRef = useRef(null);
 
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseEnter = () => setIsHovered(true);
-    const handleMouseLeave = () => setIsHovered(false);
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!sidebarRef.current || !contentWrapperRef.current) return;
-
-            const scrollTop = window.scrollY;
-            const viewportHeight = window.innerHeight;
-            const sidebarTop = sidebarRef.current.getBoundingClientRect().top + window.pageYOffset;
-            const contentHeight = contentWrapperRef.current.getBoundingClientRect().height;
-
-            // sticky mantığı
-            if (scrollTop >= sidebarTop) {
-                // `position: sticky`'yi CSS ile işletebiliriz, JS'te `top` değerini güncelliyoruz
-                contentWrapperRef.current.style.position = "sticky";
-                contentWrapperRef.current.style.top = "20px";  // Sayfa kaydırıldığında üstte sabit tutmak için
-
-                // Eğer başka bir kaydırma koşulu varsa, burada translateY gibi başka stil ayarlarını yapabilirsiniz
-                if (scrollTop >= contentHeight - viewportHeight + sidebarTop) {
-                    // Sabitleme sonrası içerik kayması durumu
-                    contentWrapperRef.current.style.transform = `translateY(-${contentHeight - viewportHeight + sidebarTop - 30}px)`;
-                } else {
-
-                    contentWrapperRef.current.style.transform = ""; // Kayma öncesi eski konum
-                }
-            } else {
-                contentWrapperRef.current.style.position = "";
-                contentWrapperRef.current.style.top = "";
-                contentWrapperRef.current.style.transform = "";
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
-    // Zamanı dakika:saniye formatında gösterelim
     const formatTime = (seconds) => {
         const m = Math.floor(seconds / 60);
         const s = Math.floor(seconds % 60);
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     };
+
     const closeModal = () => setShowModal(false);
 
-    useEffect(() => {
-        if (!showModal) {
-            // Modal kapalıysa hiçbir şey yapma
-            return;
-        }
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
 
-        if (!healthResult?.lastLifeAddedTime) return;
+    useEffect(() => {
+        if (!showModal || !healthResult?.lastLifeAddedTime) return;
 
         const updateTimer = () => {
             const lastLifeDate = new Date(healthResult.lastLifeAddedTime + "Z");
@@ -106,153 +62,134 @@ export const Rightbar = () => {
         };
 
         updateTimer();
-
         const timerId = setInterval(updateTimer, 1000);
 
         return () => clearInterval(timerId);
-
     }, [showModal, healthResult]);
 
-
-
-
     return (
-        <div
-            ref={sidebarRef}
-            className="sidebar col-md-4 flex-column bg-light d-none d-md-flex align-items-start justify-content-start h-auto "
-            style={{
-                position: 'relative',
-                right: 0,
-                top: 0,
-                zIndex: 10,
-            }}
-        >
-            <div ref={contentWrapperRef} className="content-wrapper  mt-3">
-
-                <div className="score">
-                    <ul className="list-unstyled d-flex justify-content-center align-items-center">
-                        {/* Dil Seçimi Menüsü */}
-                        <Link to="/analysis" style={{ textDecoration: 'none', color: 'inherit' }}>
-
-                            <li
-                                className="mx-3 text-center position-relative"
-                                onMouseEnter={handleMouseEnter}
-                                onMouseLeave={handleMouseLeave}
-                            >
-                                <div className="menu-trigger d-flex flex-column align-items-center">
-                                    <img src={target} alt="Dil Seçimi" className="icon-sizes" />
-                                    <p className="mb-0 small">Analiz</p>
-                                </div>
-
-                            </li>
-                        </Link>
-
-                        <Link to="/diamond" style={{ textDecoration: 'none', color: 'inherit' }}>
-
-                            <li className="mx-3 text-center">
-                                <img src={diamond} alt="Gems" className="icon-sizes " />
-                                <p className="mb-0 small">Elmas</p>
-                            </li>
-                        </Link>
-
-                        <Link to="/achievements" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <li className="mx-3 text-center cursor-pointer list-none">
-                                <img src={goal} alt="Başarı" className="icon-sizes" />
-                                <p className="mb-0 small">Başarı</p>
-                            </li>
-                        </Link>
-                        <li className="mx-3 text-center" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
-                            <img src={heart} alt="Hearts" className="icon-sizes " />
-                            <p className="mb-0 small">Can</p>
-                        </li>
-
-                    </ul>
+        <>
+            <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+                <div className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-
-
-                <div className="info bg-light p-3 shadow-sm">
-                    <div className="info_top"></div>
-                    <p className="text-right-top">Yapay Zeka Eklentisi</p>
-
-                    <div className="text-container d-flex align-items-center">
-                        <p className="text-muted text-right ">Çözdüğün testlerin analizine istediğin an ulaş.</p>
-                    </div>
-                    <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png" alt="" />
-                    <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>
-
-                        <button className=" info_btn_1 "> 2 HAFTA ÜCRETSİZ DENE</button>
-                    </Link>
-
-                </div>
-
-
-                <div className="info bg-light p-3 shadow-sm info2">
-                    <div className="info_top2"></div>
-                    <p className="text-right-top">Sonuz Can Hakkı</p>
-
-                    <div className="text-container d-flex align-items-center">
-                        <p className="text-muted text-right ">Hiçbir kısıtlama olmadan sınırsız ders çalış</p>
-                    </div>
-                    <img className=" img-small" src="https://cdn-icons-png.flaticon.com/512/10473/10473357.png" alt="" />
-                    <Link to="/shop" style={{ textDecoration: 'none', color: 'inherit' }}>
-
-                        <button className="btn btn-primary "> 2 HAFTA ÜCRETSİZ DENE</button>
-                    </Link>
-
-                </div>
-                {missions && <DailyMissions missions={missions} />}
-
-
-                {showModal && (
-                    <div
-                        className="duo-modal-overlay"
-                        onClick={closeModal}
-                    >
-                        <div
-                            className="duo-modal-content"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                className="duo-modal-close"
-                                onClick={closeModal}
-                                aria-label="Close modal"
-                            >
-                                &times;
-                            </button>
-
-                            <h4>Can Durumu</h4>
-                            {healthResult ? (
-                                <>
-                                    <p>
-                                        Can Sayısı: <strong>
-                                            {healthResult.lives > 100 ? (
-                                                <img src={foreverIcon} alt="Sonsuz" style={{ width: '30px', height: '30px', display: 'inline-block', verticalAlign: 'middle' }} />
-                                            ) : (
-                                                healthResult.lives
-                                            )}
-                                        </strong>
-                                    </p>
-
-
-                                    {timeLeft !== null && healthResult.lives < 10 && (
-                                        <p>Bir sonraki can eklemesine kalan süre: <strong>{formatTime(timeLeft)}</strong></p>
-                                    )}
-                                </>
-                            ) : (
-                                <p>Yükleniyor...</p>
-                            )}
-
-                        </div>
-                    </div>
-                )}
-
-
-
-
-
             </div>
 
+            <div
+                ref={sidebarRef}
+                className={`right-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+                style={{ width: '28%' }}
+            >
+                <div ref={contentWrapperRef} className="sidebar-content">
+                    <div className="score-container">
+                        <ul className="score-items">
+                            <Link to="/analysis" className="score-link">
+                                <li className="score-item">
+                                    <div className="score-icon-container">
+                                        <img src={target} alt="Analiz" className="score-icon" />
+                                        <p className="score-label">Analiz</p>
+                                    </div>
+                                </li>
+                            </Link>
 
-        </div>
+                            <Link to="/diamond" className="score-link">
+                                <li className="score-item">
+                                    <div className="score-icon-container">
+                                        <img src={diamond} alt="Elmas" className="score-icon" />
+                                        <p className="score-label">Elmas</p>
+                                    </div>
+                                </li>
+                            </Link>
+
+                            <Link to="/achievements" className="score-link">
+                                <li className="score-item">
+                                    <div className="score-icon-container">
+                                        <img src={goal} alt="Başarı" className="score-icon" />
+                                        <p className="score-label">Başarı</p>
+                                    </div>
+                                </li>
+                            </Link>
+
+                            <li className="score-item" onClick={handleHeartClick}>
+                                <div className="score-icon-container">
+                                    <img src={heart} alt="Can" className="score-icon" />
+                                    <p className="score-label">Can</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className="promo-card">
+                        <div className="promo-header"></div>
+                        <p className="promo-title">Yapay Zeka Eklentisi</p>
+                        <div className="promo-content">
+                            <p className="promo-description">Çözdüğün testlerin analizine istediğin an ulaş.</p>
+                            <img
+                                className="promo-image"
+                                src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png"
+                                alt="AI Eklentisi"
+                            />
+                        </div>
+                        <Link to="/shop" className="promo-link">
+                            <button className="promo-button">2 HAFTA ÜCRETSİZ DENE</button>
+                        </Link>
+                    </div>
+
+                    <div className="promo-card promo-card-green">
+                        <div className="promo-header"></div>
+                        <p className="promo-title">Sonuz Can Hakkı</p>
+                        <div className="promo-content">
+                            <p className="promo-description">Hiçbir kısıtlama olmadan sınırsız ders çalış</p>
+                            <img
+                                className="promo-image"
+                                src="https://cdn-icons-png.flaticon.com/512/10473/10473357.png"
+                                alt="Sınırsız Can"
+                            />
+                        </div>
+                        <Link to="/shop" className="promo-link">
+                            <button className="promo-button promo-button-green">2 HAFTA ÜCRETSİZ DENE</button>
+                        </Link>
+                    </div>
+
+                    {missions && <DailyMissions missions={missions} />}
+
+                    {showModal && (
+                        <div className="modal-overlay" onClick={closeModal}>
+                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                                <button className="modal-close" onClick={closeModal}>&times;</button>
+                                <h4 className="modal-title">Can Durumu</h4>
+                                {healthResult ? (
+                                    <>
+                                        <p className="modal-text">
+                                            Can Sayısı: <strong>
+                                                {healthResult.lives > 100 ? (
+                                                    <img
+                                                        src={foreverIcon}
+                                                        alt="Sonsuz"
+                                                        className="infinite-icon"
+                                                    />
+                                                ) : (
+                                                    healthResult.lives
+                                                )}
+                                            </strong>
+                                        </p>
+                                        {timeLeft !== null && healthResult.lives < 10 && (
+                                            <p className="modal-text">
+                                                Bir sonraki can eklemesine kalan süre:
+                                                <strong> {formatTime(timeLeft)}</strong>
+                                            </p>
+                                        )}
+                                    </>
+                                ) : (
+                                    <p className="modal-text">Yükleniyor...</p>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </>
     );
 };

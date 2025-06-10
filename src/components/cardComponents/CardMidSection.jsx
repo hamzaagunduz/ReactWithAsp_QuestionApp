@@ -45,7 +45,7 @@ export const CardMidSection = React.memo(() => {
     }, [dispatch]);
 
     return (
-        <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
+        <div className="col-12 col-md-6 bg-light position-relative">
             {!selectedCategory ? (
                 <div className="category-selection">
                     <div className="text-center lesson-title">

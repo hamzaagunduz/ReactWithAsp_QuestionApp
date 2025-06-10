@@ -22,7 +22,7 @@ const AchievementsPage = () => {
             <div className="row">
                 <Leftbar />
                 {missions && (
-                    <div className="col-12 col-md-6 offset-md-2">
+                    <div className="col-12 col-md-6 ">
                         <div className="achievements-content bg-light position-relative d-flex justify-content-center align-items-center flex-column">
                             <div className="missions-intro">
                                 <div className="missions-card">

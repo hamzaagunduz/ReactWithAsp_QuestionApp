@@ -7,10 +7,10 @@ const Shop = () => {
         <div className="container-fluid">
             <div className="row">
                 <Leftbar />
-                <div className="col-12 col-md-6 offset-md-2">
+                <div className="col-12 col-md-6">
                     <ShopMidSection />
                 </div>
-                <Rightbar />
+                <Rightbar className="" />
             </div>
         </div>
     );

@@ -1,0 +1,99 @@
+/* DailyMissions.css */
+.daily-missions {
+    width: 100%;
+    background: white;
+    border-radius: var(--border-radius);
+    border: 2px solid var(--light-gray);
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.missions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.missions-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.view-all {
+    font-size: 14px;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+.missions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mission-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mission-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.mission-details {
+    flex-grow: 1;
+}
+
+.mission-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.mission-progress {
+    width: 100%;
+    height: 18px;
+    background: #e9ecef;
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary-blue);
+    border-radius: 9px;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+}
+
+.progress-bar.completed {
+    background: #28a745;
+}
+
+.progress-bar span {
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.mission-chest {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}

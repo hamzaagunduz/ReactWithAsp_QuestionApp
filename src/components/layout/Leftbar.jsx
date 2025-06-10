@@ -1,8 +1,7 @@
-// Sidebar.js
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../style/leftbar.css'; // leftbar.css dosyasını import ettik
-import { Link, useLocation } from 'react-router-dom'; // Link ve useLocation import edildi
+// Leftbar.js with Bootstrap integration
+import React, { useState } from 'react';
+import '../../style/leftbar.css';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../../app/authService';
 
 // Resimleri import et
@@ -12,81 +11,92 @@ import speedometer from '../../assets/leftbar/speedometer.png';
 import house from '../../assets/leftbar/house.png';
 import card from '../../assets/leftbar/card-game.png';
 import logoutIcon from '../../assets/leftbar/logout.png';
+import menuIcon from '../../assets/leftbar/house.png';
 
 export const Leftbar = () => {
-    const location = useLocation(); // Geçerli sayfa bilgisini almak için useLocation kullanıyoruz
+    const location = useLocation();
+    const navigate = useNavigate();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
     const handleLogout = () => {
-        logout();           // localStorage'dan token'ı sil
-        navigate('/login'); // login sayfasına yönlendir
+        logout();
+        navigate('/login');
     };
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    const NavItem = ({ to, icon, text }) => (
+        <li>
+            <Link
+                to={to}
+                className={`nav-link ${location.pathname === to ? 'active' : ''}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+            >
+                <img src={icon} alt={text} className="icon-size" />
+                <span>{text}</span>
+            </Link>
+        </li>
+    );
+
     return (
-        <div className="col-md-2 d-none d-md-flex flex-md-column bg-light position-fixed h-100 z-1 border-r">
-            <a href="/" className="d-flex align-items-center side-logo text-dark text-decoration-none">
-                <span className="logo-font">Dobi</span>
-            </a>
+        <>
+            {/* Mobile Menu Button - Only visible on mobile */}
+            <div className="mobile-menu-button d-md-none" onClick={toggleMobileMenu}>
+                <img src={menuIcon} alt="Menu" className="menu-icon" />
+            </div>
 
-            <ul className="nav flex-column li-text">
-                <li>
-                    <Link
-                        to="/"
-                        className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
-                    >
-                        <img src={house} alt="Anasayfa" className="icon-size " /> {/* house.png ikonu */}
-                        <span>Anasayfa</span>
-                    </Link>
-                </li>
+            <div
+                className={`sidebar-container  d-none d-md-block ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+                style={{ width: '19%' }} // 2.5 / 12 = 20.83%
+            >                <a href="/" className="side-logo">
+                    <span className="logo-font">Dobi</span>
+                </a>
 
-                <li>
-                    <Link
-                        to="/card"
-                        className={`nav-link ${location.pathname === '/card' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
-                    >
-                        <img src={card} alt="Sınavlar" className="icon-size " /> {/* speedometer.png ikonu */}
-                        <span>Kartlarım</span>
-                    </Link>
-                </li>
+                <ul className="nav-menu">
+                    <NavItem to="/" icon={house} text="Anasayfa" />
+                    <NavItem to="/card" icon={card} text="Kartlarım" />
+                    <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
+                    <NavItem to="/shop" icon={store} text="Mağaza" />
+                    <NavItem to="/profile" icon={housekeeper} text="Profil" />
 
-                <li>
-                    <Link
-                        to="/exam"
-                        className={`nav-link ${location.pathname === '/exam' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
-                    >
-                        <img src={speedometer} alt="Sınavlar" className="icon-size " /> {/* speedometer.png ikonu */}
-                        <span>Sınavlar</span>
-                    </Link>
-                </li>
+                    <li>
+                        <div
+                            className="nav-link logout-link"
+                            onClick={handleLogout}
+                        >
+                            <img src={logoutIcon} alt="Çıkış" className="icon-size" />
+                            <span>Çıkış</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-                <li>
-                    <Link
-                        to="/shop"
-                        className={`nav-link ${location.pathname === '/shop' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
-                    >
-                        <img src={store} alt="Konular" className="icon-size" /> {/* calender.png ikonu */}
-                        <span>Mağaza</span>
-                    </Link>
-                </li>
+            {/* Mobile Sidebar - Overlay on mobile */}
+            <div className={`sidebar-container d-md-none mobile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+                <a href="/" className="side-logo">
+                    <span className="logo-font">Dobi</span>
+                </a>
 
-                <li>
-                    <Link
-                        to="/profile"
-                        className={`nav-link ${location.pathname === '/profile' ? 'active' : ''}`} // Geçerli sayfaya göre active sınıfı ekliyoruz
-                    >
-                        <img src={housekeeper} alt="Profil" className="icon-size " /> {/* speedometer.png ikonu */}
-                        <span>Profil</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link
-                        onClick={handleLogout}
-                        className={`nav-link }`}
-                    >
-                        <img src={logoutIcon} alt="Çıkış" className="icon-size" />
-                        <span>Çıkış</span>
-                    </Link>
-                </li>
+                <ul className="nav-menu">
+                    <NavItem to="/" icon={house} text="Anasayfa" />
+                    <NavItem to="/card" icon={card} text="Kartlarım" />
+                    <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
+                    <NavItem to="/shop" icon={store} text="Mağaza" />
+                    <NavItem to="/profile" icon={housekeeper} text="Profil" />
 
-
-            </ul>
-        </div>
+                    <li>
+                        <div
+                            className="nav-link logout-link"
+                            onClick={handleLogout}
+                        >
+                            <img src={logoutIcon} alt="Çıkış" className="icon-size" />
+                            <span>Çıkış</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </>
     );
 };

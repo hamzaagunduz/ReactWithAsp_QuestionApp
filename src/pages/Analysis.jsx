@@ -10,7 +10,7 @@ function AnalysisPage() {
         <div className="container-fluid analysis-page">
             <div className="row">
                 <Leftbar />
-                <div className="col-12 col-md-6 offset-md-2">
+                <div className="col-12 col-md-6 ">
                     <AnalysisMidSection />
                 </div>
                 <Rightbar />

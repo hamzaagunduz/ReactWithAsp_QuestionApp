@@ -26,7 +26,7 @@ const ProfileMidComponent = () => {
     };
 
     return (
-        <div className="col-12 col-md-6 offset-md-2 bg-light position-relative">
+        <div className="col-12 col-md-6 bg-light position-relative">
             <div className="profile-container">
                 {/* Profil Bilgileri */}
                 <section className="profile-block profile-top">
