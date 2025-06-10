@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
+import { useDispatch } from 'react-redux';
+import { createCourse, updateCourse } from '../../../features/Courses/CoursesSlice';
 
 const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
+    const dispatch = useDispatch();
+
     const [formData, setFormData] = useState({
-        id: subject?.id || 0,
         name: subject?.name || '',
         description: subject?.description || '',
-        examId: exam.id
+        iconURL: subject?.iconURL || 'assets/courses/default.png', // Varsayılan ikon
+        examID: exam.examID // API'de "examID" olarak geçiyor
     });
 
     const handleChange = (e) => {
@@ -14,12 +18,28 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Burada API çağrısı yapılacak
-        alert(subject ? 'Konu başarıyla güncellendi!' : 'Yeni konu başarıyla eklendi!');
-        onComplete();
+        const payload = {
+            ...formData,
+            ...(subject && { courseID: subject.courseID }) // Güncelleme varsa courseID ekle
+        };
+
+        try {
+            if (subject) {
+                await dispatch(updateCourse(payload)).unwrap();
+                alert('Konu başarıyla güncellendi!');
+            } else {
+                await dispatch(createCourse(payload)).unwrap(); // Başarılı ise unwrap ile sonucu al
+                alert('Yeni konu başarıyla eklendi!');
+            }
+
+            onComplete(); // Üst komponenti bilgilendir
+        } catch (error) {
+            console.error('Kurs oluşturulamadı:', error);
+            alert('Bir hata oluştu: ' + error);
+        }
     };
 
     return (
@@ -36,7 +56,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
-                    <label>Konu Adı</label>
+                    <label>Konu Adı*</label>
                     <input
                         type="text"
                         name="name"
@@ -48,7 +68,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label>Açıklama (Opsiyonel)</label>
+                    <label>Açıklama</label>
                     <textarea
                         name="description"
                         value={formData.description}
@@ -56,6 +76,37 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                         placeholder="Konu hakkında açıklama"
                         rows="3"
                     />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label>İkon URL</label>
+                    <div className={styles.iconPreviewGroup}>
+                        <input
+                            type="text"
+                            name="iconURL"
+                            value={formData.iconURL}
+                            onChange={handleChange}
+                            placeholder="assets/courses/icon.png"
+                        />
+                        {/* <div className={styles.iconPreview}>
+                            {formData.iconURL ? (
+                                <img
+                                    src={formData.iconURL}
+                                    alt="Önizleme"
+                                    onError={(e) => e.target.src = 'assets/courses/default.png'}
+                                />
+                            ) : (
+                                <div className={styles.previewPlaceholder}>
+                                    <i className="fas fa-image"></i>
+                                    <span>Önizleme</span>
+                                </div>
+                            )}
+                        </div> */}
+                    </div>
+                    <p className={styles.hint}>
+                        Önerilen ikon boyutu: 100x100px. Varsayılan ikonlar:
+                        assets/courses/mat.png, bio.png, chem.png, history.png
+                    </p>
                 </div>
 
                 <div className={styles.formGroup}>

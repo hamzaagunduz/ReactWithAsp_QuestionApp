@@ -1,54 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCoursesByExamId, deleteCourse } from '../../../features/Courses/CoursesSlice';
+
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
 
 const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
-    const [subjects, setSubjects] = useState([
-        { id: 1, name: "Matematik", order: 1, examId: exam.id },
-        { id: 2, name: "Fizik", order: 2, examId: exam.id },
-        { id: 3, name: "Kimya", order: 3, examId: exam.id },
-        { id: 4, name: "Biyoloji", order: 4, examId: exam.id },
-        { id: 5, name: "Türkçe", order: 5, examId: exam.id },
-        { id: 6, name: "Tarih", order: 6, examId: exam.id },
-        { id: 7, name: "Coğrafya", order: 7, examId: exam.id },
-        { id: 8, name: "Felsefe", order: 8, examId: exam.id }
-    ]);
-
+    console.log(exam)
+    const dispatch = useDispatch();
+    const { courses, status, error } = useSelector(state => state.courses);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Konu silme
+    // Exam değiştiğinde kursları çek
+    useEffect(() => {
+        if (exam?.examID) {
+            dispatch(fetchCoursesByExamId(exam.examID));
+        }
+    }, [dispatch, exam?.examID]);
+
     const handleDelete = (id) => {
         if (window.confirm('Bu konuyu silmek istediğinize emin misiniz?')) {
-            setSubjects(subjects.filter(subject => subject.id !== id));
-            alert('Konu başarıyla silindi!');
+            dispatch(deleteCourse(id))
+                .unwrap()
+                .then(() => {
+                    alert('Konu başarıyla silindi!');
+                })
+                .catch((err) => {
+                    alert('Silme işlemi başarısız: ' + err);
+                });
         }
     };
-
     // Konu sırasını güncelle
     const handleOrderChange = (id, direction) => {
-        const index = subjects.findIndex(s => s.id === id);
+        const index = courses.findIndex(s => s.courseID === id);
         if ((direction === 'up' && index === 0) ||
-            (direction === 'down' && index === subjects.length - 1)) {
+            (direction === 'down' && index === courses.length - 1)) {
             return;
         }
 
-        const newSubjects = [...subjects];
+        const newCourses = [...courses];
         const newIndex = direction === 'up' ? index - 1 : index + 1;
 
         // Swap positions
-        [newSubjects[index], newSubjects[newIndex]] = [newSubjects[newIndex], newSubjects[index]];
+        [newCourses[index], newCourses[newIndex]] = [newCourses[newIndex], newCourses[index]];
 
-        // Update order values
-        newSubjects.forEach((subject, i) => {
-            subject.order = i + 1;
-        });
-
-        setSubjects(newSubjects);
+        // Burada API'ye sıra güncelleme isteği göndermeniz gerekir
+        alert('Sıra güncellendi! (API entegrasyonu yapılmalı)');
     };
 
     // Filtrelenmiş konular
-    const filteredSubjects = subjects.filter(subject =>
-        subject.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredSubjects = courses.filter(subject =>
+        subject.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+
+    if (status === 'loading') {
+        return <div className={styles.listContainer}>Yükleniyor...</div>;
+    }
+
+    if (error) {
+        return <div className={styles.listContainer}>Hata: {error}</div>;
+    }
 
     return (
         <div className={styles.listContainer}>
@@ -57,7 +68,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
                     <button className={styles.backButton} onClick={onBack}>
                         <i className="fas fa-arrow-left"></i> Geri
                     </button>
-                    <h2>{exam.name} Konuları</h2>
+                    <h2>{exam?.name} Konuları</h2>
                 </div>
 
                 <div className={styles.actions}>
@@ -84,20 +95,20 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
                 </div>
 
                 <div className={styles.tableBody}>
-                    {filteredSubjects.map(subject => (
-                        <div key={subject.id} className={styles.tableRow}>
+                    {filteredSubjects.map((subject, index) => (
+                        <div key={subject.courseID} className={styles.tableRow}>
                             <div className={styles.colOrder}>
                                 <div className={styles.orderControls}>
                                     <button
-                                        onClick={() => handleOrderChange(subject.id, 'up')}
-                                        disabled={subject.order === 1}
+                                        onClick={() => handleOrderChange(subject.courseID, 'up')}
+                                        disabled={index === 0}
                                     >
                                         <i className="fas fa-arrow-up"></i>
                                     </button>
-                                    <span>{subject.order}</span>
+                                    <span>{index + 1}</span>
                                     <button
-                                        onClick={() => handleOrderChange(subject.id, 'down')}
-                                        disabled={subject.order === subjects.length}
+                                        onClick={() => handleOrderChange(subject.courseID, 'down')}
+                                        disabled={index === courses.length - 1}
                                     >
                                         <i className="fas fa-arrow-down"></i>
                                     </button>
@@ -118,7 +129,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
 
                                 <button
                                     className={`${styles.actionButton} ${styles.deleteButton}`}
-                                    onClick={() => handleDelete(subject.id)}
+                                    onClick={() => handleDelete(subject.courseID)}
                                 >
                                     <i className="fas fa-trash"></i> Sil
                                 </button>

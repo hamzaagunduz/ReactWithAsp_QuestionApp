@@ -36,12 +36,39 @@ export const createCourse = createAsyncThunk(
     }
 );
 
+export const updateCourse = createAsyncThunk(
+    'Courses/updateCourse',
+    async (courseData, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put('Courses', courseData);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
+export const deleteCourse = createAsyncThunk(
+    'Courses/deleteCourse',
+    async (courseId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.delete(`Courses/${courseId}`);
+            return courseId; // Silinen ID'yi geri döndürüyoruz
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
+
 const CoursesSlice = createSlice({
     name: 'Courses',
     initialState: {
         courses: [],  // Burada options dizisini başlatıyoruz
         status: 'idle',  // idle | loading | succeeded | failed
         error: null,
+        updateStatus: 'idle',
+        updateError: null
 
     },
     reducers: {},
@@ -69,7 +96,29 @@ const CoursesSlice = createSlice({
             .addCase(createCourse.rejected, (state, action) => {
                 state.createStatus = 'failed';
                 state.createError = action.payload;
+            })
+            .addCase(updateCourse.pending, (state) => {
+                state.updateStatus = 'loading';
+            })
+            .addCase(updateCourse.fulfilled, (state, action) => {
+                state.updateStatus = 'succeeded';
+                const updatedCourse = action.payload;
+                const index = state.courses.findIndex(course => course.courseID === updatedCourse.courseID);
+                if (index !== -1) {
+                    state.courses[index] = updatedCourse;
+                }
+            })
+            .addCase(updateCourse.rejected, (state, action) => {
+                state.updateStatus = 'failed';
+                state.updateError = action.payload;
+            })
+            .addCase(deleteCourse.fulfilled, (state, action) => {
+                state.courses = state.courses.filter(course => course.courseID !== action.payload);
+            })
+            .addCase(deleteCourse.rejected, (state, action) => {
+                state.error = action.payload;
             });
+
 
     },
 });

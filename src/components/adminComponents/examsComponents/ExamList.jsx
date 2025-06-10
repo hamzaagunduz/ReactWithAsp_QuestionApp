@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions, deleteExam } from '../../../features/Exam/ExamSlice';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
 
-const ExamList = ({ onSelectExam, onAddExam }) => {
+const ExamList = ({ onSelectExam, onViewSubjects, onAddExam }) => {
     const dispatch = useDispatch();
     const { options: exams, status, error } = useSelector(state => state.exam);
     const [searchTerm, setSearchTerm] = useState('');
@@ -68,12 +68,12 @@ const ExamList = ({ onSelectExam, onAddExam }) => {
                                 >
                                     <i className="fas fa-edit"></i> Düzenle
                                 </button>
-                                {/* <button
+                                <button
                                     className={styles.actionButton}
-                                    onClick={() => onSelectExam(exam)}
+                                    onClick={() => onViewSubjects(exam)}  // Fixed this line
                                 >
                                     <i className="fas fa-list"></i> Konuları Gör
-                                </button> */}
+                                </button>
                                 <button
                                     className={`${styles.actionButton} ${styles.deleteButton}`}
                                     onClick={() => handleDelete(exam.examID)}
