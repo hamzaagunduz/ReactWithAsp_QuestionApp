@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const baseURL = 'https://localhost:7172/api/';
 export const imgUrl = 'https://localhost:7172/';
-export const hubURL = 'https://localhost:7172/ai-hub';
+export const hubURL = 'https://localhost:7172'; // sadece base kısmı
 
 const apiClient = axios.create({
     baseURL,

@@ -19,6 +19,7 @@ import TestGroupReducer from '../features/TestGroup/TestGroupSlice';
 import testReducer from '../features/Test/TestSlice';
 import diamondReducer from '../features/DiamondPackItem/DiamondPackItemSlice';
 import dashboardReducer from '../features/Dashboard/DashboardSlice'; // ✅ Dashboard reducer'ı eklendi
+import paymentReducer from '../features/Payment/PaymentSlice';
 
 
 const store = configureStore({
@@ -42,6 +43,7 @@ const store = configureStore({
         test: testReducer,
         diamondPackItem: diamondReducer,
         dashboard: dashboardReducer, // 
+        payment: paymentReducer, // Bu satır olmazsa selector undefined olur
 
 
     },

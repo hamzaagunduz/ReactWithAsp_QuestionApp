@@ -31,7 +31,7 @@ const AiChatModal = ({ question, onClose }) => {
 
     useEffect(() => {
         const initializeSignalR = async () => {
-            await startConnection();
+            await startConnection('ai-hub');
             const connection = getConnection();
 
             if (!connection) return;

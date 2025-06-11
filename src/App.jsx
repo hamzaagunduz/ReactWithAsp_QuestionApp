@@ -20,6 +20,7 @@ import AiPage from './pages/AiPage';
 import ShopPage from './pages/Shop';
 import AnalysisPage from './pages/Analysis';
 import LandingPage from './pages/LandingPage';
+import Payment from './pages/Payment';
 import AdminDashboard from './pages/admin/AdminDasboardPage';
 import AdminQuestion from './pages/admin/QuestionPage';
 import AdminUser from './pages/admin/UserManagementPage';
@@ -45,6 +46,7 @@ function App() {
         <Route path="admin/settings" element={<AdminSettings />} />
         <Route path="admin/exam" element={<AdminExam />} />
         <Route path="admin/profile" element={<AdminProfile />} />
+        <Route path="pay" element={<Payment />} />
 
         {/* Giriş yapılması gereken sayfalar */}
         <Route
