@@ -12,7 +12,6 @@ const COLOR_CLASSES = {
 const ProductCard = ({ product, onEdit, onDelete }) => {
     // Renk sınıfını belirle
     const colorClass = COLOR_CLASSES[product.color] || '';
-
     // Ürün tipine göre başlık ve fiyat bilgilerini belirle
     const productType = product.type === 'diamond' ? '💎 Elmas' : '⭐ Premium';
 

@@ -24,7 +24,9 @@
 .sidebar-container {
     height: auto;
     min-height: 100vh;
-    background: #fff;
+    /* background: #fff; */
+    background-color: #f9f9f9 !important;
+
     display: flex;
     flex-direction: column;
     border-right: 2px solid var(--border-color);

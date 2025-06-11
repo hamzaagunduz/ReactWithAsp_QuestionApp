@@ -31,7 +31,9 @@ const ProductList = ({ onEditProduct }) => {
             ...item,
             type: 'premium',      // Shop item'ları premium olarak işaretlendi
             durationInDays: 30,    // Varsayılan süre
-            itemType: 'shopItem'   // Silme ve düzenleme işlemleri için tür belirteci
+            itemType: 'shopItem',   // Silme ve düzenleme işlemleri için tür belirteci
+            uniqueId: `shop-${item.id}`, // Önek ekleyin
+
         }));
 
         // Diamond pack item'larını diamond olarak map et
@@ -44,7 +46,9 @@ const ProductList = ({ onEditProduct }) => {
             imageUrl: item.imageUrl,
             type: 'diamond',      // Diamond pack'ler diamond olarak işaretlendi
             durationInDays: 0,     // Diamond pack'lerin süresi olmaz
-            itemType: 'diamondPackItem' // Tür belirteci
+            itemType: 'diamondPackItem', // Tür belirteci,
+            uniqueId: `diamond-${item.id}`, // Önek ekleyin
+
         }));
 
         // İki listeyi birleştir
@@ -59,7 +63,7 @@ const ProductList = ({ onEditProduct }) => {
         if (filter === 'premium') return product.type === 'premium';
         return true;
     });
-
+    console.log(filteredProducts)
     // Ürün silme
     const handleDelete = (id, itemType) => {
         if (window.confirm('Bu ürünü silmek istediğinize emin misiniz?')) {
@@ -95,7 +99,7 @@ const ProductList = ({ onEditProduct }) => {
             <div className={styles.productGrid}>
                 {filteredProducts.map(product => (
                     <ProductCard
-                        key={product.id}
+                        key={product.uniqueId}
                         product={product}
                         onEdit={() => onEditProduct(product)}
                         onDelete={() => handleDelete(product.id, product.itemType)}

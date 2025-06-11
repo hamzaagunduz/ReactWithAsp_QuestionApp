@@ -29,10 +29,10 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
         try {
             if (subject) {
                 await dispatch(updateCourse(payload)).unwrap();
-                alert('Konu başarıyla güncellendi!');
+                alert('Ders başarıyla güncellendi!');
             } else {
                 await dispatch(createCourse(payload)).unwrap(); // Başarılı ise unwrap ile sonucu al
-                alert('Yeni konu başarıyla eklendi!');
+                alert('Yeni Ders başarıyla eklendi!');
             }
 
             onComplete(); // Üst komponenti bilgilendir
@@ -48,7 +48,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                 <button className={styles.backButton} onClick={onBack}>
                     <i className="fas fa-arrow-left"></i> Geri
                 </button>
-                <h2>{subject ? 'Konuyu Düzenle' : 'Yeni Konu Ekle'}</h2>
+                <h2>{subject ? 'Dersyu Düzenle' : 'Yeni Ders Ekle'}</h2>
                 <div className={styles.examInfo}>
                     <span>{exam.name}</span>
                 </div>
@@ -56,7 +56,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
-                    <label>Konu Adı*</label>
+                    <label>Ders Adı*</label>
                     <input
                         type="text"
                         name="name"
@@ -73,7 +73,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        placeholder="Konu hakkında açıklama"
+                        placeholder="Ders hakkında açıklama"
                         rows="3"
                     />
                 </div>
@@ -140,7 +140,7 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                         type="submit"
                         className={styles.saveButton}
                     >
-                        {subject ? 'Güncelle' : 'Konu Ekle'}
+                        {subject ? 'Güncelle' : 'Ders Ekle'}
                     </button>
                 </div>
             </form>

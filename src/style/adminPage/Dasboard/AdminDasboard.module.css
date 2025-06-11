@@ -285,6 +285,7 @@
     border-radius: 16px;
     padding: 25px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
 
 .metricItem {
@@ -327,6 +328,132 @@
     grid-template-columns: 2fr 1fr;
     gap: 30px;
     margin-bottom: 30px;
+}
+
+/* RecentActivity Specific Styles */
+.activityContainer {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.activityContainer h2 {
+    font-size: 1.3rem;
+    color: #0c4a6e;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.activityList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 transparent;
+}
+
+.activityList::-webkit-scrollbar {
+    width: 6px;
+}
+
+.activityList::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.activityList::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 3px;
+}
+
+.activityItem {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease;
+}
+
+.activityItem:last-child {
+    border-bottom: none;
+}
+
+.activityItem:hover {
+    background-color: #f8fafc;
+}
+
+.activityIcon {
+    color: #0ea5e9;
+    font-size: 0.7rem;
+    margin-right: 15px;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+
+.activityItem div:last-child {
+    flex-grow: 1;
+}
+
+.activityItem strong {
+    color: #0f172a;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.activityTime {
+    font-size: 0.8rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.activityTime::before {
+    content: "🕒";
+    margin-right: 5px;
+    font-size: 0.7rem;
+}
+
+/* Empty State */
+.activityEmpty {
+    text-align: center;
+    padding: 30px 0;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .activityContainer {
+        padding: 20px;
+    }
+
+    .activityItem {
+        padding: 12px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .activityContainer h2 {
+        font-size: 1.1rem;
+    }
+
+    .activityItem {
+        flex-direction: column;
+    }
+
+    .activityIcon {
+        margin-bottom: 8px;
+    }
 }
 
 /* Responsive güncellemeler */

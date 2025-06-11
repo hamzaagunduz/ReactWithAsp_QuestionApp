@@ -33,7 +33,7 @@ const Sidebar = () => {
                     { path: "/admin/exam", icon: <FaQuestionCircle />, label: "Sınavlar" }, // Soru veya işlem için uygun
                     { path: "/admin/user", icon: <FaUserFriends />, label: "Kullanıcılar" }, // Kullanıcılar için daha anlamlı
                     { path: "/admin/shop", icon: <FaStore />, label: "Mağaza" }, // Mağaza için direkt ikon
-                    { path: "/admin/settings", icon: <FaSlidersH />, label: "Settings" }, // Ayarlar için modern bir alternatif
+                    // { path: "/admin/settings", icon: <FaSlidersH />, label: "Settings" }, // Ayarlar için modern bir alternatif
                     { path: "/logout", icon: <FaSignOutAlt />, label: "Logout" } // Çıkış ikonu zaten uygun
 
                 ].map((item, index) => (

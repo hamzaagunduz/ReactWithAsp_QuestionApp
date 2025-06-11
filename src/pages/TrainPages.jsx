@@ -41,19 +41,19 @@ function TrainPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { questions } = useSelector(state => state.question);
-    const test = useSelector(state => state.question.test);
+    const { questions, test, status, testStatus, error, testError } = useSelector(state => state.question);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
-
     useEffect(() => {
-        if (testId) {
-            dispatch(fetchQuestionsByTestId(testId));
-            dispatch(fetchTestById(testId));
-            dispatch(fetchFlashCardsByTestId(testId));
-            setStartTime(Date.now());  // Test başlar başlamaz zamanı kaydet
-
+        if (!testId) {
+            navigate("/");
+            return;
         }
-    }, [testId, dispatch]);
+
+        dispatch(fetchQuestionsByTestId(testId));
+        dispatch(fetchTestById(testId));
+        dispatch(fetchFlashCardsByTestId(testId));
+        setStartTime(Date.now());
+    }, [testId, dispatch, navigate]);
 
     const handleStarClick = (flashCardID) => {
         dispatch(toggleUserFlashCard({ flashCardID }));
@@ -180,8 +180,34 @@ function TrainPage() {
     };
 
 
+    if (status === 'loading' || testStatus === 'loading') {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // Hata durumu
+    if (status === 'failed' || testStatus === 'failed') {
+        return (
+            <div className="error-container">
+                <p>Hata: {error || testError}</p>
+                <button onClick={() => window.location.reload()}>Tekrar Dene</button>
+            </div>
+        );
+    }
+
+    // Soru yoksa
     if (!questions || questions.length === 0) {
-        return <div>Sorular yükleniyor</div>;
+        return (
+            <div className="no-questions-container">
+                <p>Bu test için soru bulunamadı.</p>
+                <button onClick={() => navigate(-1)}>Geri Dön</button>
+            </div>
+        );
     }
 
 

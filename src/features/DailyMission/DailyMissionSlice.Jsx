@@ -3,7 +3,7 @@ import apiClient from '../../app/apiClient';
 
 // Günlük görevleri güncelleyen thunk
 export const updateDailyMission = createAsyncThunk(
-    'dailyMission/updateDailyMission',
+    'DailyMission/updateDailyMission',
     async ({ wrongAnswerCount }, { rejectWithValue }) => {
         try {
             const response = await apiClient.post('DailyMission/update', {
@@ -19,7 +19,7 @@ export const updateDailyMission = createAsyncThunk(
 
 
 export const getUserDailyMissions = createAsyncThunk(
-    'dailyMission/getUserDailyMissions',
+    'DailyMission/getUserDailyMissions',
     async (_, { rejectWithValue }) => {
         try {
             const response = await apiClient.get('DailyMission/missions');
@@ -32,7 +32,7 @@ export const getUserDailyMissions = createAsyncThunk(
 
 
 const DailyMissionSlice = createSlice({
-    name: 'dailyMission',
+    name: 'DailyMission',
     initialState: {
         updateStatus: 'idle',
         missionsStatus: 'idle',

@@ -80,7 +80,7 @@ export const Rightbar = () => {
             <div
                 ref={sidebarRef}
                 className={`right-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
-                style={{ width: '28%' }}
+                style={{ width: '29%' }}
             >
                 <div ref={contentWrapperRef} className="sidebar-content">
                     <div className="score-container">
@@ -125,7 +125,7 @@ export const Rightbar = () => {
                         <div className="promo-header"></div>
                         <p className="promo-title">Yapay Zeka Eklentisi</p>
                         <div className="promo-content">
-                            <p className="promo-description">Çözdüğün testlerin analizine istediğin an ulaş.</p>
+                            <p className="promo-description">Çözdüğün testlerin analizine istediğinde ulaş.</p>
                             <img
                                 className="promo-image"
                                 src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png"

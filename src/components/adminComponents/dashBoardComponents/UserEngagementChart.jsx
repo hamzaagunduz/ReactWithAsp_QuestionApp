@@ -1,19 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../../../style/adminPage/Dasboard/AdminDasboard.module.css';
 
 const UserEngagementChart = () => {
-    // Grafik verileri
-    const data = [
-        { day: 'Pzt', users: 45 },
-        { day: 'Sal', users: 78 },
-        { day: 'Çar', users: 63 },
-        { day: 'Per', users: 89 },
-        { day: 'Cum', users: 95 },
-        { day: 'Cmt', users: 54 },
-        { day: 'Paz', users: 70 }
-    ];
+    const weeklyActiveUsers = useSelector((state) => state.dashboard.data?.weeklyActiveUsers || []);
 
-    const maxUsers = Math.max(...data.map(item => item.users));
+    // Format the data for the chart
+    const data = weeklyActiveUsers.map(item => ({
+        day: item.dayName,
+        users: item.count
+    }));
+
+    const maxUsers = Math.max(...data.map(item => item.users), 1) || 1; // Ensure at least 1 to avoid division by zero
 
     return (
         <div className={styles.chartContainer}>

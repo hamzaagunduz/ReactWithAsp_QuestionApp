@@ -12,7 +12,8 @@ const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState(courseID || null);
-    const { topics, status: topicsStatus, error: topicsError } = useSelector((state) => state.topic);
+    const { topics, statusTopics, errorTopics } = useSelector((state) => state.topic);
+
     const healthResult = useSelector((state) => state.layout.healthResult);
     const lives = healthResult?.lives ?? 0;
 
@@ -65,7 +66,7 @@ const LessonMidComponent = ({ courseID }) => {
     };
 
     // Loading state
-    if (topicsStatus === 'loading') {
+    if (statusTopics === 'loading') {
         return (
             <div className="col-12 col-md-6 position-relative">
                 <button className="back-button" onClick={handleBack}></button>
@@ -79,7 +80,7 @@ const LessonMidComponent = ({ courseID }) => {
     }
 
     // Error state
-    if (topicsStatus === 'failed') {
+    if (statusTopics === 'failed') {
         return (
             <div className="col-12 col-md-6 position-relative">
                 <button className="back-button" onClick={handleBack}></button>
@@ -97,7 +98,7 @@ const LessonMidComponent = ({ courseID }) => {
     }
 
     // Empty state
-    if (topicsStatus === 'succeeded' && (!topics || topics.length === 0)) {
+    if (statusTopics === 'succeeded' && (!topics || topics.length === 0)) {
         return (
             <div className="col-12 col-md-6 position-relative">
                 <button className="back-button" onClick={handleBack}></button>
@@ -120,7 +121,7 @@ const LessonMidComponent = ({ courseID }) => {
                 const validTestGroups = lesson.testGroups?.filter(group =>
                     group.tests && group.tests.length >= 0
                 ) || [];
-
+                // const validTestGroups = lesson.testGroups;
                 return (
                     <div className="lesson-container" key={lesson.topicID || lessonIndex}>
                         <div className="d-flex flex-column align-items-center">

@@ -20,6 +20,8 @@
 body {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
+    background-color: #f9f9f9 !important;
+
 }
 
 /* Mobile menu toggle */
@@ -72,12 +74,11 @@ body {
 /* Right sidebar styles */
 .right-sidebar {
     position: relative;
-    /* display: flex;
+    display: flex;
     justify-content: center;
-    flex-direction: column; */
-
     min-width: 280px;
-    background: #ffff;
+    /* background: #ffff; */
+    background-color: #f9f9f9 !important;
     padding: 20px;
     height: auto;
     z-index: 100;
@@ -88,12 +89,14 @@ body {
     display: flex;
     flex-direction: column;
     gap: 25px;
+    width: 90%;
+
 }
 
 /* Score section */
 .score-container {
     width: 100%;
-    margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .score-items {

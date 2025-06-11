@@ -18,6 +18,7 @@ import RegisterReducer from '../features/Register/RegisterSlice';
 import TestGroupReducer from '../features/TestGroup/TestGroupSlice';
 import testReducer from '../features/Test/TestSlice';
 import diamondReducer from '../features/DiamondPackItem/DiamondPackItemSlice';
+import dashboardReducer from '../features/Dashboard/DashboardSlice'; // ✅ Dashboard reducer'ı eklendi
 
 
 const store = configureStore({
@@ -40,7 +41,7 @@ const store = configureStore({
         testGroup: TestGroupReducer,
         test: testReducer,
         diamondPackItem: diamondReducer,
-
+        dashboard: dashboardReducer, // 
 
 
     },

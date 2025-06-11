@@ -13,7 +13,7 @@ const ExamList = ({ onSelectExam, onViewSubjects, onAddExam }) => {
     }, [dispatch]);
 
     const handleDelete = (id) => {
-        if (window.confirm('Bu sınavı ve tüm konularını silmek istediğinize emin misiniz?')) {
+        if (window.confirm('Bu sınavı ve tüm Derslarını silmek istediğinize emin misiniz?')) {
             dispatch(deleteExam(id));
         }
     };
@@ -72,7 +72,7 @@ const ExamList = ({ onSelectExam, onViewSubjects, onAddExam }) => {
                                     className={styles.actionButton}
                                     onClick={() => onViewSubjects(exam)}  // Fixed this line
                                 >
-                                    <i className="fas fa-list"></i> Konuları Gör
+                                    <i className="fas fa-list"></i> Dersleri Gör
                                 </button>
                                 <button
                                     className={`${styles.actionButton} ${styles.deleteButton}`}

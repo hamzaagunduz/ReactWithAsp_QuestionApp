@@ -1,17 +1,20 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../../../style/adminPage/Dasboard/AdminDasboard.module.css';
 
 const RecentActivity = () => {
-    const activities = [
-        { user: "Ahmet Yılmaz", action: "yeni kullanıcı ekledi", time: "2 dakika önce" },
-        { user: "Mehmet Kaya", action: "proje güncelledi", time: "1 saat önce" },
-        { user: "Zeynep Demir", action: "rapor oluşturdu", time: "3 saat önce" },
-        { user: "Selin Şahin", action: "ayarları güncelledi", time: "1 gün önce" }
-    ];
+    const lastFiveUsers = useSelector((state) => state.dashboard.data?.lastFiveUsers || []);
+
+    // Format the activities data
+    const activities = lastFiveUsers.map(user => ({
+        user: `${user.firstName} ${user.surName}`,
+        action: "sisteme kayıt oldu",
+        time: "Yeni"
+    }));
 
     return (
         <div>
-            <h2>Son Aktivite</h2>
+            <h2>Son Kullanıcılar</h2>
             <ul className={styles.activityList}>
                 {activities.map((activity, index) => (
                     <li key={index} className={styles.activityItem}>

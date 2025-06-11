@@ -5,7 +5,6 @@ import { fetchCoursesByExamId, deleteCourse } from '../../../features/Courses/Co
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
 
 const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
-    console.log(exam)
     const dispatch = useDispatch();
     const { courses, status, error } = useSelector(state => state.courses);
     const [searchTerm, setSearchTerm] = useState('');
@@ -18,18 +17,18 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
     }, [dispatch, exam?.examID]);
 
     const handleDelete = (id) => {
-        if (window.confirm('Bu konuyu silmek istediğinize emin misiniz?')) {
+        if (window.confirm('Bu Dersyu silmek istediğinize emin misiniz?')) {
             dispatch(deleteCourse(id))
                 .unwrap()
                 .then(() => {
-                    alert('Konu başarıyla silindi!');
+                    alert('Ders başarıyla silindi!');
                 })
                 .catch((err) => {
                     alert('Silme işlemi başarısız: ' + err);
                 });
         }
     };
-    // Konu sırasını güncelle
+    // Ders sırasını güncelle
     const handleOrderChange = (id, direction) => {
         const index = courses.findIndex(s => s.courseID === id);
         if ((direction === 'up' && index === 0) ||
@@ -47,7 +46,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
         alert('Sıra güncellendi! (API entegrasyonu yapılmalı)');
     };
 
-    // Filtrelenmiş konular
+    // Filtrelenmiş Derslar
     const filteredSubjects = courses.filter(subject =>
         subject.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -68,21 +67,21 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
                     <button className={styles.backButton} onClick={onBack}>
                         <i className="fas fa-arrow-left"></i> Geri
                     </button>
-                    <h2>{exam?.name} Konuları</h2>
+                    <h2>{exam?.name} Dersler</h2>
                 </div>
 
                 <div className={styles.actions}>
                     <div className={styles.searchGroup}>
                         <input
                             type="text"
-                            placeholder="Konu ara..."
+                            placeholder="Ders ara..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <i className="fas fa-search"></i>
                     </div>
                     <button className={styles.addButton} onClick={onAddSubject}>
-                        <i className="fas fa-plus"></i> Yeni Konu Ekle
+                        <i className="fas fa-plus"></i> Yeni Ders Ekle
                     </button>
                 </div>
             </div>
@@ -90,7 +89,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
             <div className={styles.subjectTable}>
                 <div className={styles.tableHeader}>
                     <div className={styles.colOrder}>Sıra</div>
-                    <div className={styles.colName}>Konu Adı</div>
+                    <div className={styles.colName}>Ders Adı</div>
                     <div className={styles.colActions}>İşlemler</div>
                 </div>
 
@@ -142,7 +141,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
             {filteredSubjects.length === 0 && (
                 <div className={styles.emptyState}>
                     <i className="fas fa-book"></i>
-                    <p>Bu sınava ait konu bulunamadı</p>
+                    <p>Bu sınava ait Ders bulunamadı</p>
                     <button className={styles.addButton} onClick={onAddSubject}>
                         Yeni Konu Ekle
                     </button>
