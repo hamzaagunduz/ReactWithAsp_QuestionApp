@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { pay } from '../features/Payment/PaymentSlice';
 import { startConnection, getConnection } from '../services/signalrService';
+import { purchaseDiamond } from '../features/Purchase/PurchaseSlice'; // import etmeyi unutmayın
 
 const Payment = () => {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const Payment = () => {
             connection.on('Receive', (data) => {
                 console.log('📨 SignalR Mesajı Alındı:', data);
                 setCallbackMessage(data);
+
             });
         };
 

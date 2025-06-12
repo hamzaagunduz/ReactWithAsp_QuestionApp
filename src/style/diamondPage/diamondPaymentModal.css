@@ -221,3 +221,32 @@
     font-size: 14px;
     padding: 12px;
 }
+
+.diamond-error-message {
+    color: #d9534f;
+    /* Kırmızı ama göz yormayan bir ton */
+    font-size: 13px;
+    margin-top: 6px;
+    margin-left: 4px;
+    display: block;
+    font-weight: 500;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.valid-message {
+    color: #ff3c00;
+    /* yumuşak yeşil */
+    /* pastel yeşil arka plan */
+    border: none;
+    padding: 6px 10px;
+    font-size: 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    height: 20px;
+    margin-top: -5px;
+
+}
+
+.input-group {
+    gap: 0px;
+}
