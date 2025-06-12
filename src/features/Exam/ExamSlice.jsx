@@ -15,6 +15,18 @@ export const fetchExamOptions = createAsyncThunk(
     }
 );
 
+export const fetchExamWithSelected = createAsyncThunk(
+    'exam/fetchExamWithSelected',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get('/Exams/get-all-with-selected');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Sınavlar alınamadı');
+        }
+    }
+);
+
 // Sınav oluşturma
 export const createExam = createAsyncThunk(
     'exam/createExam',
@@ -65,6 +77,8 @@ const examSlice = createSlice({
         createError: null,
         updateStatus: 'idle',
         updateError: null,
+        fetchWithSelectedStatus: 'idle',
+        fetchWithSelectedError: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -115,6 +129,18 @@ const examSlice = createSlice({
             .addCase(deleteExam.rejected, (state, action) => {
                 state.error = action.payload;
             })
+            .addCase(fetchExamWithSelected.pending, (state) => {
+                state.fetchWithSelectedStatus = 'loading';
+                state.fetchWithSelectedError = null;
+            })
+            .addCase(fetchExamWithSelected.fulfilled, (state, action) => {
+                state.fetchWithSelectedStatus = 'succeeded';
+                state.options = action.payload;
+            })
+            .addCase(fetchExamWithSelected.rejected, (state, action) => {
+                state.fetchWithSelectedStatus = 'failed';
+                state.fetchWithSelectedError = action.payload || 'Bir hata oluştu';
+            });
 
     },
 });

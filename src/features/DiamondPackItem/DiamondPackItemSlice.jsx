@@ -15,6 +15,19 @@ export const fetchDiamondPackItems = createAsyncThunk(
     }
 );
 
+export const fetchDiamondUserPackItems = createAsyncThunk(
+    'diamondPackItem/fetchDiamondUserPackItems',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get('DiamondPackItem/diamond-packs');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Diamond paketleri alınamadı');
+        }
+    }
+);
+
+
 // Yeni DiamondPackItem oluşturma
 export const createDiamondPackItem = createAsyncThunk(
     'diamondPackItem/createDiamondPackItem',
@@ -66,6 +79,9 @@ const diamondPackItemSlice = createSlice({
         updateError: null,
         deleteStatus: 'idle',
         deleteError: null,
+        diamondCount: 0,
+        diamondUserPackStatus: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+        diamondUserPackError: null
     },
     reducers: {
         // İsteğe bağlı: Durumları sıfırlamak için yardımcı reducer'lar
@@ -140,6 +156,19 @@ const diamondPackItemSlice = createSlice({
             .addCase(deleteDiamondPackItem.rejected, (state, action) => {
                 state.deleteStatus = 'failed';
                 state.deleteError = action.payload;
+            })
+            .addCase(fetchDiamondUserPackItems.pending, (state) => {
+                state.diamondUserPackStatus = 'loading';
+                state.diamondUserPackError = null;
+            })
+            .addCase(fetchDiamondUserPackItems.fulfilled, (state, action) => {
+                state.diamondUserPackStatus = 'succeeded';
+                state.items = action.payload.items || [];
+                state.diamondCount = action.payload.diamondCount ?? 0;
+            })
+            .addCase(fetchDiamondUserPackItems.rejected, (state, action) => {
+                state.diamondUserPackStatus = 'failed';
+                state.diamondUserPackError = action.payload || 'Bir hata oluştu.';
             });
     },
 });

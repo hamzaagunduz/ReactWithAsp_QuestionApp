@@ -44,10 +44,6 @@ function TrainPage() {
     const { questions, test, status, testStatus, error, testError } = useSelector(state => state.question);
     const { flashCards, status: cardStatus } = useSelector(state => state.flashCard);
     useEffect(() => {
-        if (!testId) {
-            navigate("/");
-            return;
-        }
 
         setStartTime(Date.now());
 

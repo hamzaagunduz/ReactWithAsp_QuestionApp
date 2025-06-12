@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchExamOptions } from '../features/Exam/ExamSlice';
-import { updateAppUserExam, fetchAppUser } from '../features/AppUser/AppUserSlice';
-
+import { fetchExamWithSelected } from '../features/Exam/ExamSlice';
+import { updateAppUserExam } from '../features/AppUser/AppUserSlice';
 
 function ExamMidComponent() {
     const [selectedOption, setSelectedOption] = useState(null);
     const dispatch = useDispatch();
 
-    const { options } = useSelector(state => state.exam);
-    const { user } = useSelector(state => state.appUser);
+    const { options, fetchWithSelectedStatus } = useSelector(state => state.exam);
 
     useEffect(() => {
-        dispatch(fetchAppUser());
-        dispatch(fetchExamOptions());
+        dispatch(fetchExamWithSelected());
     }, [dispatch]);
 
     useEffect(() => {
-        if (user && options.length > 0) {
-            const selectedExam = options.find(option => option.examID === user.examID);
-            if (selectedExam) {
-                setSelectedOption(selectedExam.name);
-            }
+        // Seçili exam varsa set et
+        const selectedExam = options.find(option => option.isSelected);
+        if (selectedExam) {
+            setSelectedOption(selectedExam.name);
         }
-    }, [user, options]);
+    }, [options]);
 
     const handleSelect = (exam) => {
         setSelectedOption(exam.name);
@@ -33,20 +29,28 @@ function ExamMidComponent() {
     return (
         <div className="exam-wrapper">
             <h3 className="exam-title">Hazırlandığınız Sınavı Seçin</h3>
-            <div className="exam-options">
-                {options.map(option => (
-                    <button
-                        key={option.examID}
-                        className={`exam-option ${selectedOption === option.name ? 'selecteds' : ''}`}
-                        onClick={() => handleSelect(option)}
-                    >
-                        {option.name}
-                        {selectedOption === option.name && (
-                            <span className="checkmark"></span>
-                        )}
-                    </button>
-                ))}
-            </div>
+
+            {fetchWithSelectedStatus === 'loading' ? (
+                <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>) : (
+                <div className="exam-options">
+                    {options.map(option => (
+                        <button
+                            key={option.examID}
+                            className={`exam-option ${selectedOption === option.name ? 'selecteds' : ''}`}
+                            onClick={() => handleSelect(option)}
+                        >
+                            {option.name}
+                            {selectedOption === option.name && (
+                                <span className="checkmark"></span>
+                            )}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

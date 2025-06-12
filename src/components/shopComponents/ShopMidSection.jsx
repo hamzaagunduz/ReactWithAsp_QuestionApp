@@ -2,40 +2,57 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserShopItems, purchaseShopItem } from "../../features/Shop/ShopSlice";
 import "./../../style/shopPage/shop.css";
-import { fetchUserProfileStatistics } from '../../features/Statistics/StatisticsSlice';
 
 const ShopMidSection = () => {
     const dispatch = useDispatch();
-    const { items: shopItems, status, error } = useSelector((state) => state.shop);
-    const { data: statistics } = useSelector((state) => state.statistic.profileStats);
+
+    // shop state'ten userDiamondCount ve items alıyoruz
+    const { items = [], userDiamondCount = 0, status, error } = useSelector(state => state.shop);
+
+    // İstersen statistics'i kaldırabilirsin, şu an kullandığın örnek
 
     useEffect(() => {
         dispatch(fetchUserShopItems());
     }, [dispatch]);
 
+    // Satın alma işlemi sonrası listeyi yenile
     const handlePurchase = (shopItemId) => {
-        dispatch(purchaseShopItem({ shopItemId }))
-            .then(() => {
-                dispatch(fetchUserShopItems()); // Satın alma sonrası güncelle
-            });
+        dispatch(purchaseShopItem({ shopItemId })).then(() => {
+            dispatch(fetchUserShopItems());
+        });
     };
+
+    // Eğer statistics kullanılmayacaksa kaldırabilirsin
     useEffect(() => {
-        dispatch(fetchUserProfileStatistics());
     }, [dispatch]);
+
+    if (status === 'loading') {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="shop-section-container">
             <h2 className="shop-title">Özel Paketler</h2>
             <p className="shop-subtitle">Hemen şimdi satın al ve avantajların tadını çıkar!</p>
+
             <div className="diamond-user-info">
                 {status === 'loading' && <p>Yükleniyor...</p>}
-                {status === 'succeeded' && statistics?.diamond != null && (
-                    <p>💎 Mevcut Elmas: <strong>{statistics.diamond}</strong></p>
+                {status === 'succeeded' && (
+                    <p>💎 Mevcut Elmas: <strong>{userDiamondCount}</strong></p>
                 )}
                 {status === 'failed' && <p>Elmas bilgisi alınamadı</p>}
             </div>
+
             <div className="shop-package-wrapper">
-                {shopItems.map((item) => (
+                {items.length === 0 && status === 'succeeded' && <p>Mağazada ürün bulunamadı.</p>}
+
+                {items.map(item => (
                     <div key={item.id} className={`shop-card ${item.color}`}>
                         <div className="shop-ribbon"></div>
                         <div className="shop-card-content">

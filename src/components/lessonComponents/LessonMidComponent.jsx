@@ -11,7 +11,7 @@ import GroupTestModalComponent from "./GroupTestModalComponent";
 const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [selectedCategory, setSelectedCategory] = useState(courseID || null);
+    const [selectedCategory, setSelectedCategory] = useState(courseID);
     const { topics, statusTopics, errorTopics } = useSelector((state) => state.topic);
 
     const healthResult = useSelector((state) => state.layout.healthResult);
@@ -33,7 +33,7 @@ const LessonMidComponent = ({ courseID }) => {
 
     useEffect(() => {
         dispatch(fetchLivesInfo());
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         if (selectedCategory) {
@@ -68,12 +68,9 @@ const LessonMidComponent = ({ courseID }) => {
     // Loading state
     if (statusTopics === 'loading') {
         return (
-            <div className="col-12 col-md-6 position-relative">
-                <button className="back-button" onClick={handleBack}></button>
-                <div className="d-flex justify-content-center mt-5">
-                    <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
                 </div>
             </div>
         );
@@ -85,12 +82,12 @@ const LessonMidComponent = ({ courseID }) => {
             <div className="col-12 col-md-6 position-relative">
                 <button className="back-button" onClick={handleBack}></button>
                 <div className="alert alert-danger mt-3">
-                    {topicsError || 'Error loading topics'}
+                    {errorTopics || 'Error loading topics'}
                     <button
                         className="btn btn-sm btn-primary ms-2"
                         onClick={() => dispatch(fetchTopicsWithGroupedTests(selectedCategory))}
                     >
-                        Try Again
+                        Tekrar Deneyin
                     </button>
                 </div>
             </div>
@@ -103,25 +100,27 @@ const LessonMidComponent = ({ courseID }) => {
             <div className="col-12 col-md-6 position-relative">
                 <button className="back-button" onClick={handleBack}></button>
                 <div className="alert alert-info mt-3">
-                    No topics available for this course.
+                    Konular Henüz Eklenmedi
                 </div>
             </div>
         );
     }
+
+    const getLessonColor = (index) => colorScale[index % colorScale.length];
 
     return (
         <div className="col-12 col-md-6 position-relative">
             <button className="back-button" onClick={handleBack}></button>
 
             {topics.map((lesson, lessonIndex) => {
-                const lessonColor = colorScale[lessonIndex % colorScale.length];
+                const lessonColor = getLessonColor(lessonIndex);
                 const showModal = activeModalLessonIndex === lessonIndex;
 
                 // Filter out empty test groups
                 const validTestGroups = lesson.testGroups?.filter(group =>
-                    group.tests && group.tests.length >= 0
+                    group.tests?.length >= 0
                 ) || [];
-                // const validTestGroups = lesson.testGroups;
+
                 return (
                     <div className="lesson-container" key={lesson.topicID || lessonIndex}>
                         <div className="d-flex flex-column align-items-center">

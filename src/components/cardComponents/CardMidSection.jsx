@@ -2,9 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../../style/midsection.css';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
-import { fetchAppUser } from '../../features/AppUser/AppUserSlice';
+import { fetchFavoriteFlashcardsByCourse } from '../../features/FlashCard/FlashCardSlice';
 import { clearTopics } from '../../features/Topic/TopicSlice';
-import { fetchFavoriteFlashcardsByCourse } from '../../features/FlashCard/FlashCardSlice'; // yeni thunk'ı buraya ekliyoruz
 
 import CardCategoryButton from "./CardCategoryButton";
 import FlashcardList from "./FlashcardList";
@@ -12,37 +11,44 @@ import FlashcardList from "./FlashcardList";
 export const CardMidSection = React.memo(() => {
     const dispatch = useDispatch();
 
-    const { courses } = useSelector(state => state.courses);
-    const { user, status: userStatus } = useSelector(state => state.appUser);
+    const { courses, fetchStatus } = useSelector(state => state.courses);
     const { favoriteFlashCards, favoriteStatus } = useSelector(state => state.flashCard);
-
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // Kullanıcıyı al
     useEffect(() => {
-        if (!user) {
-            dispatch(fetchAppUser());
-        }
-    }, [dispatch, user]);
-
-    // Kullanıcının sınavına göre dersleri al
-    useEffect(() => {
-        if (userStatus === "succeeded" && user?.examID) {
-            dispatch(fetchCoursesByExamId(user.examID));
-        }
-    }, [userStatus, user?.examID, dispatch]);
+        dispatch(fetchCoursesByExamId());
+    }, [dispatch]);
 
     const handleBack = useCallback(() => {
         dispatch(clearTopics());
         setSelectedCategory(null);
     }, [dispatch]);
 
-    // Kategori seçildiğinde çalışacak
     const handleCategorySelection = useCallback((categoryID) => {
         dispatch(clearTopics());
         setSelectedCategory(categoryID);
         dispatch(fetchFavoriteFlashcardsByCourse({ courseId: categoryID }));
     }, [dispatch]);
+
+    // Eğer yükleme durumundaysa spinner göster
+    if (fetchStatus === 'loading') {
+        return (
+            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+                <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        );
+    }
+
+    // Eğer hata varsa kullanıcıya göster
+    if (fetchStatus === 'failed') {
+        return (
+            <div className="text-center mt-5 text-danger">
+                Dersler yüklenemedi. Lütfen daha sonra tekrar deneyin.
+            </div>
+        );
+    }
 
     return (
         <div className="col-12 col-md-6 position-relative">
@@ -69,6 +75,13 @@ export const CardMidSection = React.memo(() => {
                         <FlashcardList flashcards={favoriteFlashCards} />
                     )}
 
+                    {favoriteStatus === 'loading' && (
+                        <div className="text-center mt-4">
+                            <div className="spinner-border text-secondary" role="status">
+                                <span className="visually-hidden">Yükleniyor...</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

@@ -87,6 +87,8 @@ const shopSlice = createSlice({
         items: [],
         status: 'idle',
         error: null,
+        userDiamondCount: 0,  // yeni alan eklendi
+
         allItems: [],           // 👈 yeni alan: herkese açık ürünler
         allItemsStatus: 'idle',
         allItemsError: null
@@ -100,7 +102,9 @@ const shopSlice = createSlice({
             })
             .addCase(fetchUserShopItems.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items = action.payload;
+                state.items = action.payload.items || [];
+                state.userDiamondCount = action.payload.userDiamondCount || 0;
+
             })
             .addCase(fetchUserShopItems.rejected, (state, action) => {
                 state.status = 'failed';

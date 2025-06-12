@@ -1,46 +1,38 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../style/midsection.css';
-import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';  // sınav seçeneklerini almak için
-import { fetchTopics, clearTopics } from '../../features/Topic/TopicSlice';  // sınav seçeneklerini almak için
+import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
+import { fetchTopics, clearTopics } from '../../features/Topic/TopicSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import CategoryButton from "./CategoryButton"; // CategoryButton bileşenini import ediyoruz
+import CategoryButton from "./CategoryButton";
 
 export const MidSection = React.memo(() => {
-    const navigate = useNavigate();  // useNavigate hook'u
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { courses } = useSelector(state => state.courses);
-    const fetchStatus = useSelector(state => state.courses.fetchStatus);
+    const { courses, fetchStatus } = useSelector(state => state.courses);
 
-
+    // Initial data fetch
     useEffect(() => {
         dispatch(fetchCoursesByExamId());
     }, [dispatch]);
 
-
     const [selectedCategory, setSelectedCategory] = useState(null);
+
+    // Handle category selection
+    const handleCategorySelection = useCallback((categoryID) => {
+        setSelectedCategory(categoryID);
+        dispatch(clearTopics());
+        navigate(`/lesson/${categoryID}`);
+    }, [dispatch, navigate]);
+
+    // Back button handler
     const handleBack = useCallback(() => {
         dispatch(clearTopics());
         setSelectedCategory(null);
-    }, []);
+    }, [dispatch]);
 
-    useEffect(() => {
-        if (selectedCategory) {
-
-            dispatch(fetchTopics(selectedCategory));
-            // Kategori seçildiğinde yönlendirme yapılacak
-            navigate(`/lesson/${selectedCategory}`);  // courseID ile yönlendiriyoruz
-        }
-    }, [selectedCategory, dispatch, navigate]);
-
-
-    const handleCategorySelection = useCallback((categoryID) => {
-        dispatch(clearTopics());
-        setSelectedCategory(categoryID);
-        dispatch(fetchTopics(categoryID)); // Seçilen kategoriye ait konuları al
-        navigate(`/lesson/${categoryID}`);  // Kullanıcıyı ilgili kategoriye yönlendir
-    }, [dispatch, navigate]);
-    if (fetchStatus === 'loading') {
+    // Loading state
+    if (fetchStatus === 'loading' || !courses.length) {
         return (
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
                 <div className="spinner-border text-primary" role="status">
@@ -51,10 +43,7 @@ export const MidSection = React.memo(() => {
     }
 
     return (
-
-
-
-        <div className="col-12 col-md-6  position-relative">
+        <div className="col-12 col-md-6 position-relative">
             {!selectedCategory ? (
                 <div className="category-selection">
                     <div className="text-center lesson-title">Çalışmak İstediğin Dersi Seç</div>
@@ -62,9 +51,8 @@ export const MidSection = React.memo(() => {
                         {courses.map((category) => (
                             <CategoryButton
                                 key={category.courseID}
-
                                 category={category}
-                                onClick={handleCategorySelection} // Kategori seçildiğinde tetikleniyor
+                                onClick={handleCategorySelection}
                             />
                         ))}
                     </div>
@@ -72,7 +60,7 @@ export const MidSection = React.memo(() => {
             ) : (
                 <div>
                     <button className="back-button" onClick={handleBack}></button>
-                    <p style={{ height: "300vh" }}></p>
+                    {/* Gereksiz boşluk kaldırıldı */}
                 </div>
             )}
         </div>

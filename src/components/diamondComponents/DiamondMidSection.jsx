@@ -2,48 +2,28 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './../../style/diamondPage/diamond.css';
 import DiamondPaymentModal from './DiamondPaymentModal';
-import { fetchUserProfileStatistics } from '../../features/Statistics/StatisticsSlice';
-import { fetchDiamondPackItems } from '../../features/DiamondPackItem/DiamondPackItemSlice';
+import { fetchDiamondUserPackItems } from '../../features/DiamondPackItem/DiamondPackItemSlice';
 
 const DiamondMidSection = () => {
     const [selectedPackage, setSelectedPackage] = useState(null);
     const dispatch = useDispatch();
 
-    // Elmas paketlerini Redux store'dan al
     const {
         items: diamondPackages,
-        status: diamondStatus
+        diamondCount,
+        diamondUserPackStatus,
+        diamondUserPackError
     } = useSelector((state) => state.diamondPackItem);
 
-    // Kullanıcı istatistiklerini al
-    const {
-        data: statistics,
-        status: statsStatus
-    } = useSelector((state) => state.statistic.profileStats);
-
-    // Satın alma başarı mesajı
-    const { successMessage } = useSelector((state) => state.purchase);
-
-    // Sayfa ilk yüklendiğinde verileri çek
     useEffect(() => {
-        dispatch(fetchUserProfileStatistics());
-        dispatch(fetchDiamondPackItems());
+        dispatch(fetchDiamondUserPackItems());
     }, [dispatch]);
 
-    // Satın alma başarılı olursa istatistikleri tekrar al
-    useEffect(() => {
-        if (successMessage) {
-            dispatch(fetchUserProfileStatistics());
-        }
-    }, [successMessage, dispatch]);
-
-    // Renkleri paketlere eşleştirme fonksiyonu
     const getColorForPackage = (index) => {
         const colors = ['blue', 'green', 'red', 'purple', 'gold'];
         return colors[index % colors.length];
     };
 
-    // Toplam elmas miktarını hesapla (bonus dahil)
     const calculateTotalDiamonds = (packageItem) => {
         const bonus = Math.floor(packageItem.diamondAmount * (packageItem.bonusPercentage / 100));
         return packageItem.diamondAmount + bonus;
@@ -55,29 +35,28 @@ const DiamondMidSection = () => {
             <p className="diamond-subtitle">İhtiyacına uygun elmas paketini seç ve hemen satın al!</p>
 
             <div className="diamond-user-info">
-                {statsStatus === 'loading' && <p>Yükleniyor...</p>}
-                {statsStatus === 'succeeded' && statistics?.diamond != null && (
-                    <p>💎 Mevcut Elmas: <strong>{statistics.diamond}</strong></p>
+                {diamondUserPackStatus === 'loading' && <p>Yükleniyor...</p>}
+                {diamondUserPackStatus === 'succeeded' && (
+                    <p>💎 Mevcut Elmas: <strong>{diamondCount}</strong></p>
                 )}
-                {statsStatus === 'failed' && <p>Elmas bilgisi alınamadı</p>}
+                {diamondUserPackStatus === 'failed' && (
+                    <p>Elmas bilgisi alınamadı: {diamondUserPackError}</p>
+                )}
             </div>
 
-            {/* Yükleme durumu */}
-            {diamondStatus === 'loading' && (
+            {diamondUserPackStatus === 'loading' && (
                 <div className="diamond-loading">
                     <p>Paketler yükleniyor...</p>
                 </div>
             )}
 
-            {/* Hata durumu */}
-            {diamondStatus === 'failed' && (
+            {diamondUserPackStatus === 'failed' && (
                 <div className="diamond-error">
                     <p>Paketler yüklenirken hata oluştu</p>
                 </div>
             )}
 
-            {/* Paketlerin listesi */}
-            {diamondStatus === 'succeeded' && (
+            {diamondUserPackStatus === 'succeeded' && (
                 <div className="diamond-package-wrapper">
                     {diamondPackages.map((pkg, index) => {
                         const totalDiamonds = calculateTotalDiamonds(pkg);
@@ -119,7 +98,6 @@ const DiamondMidSection = () => {
                 </div>
             )}
 
-            {/* Ödeme modalı */}
             {selectedPackage && (
                 <DiamondPaymentModal
                     packageInfo={{
