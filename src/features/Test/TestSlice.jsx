@@ -14,6 +14,18 @@ export const fetchTests = createAsyncThunk(
         }
     }
 );
+export const fetchQuestionWithFlashCard = createAsyncThunk(
+    'test/fetchQuestionWithFlashCard',
+    async (testId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`Tests/get-test-with-questions/${testId}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
 
 // Yeni test oluşturma
 export const createTest = createAsyncThunk(
@@ -49,6 +61,10 @@ const testSlice = createSlice({
         createError: null,
         updateStatus: 'idle',
         updateError: null,
+
+        questionWithFlashCardData: null,
+        questionWithFlashCardStatus: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+        questionWithFlashCardError: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -91,6 +107,18 @@ const testSlice = createSlice({
             .addCase(updateTest.rejected, (state, action) => {
                 state.updateStatus = 'failed';
                 state.updateError = action.payload;
+            })
+            .addCase(fetchQuestionWithFlashCard.pending, (state) => {
+                state.questionWithFlashCardStatus = 'loading';
+                state.questionWithFlashCardError = null;
+            })
+            .addCase(fetchQuestionWithFlashCard.fulfilled, (state, action) => {
+                state.questionWithFlashCardStatus = 'succeeded';
+                state.questionWithFlashCardData = action.payload;
+            })
+            .addCase(fetchQuestionWithFlashCard.rejected, (state, action) => {
+                state.questionWithFlashCardStatus = 'failed';
+                state.questionWithFlashCardError = action.payload;
             });
     },
 });

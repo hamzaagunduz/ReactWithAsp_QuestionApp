@@ -1,3 +1,4 @@
+// FlashCard.jsx
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 
@@ -11,22 +12,23 @@ const exampleFrontList = [
 
 function FlashCard({ flipped, onFlip, flashCard, loading, onStarClick }) {
     const [randomFrontText, setRandomFrontText] = useState("");
-    const [isFavorited, setIsFavorited] = useState(flashCard?.isFavoried);
+    const [isFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
         const randomIndex = Math.floor(Math.random() * exampleFrontList.length);
         setRandomFrontText(exampleFrontList[randomIndex]);
     }, []);
 
-    // flashCardID veya isFavoried değişirse local state güncellenir
+    // Initialize favorite state from flashCard prop
     useEffect(() => {
-        setIsFavorited(flashCard?.isFavoried);
-    }, [flashCard?.flashCardID, flashCard?.isFavoried]);
+        setIsFavorited(flashCard?.isStarred || false);
+    }, [flashCard]);
 
     const handleStarClick = (e) => {
-        e.stopPropagation(); // Kartın fliplenmesini engelle
-        setIsFavorited(prev => !prev); // Yerel state anında güncellenir
-        onStarClick(flashCard.flashCardID); // Redux ya da API tetikle
+        e.stopPropagation();
+        const newFavoriteState = !isFavorited;
+        setIsFavorited(newFavoriteState);
+        onStarClick(flashCard.flashCardID);
     };
 
     return (

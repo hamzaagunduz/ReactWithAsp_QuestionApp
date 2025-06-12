@@ -1,6 +1,19 @@
-import { imgUrl } from '../../app/apiClient'; // baseURL buradan geliyor
+import { imgUrl } from '../../app/apiClient';
 
 function QuestionCard({ question, selectedAnswer, result, onSelect }) {
+    // Add null check for question
+    if (!question) {
+        return (
+            <div className="card col-9 question-card p-4">
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '300px' }}>
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     const options = [
         { key: 1, text: question.optionA },
         { key: 2, text: question.optionB },
@@ -14,7 +27,7 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
         return relativePath ? `${imgUrl}${relativePath}` : null;
     };
 
-    const questionImage = getImageUrl(0); // Soru görseli
+    const questionImage = getImageUrl(0);
 
     return (
         <div className="card col-9 question-card p-4">
@@ -24,7 +37,6 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
                         src={questionImage}
                         alt="Soru görseli"
                         className=""
-                        style={{}}
                     />
                 </div>
             )}
@@ -33,7 +45,7 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
 
             <div className="options-container w-100 mt-3">
                 {options.map(option => {
-                    const optionImage = getImageUrl(option.key); // 1–5
+                    const optionImage = getImageUrl(option.key);
                     return (
                         <button
                             key={option.key}
@@ -59,7 +71,6 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
                             )}
                             {option.text}
                         </button>
-
                     );
                 })}
             </div>
