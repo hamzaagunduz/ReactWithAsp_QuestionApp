@@ -7,7 +7,7 @@ import './../../style/diamondPage/diamondPaymentModal.css';
 
 const DiamondPaymentModal = ({ onClose, packageInfo }) => {
     const dispatch = useDispatch();
-    const { status: purchaseStatus, error, successMessage } = useSelector(state => state.purchase);
+    const { status: purchaseStatus, error: purchaseError } = useSelector(state => state.purchase);
     const { status: paymentStatus } = useSelector(state => state.payment);
 
     const [form, setForm] = useState({
@@ -21,10 +21,9 @@ const DiamondPaymentModal = ({ onClose, packageInfo }) => {
     const [iframeContent, setIframeContent] = useState(null);
     const [conversationId, setConversationId] = useState(null);
     const [callbackMessage, setCallbackMessage] = useState(null);
-    const [errors, setErrors] = useState({});
-    const [isCardFlipped, setIsCardFlipped] = useState(false);
+    const [paymentStarted, setPaymentStarted] = useState(false);
 
-    // SignalR bağlantısı
+    // SignalR
     useEffect(() => {
         const connectSignalR = async () => {
             await startConnection('payhub');
@@ -58,91 +57,46 @@ const DiamondPaymentModal = ({ onClose, packageInfo }) => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        let formattedValue = value;
 
-        // Format card number with spaces
-        if (name === 'cardNumber') {
-            const digitsOnly = value.replace(/\D/g, '');
-            const limited = digitsOnly.slice(0, 16);
-            const formatted = limited.replace(/(\d{4})/g, '$1 ').trim();
-            setForm(prev => ({ ...prev, [name]: formatted }));
-            return;
+        if (['cardNumber', 'expireMonth', 'expireYear', 'cvc'].includes(name)) {
+            formattedValue = value.replace(/\D/g, '');
         }
 
-        // Format expiration month
-        if (name === 'expireMonth') {
-            const digitsOnly = value.replace(/\D/g, '').slice(0, 2);
-            setForm(prev => ({ ...prev, [name]: digitsOnly }));
-            return;
-        }
+        if (name === 'cardNumber' && formattedValue.length > 16) return;
+        if (name === 'expireMonth' && formattedValue.length > 2) return;
+        if (name === 'expireYear' && formattedValue.length > 4) return;
+        if (name === 'cvc' && formattedValue.length > 3) return;
 
-        // Format expiration year
-        if (name === 'expireYear') {
-            const digitsOnly = value.replace(/\D/g, '').slice(0, 4);
-            setForm(prev => ({ ...prev, [name]: digitsOnly }));
-            return;
-        }
-
-        // Format CVC
-        if (name === 'cvc') {
-            const digitsOnly = value.replace(/\D/g, '').slice(0, 3);
-            setForm(prev => ({ ...prev, [name]: digitsOnly }));
-            return;
-        }
-
-        // For other fields
-        setForm(prev => ({ ...prev, [name]: value }));
+        setForm({ ...form, [name]: formattedValue });
     };
-
-    const validateForm = () => {
-        const newErrors = {};
-
-        // Card number validation (16 digits)
-        const cardDigits = form.cardNumber.replace(/\D/g, '');
-        if (cardDigits.length !== 16) {
-            newErrors.cardNumber = '16 haneli olmalıdır';
+    useEffect(() => {
+        if (callbackMessage?.status === 'failure' || callbackMessage?.status === 'error') {
+            setIframeContent(null); // iframe kapansın
         }
+    }, [callbackMessage]);
 
-        // Card holder validation
-        if (!form.cardHolderName.trim()) {
-            newErrors.cardHolderName = 'Ad soyad gereklidir';
-        }
 
-        // Expiration month validation
-        const month = parseInt(form.expireMonth, 10);
-        if (!form.expireMonth || isNaN(month) || month < 1 || month > 12) {
-            newErrors.expireMonth = 'Geçersiz ay';
-        }
-
-        // Expiration year validation
-        const currentYear = new Date().getFullYear();
-        const year = parseInt(form.expireYear, 10);
-        if (!form.expireYear || isNaN(year) || year < currentYear || year > currentYear + 10) {
-            newErrors.expireYear = `Geçersiz yıl`;
-        }
-
-        // CVC validation
-        if (!form.cvc || form.cvc.length !== 3) {
-            newErrors.cvc = '3 haneli olmalı';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!validateForm()) return;
+        setPaymentStarted(true);
+        setCallbackMessage(null);
 
         const result = await dispatch(pay({
             cardHolderName: form.cardHolderName,
-            cardNumber: form.cardNumber.replace(/\D/g, ''),
+            cardNumber: form.cardNumber,
             expireMonth: form.expireMonth,
             expireYear: form.expireYear,
             cvc: form.cvc
         }));
 
         if (pay.fulfilled.match(result)) {
+            if (result.payload.errorMessage) {
+                setCallbackMessage({ status: 'error', message: result.payload.errorMessage });
+                return;
+            }
+
             const html = result.payload.content;
             const base64Html = btoa(unescape(encodeURIComponent(html)));
             setIframeContent(`data:text/html;base64,${base64Html}`);
@@ -150,163 +104,85 @@ const DiamondPaymentModal = ({ onClose, packageInfo }) => {
         }
     };
 
+    const renderMessage = () => {
+        if (!callbackMessage) return null;
+
+        if (callbackMessage.status === 'error') {
+            return <div className="diamond-status-message" style={{ color: 'red' }}>{callbackMessage.message}</div>;
+        }
+
+        if (callbackMessage.status === 'failure') {
+            return <div className="diamond-status-message" style={{ color: 'red' }}>❌ 3D Ödeme başarısız oldu. Lütfen tekrar deneyin.</div>;
+        }
+
+        if (callbackMessage.status === 'success') {
+            return <div className="diamond-success-message">✅ Ödeme başarıyla tamamlandı. Elmaslarınız eklendi!</div>;
+        }
+
+        return null;
+    };
+
     return (
         <div className="diamond-modal-overlay">
             <div className="diamond-modal">
                 <button className="diamond-close-button" onClick={onClose}>×</button>
-                <h2>{packageInfo.name} Paketi</h2>
-                <div className="diamond-package-info">
-                    <div className="diamond-count">{packageInfo.diamondCount} 💎</div>
-                    <div className="diamond-price">₺{packageInfo.amount.toFixed(2)}</div>
-                </div>
+                <h2>{packageInfo.name} Satın Al</h2>
 
-                {!iframeContent ? (
-                    <div className="diamond-payment-container">
-                        <div
-                            className={`diamond-credit-card ${isCardFlipped ? 'flipped' : ''}`}
-                            onClick={() => setIsCardFlipped(!isCardFlipped)}
-                        >
-                            <div className="diamond-card-front">
-                                <div className="diamond-card-logo">VISA</div>
-                                <div className="diamond-card-number">
-                                    {form.cardNumber || '•••• •••• •••• ••••'}
-                                </div>
-                                <div className="diamond-card-details">
-                                    <div className="diamond-card-holder">
-                                        <div className="diamond-card-label">Kart Sahibi</div>
-                                        <div className="diamond-card-value">
-                                            {form.cardHolderName || 'Ad Soyad'}
-                                        </div>
-                                    </div>
-                                    <div className="diamond-card-expiry">
-                                        <div className="diamond-card-label">Son Kullanma</div>
-                                        <div className="diamond-card-value">
-                                            {form.expireMonth || 'MM'}/{form.expireYear || 'YYYY'}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="diamond-card-back">
-                                <div className="diamond-card-stripe"></div>
-                                <div className="diamond-card-cvc">
-                                    <div className="diamond-card-label">CVV</div>
-                                    <div className="diamond-card-value">
-                                        {form.cvc || '•••'}
-                                    </div>
-                                </div>
-                            </div>
+                {!iframeContent && (
+                    <form className="diamond-payment-form" onSubmit={handleSubmit}>
+                        <input
+                            name="cardNumber"
+                            placeholder="Kart Numarası"
+                            value={form.cardNumber}
+                            onChange={handleChange}
+                            required
+                        />
+                        <input
+                            name="cardHolderName"
+                            placeholder="Kart Üzerindeki İsim"
+                            value={form.cardHolderName}
+                            onChange={handleChange}
+                            required
+                        />
+                        <div className="diamond-card-details">
+                            <input
+                                name="expireMonth"
+                                placeholder="Ay"
+                                value={form.expireMonth}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                name="expireYear"
+                                placeholder="Yıl"
+                                value={form.expireYear}
+                                onChange={handleChange}
+                                required
+                            />
+                            <input
+                                name="cvc"
+                                placeholder="CVV"
+                                value={form.cvc}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
-                        <form className="diamond-payment-form" onSubmit={handleSubmit}>
-                            <div className="diamond-form-group">
-                                <label>Kart Numarası</label>
-                                <input
-                                    name="cardNumber"
-                                    placeholder="0000 0000 0000 0000"
-                                    value={form.cardNumber}
-                                    onChange={handleChange}
-                                    maxLength={19}
-                                    required
-                                    className={errors.cardNumber ? 'error' : ''}
-                                />
-                                {errors.cardNumber && <div className="diamond-error">{errors.cardNumber}</div>}
-                            </div>
+                        {renderMessage()}
 
-                            <div className="diamond-form-group">
-                                <label>Kart Üzerindeki İsim</label>
-                                <input
-                                    name="cardHolderName"
-                                    placeholder="Ad Soyad"
-                                    value={form.cardHolderName}
-                                    onChange={handleChange}
-                                    required
-                                    className={errors.cardHolderName ? 'error' : ''}
-                                />
-                                {errors.cardHolderName && <div className="diamond-error">{errors.cardHolderName}</div>}
-                            </div>
+                        <button
+                            type="submit"
+                            className="diamond-submit-button"
+                            disabled={paymentStatus === 'loading' || purchaseStatus === 'loading'}
+                        >
+                            {paymentStatus === 'loading' ? 'Ödeme Başlatılıyor...' : 'Satın Al'}
+                        </button>
+                    </form>
+                )}
 
-                            <div className="diamond-card-details">
-                                <div className="diamond-form-group">
-                                    <label>Son Kullanma</label>
-                                    <div className="diamond-expiry-group">
-                                        <input
-                                            name="expireMonth"
-                                            placeholder="AA"
-                                            value={form.expireMonth}
-                                            onChange={handleChange}
-                                            maxLength={2}
-                                            required
-                                            className={errors.expireMonth ? 'error' : ''}
-                                        />
-                                        <span>/</span>
-                                        <input
-                                            name="expireYear"
-                                            placeholder="YYYY"
-                                            value={form.expireYear}
-                                            onChange={handleChange}
-                                            maxLength={4}
-                                            required
-                                            className={errors.expireYear ? 'error' : ''}
-                                        />
-                                    </div>
-                                    {(errors.expireMonth || errors.expireYear) && (
-                                        <div className="diamond-error">
-                                            {errors.expireMonth || errors.expireYear}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="diamond-form-group">
-                                    <label>
-                                        CVV
-                                        <span
-                                            className="diamond-info-icon"
-                                            onMouseEnter={() => setIsCardFlipped(true)}
-                                            onMouseLeave={() => setIsCardFlipped(false)}
-                                        >
-                                            i
-                                        </span>
-                                    </label>
-                                    <input
-                                        name="cvc"
-                                        placeholder="000"
-                                        maxLength={3}
-                                        value={form.cvc}
-                                        onChange={handleChange}
-                                        required
-                                        className={errors.cvc ? 'error' : ''}
-                                    />
-                                    {errors.cvc && <div className="diamond-error">{errors.cvc}</div>}
-                                </div>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="diamond-submit-button"
-                                disabled={paymentStatus === 'loading' || purchaseStatus === 'loading'}
-                            >
-                                {paymentStatus === 'loading' ? (
-                                    <div className="diamond-spinner"></div>
-                                ) : (
-                                    `₺${packageInfo.amount.toFixed(2)} - Satın Al`
-                                )}
-                            </button>
-                        </form>
-                    </div>
-                ) : (
+                {iframeContent && (
                     <div className="diamond-iframe-wrapper">
-                        {callbackMessage?.status === 'success' ? (
-                            <div className="diamond-success-container">
-                                <div className="diamond-success-icon">✓</div>
-                                <div className="diamond-success-message">
-                                    <h3>Ödeme Başarılı!</h3>
-                                    <p>{packageInfo.diamondCount} elmas hesabınıza eklendi.</p>
-                                </div>
-                                <button className="diamond-close-success" onClick={onClose}>
-                                    Kapat
-                                </button>
-                            </div>
-                        ) : (
+                        {callbackMessage?.status !== 'success' && (
                             <>
                                 <h4 className="iframe-title">3D Secure Doğrulama</h4>
                                 <iframe
@@ -316,10 +192,15 @@ const DiamondPaymentModal = ({ onClose, packageInfo }) => {
                                 />
                             </>
                         )}
+                        {renderMessage()}
                     </div>
                 )}
 
-                {error && <div className="diamond-status-message error">{error}</div>}
+                {purchaseError && (
+                    <div className="diamond-status-message" style={{ color: 'red', marginTop: '10px' }}>
+                        {purchaseError}
+                    </div>
+                )}
             </div>
         </div>
     );
