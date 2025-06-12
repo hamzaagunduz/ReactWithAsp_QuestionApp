@@ -48,7 +48,8 @@ const LessonMidComponent = ({ courseID }) => {
 
     const handleNavigate = useCallback((testId) => {
         if (lives <= 0) {
-            setShowNoLivesModal(true);
+            setSelectedGroupTests(null); // GroupTestModal'ı kapat
+            setShowNoLivesModal(true);   // NoLivesModal'ı aç
         } else {
             navigate(`/train/${testId}`);
         }

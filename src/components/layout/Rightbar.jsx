@@ -125,7 +125,8 @@ export const Rightbar = () => {
                         <div className="promo-header"></div>
                         <p className="promo-title">Yapay Zeka Eklentisi</p>
                         <div className="promo-content">
-                            <p className="promo-description">Çözdüğün testlerin analizine istediğinde ulaş.</p>
+                            <p className="promo-description">Çözdüğün testlerin analizine istediğinde
+                                ulaş.</p>
                             <img
                                 className="promo-image"
                                 src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png"

@@ -34,11 +34,12 @@ export const MidSection = React.memo(() => {
     // Loading state
     if (fetchStatus === 'loading' || !courses.length) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+            <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh" }}>
                 <div className="spinner-border text-primary" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
             </div>
+
         );
     }
 

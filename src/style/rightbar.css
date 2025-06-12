@@ -147,7 +147,6 @@ body {
     border-radius: var(--border-radius);
     border: 2px solid var(--light-gray);
     padding: 20px;
-    overflow: hidden;
 }
 
 /* .promo-card-green {
@@ -332,9 +331,32 @@ body {
         object-fit: contain;
         margin-bottom: 5px;
     }
+
+    .promo-content {
+        width: 100% !important;
+    }
+
+    .promo-card img {
+        display: none;
+    }
+
+    .promo-title {
+        font-size: 1.3rem;
+    }
+
+    .promo-description {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .promo-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
 }
 
 @media (max-width: 768px) {
+
     .mobile-menu-toggle {
         display: block;
     }
@@ -370,6 +392,31 @@ body {
     .score-label {
         font-size: 12px;
     }
+
+
+    .promo-content {
+        width: 100% !important;
+    }
+
+    .promo-card img {
+        display: none;
+    }
+
+    .promo-title {
+        font-size: 1.3rem;
+    }
+
+    .promo-description {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .promo-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+
 }
 
 @media (max-width: 480px) {
@@ -379,17 +426,25 @@ body {
     }
 
     .promo-content {
-        flex-direction: column;
-        align-items: flex-start;
+        width: 100% !important;
     }
 
-    .promo-image {
-        align-self: flex-end;
-        margin-top: 10px;
+    .promo-card img {
+        display: none;
+    }
+
+    .promo-title {
+        font-size: 1.3rem;
     }
 
     .promo-description {
+        font-size: 1rem;
         width: 100%;
+    }
+
+    .promo-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
     }
 
     .score-icon {
@@ -397,6 +452,28 @@ body {
         height: 30px;
         object-fit: contain;
         margin-bottom: 5px;
+    }
+
+    .promo-content {
+        width: 100% !important;
+    }
+
+    .promo-card img {
+        display: none;
+    }
+
+    .promo-title {
+        font-size: 1.3rem;
+    }
+
+    .promo-description {
+        font-size: 1rem;
+        width: 100%;
+    }
+
+    .promo-button {
+        font-size: 0.8rem;
+        padding: 6px 10px;
     }
 
 }

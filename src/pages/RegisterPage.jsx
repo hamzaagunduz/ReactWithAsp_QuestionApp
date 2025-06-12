@@ -35,8 +35,13 @@ const RegisterPage = () => {
 
         if (registerState.status === 'failed') {
             if (Array.isArray(registerState.error)) {
-                setMessage(registerState.error.join('\n'));
-            } else {
+                const onlyMessages = registerState.error.map(err => {
+                    const parts = err.split(':');
+                    return parts.length > 1 ? parts.slice(1).join(':').trim() : err;
+                });
+                setMessage(onlyMessages.join('\n'));
+            }
+            else {
                 setMessage(registerState.error || '❌ Bir hata oluştu.');
             }
         }

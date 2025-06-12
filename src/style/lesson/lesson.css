@@ -52,6 +52,7 @@
     /* duo-style box shadow */
     animation: popIn 0.3s ease-out;
     position: relative;
+    z-index: 99999;
 }
 
 .modal-content_live h5 {
