@@ -49,18 +49,27 @@ function TrainPage() {
             return;
         }
 
-        dispatch(fetchQuestionsByTestId(testId));
-        dispatch(fetchTestById(testId));
-        dispatch(fetchFlashCardsByTestId(testId));
         setStartTime(Date.now());
+
+        Promise.all([
+            dispatch(fetchQuestionsByTestId(testId)),
+            dispatch(fetchTestById(testId)),
+            dispatch(fetchFlashCardsByTestId(testId)),
+        ]).catch((error) => {
+            console.error("Bir hata oluştu:", error);
+        });
+
     }, [testId, dispatch, navigate]);
+
 
     const handleStarClick = (flashCardID) => {
         dispatch(toggleUserFlashCard({ flashCardID }));
     };
 
     const currentQuestion = questions?.[currentQuestionIndex];
-    const currentFlashCard = flashCards?.find(fc => fc.questionID === currentQuestion.questionID);
+    const currentFlashCard = currentQuestion
+        ? flashCards?.find(fc => fc.questionID === currentQuestion.questionID)
+        : null;
 
     const handleAnswerSelect = (optionIndex) => {
         if (result !== null) return;

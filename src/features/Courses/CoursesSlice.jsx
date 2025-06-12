@@ -14,15 +14,16 @@ export const fetchCourse = createAsyncThunk(
 
 export const fetchCoursesByExamId = createAsyncThunk(
     'course/fetchCoursesByExamId',
-    async (examId, { rejectWithValue }) => {
+    async (_, thunkAPI) => {
         try {
-            const response = await apiClient.get(`Courses/GetCoursesByExamId/${examId}`);
-            return response.data; // Başarılı dönüş
+            const response = await apiClient.get(`Courses/GetCoursesByExamId`);
+            return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data || 'API hata mesajı');
+            return thunkAPI.rejectWithValue(error.response?.data || 'API hata mesajı');
         }
     }
 );
+
 
 export const createCourse = createAsyncThunk(
     'Courses/createCourse',
@@ -64,41 +65,56 @@ export const deleteCourse = createAsyncThunk(
 const CoursesSlice = createSlice({
     name: 'Courses',
     initialState: {
-        courses: [],  // Burada options dizisini başlatıyoruz
-        status: 'idle',  // idle | loading | succeeded | failed
-        error: null,
-        updateStatus: 'idle',
-        updateError: null
+        courses: [],
 
+        fetchStatus: 'idle',
+        fetchError: null,
+
+        createStatus: 'idle',
+        createError: null,
+
+        updateStatus: 'idle',
+        updateError: null,
+
+        deleteStatus: 'idle',
+        deleteError: null
     },
+
     reducers: {},
     extraReducers: (builder) => {
         builder
+            // fetchCoursesByExamId
             .addCase(fetchCoursesByExamId.pending, (state) => {
-                state.status = 'loading';  // Yükleniyor durumunu ayarlıyoruz
+                state.fetchStatus = 'loading';
+                state.fetchError = null;
             })
             .addCase(fetchCoursesByExamId.fulfilled, (state, action) => {
-                state.status = 'succeeded';  // Veri başarıyla alındığında
-                state.courses = action.payload;  // API'den gelen veriyi options'a kaydediyoruz
+                state.fetchStatus = 'succeeded';
+                state.courses = action.payload;
             })
             .addCase(fetchCoursesByExamId.rejected, (state, action) => {
-                state.status = 'failed';  // Hata durumunda
-                state.error = action.payload;
+                state.fetchStatus = 'failed';
+                state.fetchError = action.payload;
             })
+
             // createCourse
             .addCase(createCourse.pending, (state) => {
                 state.createStatus = 'loading';
+                state.createError = null;
             })
             .addCase(createCourse.fulfilled, (state, action) => {
                 state.createStatus = 'succeeded';
-                state.courses.push(action.payload); // Yeni kursu ekliyoruz
+                state.courses.push(action.payload);
             })
             .addCase(createCourse.rejected, (state, action) => {
                 state.createStatus = 'failed';
                 state.createError = action.payload;
             })
+
+            // updateCourse
             .addCase(updateCourse.pending, (state) => {
                 state.updateStatus = 'loading';
+                state.updateError = null;
             })
             .addCase(updateCourse.fulfilled, (state, action) => {
                 state.updateStatus = 'succeeded';
@@ -112,15 +128,22 @@ const CoursesSlice = createSlice({
                 state.updateStatus = 'failed';
                 state.updateError = action.payload;
             })
+
+            // deleteCourse
+            .addCase(deleteCourse.pending, (state) => {
+                state.deleteStatus = 'loading';
+                state.deleteError = null;
+            })
             .addCase(deleteCourse.fulfilled, (state, action) => {
+                state.deleteStatus = 'succeeded';
                 state.courses = state.courses.filter(course => course.courseID !== action.payload);
             })
             .addCase(deleteCourse.rejected, (state, action) => {
-                state.error = action.payload;
+                state.deleteStatus = 'failed';
+                state.deleteError = action.payload;
             });
+    }
 
-
-    },
 });
 
 
