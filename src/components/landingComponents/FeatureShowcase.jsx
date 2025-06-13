@@ -7,6 +7,9 @@ import { FaRobot } from 'react-icons/fa';
 import { RiFileList2Line } from 'react-icons/ri';
 import { BiBarChartAlt2 } from 'react-icons/bi';
 import { GiArchiveResearch } from 'react-icons/gi';
+import { BsStars } from 'react-icons/bs';
+import { MdQuiz } from 'react-icons/md';
+
 
 const FeatureShowcase = () => {
     React.useEffect(() => {
@@ -22,7 +25,7 @@ const FeatureShowcase = () => {
         {
             icon: <RiFileList2Line size={40} />,
             title: "Kişisel Test Önerileri",
-            description: "Çözüm geçmişini analiz ederek zayıf olduğun konulara özel testler oluşturur."
+            description: "Çözüm geçmişini analiz ederek zayıf olduğun konulara özel tavsiyeler oluşturur."
         },
         {
             icon: <BiBarChartAlt2 size={40} />,
@@ -33,8 +36,19 @@ const FeatureShowcase = () => {
             icon: <GiArchiveResearch size={40} />,
             title: "Kapsamlı Soru Bankası",
             description: "Binlerce özgün ve seviyelere göre kategorize edilmiş sorudan oluşan devasa havuz."
+        },
+        {
+            icon: <BsStars size={40} />,
+            title: "Kişisel Flash Kartlar",
+            description: "Her soruyu flash karta dönüştür, önemli soruları yıldızla ve tekrar listene ekle."
+        },
+        {
+            icon: <MdQuiz size={40} />,
+            title: "Flash Kart Quizleri",
+            description: "Yıldızladığın kartlardan otomatik quiz oluştur, bilgini test et ve eğlenerek öğren."
         }
     ];
+
 
     return (
         <section className={styles.featureShowcase}>

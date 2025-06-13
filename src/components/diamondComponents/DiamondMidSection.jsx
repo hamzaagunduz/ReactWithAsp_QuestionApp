@@ -68,7 +68,7 @@ const DiamondMidSection = () => {
                                 <div className="diamond-card-content">
                                     {pkg.imageUrl ? (
                                         <img
-                                            src={pkg.imageUrl}
+                                            src={`/assets/${pkg.imageUrl}`}
                                             alt={pkg.name}
                                             className="diamond-img"
                                         />

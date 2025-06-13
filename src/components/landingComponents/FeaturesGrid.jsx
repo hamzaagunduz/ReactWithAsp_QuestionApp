@@ -11,51 +11,47 @@ const FeaturesGrid = () => {
 
     const features = [
         {
-            icon: "fas fa-robot",
-            title: "Yapay Zeka Destekli Akıllı Test Paneli",
-            description: "Öğrenme düzeyinize göre otomatik olarak uyarlanan testler"
+            icon: "fas fa-brain",
+            title: "Yapay Zeka Destekli Çalışma",
+            description: "Sorularınızı analiz eden ve zayıf yönlerinize göre tavsiyeler sunan yapay zeka sistemi."
         },
         {
-            icon: "fas fa-film",
-            title: "Animasyon Destekli Ders Anlatımları",
-            description: "Karmaşık konuları kolayca anlamanızı sağlayan animasyonlar"
+            icon: "fas fa-play-circle",
+            title: "Konu Anlatım Videoları",
+            description: "Her seviyeye uygun, sade ve etkili videolu konu anlatımları."
         },
         {
-            icon: "fas fa-video",
-            title: "Video Çözümlü Soru Bankası",
-            description: "Her sorunun detaylı video çözümü ile eksiklerinizi giderin"
+            icon: "fas fa-chart-line",
+            title: "Haftalık & Aylık Performans Takibi",
+            description: "Zaman içindeki gelişiminizi grafiklerle takip edin, eksiklerinizi görün."
         },
         {
-            icon: "fas fa-calendar-alt",
-            title: "Kişiselleştirilmiş Ders Programı",
-            description: "Hedeflerinize uygun, size özel çalışma programı"
+            icon: "fas fa-clone",
+            title: "Flash Kart Sistemi",
+            description: "Her konuyu küçük, akılda kalıcı kartlara dönüştürerek daha kolay tekrar edin."
         },
         {
-            icon: "fas fa-user-friends",
-            title: "Veli App (Gelişim Takip Sistemi)",
-            description: "Velilerin öğrenci gelişimini takip edebilmesi"
+            icon: "fas fa-heart",
+            title: "Kalp Sistemi ile Motivasyon",
+            description: "Çalışmalarınıza bağlı olarak kalp kazanın, ilerlemenizi motive edici şekilde izleyin."
         },
         {
-            icon: "fas fa-lightbulb",
-            title: "Şimdi Anladım App (Ekspres Özel Ders)",
-            description: "Anında anlamadığınız konular için özel ders desteği"
+            icon: "fas fa-question-circle",
+            title: "Flash Kart Quizleri",
+            description: "Hazırladığınız kartlardan otomatik quizler oluşturun ve bilginizi test edin."
         },
         {
-            icon: "fas fa-hands-helping",
-            title: "Koçum Yanımda App (Dijital Rehberlik)",
-            description: "Kişisel rehberlik ve motivasyon desteği"
+            icon: "fas fa-book-open",
+            title: "Konu Anlatımı & Özet Bilgi",
+            description: "Her konu için sadeleştirilmiş, sınava uygun anlatım ve özet içerikler."
         },
         {
-            icon: "fas fa-calculator",
-            title: "Çözücü App (Soru Çözme Asistanı)",
-            description: "Çözemediğiniz soruları anında çözen yapay zeka"
-        },
-        {
-            icon: "fas fa-chart-bar",
-            title: "Video Çözümlü Deneme Sınavları",
-            description: "Gerçek sınav deneyimi ve detaylı analiz"
+            icon: "fas fa-gift",
+            title: "Tamamen Ücretsiz Kullanım",
+            description: "Tüm özelliklere ücretsiz erişim, sürpriz kısıtlama yok."
         }
     ];
+
 
     return (
         <section className={styles.featuresGridSection}>

@@ -35,14 +35,14 @@ const StatsSection = () => {
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="400">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-book"></i></div></div>
-                        <div className={styles.statValue}>30+</div>
-                        <div className={styles.statLabel}>Konu Başlığı</div>
+                        <div className={styles.statValue}>4+</div>
+                        <div className={styles.statLabel}>Sınav Türü</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="500">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-lightbulb"></i></div></div>
                         <div className={styles.statValue}>5K+</div>
-                        <div className={styles.statLabel}>Soru Çözümü</div>
+                        <div className={styles.statLabel}>Moden Soru</div>
                     </div>
                 </div>
 

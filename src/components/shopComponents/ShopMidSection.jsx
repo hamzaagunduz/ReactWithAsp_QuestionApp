@@ -56,7 +56,7 @@ const ShopMidSection = () => {
                     <div key={item.id} className={`shop-card ${item.color}`}>
                         <div className="shop-ribbon"></div>
                         <div className="shop-card-content">
-                            <img src={item.imageUrl} alt={item.name} className="shop-img" />
+                            <img src={`/assets/${item.imageUrl}`} alt={item.name} className="shop-img" />
                             <h4 className="shop-name">{item.name}</h4>
                             <p className="shop-desc">{item.description}</p>
                             <div className="shop-price">{item.price} 💎</div>

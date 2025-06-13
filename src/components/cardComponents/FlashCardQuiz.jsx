@@ -113,7 +113,7 @@ const FlashCardQuiz = ({ courseId, onClose }) => {
                                                 <span className={styles.correctIndicator}>✓</span>
                                             )}
                                             {showAnswer && isSelected && !isCorrect && (
-                                                <span className={styles.incorrectIndicator}>✗</span>
+                                                <span className={styles.incorrectIndicator}>X</span>
                                             )}
                                         </button>
                                     );

@@ -135,7 +135,7 @@
     font-family: "Quicksand", sans-serif;
     font-weight: 700;
     font-size: 20px;
-    color: white;
+    color: rgb(0, 0, 0);
     transition: background-color 0.3s ease, color 0.3s ease;
     display: flex;
     align-items: center;
@@ -144,6 +144,7 @@
     cursor: pointer;
     text-decoration: none;
     gap: 10px;
+
 }
 
 .option:hover {

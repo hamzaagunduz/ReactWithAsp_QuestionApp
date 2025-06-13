@@ -15,6 +15,17 @@ export const fetchAppUser = createAsyncThunk(
         }
     }
 );
+export const changePassword = createAsyncThunk(
+    'appUser/changePassword',
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('AppUser/change-password', payload);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Şifre değiştirme sırasında hata oluştu');
+        }
+    }
+);
 
 // Tüm kullanıcıları API'den çekmek için yeni thunk
 export const fetchAllAppUser = createAsyncThunk(
@@ -79,6 +90,10 @@ const appUserSlice = createSlice({
         status: 'idle',      // idle | loading | succeeded | failed
         error: null,
         banOperation: { // Separate state for ban operations
+            status: 'idle',
+            error: null
+        },// initialState içinde bu tanım eksikti:
+        changePasswordResult: {
             status: 'idle',
             error: null
         }
@@ -160,7 +175,20 @@ const appUserSlice = createSlice({
             .addCase(toggleUserBan.rejected, (state, action) => {
                 state.banOperation.status = 'failed';
                 state.banOperation.error = action.payload;
-            });
+            })
+            .addCase(changePassword.pending, (state) => {
+                state.changePasswordResult.status = 'loading';
+                state.changePasswordResult.error = null;
+            })
+            .addCase(changePassword.fulfilled, (state, action) => {
+                state.changePasswordResult.status = 'succeeded';
+                // istersen başarılı mesajı gibi bir şey eklenebilir
+            })
+            .addCase(changePassword.rejected, (state, action) => {
+                state.changePasswordResult.status = 'failed';
+                state.changePasswordResult.error = action.payload;
+            })
+
     },
 });
 

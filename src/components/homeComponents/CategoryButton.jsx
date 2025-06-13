@@ -3,17 +3,19 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const CategoryButton = React.memo(({ category, onClick }) => {
+    console.log(category)
     return (
         <button
             className="btn btn-category mb-3 text-center d-flex flex-column align-items-center"
             onClick={() => onClick(category.courseID)} // Kategori seçildiğinde onClick tetikleniyor
         >
             <img
-                src={`src/${category.iconURL}`}
+                src={`/assets/${category.iconURL}`}
                 alt={category.name}
                 className="category-image mb-2"
                 style={{ width: "50px", height: "50px" }}
             />
+
             <span>{category.name}</span> {/* Kategori ismini burada gösteriyoruz */}
         </button>
     );

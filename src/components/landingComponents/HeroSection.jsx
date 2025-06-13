@@ -1,13 +1,17 @@
-// HeroSection.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './HeroSection.module.css';
 
 const HeroSection = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     useEffect(() => {
         AOS.init({ duration: 1000, once: true });
     }, []);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     return (
         <div className={styles.hero}>
@@ -24,7 +28,7 @@ const HeroSection = () => {
                     </p>
                     <div className={styles.buttonGroup} data-aos="fade-up" data-aos-delay="200">
                         <button className={styles.ctaButton}>Ücretsiz Başla</button>
-                        <button className={styles.secondaryButton}>Demo İzle</button>
+                        <button className={styles.secondaryButton} onClick={openModal}>Demo İzle</button>
                     </div>
 
                     <div className={styles.stats} data-aos="fade-up" data-aos-delay="300">
@@ -65,6 +69,26 @@ const HeroSection = () => {
                     </div>
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className={styles.modalOverlay} onClick={closeModal}>
+                    <div className={styles.modalContent} onClick={e => e.stopPropagation()}>
+                        <button className={styles.modalClose} onClick={closeModal}>×</button>
+                        <div className={styles.videoContainer}>
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                src="https://www.youtube.com/embed/2_ZNSUGTlLo?autoplay=1"
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

@@ -18,13 +18,13 @@ const FAQSection = () => {
             answer: "Dobi'ye bilgisayar, tablet ve akıllı telefonlardan erişebilirsiniz. Tüm modern tarayıcılarda ve iOS/Android işletim sistemlerinde sorunsuz çalışır."
         },
         {
-            question: "Ücretsiz deneme süresi var mı?",
-            answer: "Evet, Dobi'yi 7 gün ücretsiz deneyebilirsiniz. Bu süre içerisinde tüm premium özelliklere erişiminiz olacaktır."
+            question: "Ücret ödemem gerekiyor mu ?",
+            answer: "Hayır, ücretsiz kayıt olup hemen çalışmaya başlayabilirsin."
         },
-        {
-            question: "Ödeme yöntemleri nelerdir?",
-            answer: "Kredi kartı, banka kartı ve online ödeme sistemleri ile ödeme yapabilirsiniz. Tüm ödeme işlemleri güvenli SSL şifrelemesi ile korunmaktadır."
-        }
+        // {
+        //     question: "Ödeme yöntemleri nelerdir?",
+        //     answer: "Kredi kartı, banka kartı ve online ödeme sistemleri ile ödeme yapabilirsiniz. Tüm ödeme işlemleri güvenli SSL şifrelemesi ile korunmaktadır."
+        // }
     ];
 
     const toggleFAQ = (index) => {

@@ -169,7 +169,6 @@
     transition: all 0.3s;
     min-width: 150px;
     text-align: center;
-    box-shadow: rgba(4, 104, 31, 0.849) 0px 4px 0px 0px;
 }
 
 .duo-quiz-button:hover {
