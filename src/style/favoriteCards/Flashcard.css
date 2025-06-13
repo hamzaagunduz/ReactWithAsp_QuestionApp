@@ -150,3 +150,33 @@
     text-align: center;
     margin-top: 20px;
 }
+
+/* Mevcut stillere ekle */
+.duo-quiz-button-container {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.duo-quiz-button {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s;
+    min-width: 150px;
+    text-align: center;
+    box-shadow: rgba(4, 104, 31, 0.849) 0px 4px 0px 0px;
+}
+
+.duo-quiz-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.duo-quiz-button:active {
+    transform: translateY(1px);
+}

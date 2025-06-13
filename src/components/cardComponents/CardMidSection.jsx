@@ -72,7 +72,11 @@ export const CardMidSection = React.memo(() => {
                     <button className="back-button" onClick={handleBack}></button>
 
                     {favoriteStatus === 'succeeded' && (
-                        <FlashcardList flashcards={favoriteFlashCards} />
+                        // DÜZELTME: FlashcardList'e courseId prop'unu ekledik
+                        <FlashcardList
+                            flashcards={favoriteFlashCards}
+                            courseId={selectedCategory}
+                        />
                     )}
 
                     {favoriteStatus === 'loading' && (

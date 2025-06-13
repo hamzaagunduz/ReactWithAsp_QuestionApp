@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import '../../style/favoriteCards/Flashcard.css';
+import FlashCardQuiz from './FlashCardQuiz';
 
-const FlashcardList = ({ flashcards }) => {
+const FlashcardList = ({ flashcards, courseId }) => {
+    console.log(courseId)
     const [selectedIndex, setSelectedIndex] = useState(null);
+    const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
 
     const openModal = (index) => {
         setSelectedIndex(index);
@@ -22,6 +25,17 @@ const FlashcardList = ({ flashcards }) => {
 
     return (
         <div className="duo-container">
+            {flashcards.length > 0 && (
+                <div className="duo-quiz-button-container">
+                    <button
+                        className="duo-quiz-button"
+                        onClick={() => setIsQuizModalOpen(true)}
+                    >
+                        Quiz Başlat
+                    </button>
+                </div>
+            )}
+
             {flashcards.length > 0 ? (
                 <div className="duo-flashcard-list">
                     {flashcards.map((card, index) => (
@@ -40,7 +54,7 @@ const FlashcardList = ({ flashcards }) => {
                 <p className="duo-no-cards">Hiç favori kart bulunamadı.</p>
             )}
 
-            {/* Modal */}
+            {/* Flashcard Detay Modalı */}
             {selectedIndex !== null && (
                 <div
                     className="duo-modal-overlay"
@@ -63,6 +77,13 @@ const FlashcardList = ({ flashcards }) => {
                 </div>
             )}
 
+            {/* Quiz Modalı */}
+            {isQuizModalOpen && (
+                <FlashCardQuiz
+                    courseId={courseId}
+                    onClose={() => setIsQuizModalOpen(false)}
+                />
+            )}
         </div>
     );
 };

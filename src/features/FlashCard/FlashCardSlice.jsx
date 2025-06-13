@@ -26,6 +26,20 @@ export const fetchFavoriteFlashcardsByCourse = createAsyncThunk(
     }
 );
 
+export const fetchQuizFromFavorites = createAsyncThunk(
+    'flashCard/fetchQuizFromFavorites',
+    async ({ courseId }, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`FlashCards/quiz-from-favorites`, {
+                params: { courseId }
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Quiz verileri alınamadı.');
+        }
+    }
+);
+
 
 export const fetchFlashCardsByTestId = createAsyncThunk(
     'flashCard/fetchByTestId',
@@ -56,10 +70,13 @@ const flashCardSlice = createSlice({
     initialState: {
         flashCards: [],
         favoriteFlashCards: [],
+        quizFromFavorites: [],
         status: 'idle',
         favoriteStatus: 'idle',
+        quizFavStatus: 'idle',
         error: null,
         favoriteError: null,
+        quizFavError: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -122,6 +139,18 @@ const flashCardSlice = createSlice({
             .addCase(fetchFlashCardsByTestId.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message;
+            })
+            .addCase(fetchQuizFromFavorites.pending, (state) => {
+                state.quizFavStatus = 'loading';
+                state.quizFavError = null;
+            })
+            .addCase(fetchQuizFromFavorites.fulfilled, (state, action) => {
+                state.quizFavStatus = 'succeeded';
+                state.quizFromFavorites = action.payload;
+            })
+            .addCase(fetchQuizFromFavorites.rejected, (state, action) => {
+                state.quizFavStatus = 'failed';
+                state.quizFavError = action.payload || action.error.message;
             });
 
 

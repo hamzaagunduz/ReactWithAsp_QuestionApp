@@ -77,6 +77,40 @@ export const Rightbar = () => {
                 </div>
             </div>
 
+            {showModal && (
+                <div className="modal-overlay" onClick={closeModal}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                        <button className="modal-close" onClick={closeModal}>&times;</button>
+                        <h4 className="modal-title">Can Durumu</h4>
+                        {healthResult ? (
+                            <>
+                                <p className="modal-text">
+                                    Can Sayısı: <strong>
+                                        {healthResult.lives > 100 ? (
+                                            <img
+                                                src={foreverIcon}
+                                                alt="Sonsuz"
+                                                className="infinite-icon"
+                                            />
+                                        ) : (
+                                            healthResult.lives
+                                        )}
+                                    </strong>
+                                </p>
+                                {timeLeft !== null && healthResult.lives < 10 && (
+                                    <p className="modal-text">
+                                        Bir sonraki can eklemesine kalan süre:
+                                        <strong> {formatTime(timeLeft)}</strong>
+                                    </p>
+                                )}
+                            </>
+                        ) : (
+                            <p className="modal-text">Yükleniyor...</p>
+                        )}
+                    </div>
+                </div>
+            )}
+
             <div
                 ref={sidebarRef}
                 className={`right-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
@@ -156,39 +190,7 @@ export const Rightbar = () => {
 
                     {missions && <DailyMissions missions={missions} />}
 
-                    {showModal && (
-                        <div className="modal-overlay" onClick={closeModal}>
-                            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                                <button className="modal-close" onClick={closeModal}>&times;</button>
-                                <h4 className="modal-title">Can Durumu</h4>
-                                {healthResult ? (
-                                    <>
-                                        <p className="modal-text">
-                                            Can Sayısı: <strong>
-                                                {healthResult.lives > 100 ? (
-                                                    <img
-                                                        src={foreverIcon}
-                                                        alt="Sonsuz"
-                                                        className="infinite-icon"
-                                                    />
-                                                ) : (
-                                                    healthResult.lives
-                                                )}
-                                            </strong>
-                                        </p>
-                                        {timeLeft !== null && healthResult.lives < 10 && (
-                                            <p className="modal-text">
-                                                Bir sonraki can eklemesine kalan süre:
-                                                <strong> {formatTime(timeLeft)}</strong>
-                                            </p>
-                                        )}
-                                    </>
-                                ) : (
-                                    <p className="modal-text">Yükleniyor...</p>
-                                )}
-                            </div>
-                        </div>
-                    )}
+
                 </div>
             </div>
         </>

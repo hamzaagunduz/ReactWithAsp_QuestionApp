@@ -20,7 +20,7 @@ const QuestionPage = () => {
     const dispatch = useDispatch();
 
     const { options: exams, status: examStatus, error: examError } = useSelector((state) => state.exam);
-    const { courses, status: courseStatus, error: courseError } = useSelector((state) => state.courses);
+    const { courses, fetchStatus: courseStatus, fetchError: courseError } = useSelector((state) => state.courses);
     const { topics, status: topicStatus, error: topicError } = useSelector((state) => state.topic);
 
     const [selectedExam, setSelectedExam] = useState(null);
