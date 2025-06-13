@@ -11,7 +11,7 @@ import speedometer from '../../assets/leftbar/speedometer.png';
 import house from '../../assets/leftbar/house.png';
 import card from '../../assets/leftbar/card-game.png';
 import logoutIcon from '../../assets/leftbar/logout.png';
-import menuIcon from '../../assets/leftbar/house.png';
+import menuIcon from '../../assets/leftbar/menubot.png';
 
 export const Leftbar = () => {
     const location = useLocation();

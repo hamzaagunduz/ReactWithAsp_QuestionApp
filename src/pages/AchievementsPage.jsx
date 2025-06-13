@@ -23,7 +23,7 @@ const AchievementsPage = () => {
                 <Leftbar />
                 {missions && (
                     <div className="col-12 col-md-6 ">
-                        <div className="achievements-content bg-light position-relative d-flex justify-content-center align-items-center flex-column">
+                        <div className="achievements-content position-relative d-flex justify-content-center align-items-center flex-column">
                             <div className="missions-intro">
                                 <div className="missions-card">
                                     <h5 className="missions-card-title">Yeni görev seni bekliyor!</h5>

@@ -31,29 +31,41 @@ const LoginPage = () => {
     return (
         <div className={styles.loginBody}>
             <div className={styles.loginContainer}>
-                <h2 className={styles.loginTitle}>Giriş Yap</h2>
-                <p className={styles.loginSubtitle}>
-                    Hoş geldiniz 👋 <br /> Devam etmek için bilgilerinizi girin.
-                </p>
+                <div className={styles.loginHeader}>
+                    <h2 className={styles.loginTitle}>Giriş Yap</h2>
+                    <p className={styles.loginSubtitle}>
+                        Hoş geldiniz 👋 <br /> Devam etmek için bilgilerinizi girin.
+                    </p>
+                </div>
 
                 <form onSubmit={handleSubmit} className={styles.loginForm}>
-                    <input
-                        type="text"
-                        placeholder="Kullanıcı Adı"
-                        value={userName}
-                        onChange={(e) => setUserName(e.target.value)}
-                        className={styles.loginInput}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Şifre"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={styles.loginInput}
-                        required
-                    />
-                    <button type="submit" className={styles.loginButton}>Giriş</button>
+                    <div className={styles.inputGroup}>
+                        <i className={`bi bi-person ${styles.inputIcon}`}></i>
+                        <input
+                            type="text"
+                            placeholder="Kullanıcı Adı"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            className={styles.loginInput}
+                            required
+                        />
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                        <i className={`bi bi-lock ${styles.inputIcon}`}></i>
+                        <input
+                            type="password"
+                            placeholder="Şifre"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={styles.loginInput}
+                            required
+                        />
+                    </div>
+
+                    <button type="submit" className={styles.loginButton}>
+                        <i className="bi bi-box-arrow-in-right"></i> Giriş Yap
+                    </button>
                 </form>
 
                 {message && <p className={styles.loginMessage}>{message}</p>}
@@ -63,10 +75,20 @@ const LoginPage = () => {
                     <a href="/register" className={styles.loginLink}>📝 Hesabın yok mu? Kayıt ol</a>
                 </div>
 
+                <div className={styles.divider}>
+                    <span>veya</span>
+                </div>
+
                 <div className={styles.socialIcons}>
-                    <i className="fab fa-facebook-f"></i>
-                    <i className="fab fa-google"></i>
-                    <i className="fab fa-github"></i>
+                    <div className={styles.socialIcon}>
+                        <i className="fab fa-facebook-f"></i>
+                    </div>
+                    <div className={styles.socialIcon}>
+                        <i className="fab fa-google"></i>
+                    </div>
+                    <div className={styles.socialIcon}>
+                        <i className="fab fa-github"></i>
+                    </div>
                 </div>
 
                 <footer className={styles.loginFooter}>

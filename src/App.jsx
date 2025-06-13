@@ -31,6 +31,7 @@ const AdminShop = lazy(() => import('./pages/admin/ShopManagementPage'));
 const AdminSettings = lazy(() => import('./pages/admin/SiteSettingsPage'));
 const AdminExam = lazy(() => import('./pages/admin/ExamsManagementPage'));
 const AdminProfile = lazy(() => import('./pages/admin/AdminProfilePage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function App() {
   return (
@@ -144,6 +145,9 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="*" element={<NotFoundPage />} />
+
         </Routes>
       </Suspense>
     </BrowserRouter>

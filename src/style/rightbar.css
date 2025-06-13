@@ -31,45 +31,13 @@ body {
     top: 20px;
     right: 20px;
     z-index: 1100;
-    background: var(--primary-blue);
     border-radius: 50%;
     width: 50px;
     height: 50px;
     cursor: pointer;
-    box-shadow: var(--shadow);
 }
 
-.hamburger {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.hamburger span {
-    display: block;
-    width: 24px;
-    height: 3px;
-    background: white;
-    border-radius: 3px;
-    margin: 2px 0;
-    transition: all 0.3s ease;
-}
-
-.hamburger.open span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-}
-
-.hamburger.open span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.open span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-}
+/*  */
 
 /* Right sidebar styles */
 .right-sidebar {
@@ -318,6 +286,35 @@ body {
     margin-left: 5px;
 }
 
+
+
+.circle-icon-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.circle-icon-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.circle-icon-button.open {
+    background-color: #f0f0f0;
+}
+
+.target-menu-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
 @media (max-width: 900px) and (min-width: 750px) {
     .right-sidebar {
         width: 25% !important;
@@ -362,8 +359,18 @@ body {
 
 @media (max-width: 768px) {
 
+
+    .right-sidebar {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    .right-sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
     .mobile-menu-toggle {
-        display: block;
+        display: block !important;
     }
 
     .right-sidebar {
@@ -453,8 +460,8 @@ body {
     }
 
     .score-icon {
-        width: 30px;
-        height: 30px;
+        width: 45px;
+        height: 45px;
         object-fit: contain;
         margin-bottom: 5px;
     }

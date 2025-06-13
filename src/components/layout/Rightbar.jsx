@@ -8,6 +8,7 @@ import heart from '../../assets/rightbar/rightTopIcons/heart.png';
 import goal from '../../assets/rightbar/rightTopIcons/goal.png';
 import target from '../../assets/rightbar/rightTopIcons/target.png';
 import diamond from '../../assets/rightbar/rightTopIcons/diamond.png';
+import menu from '../../assets/rightbar/rightTopIcons/menutop.png';
 
 import DailyMissions from './DailyMissions';
 
@@ -70,10 +71,12 @@ export const Rightbar = () => {
     return (
         <>
             <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-                <div className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div className={`circle-icon-button ${isMobileMenuOpen ? 'open' : ''}`}>
+                    <img
+                        src={menu}
+                        alt="Menü"
+                        className="target-menu-icon"
+                    />
                 </div>
             </div>
 
