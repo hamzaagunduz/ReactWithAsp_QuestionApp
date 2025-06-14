@@ -51,6 +51,20 @@ export const updateTest = createAsyncThunk(
         }
     }
 );
+
+// Test silme
+export const deleteTest = createAsyncThunk(
+    'test/deleteTest',
+    async (testId, { rejectWithValue }) => {
+        try {
+            await apiClient.delete(`Tests/${testId}`);
+            return testId; // sadece id döndürüyoruz çünkü backend'den dönüş yoksa id yeterli
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'API hata mesajı');
+        }
+    }
+);
+
 const testSlice = createSlice({
     name: 'test',
     initialState: {
@@ -65,6 +79,10 @@ const testSlice = createSlice({
         questionWithFlashCardData: null,
         questionWithFlashCardStatus: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
         questionWithFlashCardError: null,
+
+        deleteStatus: 'idle',
+        deleteError: null,
+
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -119,7 +137,19 @@ const testSlice = createSlice({
             .addCase(fetchQuestionWithFlashCard.rejected, (state, action) => {
                 state.questionWithFlashCardStatus = 'failed';
                 state.questionWithFlashCardError = action.payload;
-            });
+            })
+            .addCase(deleteTest.pending, (state) => {
+                state.deleteStatus = 'loading';
+            })
+            .addCase(deleteTest.fulfilled, (state, action) => {
+                state.deleteStatus = 'succeeded';
+                state.tests = state.tests.filter(test => test.testID !== action.payload);
+            })
+            .addCase(deleteTest.rejected, (state, action) => {
+                state.deleteStatus = 'failed';
+                state.deleteError = action.payload;
+            })
+
     },
 });
 

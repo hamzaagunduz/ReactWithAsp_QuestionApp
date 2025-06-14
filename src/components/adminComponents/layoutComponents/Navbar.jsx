@@ -36,12 +36,12 @@ const Navbar = () => {
             {/* Sağ bölüm - Kullanıcı kontrolleri */}
             <div className={styles.navbarRight}>
                 {/* Bildirimler */}
-                <div className={styles.notificationIcon}>
+                {/* <div className={styles.notificationIcon}>
                     <FaBell />
                     {notifications.length > 0 && (
                         <span className={styles.notificationBadge}>{notifications.length}</span>
                     )}
-                </div>
+                </div> */}
 
                 {/* Kullanıcı bilgileri */}
                 <div className={styles.userProfile} onClick={toggleDropdown}>
@@ -68,16 +68,16 @@ const Navbar = () => {
 
                             <div className={styles.dropdownDivider}></div>
 
-                            <button className={styles.dropdownItem} onClick={() => navigate('/admin/profile')}>
+                            {/* <button className={styles.dropdownItem} onClick={() => navigate('/admin/profile')}>
                                 <FaUserCircle className={styles.dropdownIcon} />
                                 <span>Profilim</span>
-                            </button>
+                            </button> */}
 
 
-                            <button className={styles.dropdownItem}>
+                            {/* <button className={styles.dropdownItem}>
                                 <FaCog className={styles.dropdownIcon} />
                                 <span>Hesap Ayarları</span>
-                            </button>
+                            </button> */}
 
                             <div className={styles.dropdownDivider}></div>
 

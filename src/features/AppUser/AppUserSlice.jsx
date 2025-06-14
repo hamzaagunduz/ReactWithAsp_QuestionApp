@@ -55,6 +55,18 @@ export const updateAppUserExam = createAsyncThunk(
     }
 );
 
+export const fetchPaginatedUsers = createAsyncThunk(
+    'appUser/fetchPaginatedUsers',
+    async ({ pageNumber = 1, pageSize = 10 }, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.get(`AppUser/paginated?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Pagination verisi alınamadı');
+        }
+    }
+);
+
 export const decreaseLife = createAsyncThunk(
     'appUser/decreaseLife',
     async (_, { rejectWithValue }) => {
@@ -96,7 +108,18 @@ const appUserSlice = createSlice({
         changePasswordResult: {
             status: 'idle',
             error: null
-        }
+        },
+        paginatedUsers: {  // Paginated veriler için ayrı bir state
+            users: [],
+            currentPage: 1,
+            totalPages: 0,
+            totalCount: 0,
+            hasPrevious: false,
+            hasNext: false
+        },
+        paginationStatus: 'idle'  // Pagination işlemleri için ayrı bir status
+
+
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -188,6 +211,25 @@ const appUserSlice = createSlice({
                 state.changePasswordResult.status = 'failed';
                 state.changePasswordResult.error = action.payload;
             })
+            .addCase(fetchPaginatedUsers.pending, (state) => {
+                state.paginationStatus = 'loading';
+            })
+            .addCase(fetchPaginatedUsers.fulfilled, (state, action) => {
+                state.paginationStatus = 'succeeded';
+                // API'den gelen veriyi doğrudan state'e aktar
+                state.paginatedUsers = {
+                    users: action.payload.users || [],  // API'den gelen users dizisi
+                    currentPage: action.payload.currentPage,
+                    totalPages: action.payload.totalPages,
+                    totalCount: action.payload.totalCount,
+                    hasPrevious: action.payload.hasPrevious,
+                    hasNext: action.payload.hasNext
+                };
+            })
+            .addCase(fetchPaginatedUsers.rejected, (state, action) => {
+                state.paginationStatus = 'failed';
+                state.error = action.payload;
+            });
 
     },
 });

@@ -23,7 +23,7 @@ const Sidebar = () => {
         <div className={styles.adminSidebar}>
             <div className={styles.logoContainer}>
                 <div className={styles.logo}>👑</div>
-                <h2>Admin Panel</h2>
+                <h2>Dobi Panel</h2>
             </div>
 
             <ul>

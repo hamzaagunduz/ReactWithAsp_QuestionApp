@@ -27,6 +27,19 @@ export const updateTestGroup = createAsyncThunk(
     }
 );
 
+// Test Group silme thunk'ı (DELETE)
+export const deleteTestGroup = createAsyncThunk(
+    'TestGroup/deleteTestGroup',
+    async (testGroupID, { rejectWithValue }) => {
+        try {
+            await apiClient.delete(`TestGroups/${testGroupID}`);
+            return testGroupID; // Sadece ID'yi döndürüyoruz
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Silme işlemi başarısız');
+        }
+    }
+);
+
 const TestGroupSlice = createSlice({
     name: 'TestGroup',
     initialState: {
@@ -63,6 +76,17 @@ const TestGroupSlice = createSlice({
                 }
             })
             .addCase(updateTestGroup.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+            .addCase(deleteTestGroup.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteTestGroup.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.testGroups = state.testGroups.filter(g => g.testGroupID !== action.payload);
+            })
+            .addCase(deleteTestGroup.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

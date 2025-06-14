@@ -11,6 +11,18 @@
     z-index: 1000;
 }
 
+.deleteButton {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
 .modalContent {
     background-color: #fff;
     border-radius: 12px;

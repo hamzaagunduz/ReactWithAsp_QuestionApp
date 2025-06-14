@@ -51,6 +51,17 @@ export const createTopic = createAsyncThunk(
         }
     }
 );
+export const deleteTopic = createAsyncThunk(
+    'topic/deleteTopic',
+    async (topicId, { rejectWithValue }) => {
+        try {
+            await apiClient.delete(`Topics/${topicId}`);
+            return topicId;  // Başarılıysa silinen ID'yi döndür
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Konu silinirken bir hata oluştu');
+        }
+    }
+);
 
 
 
@@ -62,6 +73,8 @@ const initialState = {
     createTopicError: null,
     updateTopicStatus: 'idle',
     updateTopicError: null,
+    deleteTopicStatus: 'idle',
+    deleteTopicError: null,
 };
 
 const topicSlice = createSlice({
@@ -124,6 +137,18 @@ const topicSlice = createSlice({
                 state.updateTopicStatus = 'failed';
                 state.updateTopicError = action.payload;
             })
+            .addCase(deleteTopic.pending, (state) => {
+                state.deleteTopicStatus = 'loading';
+            })
+            .addCase(deleteTopic.fulfilled, (state, action) => {
+                state.deleteTopicStatus = 'succeeded';
+                state.topics = state.topics.filter(topic => topic.topicID !== action.payload);
+            })
+            .addCase(deleteTopic.rejected, (state, action) => {
+                state.deleteTopicStatus = 'failed';
+                state.deleteTopicError = action.payload;
+            })
+
 
 
 

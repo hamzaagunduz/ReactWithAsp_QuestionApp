@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditQuestionModal.module.css';
-import { fetchQuestionsByTestId } from '../../../features/Question/QuestionSlice';
 import { fetchFlashCardsByQuestionId } from '../../../features/FlashCard/FlashCardSlice'; // Import the flashcard action
-import { updateFullQuestion } from '../../../features/Question/QuestionSlice'; // doğru importu unutma
+import { updateFullQuestion, deleteQuestion, fetchQuestionsByTestId } from '../../../features/Question/QuestionSlice'; // doğru importu unutma
 import { imgUrl } from '../../../app/apiClient';
 
 const EditQuestionModal = ({
@@ -203,13 +202,21 @@ const EditQuestionModal = ({
             alert("Soru güncellenirken bir hata oluştu.");
         }
     };
-    const handleDelete = (questionId) => {
-        if (window.confirm('Bu soruyu silmek istediğinize emin misiniz?')) {
-            // Simulate deletion
-            // In a real app, you would dispatch a delete action here
-            alert("Silme işlemi simüle edildi (API entegrasyonu sonra eklenecek)");
+    const handleDelete = async (questionID) => {
+        if (!questionID) return;
+
+        const confirmDelete = window.confirm("Bu soruyu silmek istediğinizden emin misiniz?");
+        if (!confirmDelete) return;
+
+        try {
+            await dispatch(deleteQuestion(questionID)).unwrap();
+            alert('Soru başarıyla silindi!');
+            // İsteğe bağlı: Seçili soruyu sıfırlamak ya da başka UI işlemleri
+        } catch (error) {
+            alert('Soru silinirken hata oluştu: ' + (error.message || error));
         }
     };
+
 
     if (!isOpen) return null;
 

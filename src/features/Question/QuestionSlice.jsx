@@ -20,6 +20,18 @@ export const fetchTestById = createAsyncThunk(
             .catch(error => rejectWithValue(error.response?.data || 'Test API hata mesajı'));
     }
 );
+export const deleteQuestion = createAsyncThunk(
+    'question/deleteQuestion',
+    async (questionId, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.delete(`Questions/${questionId}`);
+            return questionId;  // Silinen ID'yi reducer'da kullanacağız
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Soru silinirken hata oluştu');
+        }
+    }
+);
+
 
 export const createFullQuestion = createAsyncThunk(
     'question/createFullQuestion',
@@ -120,7 +132,19 @@ const questionSlice = createSlice({
             .addCase(updateFullQuestion.rejected, (state, action) => {
                 state.updateStatus = 'failed';
                 state.updateError = action.payload;
-            });
+            })
+            .addCase(deleteQuestion.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(deleteQuestion.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.questions = state.questions.filter(q => q.questionID !== action.payload);
+            })
+            .addCase(deleteQuestion.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            })
+
 
     },
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditTopicModal.module.css';
-import { updateTopic } from '../../../features//Topic/TopicSlice'; // doğru importu unutma
+import { updateTopic, deleteTopic } from '../../../features//Topic/TopicSlice'; // doğru importu unutma
 
 const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
     const dispatch = useDispatch();
@@ -57,6 +57,26 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
             alert('Konu güncellenirken hata oluştu: ' + error);
         }
     };
+
+    const handleDelete = async () => {
+        if (!selectedTopicID) {
+            alert("Silinecek bir konu seçiniz.");
+            return;
+        }
+
+        const confirmDelete = window.confirm("Bu konuyu silmek istediğinize emin misiniz?");
+        if (!confirmDelete) return;
+
+        try {
+            await dispatch(deleteTopic(parseInt(selectedTopicID))).unwrap();
+            alert("Konu başarıyla silindi!");
+            setSelectedTopicID('');
+            onClose(); // Modalı kapat
+        } catch (error) {
+            alert("Konu silinirken hata oluştu: " + error);
+        }
+    };
+
 
 
 
@@ -127,23 +147,27 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
                             YouTube, Vimeo veya diğer platformlardan link
                         </div>
                     </div>
-                </div>
+                    <div className={styles.formGroup}>
+                        <label className={styles.inputLabel}>Sıra</label>
+                        <input
+                            type="number"
+                            name="order"
+                            placeholder="Örn: 1"
+                            value={form.order}
+                            onChange={handleChange}
+                            className={styles.textInput}
+                            disabled={!selectedTopicID}
+                        />
+                    </div>
 
-                <div className={styles.formGroup}>
-                    <label className={styles.inputLabel}>Sıra</label>
-                    <input
-                        type="number"
-                        name="order"
-                        placeholder="Örn: 1"
-                        value={form.order}
-                        onChange={handleChange}
-                        className={styles.textInput}
-                        disabled={!selectedTopicID}
-                    />
+
                 </div>
 
 
                 <div className={styles.actions}>
+                    <button className={styles.deleteButton} onClick={handleDelete} disabled={!selectedTopicID}>
+                        Sil
+                    </button>
                     <button className={styles.cancelButton} onClick={onClose}>İptal</button>
                     <button className={styles.submitButton} onClick={handleSubmit} disabled={!selectedTopicID}>
                         Güncelle

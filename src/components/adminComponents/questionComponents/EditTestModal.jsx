@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditTestModal.module.css';
-import { updateTest } from '../../../features/Test/TestSlice';
+import { updateTest, deleteTest } from '../../../features/Test/TestSlice';
 
 const EditTestModal = ({ isOpen, onClose, tests }) => {
     const dispatch = useDispatch();
@@ -83,6 +83,23 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
             alert('Test güncellenirken hata oluştu: ' + (error.message || error));
         }
     };
+    const handleDelete = async () => {
+        if (!selectedTestID) return;
+
+        const confirmDelete = window.confirm("Bu testi silmek istediğinizden emin misiniz?");
+        if (!confirmDelete) return;
+
+        try {
+            await dispatch(deleteTest(parseInt(selectedTestID))).unwrap();
+            alert('Test başarıyla silindi!');
+            setSelectedTestID('');
+            setForm({ title: '', description: '', order: '' });
+            onClose();
+        } catch (error) {
+            alert('Test silinirken hata oluştu: ' + (error.message || error));
+        }
+    };
+
 
     if (!isOpen) return null;
 
@@ -215,6 +232,12 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
                         disabled={!selectedTestID || !form.title.trim()}
                     >
                         Güncelle
+                    </button>
+                    <button
+                        className={styles.deleteButton}
+                        onClick={handleDelete}
+                    >
+                        Sil
                     </button>
                 </footer>
             </div>

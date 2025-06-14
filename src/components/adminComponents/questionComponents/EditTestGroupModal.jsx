@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditTestGroupModal.module.css';
-import { updateTestGroup } from '../../../features/TestGroup/TestGroupSlice';
+import { updateTestGroup, deleteTestGroup } from '../../../features/TestGroup/TestGroupSlice';
 
 const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
     const dispatch = useDispatch();
@@ -84,6 +84,25 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
             alert('Test grubu güncellenirken hata oluştu: ' + (error.message || error));
         }
     };
+
+    const handleDelete = async () => {
+        if (!selectedGroupID) {
+            alert('Lütfen silinecek bir test grubu seçin.');
+            return;
+        }
+
+        const confirmDelete = window.confirm("Bu test grubunu silmek istediğinizden emin misiniz?");
+        if (!confirmDelete) return;
+
+        try {
+            await dispatch(deleteTestGroup(Number(selectedGroupID))).unwrap();
+            alert("Test grubu başarıyla silindi.");
+            onClose();
+        } catch (error) {
+            alert("Silme işlemi sırasında hata oluştu: " + (error.message || error));
+        }
+    };
+
 
     if (!isOpen) return null;
 
@@ -196,6 +215,14 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
                     >
                         Güncelle
                     </button>
+                    <button
+                        className={styles.deleteButton}
+                        onClick={handleDelete}
+                        disabled={!selectedGroupID}
+                    >
+                        Sil
+                    </button>
+
                 </footer>
             </div>
         </div>

@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import UserActions from './UserActions';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';
-import { fetchAllAppUser } from '../../../features/AppUser/AppUserSlice';
+import { fetchPaginatedUsers } from '../../../features/AppUser/AppUserSlice';
 
 const UserList = ({ onSelectUser }) => {
     const dispatch = useDispatch();
-    const { users: appUsers, status, error } = useSelector(state => state.appUser);
+    const {
+        paginatedUsers,
+        paginationStatus,
+        error
+    } = useSelector(state => state.appUser);
 
-    const [filteredUsers, setFilteredUsers] = useState([]);
     const [filters, setFilters] = useState({
         status: 'all',
         type: 'all',
         search: ''
     });
 
-    useEffect(() => {
-        dispatch(fetchAllAppUser());
-    }, [dispatch]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+    console.log(paginatedUsers)
 
     useEffect(() => {
-        if (!appUsers || appUsers.length === 0) {
+        dispatch(fetchPaginatedUsers({ pageNumber: currentPage, pageSize }));
+    }, [dispatch, currentPage]);
+
+    // API'den gelen veriyi işleme ve filtreleme
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    useEffect(() => {
+        // API'den gelen kullanıcıları al (users veya data olabilir)
+        const apiUsers = paginatedUsers.users || paginatedUsers.data || [];
+
+        if (apiUsers.length === 0) {
             setFilteredUsers([]);
             return;
         }
 
-        const mappedUsers = appUsers.map(user => ({
+        const mappedUsers = apiUsers.map(user => ({
             id: user.userId,
             name: `${user.firstName} ${user.surName}`,
             email: user.email,
@@ -54,12 +65,17 @@ const UserList = ({ onSelectUser }) => {
                 user.email.toLowerCase().includes(searchTerm)
             );
         }
-
         setFilteredUsers(result);
-    }, [filters, appUsers]);
+    }, [filters, paginatedUsers]);
 
     const handleFilterChange = (name, value) => {
         setFilters(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= paginatedUsers.totalPages) {
+            setCurrentPage(newPage);
+        }
     };
 
     const getAvatar = (name) => {
@@ -107,79 +123,101 @@ const UserList = ({ onSelectUser }) => {
                 </div>
             </div>
 
-            {status === 'loading' && (
+            {paginationStatus === 'loading' && (
                 <div className={styles.loadingContainer}>
                     <p>Kullanıcılar yükleniyor...</p>
                 </div>
             )}
 
-            {status === 'failed' && (
+            {paginationStatus === 'failed' && (
                 <div className={styles.errorContainer}>
                     <p>Hata: {error || 'Kullanıcılar alınamadı'}</p>
                 </div>
             )}
 
-            {status === 'succeeded' && (
-                <div className={styles.userTable}>
-                    <div className={styles.tableHeader}>
-                        <div>Kullanıcı</div>
-                        <div>Durum</div>
-                        <div>Lig</div>
-                        <div>Testler</div>
-                        <div>Diamond</div>
+            {paginationStatus === 'succeeded' && (
+                <>
+                    <div className={styles.userTable}>
+                        <div className={styles.tableHeader}>
+                            <div>Kullanıcı</div>
+                            <div>Durum</div>
+                            <div>Lig</div>
+                            <div>Testler</div>
+                            <div>Diamond</div>
+                        </div>
 
-                    </div>
-
-                    <div className={styles.tableBody}>
-                        {filteredUsers.length > 0 ? (
-                            filteredUsers.map(user => (
-                                <div
-                                    key={user.id}
-                                    className={`${styles.tableRow} ${user.status === 'banned' ? styles.banned : ''}`}
-                                    onClick={() => onSelectUser(user.rawData)}
-                                >
-                                    <div className={styles.userInfo}>
-                                        <div className={styles.avatar}>
-                                            {getAvatar(user.name)}
+                        <div className={styles.tableBody}>
+                            {filteredUsers.length > 0 ? (
+                                filteredUsers.map(user => (
+                                    <div
+                                        key={user.id}
+                                        className={`${styles.tableRow} ${user.status === 'banned' ? styles.banned : ''}`}
+                                        onClick={() => onSelectUser(user.rawData)}
+                                    >
+                                        <div className={styles.userInfo}>
+                                            <div className={styles.avatar}>
+                                                {getAvatar(user.name)}
+                                            </div>
+                                            <div>
+                                                <div className={styles.userName}>{user.name}</div>
+                                                <div className={styles.userEmail}>{user.email}</div>
+                                            </div>
                                         </div>
                                         <div>
-                                            <div className={styles.userName}>{user.name}</div>
+                                            <span className={`${styles.statusBadge} ${user.status === 'banned' ? styles.banned : styles.active}`}>
+                                                {user.status === 'banned' ? 'Banlı' : 'Aktif'}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span className={`${styles.leagueBadge} ${styles[user.rawData.league?.toLowerCase() || 'bronze']}`}>
+                                                {user.rawData.league || 'Bronze'}
+                                            </span>
+                                        </div>
+                                        <div className={styles.testStats}>
+                                            <div className={styles.testStat}>
+                                                <span>📝</span> {user.rawData.totalTestsCompleted || 0}
+                                            </div>
+                                            <div className={styles.testStat}>
+                                                <span>⭐</span> {user.rawData.perfectTestsCompleted || 0}
+                                            </div>
+                                            <div className={styles.testStat}>
+                                                <span>📊</span> {user.rawData.averageScore || 0}%
+                                            </div>
+                                        </div>
+                                        <div className={styles.diamondCount}>
+                                            <span>💎</span> {user.diamonds}
                                         </div>
                                     </div>
-                                    <div>
-                                        <span className={`${styles.statusBadge} ${styles[user.status]}`}>
-                                            {user.status === 'banned' ? 'Banlı' : 'Aktif'}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span className={`${styles.leagueBadge} ${styles[user.rawData.league?.toLowerCase() || 'bronze']}`}>
-                                            {user.rawData.league || 'Bronze'}
-                                        </span>
-                                    </div>
-                                    <div className={styles.testStats}>
-                                        <div className={styles.testStat}>
-                                            <span>📝</span> {user.rawData.totalTestsCompleted || 0}
-                                        </div>
-                                        <div className={styles.testStat}>
-                                            <span>⭐</span> {user.rawData.perfectTestsCompleted || 0}
-                                        </div>
-                                        <div className={styles.testStat}>
-                                            <span>📊</span> {user.rawData.averageScore || 0}%
-                                        </div>
-                                    </div>
-                                    <div className={styles.diamondCount}>
-                                        <span>💎</span> {user.diamonds}
-                                    </div>
-
+                                ))
+                            ) : (
+                                <div className={styles.noResults}>
+                                    <p>Filtrenizle eşleşen kullanıcı bulunamadı</p>
                                 </div>
-                            ))
-                        ) : (
-                            <div className={styles.noResults}>
-                                <p>Filtrenizle eşleşen kullanıcı bulunamadı</p>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
-                </div>
+
+                    {/* Pagination Controls */}
+                    <div className={styles.paginationControls}>
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1 || paginationStatus === 'loading'}
+                        >
+                            Önceki
+                        </button>
+
+                        <span>
+                            Sayfa {currentPage} / {paginatedUsers.totalPages || 1}
+                        </span>
+
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === (paginatedUsers.totalPages || 1) || paginationStatus === 'loading'}
+                        >
+                            Sonraki
+                        </button>
+                    </div>
+                </>
             )}
         </div>
     );
