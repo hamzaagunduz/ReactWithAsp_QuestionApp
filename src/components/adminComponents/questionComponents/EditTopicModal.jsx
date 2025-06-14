@@ -10,6 +10,7 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
         name: '',
         description: '',
         videoLink: '',
+        order: 0
     });
 
     // Seçilen topic'e göre formu doldur
@@ -20,6 +21,8 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
                 name: topic.name || '',
                 description: topic.description || '',
                 videoLink: topic.videoLink || '',
+                order: topic.order || 0 // <-- yeni eklenen alan
+
             });
         }
     }, [selectedTopicID, testTopics]);
@@ -40,6 +43,8 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
             name: form.name,
             description: form.description,
             videoLink: form.videoLink,
+            order: form.order // <-- eklendi
+
         };
 
         try {
@@ -123,6 +128,20 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
                         </div>
                     </div>
                 </div>
+
+                <div className={styles.formGroup}>
+                    <label className={styles.inputLabel}>Sıra</label>
+                    <input
+                        type="number"
+                        name="order"
+                        placeholder="Örn: 1"
+                        value={form.order}
+                        onChange={handleChange}
+                        className={styles.textInput}
+                        disabled={!selectedTopicID}
+                    />
+                </div>
+
 
                 <div className={styles.actions}>
                     <button className={styles.cancelButton} onClick={onClose}>İptal</button>

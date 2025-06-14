@@ -15,27 +15,24 @@ const UserList = ({ onSelectUser }) => {
         search: ''
     });
 
-    // Kullanıcı verilerini çek
     useEffect(() => {
         dispatch(fetchAllAppUser());
     }, [dispatch]);
 
-    // Filtreleme fonksiyonu
     useEffect(() => {
         if (!appUsers || appUsers.length === 0) {
             setFilteredUsers([]);
             return;
         }
 
-        // API'den gelen kullanıcıları bileşenin beklediği formata dönüştür
         const mappedUsers = appUsers.map(user => ({
             id: user.userId,
             name: `${user.firstName} ${user.surName}`,
             email: user.email,
             status: user.ban ? 'banned' : 'active',
-            type: user.diamond > 500 ? 'premium' : 'free', // Örnek premium belirleme mantığı
+            type: user.diamond > 500 ? 'premium' : 'free',
             diamonds: user.diamond,
-            rawData: user // Orijinal veriyi sakla
+            rawData: user
         }));
 
         let result = mappedUsers;
@@ -65,7 +62,6 @@ const UserList = ({ onSelectUser }) => {
         setFilters(prev => ({ ...prev, [name]: value }));
     };
 
-    // Kullanıcı avatarı oluştur
     const getAvatar = (name) => {
         if (!name) return '?';
         const names = name.split(' ');
@@ -130,8 +126,8 @@ const UserList = ({ onSelectUser }) => {
                         <div>Durum</div>
                         <div>Lig</div>
                         <div>Testler</div>
-                        <div>Elmas</div>
-                        <div>İşlemler</div>
+                        <div>Diamond</div>
+
                     </div>
 
                     <div className={styles.tableBody}>
@@ -148,7 +144,6 @@ const UserList = ({ onSelectUser }) => {
                                         </div>
                                         <div>
                                             <div className={styles.userName}>{user.name}</div>
-                                            {/* <div className={styles.userEmail}>{user.email}</div> */}
                                         </div>
                                     </div>
                                     <div>
@@ -156,13 +151,11 @@ const UserList = ({ onSelectUser }) => {
                                             {user.status === 'banned' ? 'Banlı' : 'Aktif'}
                                         </span>
                                     </div>
-                                    {/* Add League Badge */}
                                     <div>
                                         <span className={`${styles.leagueBadge} ${styles[user.rawData.league?.toLowerCase() || 'bronze']}`}>
                                             {user.rawData.league || 'Bronze'}
                                         </span>
                                     </div>
-                                    {/* Add Test Stats */}
                                     <div className={styles.testStats}>
                                         <div className={styles.testStat}>
                                             <span>📝</span> {user.rawData.totalTestsCompleted || 0}
@@ -177,9 +170,7 @@ const UserList = ({ onSelectUser }) => {
                                     <div className={styles.diamondCount}>
                                         <span>💎</span> {user.diamonds}
                                     </div>
-                                    <div>
-                                        <UserActions user={user.rawData} />
-                                    </div>
+
                                 </div>
                             ))
                         ) : (

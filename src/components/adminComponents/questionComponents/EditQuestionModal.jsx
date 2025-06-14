@@ -4,6 +4,7 @@ import styles from '../../../style/adminPage/Question/EditQuestionModal.module.c
 import { fetchQuestionsByTestId } from '../../../features/Question/QuestionSlice';
 import { fetchFlashCardsByQuestionId } from '../../../features/FlashCard/FlashCardSlice'; // Import the flashcard action
 import { updateFullQuestion } from '../../../features/Question/QuestionSlice'; // doğru importu unutma
+import { imgUrl } from '../../../app/apiClient';
 
 const EditQuestionModal = ({
     isOpen,
@@ -342,7 +343,7 @@ const EditQuestionModal = ({
                             {formData.existingImages.question && (
                                 <div className={styles.imagePreview}>
                                     <img
-                                        src={formData.existingImages.question}
+                                        src={`${imgUrl}${formData.existingImages.question}`}
                                         alt="Mevcut soru görseli"
                                         className={styles.existingImage}
                                     />
@@ -383,7 +384,7 @@ const EditQuestionModal = ({
                                         {formData.existingImages[`option${String.fromCharCode(65 + index)}`] && (
                                             <div className={styles.imagePreview}>
                                                 <img
-                                                    src={formData.existingImages[`option${String.fromCharCode(65 + index)}`]}
+                                                    src={`${imgUrl}${formData.existingImages[`option${String.fromCharCode(65 + index)}`]}`}
                                                     alt={`${String.fromCharCode(65 + index)} seçeneği mevcut görsel`}
                                                     className={styles.existingImage}
                                                 />

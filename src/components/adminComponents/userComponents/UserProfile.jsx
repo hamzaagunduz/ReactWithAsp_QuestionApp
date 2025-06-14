@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toggleUserBan } from '../../../features/AppUser/AppUserSlice';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, onClose }) => {
     const dispatch = useDispatch();
     const banState = useSelector(state => state.appUser.banOperation);
 
@@ -17,7 +17,6 @@ const UserProfile = ({ user }) => {
         );
     }
 
-    // Format date for display
     const formatDate = (dateString) => {
         if (!dateString) return 'Yok';
         const date = new Date(dateString);
@@ -30,10 +29,8 @@ const UserProfile = ({ user }) => {
         });
     };
 
-    // Kullanıcının tam adını oluştur
     const fullName = `${user.firstName || ''} ${user.surName || ''}`.trim();
 
-    // Test istatistikleri
     const testStats = [
         { label: 'Toplam Puan', value: user.totalScore || 0, icon: '🏆' },
         { label: 'Tamamlanan Test', value: user.totalTestsCompleted || 0, icon: '📝' },
@@ -41,7 +38,6 @@ const UserProfile = ({ user }) => {
         { label: 'Ortalama Skor', value: user.averageScore ? `${user.averageScore}%` : '0%', icon: '📊' }
     ];
 
-    // Seri ve aktivite istatistikleri
     const streakStats = [
         { label: 'Günlük Seri', value: user.consecutiveDays || 0, icon: '🔥' },
         { label: 'Geçici Seri', value: user.consecutiveDaysTemp || 0, icon: '⏱️' },
@@ -49,7 +45,6 @@ const UserProfile = ({ user }) => {
         { label: 'Lig', value: user.league || 'Bronze', icon: '🏅' }
     ];
 
-    // Handle ban toggle
     const handleBanToggle = () => {
         dispatch(toggleUserBan({
             userId: user.userId,
@@ -136,7 +131,12 @@ const UserProfile = ({ user }) => {
                             : (user.ban ? 'Banı Kaldır' : 'Hesabı Banla')
                         }
                     </button>
-                    {/* <button className={styles.deleteButton}>Hesabı Sil</button> */}
+                    <button
+                        className={styles.cancelButton}
+                        onClick={onClose}
+                    >
+                        Kapat
+                    </button>
                 </div>
 
                 {banState.error && (

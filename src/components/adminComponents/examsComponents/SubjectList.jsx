@@ -98,19 +98,19 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
                         <div key={subject.courseID} className={styles.tableRow}>
                             <div className={styles.colOrder}>
                                 <div className={styles.orderControls}>
-                                    <button
+                                    {/* <button
                                         onClick={() => handleOrderChange(subject.courseID, 'up')}
                                         disabled={index === 0}
                                     >
                                         <i className="fas fa-arrow-up"></i>
-                                    </button>
+                                    </button> */}
                                     <span>{index + 1}</span>
-                                    <button
+                                    {/* <button
                                         onClick={() => handleOrderChange(subject.courseID, 'down')}
                                         disabled={index === courses.length - 1}
                                     >
                                         <i className="fas fa-arrow-down"></i>
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
 

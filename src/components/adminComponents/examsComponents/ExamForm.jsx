@@ -10,7 +10,9 @@ const ExamForm = ({ exam, onBack, onComplete }) => {
     const [formData, setFormData] = useState({
         examID: exam?.examID || 0,
         name: exam?.name || '',
-        year: exam?.year || new Date().toISOString()
+        year: exam?.year || new Date().toISOString(),
+        order: exam?.order || 0 // <-- Yeni eklenen alan
+
     });
 
     const handleChange = (e) => {
@@ -65,6 +67,19 @@ const ExamForm = ({ exam, onBack, onComplete }) => {
                     />
                 </div>
 
+                <div className={styles.formGroup}>
+                    <label>Sıra</label>
+                    <input
+                        type="number"
+                        name="order"
+                        value={formData.order}
+                        onChange={handleChange}
+                        placeholder="Örn: 1"
+                        required
+                    />
+                </div>
+
+
                 <div className={styles.formActions}>
                     <button
                         type="button"
@@ -80,6 +95,8 @@ const ExamForm = ({ exam, onBack, onComplete }) => {
                         {exam ? 'Güncelle' : 'Sınav Ekle'}
                     </button>
                 </div>
+
+
             </form>
         </div>
     );

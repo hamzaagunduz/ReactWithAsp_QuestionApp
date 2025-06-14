@@ -4,10 +4,10 @@ import styles from '../../../style/adminPage/Dasboard/AdminDasboard.module.css';
 
 const RecentActivity = () => {
     const lastFiveUsers = useSelector((state) => state.dashboard.data?.lastFiveUsers || []);
-
+    console.log(lastFiveUsers)
     // Format the activities data
     const activities = lastFiveUsers.map(user => ({
-        user: `${user.firstName} ${user.surName}`,
+        user: `${user.email} `,
         action: "sisteme kayıt oldu",
         time: "Yeni"
     }));

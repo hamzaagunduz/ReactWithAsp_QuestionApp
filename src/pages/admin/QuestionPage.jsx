@@ -21,7 +21,6 @@ const QuestionPage = () => {
 
     const { options: exams, status: examStatus, error: examError } = useSelector((state) => state.exam);
     const { courses, fetchStatus: courseStatus, fetchError: courseError } = useSelector((state) => state.courses);
-    const { topics, status: topicStatus, error: topicError } = useSelector((state) => state.topic);
 
     const [selectedExam, setSelectedExam] = useState(null);
     const [selectedExamId, setSelectedExamId] = useState(null);
@@ -55,10 +54,7 @@ const QuestionPage = () => {
         if (selectedExamId) dispatch(fetchCoursesByExamId(selectedExamId));
     }, [dispatch, selectedExamId]);
 
-    useEffect(() => {
-        const selectedCourse = courses.find((c) => c.name === selectedSubject);
-        if (selectedCourse?.courseID) dispatch(fetchTopics(selectedCourse.courseID));
-    }, [dispatch, selectedSubject, courses]);
+
 
     useEffect(() => {
         const selectedCourse = courses.find((c) => c.name === selectedSubject);
@@ -73,9 +69,7 @@ const QuestionPage = () => {
 
     const selectedCourseID = courses.find((c) => c.name === selectedSubject)?.courseID || null;
 
-    const testsForSelectedCourse = topics
-        .filter((t) => t.tests && t.tests.length > 0)
-        .flatMap((t) => t.tests);
+
 
     const handleActionClick = (action) => {
         setSelectedAction(action);
@@ -220,14 +214,14 @@ const QuestionPage = () => {
                     isOpen={isTestGroupModalOpen}
                     onClose={() => setIsTestGroupModalOpen(false)}
                     onSubmit={handleAddTestGroup}
-                    availableTopics={topics}
+                    availableTopics={groupedTests}
                 />
 
                 <AddQuestionModal
                     isOpen={isQuestionModalOpen}
                     onClose={() => setIsQuestionModalOpen(false)}
                     onSubmit={handleAddQuestion}
-                    tests={testsForSelectedCourse}
+                    testTopics={groupedTests}
                 />
                 <AddTestModal
                     isOpen={isAddTestModalOpen}
@@ -253,7 +247,7 @@ const QuestionPage = () => {
 
                 <EditTestModal
                     isOpen={isEditTestModalOpen}
-                    onClose={() => isEditTestGroupModalOpen(false)}
+                    onClose={() => setIsEditTestModalOpen(false)}
                     onSubmit={handleUpdateTest}
                     tests={groupedTests}
                 />

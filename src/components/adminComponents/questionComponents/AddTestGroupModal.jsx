@@ -34,6 +34,26 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
                 </div>
 
                 <div className={styles.formSection}>
+                    <h3 className={styles.sectionTitle}>Konu Bilgileri</h3>
+
+                    <div className={styles.formGroup}>
+                        <label className={styles.inputLabel}>Konu Seçimi</label>
+                        <select
+                            value={topicID}
+                            onChange={(e) => setTopicID(e.target.value)}
+                            className={styles.selectInput}
+                        >
+                            <option value="">Konu seçin </option>
+                            {availableTopics.map((topic) => (
+                                <option key={topic.topicID} value={topic.topicID}>
+                                    {topic.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                <div className={styles.formSection}>
                     <h3 className={styles.sectionTitle}>Temel Bilgiler</h3>
 
                     <div className={styles.formGroup}>
@@ -57,7 +77,7 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
                         />
                     </div>
 
-                    <div className={styles.formGroup}>
+                    {/* <div className={styles.formGroup}>
                         <label className={styles.inputLabel}>Test Alanı*</label>
                         <input
                             type="text"
@@ -66,28 +86,10 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
                             onChange={(e) => setTest(e.target.value)}
                             className={styles.textInput}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
-                <div className={styles.formSection}>
-                    <h3 className={styles.sectionTitle}>Konu Bilgileri</h3>
 
-                    <div className={styles.formGroup}>
-                        <label className={styles.inputLabel}>Konu Seçimi</label>
-                        <select
-                            value={topicID}
-                            onChange={(e) => setTopicID(e.target.value)}
-                            className={styles.selectInput}
-                        >
-                            <option value="">Konu seçin (opsiyonel)</option>
-                            {availableTopics.map((topic) => (
-                                <option key={topic.topicID} value={topic.topicID}>
-                                    {topic.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
 
                 <div className={styles.actions}>
                     <button className={styles.cancelButton} onClick={onClose}>İptal</button>

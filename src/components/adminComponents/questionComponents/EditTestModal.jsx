@@ -1,37 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditTestModal.module.css';
 import { updateTest } from '../../../features/Test/TestSlice';
 
 const EditTestModal = ({ isOpen, onClose, tests }) => {
-    console.log(tests)
     const dispatch = useDispatch();
+    const modalRef = useRef(null);
 
     const [topics, setTopics] = useState([]);
     const [selectedTopicID, setSelectedTopicID] = useState('');
     const [selectedGroupID, setSelectedGroupID] = useState('');
     const [selectedTestID, setSelectedTestID] = useState('');
-    const [form, setForm] = useState({ title: '', description: '' });
+    const [form, setForm] = useState({ title: '', description: '', order: '' });
 
-    // Başlangıçta tüm test datasını sakla
     useEffect(() => {
         if (Array.isArray(tests)) {
             setTopics(tests);
         }
     }, [tests]);
 
-    // Test seçilince formu güncelle
     useEffect(() => {
         const selectedTest = getSelectedTest();
         if (selectedTest) {
             setForm({
                 title: selectedTest.title || '',
                 description: selectedTest.description || '',
+                order: selectedTest.order?.toString() || '',
+
             });
         } else {
             setForm({ title: '', description: '' });
         }
     }, [selectedTestID]);
+
+    // Dışarı tıklama kontrolü
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                onClose();
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen, onClose]);
 
     const getSelectedTest = () => {
         const topic = topics.find(t => t.topicID === parseInt(selectedTopicID));
@@ -54,6 +71,8 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
             testID: parseInt(selectedTestID),
             title: form.title.trim(),
             description: form.description.trim(),
+            order: form.order ? Number(form.order) : null
+
         };
 
         try {
@@ -67,17 +86,14 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
 
     if (!isOpen) return null;
 
-    // Seçilen topic'e göre grupları bul
     const selectedTopic = topics.find(t => t.topicID === parseInt(selectedTopicID));
     const groups = selectedTopic?.testGroups || [];
-
-    // Seçilen gruba göre testleri bul
     const selectedGroup = groups.find(g => g.testGroupID === parseInt(selectedGroupID));
     const testsInGroup = selectedGroup?.tests || [];
 
     return (
         <div className={styles.modalOverlay}>
-            <div className={styles.modalContent}>
+            <div ref={modalRef} className={styles.modalContent}>
                 <header className={styles.modalHeader}>
                     <h2>Testi Düzenle</h2>
                     <button onClick={onClose} className={styles.closeButton} aria-label="Kapat">
@@ -173,6 +189,18 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
                                     placeholder="Test açıklamasını güncelleyin"
                                 />
                             </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.inputLabel}>Sıra (Order)</label>
+                                <input
+                                    name="order"
+                                    type="number"
+                                    value={form.order}
+                                    onChange={handleChange}
+                                    className={styles.textInput}
+                                    placeholder="Testin sırasını girin"
+                                />
+                            </div>
+
                         </>
                     )}
                 </section>

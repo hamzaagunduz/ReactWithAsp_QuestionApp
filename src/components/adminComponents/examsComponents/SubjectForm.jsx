@@ -10,7 +10,9 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
         name: subject?.name || '',
         description: subject?.description || '',
         iconURL: subject?.iconURL || 'assets/courses/default.png', // Varsayılan ikon
-        examID: exam.examID // API'de "examID" olarak geçiyor
+        examID: exam.examID, // API'de "examID" olarak geçiyor
+        order: subject?.order || 0 // <-- Yeni eklenen alan
+
     });
 
     const handleChange = (e) => {
@@ -127,6 +129,19 @@ const SubjectForm = ({ exam, subject, onBack, onComplete }) => {
                         </div>
                     </div>
                 </div>
+
+                <div className={styles.formGroup}>
+                    <label>Sıra</label>
+                    <input
+                        type="number"
+                        name="order"
+                        value={formData.order}
+                        onChange={handleChange}
+                        placeholder="Örn: 1"
+                        required
+                    />
+                </div>
+
 
                 <div className={styles.formActions}>
                     <button

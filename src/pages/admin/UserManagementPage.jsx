@@ -6,10 +6,16 @@ import styles from '../../style/adminPage/UserManagement/UserManagement.module.c
 
 const UserManagementPage = () => {
     const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Kullanıcı seçimi
     const handleSelectUser = (user) => {
         setSelectedUser(user);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
     };
 
     return (
@@ -20,21 +26,26 @@ const UserManagementPage = () => {
                     <p>Tüm kullanıcıları görüntüleyin ve yönetin</p>
                 </div>
 
-                <div className={styles.content}>
-                    <div className={styles.userListSection}>
-                        <UserList onSelectUser={handleSelectUser} />
-                    </div>
-
-                    <div className={styles.userDetailSection}>
-                        {selectedUser ? (
-                            <UserProfile user={selectedUser} />
-                        ) : (
-                            <div className={styles.placeholder}>
-                                <p>Bir kullanıcı seçiniz</p>
-                            </div>
-                        )}
-                    </div>
+                <div className={styles.fullWidthContent}>
+                    <UserList onSelectUser={handleSelectUser} />
                 </div>
+
+                {isModalOpen && selectedUser && (
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.modalContent}>
+                            <button
+                                className={styles.closeButton}
+                                onClick={closeModal}
+                            >
+                                &times;
+                            </button>
+                            <UserProfile
+                                user={selectedUser}
+                                onClose={closeModal}
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </AdminLayout>
     );

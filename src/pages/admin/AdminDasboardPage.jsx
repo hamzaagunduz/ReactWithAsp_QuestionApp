@@ -62,10 +62,9 @@ const Dashboard = () => {
     ];
 
     const actions = [
-        { label: "Soru Ekle", icon: "❓", path: "/questions/add" },
-        { label: "Kullanıcı Engelle", icon: "🚫", path: "/users/block" },
-        { label: "Yeni Görev Ekle", icon: "🎯", path: "/missions/add" },
-        { label: "Mağaza Yönetimi", icon: "🛒", path: "/shop" }
+        { label: "Soru Ekle", icon: "❓", path: "admin/question" },
+        { label: "Kullanıcı Engelle", icon: "🚫", path: "admin/user" },
+        { label: "Mağaza Yönetimi", icon: "🛒", path: "admin/shop" }
     ];
 
     // Format recent activities from last five users
@@ -81,7 +80,7 @@ const Dashboard = () => {
                 {/* Başlık Alanı */}
                 <div className={styles.header}>
                     <h1>Eğitim Platformu Yönetim Paneli</h1>
-                    <p>Son 24 saatte {dashboardData.dailyActiveUsers} aktif kullanıcı | {dashboardData.averageTestCompletion} ortalama test tamamlama</p>
+                    <p>Son 24 saatte {dashboardData.dailyActiveUsers} aktif kullanıcı | {dashboardData.averageTestCompletion.toFixed(2)} ortalama test tamamlama</p>
                 </div>
 
                 {/* İstatistik Kartları */}

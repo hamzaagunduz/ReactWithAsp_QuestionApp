@@ -43,7 +43,7 @@ const ProductList = ({ onEditProduct }) => {
             name: item.name,
             description: item.description,
             priceInTL: item.priceInTL,
-            imageUrl: item.imageUrl,
+            imageUrl: `${item.imageUrl}`,
             type: 'diamond',      // Diamond pack'ler diamond olarak işaretlendi
             durationInDays: 0,     // Diamond pack'lerin süresi olmaz
             itemType: 'diamondPackItem', // Tür belirteci,

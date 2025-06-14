@@ -8,7 +8,7 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
 
     const [selectedTopicID, setSelectedTopicID] = useState('');
     const [selectedGroupID, setSelectedGroupID] = useState('');
-    const [form, setForm] = useState({ title: '', description: '', test: '' });
+    const [form, setForm] = useState({ title: '', description: '', test: '', order: '' });
     const [groups, setGroups] = useState([]);
 
     // Konu seçildiğinde grupları güncelle
@@ -44,6 +44,8 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
                 title: selectedGroup.title || '',
                 description: selectedGroup.description || '',
                 test: selectedGroup.test || '',
+                order: selectedGroup.order?.toString() || '', // integer ise string'e çeviriyoruz
+
             });
         }
     }, [selectedGroupID, groups]);
@@ -70,6 +72,8 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
             title: form.title.trim(),
             description: form.description.trim(),
             test: form.test.trim(),
+            order: form.order ? Number(form.order) : null
+
         };
 
         try {
@@ -156,6 +160,19 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
                             </div>
 
                             <div className={styles.formGroup}>
+                                <label className={styles.inputLabel}>Sıra (Order)</label>
+                                <input
+                                    name="order"
+                                    type="number"
+                                    value={form.order}
+                                    onChange={handleChange}
+                                    className={styles.textInput}
+                                    placeholder="Grubun sırasını girin"
+                                />
+                            </div>
+
+
+                            {/* <div className={styles.formGroup}>
                                 <label className={styles.inputLabel}>Test*</label>
                                 <input
                                     name="test"
@@ -165,7 +182,7 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
                                     className={styles.textInput}
                                     placeholder="Test değerini girin"
                                 />
-                            </div>
+                            </div> */}
                         </>
                     )}
                 </section>
@@ -175,7 +192,7 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
                     <button
                         className={styles.submitButton}
                         onClick={handleSubmit}
-                        disabled={!selectedGroupID || !form.title.trim() || !form.test.trim()}
+                        disabled={!selectedGroupID || !form.title.trim()}
                     >
                         Güncelle
                     </button>

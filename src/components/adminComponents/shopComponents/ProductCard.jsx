@@ -54,7 +54,7 @@ const CardHeader = ({ productType, onEdit, onDelete }) => (
 const ProductImage = ({ imageUrl, name }) => (
     <div className={styles.productImage}>
         {imageUrl ? (
-            <img src={`/${imageUrl}`} alt={name} />
+            <img src={`/assets//${imageUrl}`} alt={name} />
         ) : (
             <div className={styles.imagePlaceholder}>Ürün Görseli</div>
         )}
