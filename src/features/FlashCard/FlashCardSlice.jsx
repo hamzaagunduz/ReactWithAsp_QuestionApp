@@ -14,10 +14,14 @@ export const fetchFlashCardsByQuestionId = createAsyncThunk(
 // 2. Kullanıcıya ve derse göre favori kartları getirme
 export const fetchFavoriteFlashcardsByCourse = createAsyncThunk(
     'flashCard/fetchFavoritesByCourse',
-    async ({ courseId }, { rejectWithValue }) => {
+    async ({ courseId, pageNumber = 1, pageSize = 10 }, { rejectWithValue }) => {
         try {
             const response = await apiClient.get(`FlashCards/favorites/bycourse`, {
-                params: { courseId },  // burada sadece primitive değer gönderiyoruz
+                params: {
+                    courseId,
+                    pageNumber,
+                    pageSize
+                }
             });
             return response.data;
         } catch (error) {
@@ -26,6 +30,17 @@ export const fetchFavoriteFlashcardsByCourse = createAsyncThunk(
     }
 );
 
+export const createUserCustomFlashCard = createAsyncThunk(
+    'flashCard/createUserCustom',
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.post('UserCustomFlashCards', payload);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Kart oluşturulamadı');
+        }
+    }
+);
 export const fetchQuizFromFavorites = createAsyncThunk(
     'flashCard/fetchQuizFromFavorites',
     async ({ courseId }, { rejectWithValue }) => {
@@ -65,6 +80,31 @@ export const toggleUserFlashCard = createAsyncThunk(
     }
 );
 
+export const updateUserCustomFlashCard = createAsyncThunk(
+    'flashCard/updateUserCustom',
+    async (payload, { rejectWithValue }) => {
+        try {
+            const response = await apiClient.put('UserCustomFlashCards', payload);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Kart güncellenemedi');
+        }
+    }
+);
+
+export const deleteUserCustomFlashCard = createAsyncThunk(
+    'flashCard/deleteUserCustom',
+    async (userFlashCardID, { rejectWithValue }) => {
+        try {
+            await apiClient.delete(`UserCustomFlashCards/${userFlashCardID}`);
+            return userFlashCardID;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || 'Kart silinemedi');
+        }
+    }
+);
+
+
 const flashCardSlice = createSlice({
     name: 'flashCard',
     initialState: {
@@ -77,6 +117,11 @@ const flashCardSlice = createSlice({
         error: null,
         favoriteError: null,
         quizFavError: null,
+        customCards: [],
+        createStatus: 'idle',
+        createError: null,
+        deleteStatus: 'idle',
+        deleteError: null,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -151,8 +196,42 @@ const flashCardSlice = createSlice({
             .addCase(fetchQuizFromFavorites.rejected, (state, action) => {
                 state.quizFavStatus = 'failed';
                 state.quizFavError = action.payload || action.error.message;
+            })
+            .addCase(createUserCustomFlashCard.pending, (state) => {
+                state.createStatus = 'loading';
+                state.createError = null;
+            })
+            .addCase(createUserCustomFlashCard.fulfilled, (state, action) => {
+                state.createStatus = 'succeeded';
+                state.customCards.push(action.payload);
+            })
+            .addCase(createUserCustomFlashCard.rejected, (state, action) => {
+                state.createStatus = 'failed';
+                state.createError = action.payload;
+            })
+            .addCase(updateUserCustomFlashCard.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateUserCustomFlashCard.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                // Gerekirse state'i güncelleyebilirsiniz
+            })
+            .addCase(updateUserCustomFlashCard.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            }).addCase(deleteUserCustomFlashCard.pending, (state) => {
+                state.deleteStatus = 'loading';
+                state.deleteError = null;
+            })
+            .addCase(deleteUserCustomFlashCard.fulfilled, (state, action) => {
+                state.deleteStatus = 'succeeded';
+                // Silinen kartı customCards listesinden çıkar
+                state.customCards = state.customCards.filter(card => card.userFlashCardID !== action.payload);
+            })
+            .addCase(deleteUserCustomFlashCard.rejected, (state, action) => {
+                state.deleteStatus = 'failed';
+                state.deleteError = action.payload;
             });
-
 
     },
 });

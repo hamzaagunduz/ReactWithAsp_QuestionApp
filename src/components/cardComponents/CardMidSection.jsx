@@ -2,17 +2,13 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import '../../style/midsection.css';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
-import { fetchFavoriteFlashcardsByCourse } from '../../features/FlashCard/FlashCardSlice';
 import { clearTopics } from '../../features/Topic/TopicSlice';
-
 import CardCategoryButton from "./CardCategoryButton";
 import FlashcardList from "./FlashcardList";
 
 export const CardMidSection = React.memo(() => {
     const dispatch = useDispatch();
-
     const { courses, fetchStatus } = useSelector(state => state.courses);
-    const { favoriteFlashCards, favoriteStatus } = useSelector(state => state.flashCard);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     useEffect(() => {
@@ -27,10 +23,8 @@ export const CardMidSection = React.memo(() => {
     const handleCategorySelection = useCallback((categoryID) => {
         dispatch(clearTopics());
         setSelectedCategory(categoryID);
-        dispatch(fetchFavoriteFlashcardsByCourse({ courseId: categoryID }));
     }, [dispatch]);
 
-    // Eğer yükleme durumundaysa spinner göster
     if (fetchStatus === 'loading') {
         return (
             <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
@@ -41,7 +35,6 @@ export const CardMidSection = React.memo(() => {
         );
     }
 
-    // Eğer hata varsa kullanıcıya göster
     if (fetchStatus === 'failed') {
         return (
             <div className="text-center mt-5 text-danger">
@@ -69,23 +62,9 @@ export const CardMidSection = React.memo(() => {
                 </div>
             ) : (
                 <div>
-                    <button className="back-button" onClick={handleBack}></button>
-
-                    {favoriteStatus === 'succeeded' && (
-                        // DÜZELTME: FlashcardList'e courseId prop'unu ekledik
-                        <FlashcardList
-                            flashcards={favoriteFlashCards}
-                            courseId={selectedCategory}
-                        />
-                    )}
-
-                    {favoriteStatus === 'loading' && (
-                        <div className="text-center mt-4">
-                            <div className="spinner-border text-secondary" role="status">
-                                <span className="visually-hidden">Yükleniyor...</span>
-                            </div>
-                        </div>
-                    )}
+                    <button className="back-button" onClick={handleBack}>
+                    </button>
+                    <FlashcardList courseId={selectedCategory} />
                 </div>
             )}
         </div>

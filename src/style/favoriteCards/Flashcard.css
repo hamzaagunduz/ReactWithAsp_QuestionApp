@@ -4,6 +4,72 @@
 
 }
 
+.duo-modal-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* dikey hizalama */
+    position: relative;
+    /* yıldız ikonu mutlak konumluysa önemli */
+    padding: 10px;
+    /* biraz iç boşluk opsiyonel */
+}
+
+/* Pagination Styles */
+.duo-pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    gap: 10px;
+}
+
+.duo-pagination-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    color: #333;
+}
+
+.duo-pagination-button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.duo-page-info {
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+.duo-page-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.duo-page-button {
+    border: 1px solid #ddd;
+    background: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.duo-page-button.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Modal Position Indicator */
+.duo-card-position {
+    margin: 0 15px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
 /* Flashcard listesi */
 .duo-flashcard-list {
     display: flex;
@@ -95,7 +161,6 @@
 /* Modal close */
 .duo-modal-close {
     position: absolute;
-    top: 15px;
     right: 15px;
     background-color: rgba(255, 0, 0, 0.7);
     color: white;
@@ -178,4 +243,154 @@
 
 .duo-quiz-button:active {
     transform: translateY(1px);
+}
+
+/* Ekleme Butonu ve Form Stilleri */
+.duo-action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.duo-add-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.duo-add-button:hover {
+    background-color: #218838;
+}
+
+.duo-add-flashcard-form {
+    padding: 15px;
+}
+
+.duo-form-group {
+    margin-bottom: 15px;
+}
+
+.duo-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.duo-form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.duo-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.duo-cancel-button {
+    background-color: rgba(50, 72, 95, 0.547);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 3px rgba(64, 68, 63, 0.4);
+    transition: all 0.3s ease;
+}
+
+
+
+
+
+.duo-cancel-button:hover {
+    background-color: rgba(42, 47, 35, 0.688);
+    transform: translateY(-2px);
+    box-shadow: rgba(0, 0, 0, 0.8) 0px 4px;
+}
+
+.duo-submit-button {
+    background-color: rgba(145, 255, 0, 0.547);
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 3px rgba(91, 236, 34, 0.4);
+    transition: all 0.3s ease;
+}
+
+.duo-submit-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 20px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px rgba(21, 21, 21, 0.4);
+}
+
+.duo-submit-button:disabled:hover {
+    background-color: #cccccc;
+    transform: none;
+    cursor: not-allowed;
+    box-shadow: 0 3px rgba(0, 0, 0, 0.4);
+
+}
+
+.duo-submit-button:hover {
+    background-color: rgba(145, 255, 0, 0.688);
+    transform: translateY(-2px);
+    box-shadow: rgba(91, 236, 34, 0.8) 0px 4px;
+}
+
+
+
+/* Düzenleme Butonu Stili */
+.duo-edit-button {
+    color: #007bff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.duo-edit-button:hover {
+    color: #0056b3;
+    transform: scale(1.1);
+}
+
+/* Modal Başlık Stili */
+.duo-modal-top h3 {
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.duo-delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.duo-delete-button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
 }
