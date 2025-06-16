@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createTopic } from '../../../features/Topic/TopicSlice'; // <-- Güncel dosya yolu
+import { createTopic } from '../../../features/Topic/TopicSlice';
 import styles from '../../../style/adminPage/Question/AddTopicModal.module.css';
 
 const AddTopicModal = ({ isOpen, onClose, selectedCourseID }) => {
@@ -16,18 +16,34 @@ const AddTopicModal = ({ isOpen, onClose, selectedCourseID }) => {
         setForm((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!form.name.trim() || !selectedCourseID) {
             alert("Lütfen konu adı girin ve geçerli bir ders seçildiğinden emin olun.");
             return;
         }
 
-        dispatch(createTopic({
-            ...form,
-            courseID: selectedCourseID,
-        }));
+        try {
+            const resultAction = await dispatch(createTopic({
+                ...form,
+                courseID: selectedCourseID,
+            }));
 
-        onClose();
+            if (createTopic.fulfilled.match(resultAction)) {
+                alert("Konu başarıyla eklendi!");
+                // Formu sıfırla
+                setForm({
+                    name: '',
+                    description: '',
+                    videoLink: '',
+                });
+                // Modal'ı kapat
+                onClose();
+            } else {
+                throw new Error(resultAction.error?.message || "Konu eklenirken bir hata oluştu");
+            }
+        } catch (error) {
+            alert(error.message);
+        }
     };
 
     if (!isOpen) return null;

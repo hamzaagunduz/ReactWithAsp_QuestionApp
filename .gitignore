@@ -1,0 +1,14 @@
+# Geliştirici ortamı dosyaları
+node_modules/
+dist/
+.vscode/
+*.log
+
+# Ortam dosyaları
+.env
+.env.*
+!.env.example
+
+# Sistem dosyaları
+.DS_Store
+Thumbs.db

@@ -222,7 +222,7 @@ const FlashcardList = ({ courseId }) => {
                             className="duo-add-button"
                             onClick={() => setIsAddModalOpen(true)}
                         >
-                            <FaPlus /> Flashcard Ekle
+                            Ekle
                         </button>
                         {localFlashcards.length > 0 && (
                             <button
@@ -394,9 +394,21 @@ const FlashcardList = ({ courseId }) => {
                             ) : (
                                 <FaEdit
                                     onClick={(e) => handleEditClick(e, localFlashcards[selectedIndex])}
-                                    size={24}
-                                    color="#007bff"
-                                    style={{ cursor: 'pointer' }}
+                                    size={22}
+                                    style={{
+                                        cursor: 'pointer',
+                                        color: '#4a90e2',
+                                        opacity: 0.7,
+                                        transition: 'all 0.2s ease',
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.opacity = '1';
+                                        e.currentTarget.style.color = '#3a7bc8';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.opacity = '0.7';
+                                        e.currentTarget.style.color = '#4a90e2';
+                                    }}
                                 />
                             )}
                         </div>

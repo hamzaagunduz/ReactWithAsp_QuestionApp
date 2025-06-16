@@ -1,7 +1,9 @@
+import React, { useState } from 'react';
 import { imgUrl } from '../../app/apiClient';
 
 function QuestionCard({ question, selectedAnswer, result, onSelect }) {
-    // Add null check for question
+    const [selectedImage, setSelectedImage] = useState(null);
+
     if (!question) {
         return (
             <div className="card col-9 question-card p-4">
@@ -29,20 +31,28 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
 
     const questionImage = getImageUrl(0);
 
+    const handleImageClick = (e, imageUrl) => {
+        e.stopPropagation();
+        setSelectedImage(imageUrl);
+    };
+
     return (
         <div className="card col-9 question-card p-4">
+            {/* Question Image */}
             {questionImage && (
                 <div className='question-img'>
                     <img
                         src={questionImage}
                         alt="Soru görseli"
-                        className=""
+                        className="enlarge-on-hover"
+                        onClick={(e) => handleImageClick(e, questionImage)}
                     />
                 </div>
             )}
 
             <h4 className="question-text">{question.text}</h4>
 
+            {/* Options */}
             <div className="options-container w-100 mt-3">
                 {options.map(option => {
                     const optionImage = getImageUrl(option.key);
@@ -66,7 +76,8 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
                                 <img
                                     src={optionImage}
                                     alt={`Seçenek görseli`}
-                                    className="option-image"
+                                    className="option-image enlarge-on-hover"
+                                    onClick={(e) => handleImageClick(e, optionImage)}
                                 />
                             )}
                             {option.text}
@@ -74,6 +85,25 @@ function QuestionCard({ question, selectedAnswer, result, onSelect }) {
                     );
                 })}
             </div>
+
+            {/* Image Modal */}
+            {selectedImage && (
+                <div className="image-modal-overlay" onClick={() => setSelectedImage(null)}>
+                    <div className="image-modal-content" onClick={e => e.stopPropagation()}>
+                        <img
+                            src={selectedImage}
+                            alt="Büyütülmüş görsel"
+                            className="enlarged-image"
+                        />
+                        <button
+                            className="close-modal"
+                            onClick={() => setSelectedImage(null)}
+                        >
+                            &times;
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -66,7 +66,6 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
             alert('Grup başlığı boş olamaz.');
             return;
         }
-
         const updatedGroup = {
             testGroupID: Number(selectedGroupID),
             title: form.title.trim(),
@@ -79,6 +78,8 @@ const EditTestGroupModal = ({ isOpen, onClose, topics }) => {
         try {
             await dispatch(updateTestGroup(updatedGroup)).unwrap();
             alert('Test grubu başarıyla güncellendi!');
+            setSelectedTopicID();
+
             onClose();
         } catch (error) {
             alert('Test grubu güncellenirken hata oluştu: ' + (error.message || error));

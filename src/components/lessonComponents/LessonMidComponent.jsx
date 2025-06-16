@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLivesInfo } from "../../features/Layout/LayoutSlice";
@@ -7,12 +7,17 @@ import ModalComponent from "./ModalComponent";
 import NoLivesModalComponent from "./NoLivesModalComponent";
 import CardComponent from "./CardComponent";
 import GroupTestModalComponent from "./GroupTestModalComponent";
+import '../../style/midsection.css';
 
 const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState(courseID);
     const { topics, statusTopics, errorTopics } = useSelector((state) => state.topic);
+
+    // Son görüntülenen konu ID'sini saklamak için ref
+    const lastViewedTopicRef = useRef(null);
+    const hasScrolledRef = useRef(false);
 
     const healthResult = useSelector((state) => state.layout.healthResult);
     const lives = healthResult?.lives ?? 0;
@@ -33,6 +38,11 @@ const LessonMidComponent = ({ courseID }) => {
 
     useEffect(() => {
         dispatch(fetchLivesInfo());
+
+        const savedTopicId = localStorage.getItem(`lastViewedTopic_${courseID}`);
+        if (savedTopicId) {
+            lastViewedTopicRef.current = savedTopicId;
+        }
     }, []);
 
     useEffect(() => {
@@ -41,6 +51,25 @@ const LessonMidComponent = ({ courseID }) => {
         }
     }, [selectedCategory, dispatch]);
 
+    useEffect(() => {
+        if (statusTopics === 'succeeded' && !hasScrolledRef.current) {
+            const timer = setTimeout(() => {
+                if (lastViewedTopicRef.current) {
+                    const element = document.getElementById(`lesson-${lastViewedTopicRef.current}`);
+                    if (element) {
+                        element.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                    }
+                }
+                hasScrolledRef.current = true;
+            }, 300);
+
+            return () => clearTimeout(timer);
+        }
+    }, [statusTopics]);
+
     const handleBack = useCallback(() => {
         setSelectedCategory(null);
         navigate(-1);
@@ -48,22 +77,34 @@ const LessonMidComponent = ({ courseID }) => {
 
     const handleNavigate = useCallback((testId) => {
         if (lives <= 0) {
-            setSelectedGroupTests(null); // GroupTestModal'ı kapat
-            setShowNoLivesModal(true);   // NoLivesModal'ı aç
+            setSelectedGroupTests(null);
+            setShowNoLivesModal(true);
         } else {
             navigate(`/train/${testId}`);
         }
     }, [navigate, lives]);
 
-    const openGroupModal = (tests, color) => {
+    const openGroupModal = (tests, color, topicId) => {
         if (tests && tests.length > 0) {
             setSelectedGroupTests(tests);
             setSelectedGroupColor(color);
+
+            // Konu ID'sini localStorage'a kaydet
+            localStorage.setItem(`lastViewedTopic_${courseID}`, topicId);
+            lastViewedTopicRef.current = topicId;
         }
     };
 
     const closeGroupModal = () => {
         setSelectedGroupTests(null);
+    };
+
+    const handleOpenModal = (lessonIndex, topicId) => {
+        setActiveModalLessonIndex(lessonIndex);
+
+        // Konu ID'sini localStorage'a kaydet
+        localStorage.setItem(`lastViewedTopic_${courseID}`, topicId);
+        lastViewedTopicRef.current = topicId;
     };
 
     // Loading state
@@ -123,7 +164,11 @@ const LessonMidComponent = ({ courseID }) => {
                 ) || [];
 
                 return (
-                    <div className="lesson-container" key={lesson.topicID || lessonIndex}>
+                    <div
+                        className="lesson-container"
+                        key={lesson.topicID || lessonIndex}
+                        id={`lesson-${lesson.topicID}`}
+                    >
                         <div className="d-flex flex-column align-items-center">
                             <div className="mid-top-card" style={{ backgroundColor: lessonColor }}>
                                 <div className="card-body d-flex flex-column flex-grow-1">
@@ -132,7 +177,7 @@ const LessonMidComponent = ({ courseID }) => {
                                 <div className="mid-top-card-button">
                                     <button
                                         className="btn btn-primary"
-                                        onClick={() => setActiveModalLessonIndex(lessonIndex)}
+                                        onClick={() => handleOpenModal(lessonIndex, lesson.topicID)}
                                     >
                                         Konu Özeti
                                     </button>
@@ -151,7 +196,11 @@ const LessonMidComponent = ({ courseID }) => {
                                                 description={group.description || "Tıklayarak testleri görüntüleyin"}
                                                 buttonText="Başla"
                                                 color={lessonColor}
-                                                onClick={() => openGroupModal(group.tests, lessonColor)}
+                                                onClick={() => openGroupModal(
+                                                    group.tests,
+                                                    lessonColor,
+                                                    lesson.topicID  // Konu ID'sini geçir
+                                                )}
                                             />
                                         ))
                                     ) : (

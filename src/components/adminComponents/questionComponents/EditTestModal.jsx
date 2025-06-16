@@ -78,6 +78,15 @@ const EditTestModal = ({ isOpen, onClose, tests }) => {
         try {
             await dispatch(updateTest(updatedTest)).unwrap();
             alert('Test başarıyla güncellendi!');
+            setForm({
+                testID: '',
+                title: '',
+                description: '',
+                order: ''
+            });
+            setSelectedTopicID('');
+            setSelectedGroupID('');
+            setSelectedTestID('');
             onClose();
         } catch (error) {
             alert('Test güncellenirken hata oluştu: ' + (error.message || error));

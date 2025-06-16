@@ -27,6 +27,12 @@ const AddTestModal = ({ isOpen, onClose, tests }) => {
 
         try {
             await dispatch(createTest(form)).unwrap();
+            setSelectedTopicID('');
+            setForm({
+                title: '',
+                description: '',
+                testGruopID: null,
+            });
             alert('Test başarıyla oluşturuldu!');
             onClose();
         } catch (error) {

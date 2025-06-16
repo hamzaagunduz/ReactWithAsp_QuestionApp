@@ -39,7 +39,6 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
         }
 
         const updatedTopic = {
-            topicID: parseInt(selectedTopicID), // Dinamik olarak selectedTopicID'den
             name: form.name,
             description: form.description,
             videoLink: form.videoLink,
@@ -50,7 +49,15 @@ const EditTopicModal = ({ isOpen, onClose, selectedCourseID, testTopics }) => {
         try {
             // Güncelleme thunk'ını dispatch ediyoruz
             await dispatch(updateTopic(updatedTopic)).unwrap();
+            setSelectedTopicID('');
+            setForm({
+                topicID: null,
+                name: '',
+                description: '',
+                videoLink: '',
+                order: '' // <-- yeni eklenen alan
 
+            });
             alert('Konu başarıyla güncellendi!');
             onClose();
         } catch (error) {

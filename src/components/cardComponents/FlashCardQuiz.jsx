@@ -139,7 +139,7 @@ const FlashCardQuiz = ({ courseId, onClose }) => {
                                     </button>
                                 ) : (
                                     <button
-                                        className={styles.finishButton}
+                                        className={styles.navButton}
                                         onClick={onClose}
                                     >
                                         Testi Bitir

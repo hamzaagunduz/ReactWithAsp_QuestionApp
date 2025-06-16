@@ -1,10 +1,12 @@
-// src/app/apiClient.jsx
+// C:\Users\Hamza\Desktop\project\dob\src\app\apiClient.jsx
 import axios from 'axios';
 
-export const baseURL = 'https://localhost:7172/api/';
-export const imgUrl = 'https://localhost:7172/';
-export const hubURL = 'https://localhost:7172'; // sadece base kısmı
+// Ortama göre URL'leri al
+export const baseURL = import.meta.env.VITE_API_BASE_URL;
+export const imgUrl = import.meta.env.VITE_IMAGE_URL;
+export const hubURL = import.meta.env.VITE_HUB_URL;
 
+// Axios instance oluştur
 const apiClient = axios.create({
     baseURL,
     headers: {
@@ -12,6 +14,7 @@ const apiClient = axios.create({
     },
 });
 
+// Token varsa ekle
 apiClient.interceptors.request.use(config => {
     const token = localStorage.getItem('token');
     if (token) {

@@ -197,7 +197,6 @@ function TrainPage() {
     return (
         <div className="train-container">
             <div className="back-button-train" onClick={() => navigate(-1)}>
-                <FaArrowLeft size={50} /> Geri
             </div>
             <h4 className="train-title">Oku ve yanıtla</h4>
             <div className="container question-container row">

@@ -23,41 +23,44 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
     const [optionDImage, setOptionDImage] = useState(null);
     const [optionEImage, setOptionEImage] = useState(null);
 
-    // State for hierarchical selection - HEPSİ BAŞLANGIÇTA BOŞ
+    // State for hierarchical selection
     const [selectedTopic, setSelectedTopic] = useState('');
     const [selectedTestGroup, setSelectedTestGroup] = useState('');
     const [selectedTest, setSelectedTest] = useState('');
     const [testGroups, setTestGroups] = useState([]);
     const [tests, setTests] = useState([]);
 
+    // Hata mesajları için state
+    const [errorMessages, setErrorMessages] = useState({});
+
     // Modal açıldığında tüm formu resetle
     useEffect(() => {
         if (isOpen) {
-            // Tüm form alanlarını sıfırla
-            setQuestionText('');
-            setOptionA('');
-            setOptionB('');
-            setOptionC('');
-            setOptionD('');
-            setOptionE('');
-            setAnswer('');
-            setFlashCardFront('');
-            setFlashCardBack('');
-            setQuestionImage(null);
-            setOptionAImage(null);
-            setOptionBImage(null);
-            setOptionCImage(null);
-            setOptionDImage(null);
-            setOptionEImage(null);
-
-            // Hiyerarşik seçimleri sıfırla
-            setSelectedTopic('');
-            setSelectedTestGroup('');
-            setSelectedTest('');
-            setTestGroups([]);
-            setTests([]);
+            resetForm();
+            setErrorMessages({});
         }
     }, [isOpen]);
+
+    // Formu sıfırlama fonksiyonu
+    const resetForm = () => {
+        setQuestionText('');
+        setOptionA('');
+        setOptionB('');
+        setOptionC('');
+        setOptionD('');
+        setOptionE('');
+        setAnswer('');
+        setFlashCardFront('');
+        setFlashCardBack('');
+        setQuestionImage(null);
+        setOptionAImage(null);
+        setOptionBImage(null);
+        setOptionCImage(null);
+        setOptionDImage(null);
+        setOptionEImage(null);
+
+
+    };
 
     // Konu değiştiğinde test gruplarını güncelle
     useEffect(() => {
@@ -93,11 +96,25 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
         }
     }, [selectedTestGroup, testGroups]);
 
+    // Form doğrulama fonksiyonu
+    const validateForm = () => {
+        const errors = {};
+
+        if (!selectedTest) errors.selectedTest = 'Lütfen bir test seçin';
+        if (!questionText.trim()) errors.questionText = 'Soru metni zorunludur';
+        if (!optionA.trim()) errors.optionA = 'A seçeneği zorunludur';
+        if (!optionB.trim()) errors.optionB = 'B seçeneği zorunludur';
+        if (!answer) errors.answer = 'Doğru cevap seçimi zorunludur';
+
+        setErrorMessages(errors);
+        return Object.keys(errors).length === 0;
+    };
+
     if (!isOpen) return null;
 
     const handleSubmit = async () => {
-        if (!selectedTest) {
-            alert('Lütfen bir test seçin');
+        // Form doğrulaması
+        if (!validateForm()) {
             return;
         }
 
@@ -106,9 +123,9 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
             formData.append('QuestionText', questionText);
             formData.append('OptionA', optionA);
             formData.append('OptionB', optionB);
-            formData.append('OptionC', optionC);
-            formData.append('OptionD', optionD);
-            formData.append('OptionE', optionE);
+            formData.append('OptionC', optionC || '');
+            formData.append('OptionD', optionD || '');
+            formData.append('OptionE', optionE || '');
             formData.append('TestId', selectedTest);
             formData.append('Answer', answer);
             formData.append('FlashCardFront', flashCardFront || '');
@@ -124,8 +141,11 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
             const resultAction = await dispatch(createFullQuestion(formData));
 
             if (createFullQuestion.fulfilled.match(resultAction)) {
+                // Başarılı ekleme sonrası
+                alert('Soru başarıyla eklendi!');
                 onSubmit();
-                onClose();
+                resetForm(); // Formu sıfırla
+                onClose(); // Modal'ı kapat
             } else {
                 alert('Soru oluşturulamadı: ' + (resultAction.payload || 'Bilinmeyen hata'));
             }
@@ -134,10 +154,12 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
         }
     };
 
-    const renderOptionInput = (label, value, setValue, image, setImage) => (
+    const renderOptionInput = (label, value, setValue, image, setImage, isRequired = false) => (
         <div className={styles.optionGroup}>
             <div className={styles.optionHeader}>
-                <span className={styles.optionLabel}>{label}</span>
+                <span className={styles.optionLabel}>
+                    {label} {isRequired && <span className={styles.required}>*</span>}
+                </span>
                 <div className={styles.optionControls}>
                     <input
                         type="text"
@@ -145,6 +167,7 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                         value={value}
                         onChange={e => setValue(e.target.value)}
                         className={styles.optionInput}
+                        required={isRequired}
                     />
                     <div className={styles.fileUpload}>
                         <label className={styles.fileUploadLabel}>
@@ -161,6 +184,9 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                     </div>
                 </div>
             </div>
+            {errorMessages[`option${label}`] && (
+                <p className={styles.errorMessage}>{errorMessages[`option${label}`]}</p>
+            )}
         </div>
     );
 
@@ -182,6 +208,7 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                             value={selectedTopic}
                             onChange={e => setSelectedTopic(e.target.value)}
                             className={styles.selectInput}
+                            required
                         >
                             <option value="">Konu Seçiniz</option>
                             {testTopics.map(topic => (
@@ -201,6 +228,7 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                                 onChange={e => setSelectedTestGroup(e.target.value)}
                                 className={styles.selectInput}
                                 disabled={testGroups.length === 0}
+                                required
                             >
                                 <option value="">
                                     {testGroups.length === 0
@@ -225,6 +253,7 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                                 onChange={e => setSelectedTest(e.target.value)}
                                 className={styles.selectInput}
                                 disabled={tests.length === 0}
+                                required
                             >
                                 <option value="">
                                     {tests.length === 0
@@ -237,6 +266,9 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                                     </option>
                                 ))}
                             </select>
+                            {errorMessages.selectedTest && (
+                                <p className={styles.errorMessage}>{errorMessages.selectedTest}</p>
+                            )}
                         </div>
                     )}
                 </div>
@@ -248,13 +280,19 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
                             <h3 className={styles.sectionTitle}>Soru Bilgileri</h3>
 
                             <div className={styles.formGroup}>
-                                <label className={styles.inputLabel}>Soru Metni*</label>
+                                <label className={styles.inputLabel}>
+                                    Soru Metni
+                                    {errorMessages.questionText && (
+                                        <span className={styles.errorMessageInline}> - {errorMessages.questionText}</span>
+                                    )}
+                                </label>
                                 <textarea
                                     placeholder="Soru metnini buraya yazın..."
                                     value={questionText}
                                     onChange={e => setQuestionText(e.target.value)}
                                     rows={3}
                                     className={styles.textArea}
+                                    required
                                 />
                             </div>
 
@@ -278,17 +316,22 @@ const AddQuestionModal = ({ isOpen, onClose, onSubmit, testTopics }) => {
 
                         <div className={styles.formSection}>
                             <h3 className={styles.sectionTitle}>Seçenekler</h3>
-                            {renderOptionInput("A", optionA, setOptionA, optionAImage, setOptionAImage)}
-                            {renderOptionInput("B", optionB, setOptionB, optionBImage, setOptionBImage)}
-                            {renderOptionInput("C", optionC, setOptionC, optionCImage, setOptionCImage)}
-                            {renderOptionInput("D", optionD, setOptionD, optionDImage, setOptionDImage)}
-                            {renderOptionInput("E", optionE, setOptionE, optionEImage, setOptionEImage)}
+                            {renderOptionInput("A", optionA, setOptionA, optionAImage, setOptionAImage, true)}
+                            {renderOptionInput("B", optionB, setOptionB, optionBImage, setOptionBImage, true)}
+                            {renderOptionInput("C", optionC, setOptionC, optionCImage, setOptionCImage, true)}
+                            {renderOptionInput("D", optionD, setOptionD, optionDImage, setOptionDImage, true)}
+                            {renderOptionInput("E", optionE, setOptionE, optionEImage, setOptionEImage, true)}
                         </div>
 
                         <div className={styles.formSection}>
                             <h3 className={styles.sectionTitle}>Doğru Cevap*</h3>
                             <div className={styles.formGroup}>
-                                <label className={styles.inputLabel}>Seçenek Seçin</label>
+                                <label className={styles.inputLabel}>
+                                    Seçenek Seçin
+                                    {errorMessages.answer && (
+                                        <span className={styles.errorMessageInline}> - {errorMessages.answer}</span>
+                                    )}
+                                </label>
                                 <select
                                     value={answer}
                                     onChange={e => setAnswer(e.target.value)}

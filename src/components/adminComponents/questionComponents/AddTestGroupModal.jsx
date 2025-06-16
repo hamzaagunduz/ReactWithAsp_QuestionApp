@@ -19,8 +19,29 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
             topicID: topicID ? parseInt(topicID, 10) : null,
         };
 
-        await dispatch(createTestGroup(testGroupData)); // Redux slice ile create
-        onClose(); // modal'ı kapat
+        try {
+            const resultAction = await dispatch(createTestGroup(testGroupData));
+
+            // Reducer'daki createTestGroup.fulfilled durumunu kontrol ediyoruz
+            if (createTestGroup.fulfilled.match(resultAction)) {
+                alert('Test grubu başarıyla eklendi!');
+
+                // Formu sıfırla
+                setTitle('');
+                setDescription('');
+                setTest('');
+                setTopicID('');
+
+                // Modal'ı kapat
+                onClose();
+            } else if (createTestGroup.rejected.match(resultAction)) {
+                // Redux'tan gelen hatayı göster
+                const errorMessage = resultAction.error?.message || 'Test grubu eklenirken bir hata oluştu';
+                throw new Error(errorMessage);
+            }
+        } catch (error) {
+            alert(error.message);
+        }
     };
 
     if (!isOpen) return null;
@@ -77,6 +98,7 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
                         />
                     </div>
 
+                    {/* Test alanı şu anda kullanılmıyor */}
                     {/* <div className={styles.formGroup}>
                         <label className={styles.inputLabel}>Test Alanı*</label>
                         <input
@@ -88,8 +110,6 @@ const AddTestGroupModal = ({ isOpen, onClose, availableTopics = [] }) => {
                         />
                     </div> */}
                 </div>
-
-
 
                 <div className={styles.actions}>
                     <button className={styles.cancelButton} onClick={onClose}>İptal</button>

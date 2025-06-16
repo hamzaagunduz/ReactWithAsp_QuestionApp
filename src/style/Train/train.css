@@ -106,6 +106,13 @@
     display: block;
 }
 
+.option-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+    border-radius: 4px;
+}
+
+
 .question-img {
     width: 100%;
     display: flex;
@@ -117,9 +124,11 @@
     transition: transform 0.3s ease;
 }
 
-.question-img:hover {
-    transform: scale(1.02);
+.question-img img:hover {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
 }
+
+
 
 .question-img img {
     max-height: 150px;
@@ -367,8 +376,8 @@
     left: 20px;
     cursor: pointer;
     padding: 6px 12px;
-    z-index: 1000;
-    transition: background-color 0.2s;
+    z-index: 1;
+    transition: all ease 0.2s;
     background-color: white;
     border-radius: 20%;
     width: 65px;
@@ -384,10 +393,79 @@
 }
 
 .back-button-train:hover {
-    background-color: #2ea4f244;
-    color: #000;
+    transform: scale(1.1);
+
 }
 
+.back-button-train:before {
+    content: '←';
+    font-size: 40px;
+    color: rgb(28, 176, 246);
+}
+
+
+
+/* Add these new styles to your CSS */
+.image-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+}
+
+.image-modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.image-modal-content img {
+    max-width: 100%;
+    max-height: 80vh;
+    display: block;
+    margin: 0 auto;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #ff0000;
+}
+
+/* Add hover effect only for images */
+.enlarge-on-hover {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.enlarge-on-hover:hover {
+    transform: scale(1.05);
+}
+
+/* Prevent button hover from affecting images */
+.btn-option:hover .enlarge-on-hover {
+    transform: scale(1.05);
+}
 
 
 
