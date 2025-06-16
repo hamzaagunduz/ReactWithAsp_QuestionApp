@@ -8,7 +8,7 @@ export const sendChatMessage = createAsyncThunk(
     'signalr/sendChatMessage',
     async ({ prompt, connectionId }, { rejectWithValue }) => {
         try {
-            const response = await apiClient.post('AI/chat', { prompt, connectionId });
+            const response = await apiClient.post('AI/chat/v2', { prompt, connectionId });
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || 'API hata mesajı');

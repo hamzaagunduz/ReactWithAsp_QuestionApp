@@ -20,7 +20,7 @@ export const fetchAISuggestions = createAsyncThunk(
     'analysis/fetchAISuggestions',
     async ({ analysisType, data }, { rejectWithValue }) => {
         try {
-            const response = await apiClient.post('/AI/analyze', {
+            const response = await apiClient.post('/AI/analyze/v2', {
                 analysisType,
                 data
             });
