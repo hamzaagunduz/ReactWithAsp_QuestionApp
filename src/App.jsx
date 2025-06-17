@@ -35,7 +35,7 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="">
       <Suspense fallback={
         <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh" }}>
           <div className="spinner-border text-primary" role="status">
