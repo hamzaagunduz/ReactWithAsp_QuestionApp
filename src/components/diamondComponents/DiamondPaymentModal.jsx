@@ -26,7 +26,7 @@ const DiamondPaymentModal = ({ onClose, packageInfo }) => {
     useEffect(() => {
         const connectSignalR = async () => {
             await startConnection('payhub');
-            const connection = getConnection();
+            const connection = getConnection('payhub');
 
             if (conversationId) {
                 connection.invoke('RegisterTransaction', conversationId);

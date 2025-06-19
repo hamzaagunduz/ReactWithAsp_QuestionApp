@@ -1,4 +1,4 @@
-# 1. Aşama: Build
+# 1. Build aşaması
 FROM node:18-alpine AS build
 
 WORKDIR /app
@@ -8,16 +8,16 @@ RUN npm install
 
 COPY . .
 
-# Eğer dockerignore'dan dolayı .env.production atıldıysa bunu ekle
-COPY .env.production .env.production
+# Ortam dosyasını Vite'nin anlayacağı şekilde kopyala
+COPY .env.production .env
 
-# Production build (modu kesin belirt)
+# Vite build komutu
 RUN npm run build -- --mode production
 
-# 2. Aşama: Nginx ile serve
+# 2. Serve aşaması: Nginx
 FROM nginx:alpine
 
-# Build edilmiş statik dosyaları nginx'in standart dizinine kopyala
+# Build edilen dosyaları kopyala
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # SPA için uygun nginx.conf dosyasını kopyala

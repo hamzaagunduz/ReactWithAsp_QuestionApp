@@ -22,7 +22,8 @@ const Payment = () => {
 
     useEffect(() => {
         const connectSignalR = async () => {
-            await startConnection('payhub'); // backendte [Route("payhub")] varsa bunu kullanın
+
+            await startConnection('payhub');
             const connection = getConnection();
 
             if (conversationId) {

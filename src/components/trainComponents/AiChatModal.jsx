@@ -32,7 +32,7 @@ const AiChatModal = ({ question, onClose }) => {
     useEffect(() => {
         const initializeSignalR = async () => {
             await startConnection('aihubv2');
-            const connection = getConnection();
+            const connection = getConnection('aihubv2');
 
             if (!connection) return;
 

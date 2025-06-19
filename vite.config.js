@@ -16,9 +16,9 @@ export default defineConfig(({ mode }) => {
         ext: '.gz'
       })
     ],
-    server: mode === 'development' ? {
-      host: '0.0.0.0',
-      port: 3000
-    } : undefined
+    // server: mode === 'development' ? {
+    //   host: '0.0.0.0',
+    //   port: 3000
+    // } : undefined
   }
 })
