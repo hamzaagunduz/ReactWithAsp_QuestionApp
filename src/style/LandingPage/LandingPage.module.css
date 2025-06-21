@@ -1,4 +1,11 @@
 /* LandingPage.module.css */
+@font-face {
+    font-family: 'Fredoka';
+    src: url('../../fonts/Fredoka-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 .landing {
     position: relative;
@@ -19,7 +26,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding: 1.5rem 5%;
+    padding: 1rem 5%;
     display: flex;
     justify-content: center;
     z-index: 1000;
@@ -42,13 +49,26 @@
     align-items: center;
 }
 
+
+
 .logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #00a6ff;
+    font-size: 40px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
     letter-spacing: -0.5px;
-    z-index: 1001;
+
 }
+
+.dobiGreen {
+    color: #7ed957;
+    /* açık yeşil - LawnGreen */
+}
+
+.dobiBlue {
+    color: #5ce1e6;
+    /* mavi - DodgerBlue */
+}
+
 
 .navLinks {
     display: flex;

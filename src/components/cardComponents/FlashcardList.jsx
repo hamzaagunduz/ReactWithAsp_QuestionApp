@@ -280,7 +280,6 @@ const FlashcardList = ({ courseId }) => {
                 <div className="duo-modal-overlay" onClick={() => setIsAddModalOpen(false)}>
                     <div className="duo-modal-content" onClick={e => e.stopPropagation()}>
                         <div className='duo-modal-top'>
-                            <button className="duo-modal-close" onClick={() => setIsAddModalOpen(false)}>×</button>
                             <h3>Yeni Flashcard Ekle</h3>
                         </div>
                         <div className="duo-add-flashcard-form">
@@ -327,7 +326,6 @@ const FlashcardList = ({ courseId }) => {
                 <div className="duo-modal-overlay" onClick={() => setIsEditModalOpen(false)}>
                     <div className="duo-modal-content" onClick={e => e.stopPropagation()}>
                         <div className='duo-modal-top'>
-                            <button className="duo-modal-close" onClick={() => setIsEditModalOpen(false)}>×</button>
                             <h3>Flashcard Düzenle</h3>
                         </div>
                         <div className="duo-add-flashcard-form">

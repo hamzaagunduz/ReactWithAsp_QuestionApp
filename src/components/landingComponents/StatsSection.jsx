@@ -23,25 +23,27 @@ const StatsSection = () => {
                 <div className={styles.statsGrid}>
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="200">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-users"></i></div></div>
-                        <div className={styles.statValue}>10K+</div>
+                        <div className={styles.statValue}>100</div>
                         <div className={styles.statLabel}>Aktif Kullanıcı</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="300">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-smile"></i></div></div>
-                        <div className={styles.statValue}>%95</div>
-                        <div className={styles.statLabel}>Memnuniyet Oranı</div>
+                        <div className={styles.statValue}>%100</div>
+                        <div className={styles.statLabel}>Motivasyon Oranı</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="400">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-book"></i></div></div>
-                        <div className={styles.statValue}>4+</div>
+                        <div className={styles.statValue}>1+</div>
                         <div className={styles.statLabel}>Sınav Türü</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="500">
                         <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-lightbulb"></i></div></div>
-                        <div className={styles.statValue}>5K+</div>
+                        <div className={styles.statValue}>500
+
+                        </div>
                         <div className={styles.statLabel}>Moden Soru</div>
                     </div>
                 </div>

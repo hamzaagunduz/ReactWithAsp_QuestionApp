@@ -74,8 +74,10 @@ const FAQSection = () => {
                 </div>
 
                 <div className={styles.ctaContainer}>
-                    <p>Hala sorularınız mı var? <a href="#">Bize ulaşın</a></p>
+                    <p>Hala sorularınız mı var? <a href="mailto:beldyazilim@gmail.com">Bize ulaşın</a></p>
+                    <p>beldyazilim@gmail.com</p>
                 </div>
+
             </div>
         </section>
     );

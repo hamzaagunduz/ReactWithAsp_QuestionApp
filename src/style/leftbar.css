@@ -1,6 +1,15 @@
 /* leftbar.css with Bootstrap integration */
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 
+@font-face {
+    font-family: 'Fredoka';
+    src: url('../fonts/Fredoka-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+
 :root {
     --mobile-height: 70px;
     --icon-size: 45px;
@@ -41,13 +50,25 @@
     text-decoration: none;
 }
 
+
+
 .logo-font {
     font-size: 50px;
+    font-family: 'Fredoka', sans-serif;
     font-weight: 700;
-    color: var(--primary-color);
-    text-shadow: 1px 1.5px 0 #8be6bc;
-    font-family: "Quicksand", sans-serif;
 }
+
+.dob-green {
+    color: #7ed957;
+    /* açık yeşil - LawnGreen */
+}
+
+.bilim-blue {
+    color: #5ce1e6;
+    /* mavi - DodgerBlue */
+}
+
+
 
 .nav-menu {
     list-style: none;
@@ -137,7 +158,7 @@
     }
 
     .logo-font {
-        font-size: 50px;
+        font-size: 45px;
     }
 
     .nav-link {

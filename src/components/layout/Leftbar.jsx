@@ -77,8 +77,10 @@ export const Leftbar = () => {
                 className={`sidebar-container d-none d-md-block ${isMobileMenuOpen ? 'mobile-open' : ''}`}
                 style={{ width: '19%' }}
             >
-                <a href="/" className="side-logo">
-                    <span className="logo-font">Dobi</span>
+                <a href="/home" className="side-logo">
+                    <span className="logo-font">
+                        <span className="dob-green">Dob</span><span className="bilim-blue">ilim</span>
+                    </span>
                 </a>
 
                 <ul className="nav-menu">
@@ -102,10 +104,11 @@ export const Leftbar = () => {
                 ref={menuRef}
                 className={`sidebar-container d-md-none mobile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
             >
-                <a href="/" className="side-logo">
-                    <span className="logo-font">Dobi</span>
+                <a href="/home" className="side-logo">
+                    <span className="logo-font">
+                        <span className="dob-green">Dob</span><span className="bilim-blue">ilim</span>
+                    </span>
                 </a>
-
                 <ul className="nav-menu">
                     <NavItem to="/home" icon={house} text="Anasayfa" />
                     <NavItem to="/card" icon={card} text="Kartlarım" />

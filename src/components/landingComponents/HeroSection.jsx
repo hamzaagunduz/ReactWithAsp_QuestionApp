@@ -36,18 +36,19 @@ const HeroSection = () => {
 
                     <div className={styles.stats} data-aos="fade-up" data-aos-delay="300">
                         <div className={styles.statItem}>
-                            <div className={styles.statValue}>10K+</div>
+                            <div className={styles.statValue}>+100</div>
                             <div className={styles.statLabel}>Mutlu Öğrenci</div>
                         </div>
                         <div className={styles.statItem}>
-                            <div className={styles.statValue}>%98</div>
-                            <div className={styles.statLabel}>Başarı Oranı</div>
+                            <div className={styles.statValue}>%100</div>
+                            <div className={styles.statLabel}>Motivasyon ve Kararlılık</div>
                         </div>
                         <div className={styles.statItem}>
-                            <div className={styles.statValue}>24/7</div>
-                            <div className={styles.statLabel}>Destek</div>
+                            <div className={styles.statValue}>7/24</div>
+                            <div className={styles.statLabel}>Geliştirme & Destek Süreci</div>
                         </div>
                     </div>
+
                 </div>
 
                 <div className={styles.heroImage} data-aos="fade-left" data-aos-delay="400">

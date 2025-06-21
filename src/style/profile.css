@@ -282,30 +282,38 @@
 }
 
 .action-btn {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
     font-size: 16px;
     padding: 10px 20px;
     margin: 5px;
     border: none;
-    border-radius: 5px;
+    border-radius: 15px;
     color: #fff;
     background-color: rgb(121, 246, 93);
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: rgba(73, 234, 9, 0.645) 0px 4px 0px 0px;
     min-width: 180px;
 }
 
+
+
 .action-btn.logout {
     background-color: #ff6b6b;
+    box-shadow: rgba(232, 3, 3, 0.645) 0px 4px 0px 0px;
 }
 
 .action-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(232, 3, 3, 0.645) 0px 4px 0px 0px;
+
 }
 
 .action-btn.edit-profile:hover {
-    background-color: rgb(102, 205, 79);
+    background-color: rgb(99, 255, 64);
+    box-shadow: rgba(73, 234, 9, 0.645) 0px 4px 0px 0px;
+
 }
 
 .action-btn.logout:hover {

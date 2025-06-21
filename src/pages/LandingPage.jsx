@@ -47,7 +47,11 @@ const LandingPage = () => {
             {/* Modern Navbar */}
             <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
                 <div className={styles.navbarContainer}>
-                    <div className={styles.logo}>Dobi</div>
+                    <div className={styles.logo}>
+                        <span className={styles.dobiGreen}>Dob</span>
+                        <span className={styles.dobiBlue}>ilim</span>
+                    </div>
+
 
                     <div className={`${styles.navLinks} ${menuOpen ? styles.active : ''}`}>
                         <div className={styles.navItem} onClick={() => scrollToSection('hero-section')}>Ana Sayfa</div>
