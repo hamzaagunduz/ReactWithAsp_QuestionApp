@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';
 
-const UserActions = ({ user, onActionComplete }) => {
+const UserActions = ({ user }) => {
     const [showMenu, setShowMenu] = useState(false);
 
     const handleAction = (actionType) => {

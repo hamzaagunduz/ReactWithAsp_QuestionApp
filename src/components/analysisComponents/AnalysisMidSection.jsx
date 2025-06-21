@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAnalysis, fetchAISuggestions } from '../../features/Analysis/AnalysisSlice';
 
@@ -6,8 +6,6 @@ const AnalysisMidSection = () => {
     const [activeTab, setActiveTab] = useState('daily');
     const [loadingIndexes, setLoadingIndexes] = useState({});
     const [aiAdviceList, setAiAdviceList] = useState({});
-    const [generalLoading, setGeneralLoading] = useState(false);
-    const [generalAdvice, setGeneralAdvice] = useState('');
 
     const dispatch = useDispatch();
     const { data: analysisData, loading, error } = useSelector(state => state.analysis);
@@ -55,13 +53,6 @@ const AnalysisMidSection = () => {
         setLoadingIndexes(prev => ({ ...prev, [lesson]: false }));
     };
 
-    const handleGeneralEvaluate = () => {
-        setGeneralLoading(true);
-        setTimeout(() => {
-            setGeneralAdvice(analysisData?.general || 'Genel değerlendirme yok');
-            setGeneralLoading(false);
-        }, 1500);
-    };
 
     const formatAIText = (text) => {
         if (!text) return '';

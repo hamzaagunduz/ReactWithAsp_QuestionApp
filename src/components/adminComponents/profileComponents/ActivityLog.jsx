@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../../style/adminPage/profile/AdminProfile.module.css';
 
 const ActivityLog = ({ activities }) => {

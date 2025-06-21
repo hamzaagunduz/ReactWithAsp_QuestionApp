@@ -1,5 +1,4 @@
 // DailyMissions.jsx
-import React from "react";
 import './DailyMissions.css';
 
 import chest from '../../assets/rightbar/dailyMissions/chest.png';

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../../style/adminPage/profile/AdminProfile.module.css';
 
 const NotificationSettings = () => {

@@ -3,7 +3,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const CategoryButton = React.memo(({ category, onClick }) => {
-    console.log(category)
     return (
         <button
             className="btn btn-category mb-3 text-center d-flex flex-column align-items-center"

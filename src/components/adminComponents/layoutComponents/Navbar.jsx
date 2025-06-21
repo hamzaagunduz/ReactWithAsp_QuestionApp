@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
-import { FaBell, FaUserCircle, FaSearch, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaUserCircle, FaSearch, FaSignOutAlt } from 'react-icons/fa';
 import styles from '../../../style/adminPage/Layout/Layout.module.css';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-    const navigate = useNavigate();
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [notifications] = useState([
-        { id: 1, text: 'Yeni kullanıcı kaydoldu', time: '2 dakika önce' },
-        { id: 2, text: 'Sistem güncellemesi tamamlandı', time: '1 saat önce' },
-    ]);
+
 
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);

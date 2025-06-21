@@ -180,3 +180,75 @@
     margin-bottom: 0.4rem;
     line-height: 1.5;
 }
+
+/* Mevcut CSS'nizin altına ekleyin */
+
+/* Orta boy ekranlar - tablet gibi */
+@media (max-width: 768px) {
+    .analysis-tabs {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .analysis-tabs button {
+        flex: 1 1 45%;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .subject-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .subject-info {
+        min-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .ai-section {
+        min-width: 100%;
+        margin-top: 0;
+        align-items: flex-start;
+    }
+
+    .ai-result-box {
+        width: 100%;
+    }
+}
+
+/* Küçük ekranlar - telefonlar */
+@media (max-width: 480px) {
+    .analysis-wrapper {
+        padding: 1rem;
+    }
+
+    .analysis-tabs button {
+        flex: 1 1 100%;
+        padding: 10px 0;
+        font-size: 0.85rem;
+    }
+
+    .subject-card {
+        padding: 1rem;
+    }
+
+    .topic-info {
+        margin-left: 0;
+    }
+
+    .topic-details {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .evaluate-btn {
+        width: 100%;
+        padding: 0.8rem 0;
+        font-size: 1rem;
+    }
+
+    .ai-result-box {
+        font-size: 0.9rem;
+    }
+}

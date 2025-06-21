@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../../style/adminPage/SiteSettings/SiteSettings.module.css';
 
 const MaintenanceSettings = () => {

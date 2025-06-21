@@ -1,6 +1,6 @@
 // src/components/lessonComponents/ModalComponent.jsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../../style/lesson/topic_description_modal.css";
 
 const ModalComponent = ({ isOpen, onClose, description, videoLink }) => {

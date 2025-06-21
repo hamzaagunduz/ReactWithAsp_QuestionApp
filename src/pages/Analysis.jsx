@@ -1,5 +1,4 @@
 // src/pages/Analysis.jsx
-import React from "react";
 import { Rightbar } from "../components/layout/Rightbar";
 import { Leftbar } from "../components/layout/Leftbar";
 import AnalysisMidSection from "../components/analysisComponents/AnalysisMidSection";

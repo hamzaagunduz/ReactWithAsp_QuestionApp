@@ -224,3 +224,17 @@
     cursor: pointer;
     transform: translateY(3px);
 }
+
+.error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    border-radius: 8px;
+    color: #b30000;
+
+}
+
+.error-message {
+    font-size: 16px;
+}

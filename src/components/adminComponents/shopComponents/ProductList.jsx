@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from './ProductCard';
 import styles from '../../../style/adminPage/ShopManagement/ShopManagement.module.css';
@@ -63,7 +63,6 @@ const ProductList = ({ onEditProduct }) => {
         if (filter === 'premium') return product.type === 'premium';
         return true;
     });
-    console.log(filteredProducts)
     // Ürün silme
     const handleDelete = (id, itemType) => {
         if (window.confirm('Bu ürünü silmek istediğinize emin misiniz?')) {

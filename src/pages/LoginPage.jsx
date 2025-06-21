@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, isLoggedIn } from '../app/authService.jsx';
 import styles from '../style/LoginRegister/LoginPage.module.css';
@@ -11,7 +11,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (isLoggedIn()) {
-            navigate('/');
+            navigate('/home');
         }
     }, [navigate]);
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
             await login(userName, password);
             setMessage('✅ Giriş başarılı, yönlendiriliyorsunuz...');
             setTimeout(() => {
-                navigate('/');
+                navigate('/home');
             }, 1000);
         } catch (error) {
             setMessage('❌ Giriş başarısız. Bilgileri kontrol edin.');
@@ -71,7 +71,7 @@ const LoginPage = () => {
                 {message && <p className={styles.loginMessage}>{message}</p>}
 
                 <div className={styles.loginLinks}>
-                    <a href="#" className={styles.loginLink}>🔐 Şifreni mi unuttun?</a>
+                    {/* <a href="#" className={styles.loginLink}>🔐 Şifreni mi unuttun?</a> */}
                     <a href="/register" className={styles.loginLink}>📝 Hesabın yok mu? Kayıt ol</a>
                 </div>
 
@@ -80,15 +80,15 @@ const LoginPage = () => {
                 </div>
 
                 <div className={styles.socialIcons}>
-                    <div className={styles.socialIcon}>
+                    {/* <div className={styles.socialIcon}>
                         <i className="fab fa-facebook-f"></i>
-                    </div>
+                    </div> */}
                     <div className={styles.socialIcon}>
                         <i className="fab fa-google"></i>
                     </div>
-                    <div className={styles.socialIcon}>
+                    {/* <div className={styles.socialIcon}>
                         <i className="fab fa-github"></i>
-                    </div>
+                    </div> */}
                 </div>
 
                 <footer className={styles.loginFooter}>

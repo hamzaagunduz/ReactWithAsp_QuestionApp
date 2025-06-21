@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AdminLayout from './AdminLayout';
 import ExamList from '../../components/adminComponents/examsComponents/ExamList';
 import ExamForm from '../../components/adminComponents/examsComponents/ExamForm';

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Rightbar } from "../components/layout/Rightbar";
 import { Leftbar } from "../components/layout/Leftbar";
 import { CardMidSection } from "../components/cardComponents/CardMidSection";

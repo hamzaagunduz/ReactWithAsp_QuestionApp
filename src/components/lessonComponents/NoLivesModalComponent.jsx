@@ -1,4 +1,3 @@
-import React from "react";
 import "../../style/lesson/lesson.css"; // Eğer özel stil kullanacaksan
 
 const NoLivesModalComponent = ({ isOpen, onClose, description }) => {

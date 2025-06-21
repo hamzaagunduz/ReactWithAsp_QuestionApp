@@ -19,14 +19,13 @@ const CardCategoryButton = React.memo(({ category, onClick }) => {
     );
 });
 
-// PropTypes ile veri tiplerini denetliyoruz
 CardCategoryButton.propTypes = {
     category: PropTypes.shape({
-        courseID: PropTypes.number.isRequired, // courseID zorunlu
-        iconURL: PropTypes.string.isRequired, // iconURL zorunlu
-        name: PropTypes.string.isRequired // name zorunlu
+        courseID: PropTypes.number.isRequired,
+        iconURL: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
     }).isRequired,
-    onClick: PropTypes.func.isRequired // onClick fonksiyonu zorunlu
+    onClick: PropTypes.func.isRequired,
 };
 
 export default CardCategoryButton;

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import { Suspense, lazy } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -32,22 +32,25 @@ const AdminSettings = lazy(() => import('./pages/admin/SiteSettingsPage'));
 const AdminExam = lazy(() => import('./pages/admin/ExamsManagementPage'));
 const AdminProfile = lazy(() => import('./pages/admin/AdminProfilePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
-
+// ={
+//         <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh", minWidth: "100%" }}>
+//           <div className="spinner-border text-primary" role="status">
+//             <span className="visually-hidden">Yükleniyor...</span>
+//           </div>
+//         </div>}
 function App() {
   return (
     <BrowserRouter basename="">
-      <Suspense fallback={
-        <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh" }}>
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Yükleniyor...</span>
-          </div>
-        </div>}>
+      <Suspense>
         <Routes>
           {/* Giriş yapılmadan erişilebilecek sayfalar */}
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/pay" element={<Payment />} />
+
+          {/* Admin sayfaları */}
           <Route path="admin/dashboard" element={<AdminDashboard />} />
           <Route path="admin/question" element={<AdminQuestion />} />
           <Route path="admin/user" element={<AdminUser />} />
@@ -58,7 +61,7 @@ function App() {
 
           {/* Giriş yapılması gereken sayfalar */}
           <Route
-            path="/"
+            path="/home"
             element={
               <ProtectedRoute>
                 <HomePage key={window.location.pathname} />
@@ -146,8 +149,8 @@ function App() {
             }
           />
 
+          {/* Bulunamayan sayfa */}
           <Route path="*" element={<NotFoundPage />} />
-
         </Routes>
       </Suspense>
     </BrowserRouter>

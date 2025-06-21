@@ -1,4 +1,3 @@
-import React from 'react';
 import { useParams } from 'react-router-dom';
 import LessonMidComponent from '../components/lessonComponents/LessonMidComponent';  // LessonMidComponent'i import et
 import { Leftbar } from "../components/layout/Leftbar";

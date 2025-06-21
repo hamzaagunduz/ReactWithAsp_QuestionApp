@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchQuizFromFavorites } from '../../features/FlashCard/FlashCardSlice';
 import styles from '../../style/favoriteCards/QuizFlashCard.module.css';
@@ -66,12 +66,12 @@ const FlashCardQuiz = ({ courseId, onClose }) => {
                 {questions.length > 0 && currentQuestion ? (
                     <div className={styles.trainContainer}>
                         {/* Progress Bar */}
-                        <div className={styles.progressBarTrain}>
+                        {/* <div className={styles.progressBarTrain}>
                             <div
                                 className={`${styles.progressBarFillTrain} ${currentQuestionIndex === questions.length - 1 ? styles.completed : ''}`}
                                 style={{ width: `${progressPercentage}%` }}
                             />
-                        </div>
+                        </div> */}
 
                         {/* <div className={styles.quizHeader}>
                             <h3 className={styles.trainTitle}>Favori Kartlardan Quiz</h3>

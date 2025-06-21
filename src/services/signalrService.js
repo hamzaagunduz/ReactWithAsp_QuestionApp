@@ -26,20 +26,6 @@ export const startConnection = async (hubPath = '') => {
 };
 
 
-export const disconnectFromHub = async (hubPath = '') => {
-    if (!connection) return;
 
-    const fullHubUrl = `${hubURL.replace(/\/$/, '')}/${hubPath.replace(/^\//, '')}`;
-    if (connection.connectionStarted && connection.connectionId) {
-        try {
-            await connection.stop();
-            console.log(`🛑 SignalR bağlantısı kesildi: ${fullHubUrl}`);
-        } catch (err) {
-            console.error(`❌ SignalR bağlantı kesme hatası (${fullHubUrl}):`, err);
-        } finally {
-            connection = null;
-        }
-    }
-};
 
 export const getConnection = (hubPath = '') => connections[hubPath] || null;

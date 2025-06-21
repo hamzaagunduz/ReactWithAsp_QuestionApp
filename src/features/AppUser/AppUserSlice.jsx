@@ -167,7 +167,7 @@ const appUserSlice = createSlice({
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(decreaseLife.fulfilled, (state, action) => {
+            .addCase(decreaseLife.fulfilled, (state) => {
                 state.status = 'succeeded';
             })
             .addCase(decreaseLife.rejected, (state, action) => {
@@ -203,7 +203,7 @@ const appUserSlice = createSlice({
                 state.changePasswordResult.status = 'loading';
                 state.changePasswordResult.error = null;
             })
-            .addCase(changePassword.fulfilled, (state, action) => {
+            .addCase(changePassword.fulfilled, (state) => {
                 state.changePasswordResult.status = 'succeeded';
                 // istersen başarılı mesajı gibi bir şey eklenebilir
             })

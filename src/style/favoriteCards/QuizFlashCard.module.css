@@ -44,6 +44,7 @@
     border-radius: 12px;
     padding: 12px 20px;
     box-shadow: 0 3px rgba(242, 34, 15, 0.4);
+    z-index: 9999999;
 }
 
 .quizModalClose:hover {

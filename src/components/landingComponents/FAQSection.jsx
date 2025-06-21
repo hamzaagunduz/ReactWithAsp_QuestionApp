@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './FAQSection.module.css';
 
 const FAQSection = () => {

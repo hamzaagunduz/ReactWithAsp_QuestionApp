@@ -161,10 +161,9 @@ const flashCardSlice = createSlice({
                 state.status = 'loading';
                 state.error = null;
             })
-            .addCase(toggleUserFlashCard.fulfilled, (state, action) => {
+            .addCase(toggleUserFlashCard.fulfilled, (state) => {
                 state.status = 'succeeded';
-                // Gerekirse local state güncellemesi yapılabilir, örneğin:
-                // state.favoriteFlashCards = güncel favori listesi
+
             })
             .addCase(toggleUserFlashCard.rejected, (state, action) => {
                 state.status = 'failed';
@@ -212,9 +211,8 @@ const flashCardSlice = createSlice({
             .addCase(updateUserCustomFlashCard.pending, (state) => {
                 state.status = 'loading';
             })
-            .addCase(updateUserCustomFlashCard.fulfilled, (state, action) => {
+            .addCase(updateUserCustomFlashCard.fulfilled, (state) => {
                 state.status = 'succeeded';
-                // Gerekirse state'i güncelleyebilirsiniz
             })
             .addCase(updateUserCustomFlashCard.rejected, (state, action) => {
                 state.status = 'failed';

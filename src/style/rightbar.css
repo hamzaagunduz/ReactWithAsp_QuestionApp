@@ -35,9 +35,8 @@ body {
     width: 50px;
     height: 50px;
     cursor: pointer;
-}
 
-/*  */
+}
 
 /* Right sidebar styles */
 .right-sidebar {
@@ -45,7 +44,6 @@ body {
     display: flex;
     justify-content: center;
     min-width: 280px;
-    /* background: #ffff; */
     background-color: #f9f9f9 !important;
     padding: 20px;
     height: auto;
@@ -384,6 +382,8 @@ body {
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         overflow-y: auto;
         transform: translateX(100%);
+        right: -100%;
+        transition: right 0.3s ease, transform 0.3s ease;
     }
 
     .right-sidebar.mobile-open {

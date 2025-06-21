@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createFullQuestion } from '../../../features/Question/QuestionSlice';
 import styles from '../../../style/adminPage/Question/AddQuestionModal.module.css';

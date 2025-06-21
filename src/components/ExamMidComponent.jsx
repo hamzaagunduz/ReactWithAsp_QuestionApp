@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamWithSelected } from '../features/Exam/ExamSlice';
 import { updateAppUserExam } from '../features/AppUser/AppUserSlice';

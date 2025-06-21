@@ -1,4 +1,3 @@
-import React from 'react';
 import Sidebar from '../../components/adminComponents/layoutComponents/Sidebar';
 import Navbar from '../../components/adminComponents/layoutComponents/Navbar';
 

@@ -1,5 +1,5 @@
 // src/components/adminComponents/examsComponents/ExamForm.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createExam, updateExam } from '../../../features/Exam/ExamSlice';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';

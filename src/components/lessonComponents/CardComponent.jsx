@@ -1,7 +1,4 @@
-import React from "react";
-
 const CardComponent = ({ title, description, buttonText, onClick, color }) => {
-    console.log(color)
     return (
         <div className="col-lg-4 col-md-6">
             <div className="card mid-card-style" style={{ backgroundColor: color }}>

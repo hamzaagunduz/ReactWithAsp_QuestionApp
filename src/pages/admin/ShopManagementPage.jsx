@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AdminLayout from './AdminLayout';
 import ProductList from '../../components/adminComponents/shopComponents/ProductList';
 import ProductForm from '../../components/adminComponents/shopComponents/ProductForm';

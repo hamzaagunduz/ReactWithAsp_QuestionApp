@@ -6,7 +6,6 @@ import {
     FaQuestionCircle,
     FaUserFriends,
     FaStore,
-    FaSlidersH,
     FaSignOutAlt
 } from "react-icons/fa";
 import styles from '../../../style/adminPage/Layout/Layout.module.css';

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from "react-icons/fa";
 import { decreaseLife } from '../features/AppUser/AppUserSlice';
 import QuestionCard from '../components/trainComponents/QuestionCard';
 import FlashCard from '../components/trainComponents/FlashCard';
@@ -193,6 +192,7 @@ function TrainPage() {
             </div>
         );
     }
+
 
     return (
         <div className="train-container">

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import '../../style/rightbar.css';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
@@ -17,14 +17,15 @@ import { getUserDailyMissions } from '../../features/DailyMission/DailyMissionSl
 
 export const Rightbar = () => {
     const [showModal, setShowModal] = useState(false);
-    const [livesData, setLivesData] = useState(null);
     const [timeLeft, setTimeLeft] = useState(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const dispatch = useDispatch();
-    const healthStatus = useSelector((state) => state.layout.healthStatus);
     const healthResult = useSelector((state) => state.layout.healthResult);
-    const { missions, missionsStatus, error } = useSelector(state => state.dailyMission);
+    const { missions } = useSelector(state => state.dailyMission);
+
+    const sidebarRef = useRef(null);
+    const buttonRef = useRef(null);
 
     const handleHeartClick = () => {
         dispatch(fetchLivesInfo());
@@ -35,9 +36,6 @@ export const Rightbar = () => {
         dispatch(getUserDailyMissions());
     }, [dispatch]);
 
-    const sidebarRef = useRef(null);
-    const contentWrapperRef = useRef(null);
-
     const formatTime = (seconds) => {
         const m = Math.floor(seconds / 60);
         const s = Math.floor(seconds % 60);
@@ -47,8 +45,27 @@ export const Rightbar = () => {
     const closeModal = () => setShowModal(false);
 
     const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
+        setIsMobileMenuOpen(prev => !prev);
     };
+
+    // Menü dışı tıklamayı dinle, menü ve buton dışında ise menüyü kapat
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                isMobileMenuOpen &&
+                sidebarRef.current &&
+                !sidebarRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isMobileMenuOpen]);
 
     useEffect(() => {
         if (!showModal || !healthResult?.lastLifeAddedTime) return;
@@ -70,7 +87,12 @@ export const Rightbar = () => {
 
     return (
         <>
-            <div className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+            <div
+                ref={buttonRef}
+                className="mobile-menu-toggle"
+                onClick={toggleMobileMenu}
+                style={{ cursor: 'pointer' }}
+            >
                 <div className={`circle-icon-button ${isMobileMenuOpen ? 'open' : ''}`}>
                     <img
                         src={menu}
@@ -119,7 +141,7 @@ export const Rightbar = () => {
                 className={`right-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
                 style={{ width: '29%' }}
             >
-                <div ref={contentWrapperRef} className="sidebar-content">
+                <div className="sidebar-content">
                     <div className="score-container">
                         <ul className="score-items">
                             <Link to="/analysis" className="score-link">
@@ -149,7 +171,7 @@ export const Rightbar = () => {
                                 </li>
                             </Link>
 
-                            <li className="score-item" onClick={handleHeartClick}>
+                            <li className="score-item" onClick={handleHeartClick} style={{ cursor: 'pointer' }}>
                                 <div className="score-icon-container">
                                     <img src={heart} alt="Can" className="score-icon" />
                                     <p className="score-label">Can</p>
@@ -162,8 +184,7 @@ export const Rightbar = () => {
                         <div className="promo-header"></div>
                         <p className="promo-title">Yapay Zeka Eklentisi</p>
                         <div className="promo-content">
-                            <p className="promo-description">Çözdüğün testlerin analizine istediğinde
-                                ulaş.</p>
+                            <p className="promo-description">Çözdüğün testlerin analizine istediğinde ulaş.</p>
                             <img
                                 className="promo-image"
                                 src="https://cdn-icons-png.flaticon.com/512/15695/15695095.png"
@@ -192,8 +213,6 @@ export const Rightbar = () => {
                     </div>
 
                     {missions && <DailyMissions missions={missions} />}
-
-
                 </div>
             </div>
         </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions } from '../features/Exam/ExamSlice';
 import { registerUser } from '../features/Register/RegisterSlice';
@@ -181,15 +181,15 @@ const RegisterPage = () => {
                 </div>
 
                 <div className={styles.socialIcons}>
-                    <div className={styles.socialIcon}>
+                    {/* <div className={styles.socialIcon}>
                         <i className="fab fa-facebook-f"></i>
-                    </div>
+                    </div> */}
                     <div className={styles.socialIcon}>
                         <i className="fab fa-google"></i>
                     </div>
-                    <div className={styles.socialIcon}>
+                    {/* <div className={styles.socialIcon}>
                         <i className="fab fa-github"></i>
-                    </div>
+                    </div> */}
                 </div>
 
                 <footer className={styles.registerFooter}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import '../../style/midsection.css';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
-import { fetchTopics, clearTopics } from '../../features/Topic/TopicSlice';
+import { clearTopics } from '../../features/Topic/TopicSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import CategoryButton from "./CategoryButton";
 
@@ -32,7 +32,7 @@ export const MidSection = React.memo(() => {
     }, [dispatch]);
 
     // Loading state
-    if (fetchStatus === 'loading' || !courses.length) {
+    if (fetchStatus === 'loading') {
         return (
             <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh" }}>
                 <div className="spinner-border text-primary" role="status">
@@ -42,6 +42,14 @@ export const MidSection = React.memo(() => {
 
         );
     }
+    if (fetchStatus === 'failed') {
+        return (
+            <div className="col-12 col-md-6 position-relative error-container">
+                <span className="error-message">Bir hata oluştu. Lütfen tekrar deneyin.</span>
+            </div>
+        );
+    }
+
 
     return (
         <div className="col-12 col-md-6 position-relative">

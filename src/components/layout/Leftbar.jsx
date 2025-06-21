@@ -1,10 +1,8 @@
-// Leftbar.js with Bootstrap integration
-import React, { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../../style/leftbar.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { logout } from '../../app/authService';
 
-// Resimleri import et
 import housekeeper from '../../assets/leftbar/housekeeper.png';
 import store from '../../assets/leftbar/store.png';
 import speedometer from '../../assets/leftbar/speedometer.png';
@@ -18,13 +16,35 @@ export const Leftbar = () => {
     const navigate = useNavigate();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    // Menü ve buton referansları
+    const menuRef = useRef(null);
+    const buttonRef = useRef(null);
+
+    // Menü dışına tıklanırsa menüyü kapat
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                isMobileMenuOpen &&
+                menuRef.current &&
+                !menuRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setIsMobileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isMobileMenuOpen]);
+
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
 
     const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
+        setIsMobileMenuOpen((prev) => !prev);
     };
 
     const NavItem = ({ to, icon, text }) => (
@@ -42,30 +62,34 @@ export const Leftbar = () => {
 
     return (
         <>
-            {/* Mobile Menu Button - Only visible on mobile */}
-            <div className="mobile-menu-button d-md-none" onClick={toggleMobileMenu}>
+            {/* Mobile Menu Button (sadece küçük ekranlarda görünür) */}
+            <div
+                ref={buttonRef}
+                className="mobile-menu-button d-md-none"
+                onClick={toggleMobileMenu}
+                style={{ cursor: 'pointer' }}
+            >
                 <img src={menuIcon} alt="Menu" className="menu-icon" />
             </div>
 
+            {/* Desktop Sidebar */}
             <div
-                className={`sidebar-container  d-none d-md-block ${isMobileMenuOpen ? 'mobile-open' : ''}`}
-                style={{ width: '19%' }} // 2.5 / 12 = 20.83%
-            >                <a href="/" className="side-logo">
+                className={`sidebar-container d-none d-md-block ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+                style={{ width: '19%' }}
+            >
+                <a href="/" className="side-logo">
                     <span className="logo-font">Dobi</span>
                 </a>
 
                 <ul className="nav-menu">
-                    <NavItem to="/" icon={house} text="Anasayfa" />
+                    <NavItem to="/home" icon={house} text="Anasayfa" />
                     <NavItem to="/card" icon={card} text="Kartlarım" />
                     <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
                     <NavItem to="/shop" icon={store} text="Mağaza" />
                     <NavItem to="/profile" icon={housekeeper} text="Profil" />
 
                     <li>
-                        <div
-                            className="nav-link logout-link"
-                            onClick={handleLogout}
-                        >
+                        <div className="nav-link logout-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                             <img src={logoutIcon} alt="Çıkış" className="icon-size" />
                             <span>Çıkış</span>
                         </div>
@@ -73,24 +97,24 @@ export const Leftbar = () => {
                 </ul>
             </div>
 
-            {/* Mobile Sidebar - Overlay on mobile */}
-            <div className={`sidebar-container d-md-none mobile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            {/* Mobile Sidebar */}
+            <div
+                ref={menuRef}
+                className={`sidebar-container d-md-none mobile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
+            >
                 <a href="/" className="side-logo">
                     <span className="logo-font">Dobi</span>
                 </a>
 
                 <ul className="nav-menu">
-                    <NavItem to="/" icon={house} text="Anasayfa" />
+                    <NavItem to="/home" icon={house} text="Anasayfa" />
                     <NavItem to="/card" icon={card} text="Kartlarım" />
                     <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
                     <NavItem to="/shop" icon={store} text="Mağaza" />
                     <NavItem to="/profile" icon={housekeeper} text="Profil" />
 
                     <li>
-                        <div
-                            className="nav-link logout-link"
-                            onClick={handleLogout}
-                        >
+                        <div className="nav-link logout-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
                             <img src={logoutIcon} alt="Çıkış" className="icon-size" />
                             <span>Çıkış</span>
                         </div>

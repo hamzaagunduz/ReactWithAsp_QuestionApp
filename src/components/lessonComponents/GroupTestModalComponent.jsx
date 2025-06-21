@@ -1,4 +1,3 @@
-import React from "react";
 import GroupTestModalCardComponent from "./GroupTestModalCardComponent";
 import { FaTimes } from "react-icons/fa";
 

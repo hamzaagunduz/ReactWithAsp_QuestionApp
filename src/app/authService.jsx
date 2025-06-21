@@ -9,7 +9,6 @@ export const login = async (userName, password) => {
 
     const token = response.data.token; // Backend token yapısına göre güncelle
     localStorage.setItem('token', token);
-    const decoded = jwtDecode(token);
 
     // localStorage.setItem('userId', decoded.userId); // Opsiyonel
 

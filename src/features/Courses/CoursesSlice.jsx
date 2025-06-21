@@ -53,7 +53,6 @@ export const deleteCourse = createAsyncThunk(
     'Courses/deleteCourse',
     async (courseId, { rejectWithValue }) => {
         try {
-            const response = await apiClient.delete(`Courses/${courseId}`);
             return courseId; // Silinen ID'yi geri döndürüyoruz
         } catch (error) {
             return rejectWithValue(error.response?.data || 'API hata mesajı');

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaStar, FaArrowLeft, FaArrowRight, FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaStar, FaArrowLeft, FaArrowRight, FaEdit, FaTrash } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     toggleUserFlashCard,

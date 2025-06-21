@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleUserBan } from '../../../features/AppUser/AppUserSlice';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';

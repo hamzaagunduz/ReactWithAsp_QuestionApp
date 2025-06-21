@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';
 import { useDispatch } from 'react-redux';
 import { createCourse, updateCourse } from '../../../features/Courses/CoursesSlice';

@@ -1,5 +1,4 @@
-// src/pages/AiPage.jsx
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { sendChatMessage } from '../features/Signalr/SignalrSlice';
 import { startConnection, getConnection } from '../services/signalrService';

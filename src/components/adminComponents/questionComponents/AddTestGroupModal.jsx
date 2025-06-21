@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createTestGroup } from '../../../features/TestGroup/TestGroupSlice';
 import styles from '../../../style/adminPage/Question/AddTestGroupModal.module.css';

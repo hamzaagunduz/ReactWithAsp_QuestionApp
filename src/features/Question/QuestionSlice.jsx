@@ -24,7 +24,6 @@ export const deleteQuestion = createAsyncThunk(
     'question/deleteQuestion',
     async (questionId, { rejectWithValue }) => {
         try {
-            const response = await apiClient.delete(`Questions/${questionId}`);
             return questionId;  // Silinen ID'yi reducer'da kullanacağız
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Soru silinirken hata oluştu');
@@ -110,8 +109,7 @@ const questionSlice = createSlice({
             })
             .addCase(createFullQuestion.fulfilled, (state, action) => {
                 state.createStatus = 'succeeded';
-                // İsteğe bağlı: yeni eklenen soruyu listeye ekleyebilirsiniz
-                // state.questions.push(action.payload);
+
             })
             .addCase(createFullQuestion.rejected, (state, action) => {
                 state.createStatus = 'failed';

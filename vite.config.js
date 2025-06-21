@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
 
 export default defineConfig(({ mode }) => {
-  console.log('Vite build mode:', mode)
 
   return {
     plugins: [
@@ -16,9 +15,13 @@ export default defineConfig(({ mode }) => {
         ext: '.gz'
       })
     ],
-    // server: mode === 'development' ? {
-    //   host: '0.0.0.0',
-    //   port: 3000
-    // } : undefined
+
+    build: {
+      terserOptions: {
+        compress: {
+          drop_console: true,
+        },
+      },
+    },
   }
 })

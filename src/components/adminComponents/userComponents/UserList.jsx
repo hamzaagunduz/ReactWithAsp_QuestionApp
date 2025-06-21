@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from '../../../style/adminPage/UserManagement/UserManagement.module.css';
 import { fetchPaginatedUsers } from '../../../features/AppUser/AppUserSlice';

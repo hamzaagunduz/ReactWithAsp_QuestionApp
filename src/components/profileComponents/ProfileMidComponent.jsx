@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserProfileStatistics } from '../../features/Statistics/StatisticsSlice';
 import { logout } from '../../app/authService';
@@ -23,7 +23,7 @@ const ProfileMidComponent = () => {
     const MAX_CONSECUTIVE_DAYS = 60;
     const MAX_TOTAL_SCORE = 20000;
 
-    const { data: statistics, status, error } = useSelector((state) => state.statistic.profileStats);
+    const { data: statistics } = useSelector((state) => state.statistic.profileStats);
 
     useEffect(() => {
         dispatch(fetchUserProfileStatistics());

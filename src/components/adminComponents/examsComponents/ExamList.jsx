@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions, deleteExam } from '../../../features/Exam/ExamSlice';
 import styles from '../../../style/adminPage/ExamsManagement/ExamsManagement.module.css';

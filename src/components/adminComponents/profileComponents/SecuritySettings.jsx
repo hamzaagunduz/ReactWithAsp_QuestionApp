@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from '../../../style/adminPage/profile/AdminProfile.module.css';
 
 const SecuritySettings = () => {
     const [twoFactor, setTwoFactor] = useState(true);
-    const [sessions, setSessions] = useState([
+    const [sessions] = useState([
         { id: 1, device: "Windows 10, Chrome", location: "İstanbul, Türkiye", lastActive: "Şu anda aktif" },
         { id: 2, device: "MacOS, Safari", location: "Ankara, Türkiye", lastActive: "2 saat önce" },
         { id: 3, device: "Android, Chrome", location: "İzmir, Türkiye", lastActive: "1 gün önce" }

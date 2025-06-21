@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminLayout from './AdminLayout';
 import styles from '../../style/adminPage/Dasboard/AdminDasboard.module.css';
@@ -6,7 +6,6 @@ import StatCard from '../../components/adminComponents/dashBoardComponents/StatC
 import QuickAction from '../../components/adminComponents/dashBoardComponents/QuickAction';
 import RecentActivity from '../../components/adminComponents/dashBoardComponents/RecentActivity';
 import UserEngagementChart from '../../components/adminComponents/dashBoardComponents/UserEngagementChart';
-import TaskManager from '../../components/adminComponents/dashBoardComponents/TaskManager';
 import SystemStatus from '../../components/adminComponents/dashBoardComponents/SystemStatus';
 import { fetchDashboardData } from '../../features/Dashboard/DashboardSlice';
 

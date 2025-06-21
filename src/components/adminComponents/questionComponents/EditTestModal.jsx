@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import styles from '../../../style/adminPage/Question/EditTestModal.module.css';
 import { updateTest, deleteTest } from '../../../features/Test/TestSlice';

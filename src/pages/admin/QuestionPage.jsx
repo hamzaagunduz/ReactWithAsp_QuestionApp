@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchExamOptions } from '../../features/Exam/ExamSlice';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
-import { fetchTopics, fetchTopicsWithGroupedTests } from '../../features/Topic/TopicSlice';
+import { fetchTopicsWithGroupedTests } from '../../features/Topic/TopicSlice';
 
 import AdminLayout from './AdminLayout';
 import AddTopicModal from '../../components/adminComponents/questionComponents/AddTopicModal';
@@ -92,7 +92,6 @@ const QuestionPage = () => {
         setSelectedAction(null);
     };
 
-    const handleAddTopic = (data) => console.log("Eklenecek Konu:", data);
     const handleAddTestGroup = (data) => console.log("Eklenecek Test Grubu:", data);
     const handleAddQuestion = (data) => console.log("Eklenecek Soru:", data);
     const handleUpdateQuestion = (data) => console.log("Güncellenen Soru:", data);

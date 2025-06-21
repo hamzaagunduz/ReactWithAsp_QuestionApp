@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './HeroSection.module.css';
@@ -27,7 +27,10 @@ const HeroSection = () => {
                         platformumuz sizi hedeflerinize ulaştırır.
                     </p>
                     <div className={styles.buttonGroup} data-aos="fade-up" data-aos-delay="200">
-                        <button className={styles.ctaButton}>Ücretsiz Başla</button>
+                        <a href="/login" style={{ textDecoration: "none" }} className={styles.ctaButton}>
+                            Ücretsiz Başla
+                        </a>
+
                         <button className={styles.secondaryButton} onClick={openModal}>Demo İzle</button>
                     </div>
 

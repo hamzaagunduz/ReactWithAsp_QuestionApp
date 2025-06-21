@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCoursesByExamId, deleteCourse } from '../../../features/Courses/CoursesSlice';
 
@@ -28,25 +28,7 @@ const SubjectList = ({ exam, onSelectSubject, onAddSubject, onBack }) => {
                 });
         }
     };
-    // Ders sırasını güncelle
-    const handleOrderChange = (id, direction) => {
-        const index = courses.findIndex(s => s.courseID === id);
-        if ((direction === 'up' && index === 0) ||
-            (direction === 'down' && index === courses.length - 1)) {
-            return;
-        }
 
-        const newCourses = [...courses];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
-
-        // Swap positions
-        [newCourses[index], newCourses[newIndex]] = [newCourses[newIndex], newCourses[index]];
-
-        // Burada API'ye sıra güncelleme isteği göndermeniz gerekir
-        alert('Sıra güncellendi! (API entegrasyonu yapılmalı)');
-    };
-
-    // Filtrelenmiş Derslar
     const filteredSubjects = courses.filter(subject =>
         subject.name?.toLowerCase().includes(searchTerm.toLowerCase())
     );

@@ -1,4 +1,3 @@
-import React from "react";
 import { FaPlay } from "react-icons/fa";
 
 const GroupTestModalCardComponent = ({ title, description, buttonText, onClick, color }) => {

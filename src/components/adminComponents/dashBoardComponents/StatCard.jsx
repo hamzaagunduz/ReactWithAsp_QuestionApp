@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../../style/adminPage/Dasboard/AdminDasboard.module.css';
 
 const StatCard = ({ title, value, change, icon }) => {

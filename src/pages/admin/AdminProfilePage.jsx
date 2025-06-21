@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AdminLayout from './AdminLayout';
 import AdminProfileHeader from '../../components/adminComponents/profileComponents/AdminProfileHeader';
 import AdminInfoCard from '../../components/adminComponents/profileComponents/AdminInfoCard';

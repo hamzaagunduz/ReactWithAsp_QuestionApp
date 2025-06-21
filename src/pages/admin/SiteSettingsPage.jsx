@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AdminLayout from './AdminLayout';
 import BasicSettings from '../../components/adminComponents/settingsComponents/BasicSettings';
 import ThemeSettings from '../../components/adminComponents/settingsComponents/ThemeSettings';

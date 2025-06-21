@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../../style/adminPage/ShopManagement/ShopManagement.module.css';
 
 // Renk sınıflarını harici bir nesne olarak tanımla
