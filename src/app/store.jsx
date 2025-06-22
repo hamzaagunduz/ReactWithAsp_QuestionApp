@@ -20,6 +20,7 @@ import testReducer from '../features/Test/TestSlice';
 import diamondReducer from '../features/DiamondPackItem/DiamondPackItemSlice';
 import dashboardReducer from '../features/Dashboard/DashboardSlice'; // ✅ Dashboard reducer'ı eklendi
 import paymentReducer from '../features/Payment/PaymentSlice';
+import contactReducer from '../features/Contact/ContactSlice';
 
 
 const store = configureStore({
@@ -44,7 +45,7 @@ const store = configureStore({
         diamondPackItem: diamondReducer,
         dashboard: dashboardReducer, // 
         payment: paymentReducer, // Bu satır olmazsa selector undefined olur
-
+        contact: contactReducer,
 
     },
 });

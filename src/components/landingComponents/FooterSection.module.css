@@ -1,0 +1,141 @@
+.footer {
+    background-color: #f1f5f9;
+    padding: 5rem 2rem 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footerColumns {
+    flex: 2;
+    display: flex;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+
+.footerColumn {
+    min-width: 180px;
+}
+
+.footerColumn h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 1.5rem;
+}
+
+.footerColumn a {
+    display: block;
+    color: #64748b;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footerColumn a:hover {
+    color: #00a6ff;
+}
+
+.footerBottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.footerCopyright {
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+.footerLinks {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.footerLinks a {
+    color: #64748b;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footerLinks a:hover {
+    color: #00a6ff;
+}
+
+.footerContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4rem;
+    margin-bottom: 3rem;
+}
+
+.footerInfo {
+    flex: 1;
+    min-width: 300px;
+}
+
+.footerLogo {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #00a6ff;
+    margin-bottom: 1.5rem;
+}
+
+.footerDescription {
+    color: #475569;
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+    line-height: 1.8;
+}
+
+
+.socialLinks {
+    display: flex;
+    gap: 1.2rem;
+}
+
+.socialLinks a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #e2e8f0;
+    color: #00a6ff;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.socialLinks a:hover {
+    background: #00a6ff;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+
+    .footerContent {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .footerBottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 768px) {
+
+
+    .footerColumns {
+        gap: 2rem;
+    }
+}

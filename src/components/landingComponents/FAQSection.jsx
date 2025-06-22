@@ -49,6 +49,15 @@ const FAQSection = () => {
                                 className={styles.faqQuestion}
                                 onClick={() => toggleFAQ(index)}
                                 aria-expanded={activeIndex === index}
+                                role="button"
+                                tabIndex={0}
+                                aria-controls={`faq-answer-${index}`}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        toggleFAQ(index);
+                                    }
+                                }}
                             >
                                 <span>{faq.question}</span>
                                 <div className={styles.faqIcon}>
@@ -64,7 +73,11 @@ const FAQSection = () => {
                                 </div>
                             </div>
 
-                            <div className={styles.faqAnswer}>
+                            <div
+                                id={`faq-answer-${index}`}
+                                className={styles.faqAnswer}
+                                aria-hidden={activeIndex !== index}
+                            >
                                 <div className={styles.answerContent}>
                                     <p>{faq.answer}</p>
                                 </div>
@@ -74,9 +87,9 @@ const FAQSection = () => {
                 </div>
 
                 <div className={styles.ctaContainer}>
-                    <p>Hala sorularınız mı var? <a href="mailto:beldyazilim@gmail.com">Bize ulaşın</a></p>
-                    <p>beldyazilim@gmail.com</p>
+                    <p>Hala sorularınız mı var? <a href="/iletisim">Bize ulaşın</a></p>
                 </div>
+
 
             </div>
         </section>

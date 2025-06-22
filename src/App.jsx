@@ -32,12 +32,18 @@ const AdminSettings = lazy(() => import('./pages/admin/SiteSettingsPage'));
 const AdminExam = lazy(() => import('./pages/admin/ExamsManagementPage'));
 const AdminProfile = lazy(() => import('./pages/admin/AdminProfilePage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
-// ={
-//         <div className="d-flex justify-content-center align-items-center col-md-6" style={{ minHeight: "100vh", minWidth: "100%" }}>
-//           <div className="spinner-border text-primary" role="status">
-//             <span className="visually-hidden">Yükleniyor...</span>
-//           </div>
-//         </div>}
+
+//Policy
+const PrivacyPolicy = lazy(() => import('./pages/policy/PrivacyPolicy'));
+const TermsOfUse = lazy(() => import('./pages/policy/TermsOfUse'));
+const CookiePolicy = lazy(() => import('./pages/policy/CookiePolicy'));
+
+// /Company
+const AboutUs = lazy(() => import('./pages/company/AboutUs'));
+const Careers = lazy(() => import('./pages/company/Careers'));
+const ContactUs = lazy(() => import('./pages/company/ContactUs'));
+const Partnerships = lazy(() => import('./pages/company/Partnerships'));
+
 function App() {
   return (
     <BrowserRouter basename="">
@@ -50,6 +56,9 @@ function App() {
           <Route path="/landing" element={<LandingPage />} />
           <Route path="/pay" element={<Payment />} />
 
+
+
+
           {/* Admin sayfaları */}
           <Route path="admin/dashboard" element={<AdminDashboard />} />
           <Route path="admin/question" element={<AdminQuestion />} />
@@ -58,6 +67,17 @@ function App() {
           <Route path="admin/settings" element={<AdminSettings />} />
           <Route path="admin/exam" element={<AdminExam />} />
           <Route path="admin/profile" element={<AdminProfile />} />
+
+          {/* Policy */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-use" element={<TermsOfUse />} />
+          <Route path="/cookie-policy" element={<CookiePolicy />} />
+          {/* Company */}
+
+          <Route path="/hakkimizda" element={<AboutUs />} />
+          <Route path="/kariyer" element={<Careers />} />
+          <Route path="/iletisim" element={<ContactUs />} />
+          <Route path="/ortakliklar" element={<Partnerships />} />
 
           {/* Giriş yapılması gereken sayfalar */}
           <Route

@@ -10,6 +10,7 @@ import StatsSection from '../components/landingComponents/StatsSection';
 import TestimonialsSection from '../components/landingComponents/TestimonialsSection';
 import FeaturesGrid from '../components/landingComponents/FeaturesGrid';
 import FAQSection from '../components/landingComponents/FAQSection';
+import Footer from '../components/landingComponents/FooterSection';
 
 const LandingPage = () => {
     const [scrolled, setScrolled] = useState(false);
@@ -99,61 +100,10 @@ const LandingPage = () => {
                 <FAQSection />
             </div>
 
+            <div>
+                <Footer />
+            </div>
 
-            {/* Footer */}
-            <footer className={styles.footer}>
-                <div className={styles.footerContent}>
-                    <div className={styles.footerInfo}>
-                        <div className={styles.footerLogo}>Dobi</div>
-                        <p className={styles.footerDescription}>
-                            Yapay zeka destekli akıllı öğrenme platformu ile başarınızı maksimize edin.
-                        </p>
-                        <div className={styles.socialLinks}>
-                            <a href="#"><i className="fab fa-instagram"></i></a>
-                            <a href="#"><i className="fab fa-twitter"></i></a>
-                            <a href="#"><i className="fab fa-linkedin"></i></a>
-                            <a href="#"><i className="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-
-                    <div className={styles.footerColumns}>
-                        <div className={styles.footerColumn}>
-                            <h3>Ürün</h3>
-                            <a href="#">Özellikler</a>
-                            <a href="#">Fiyatlandırma</a>
-                            <a href="#">Kurumsal Çözümler</a>
-                            <a href="#">Güncellemeler</a>
-                        </div>
-
-                        <div className={styles.footerColumn}>
-                            <h3>Kaynaklar</h3>
-                            <a href="#">Blog</a>
-                            <a href="#">Eğitim Merkezi</a>
-                            <a href="#">Destek Merkezi</a>
-                            <a href="#">Topluluk</a>
-                        </div>
-
-                        <div className={styles.footerColumn}>
-                            <h3>Şirket</h3>
-                            <a href="#">Hakkımızda</a>
-                            <a href="#">Kariyer</a>
-                            <a href="#">İletişim</a>
-                            <a href="#">Ortaklıklar</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.footerBottom}>
-                    <div className={styles.footerCopyright}>
-                        &copy; {new Date().getFullYear()} Dobi. Tüm hakları saklıdır.
-                    </div>
-                    <div className={styles.footerLinks}>
-                        <a href="#">Gizlilik Politikası</a>
-                        <a href="#">Kullanım Şartları</a>
-                        <a href="#">Çerez Politikası</a>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 };

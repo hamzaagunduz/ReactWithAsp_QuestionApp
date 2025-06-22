@@ -1,0 +1,46 @@
+/* PolicyPage.module.css */
+.policyContainer {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.policyContainer h1 {
+    font-size: 2rem;
+    color: #00a6ff;
+    margin-bottom: 1rem;
+}
+
+.policyContainer h2 {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.policyContainer p,
+.policyContainer li {
+    color: #475569;
+    line-height: 1.8;
+}
+
+.policyContainer ul {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+.policyContainer li {
+    margin-bottom: 0.5rem;
+}
+
+.policyContainer a {
+    color: #00a6ff;
+    text-decoration: none;
+}
+
+.policyContainer a:hover {
+    text-decoration: underline;
+}

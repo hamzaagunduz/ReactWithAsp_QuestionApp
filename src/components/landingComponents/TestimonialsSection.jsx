@@ -59,7 +59,7 @@ const TestimonialsSection = () => {
                 </div>
 
                 <div className={styles.controls}>
-                    <button className={styles.controlButton} onClick={prevTestimonial}>
+                    <button className={styles.controlButton} onClick={prevTestimonial} aria-label="Önceki yorum">
                         <i className="fas fa-chevron-left"></i>
                     </button>
                     <div className={styles.dots}>
@@ -71,7 +71,7 @@ const TestimonialsSection = () => {
                             ></span>
                         ))}
                     </div>
-                    <button className={styles.controlButton} onClick={nextTestimonial}>
+                    <button className={styles.controlButton} onClick={nextTestimonial} aria-label="Sonraki yorum">
                         <i className="fas fa-chevron-right"></i>
                     </button>
                 </div>
