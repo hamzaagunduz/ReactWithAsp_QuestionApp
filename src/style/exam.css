@@ -1,76 +1,129 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
-
-
-
-.exam-wrapper {
+.exam-card-container {
+    position: relative;
+    width: 95%;
+    height: 220px;
     border-radius: 20px;
-    padding: 40px 30px;
-    max-width: 800px;
-    margin: 60px auto;
-    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: transparent;
+    cursor: pointer;
+}
+
+.container {
+    padding: 0px 30px;
+}
+
+.exam-card-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.exam-card-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--card-bg-color-1) 0%, var(--card-bg-color-2) 100%);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.exam-card-background::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-1);
+    border-bottom-left-radius: 50px;
+}
+
+.exam-card-background::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-2);
+    border-top-left-radius: 50px;
+}
+
+.exam-card-content {
+    z-index: 2;
+    padding: 25px;
     text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exam-card-title {
+    font-size: 20px;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.exam-card-container:hover .exam-card-title {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.exam-card-button {
+    width: 100%;
+    height: 45px;
+    margin-top: 10px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 0px 0px var(--card-bg-color-1);
+}
+
+.exam-card-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.exam-card-button:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
 }
 
 .exam-title {
-    font-size: 2.5rem;
+    margin-top: 30px;
+    text-align: center;
+    color: #6fd44c;
+    transition: all 0.3s ease;
+    font-size: 40px;
+    font-family: 'Fredoka', sans-serif;
     font-weight: 700;
-    color: #1cb0f6;
-    margin-bottom: 40px;
-    text-shadow: 1px 1px 2px rgba(28, 176, 246, 0.15);
-    transition: 0.3s ease;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    max-width: 100%;
 }
 
 .exam-title:hover {
-    color: #007ad6;
-    transform: translateY(-2px);
-}
-
-.exam-options {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    height: 300px;
-}
-
-.exam-option {
-    width: 45%;
-    min-width: 200px;
-    padding: 18px;
-    background: rgba(255, 255, 255, 0.5);
-    border: none;
-    border-radius: 16px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #333;
+    color: #205e0b;
     cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(4px);
-}
-
-.exam-option:hover {
-    background-color: rgba(0, 166, 255, 0.2);
-    transform: translateY(-5px);
-    color: #007ad6;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.exam-wrapper .exam-option.selecteds {
-    background-color: rgba(145, 255, 0, 0.5);
-    color: #1a1a1a;
-    font-weight: 700;
-}
-
-.exam-wrapper .exam-option.selecteds:hover {
-    background-color: rgba(145, 255, 0, 0.65);
-}
-
-.checkmark {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    font-size: 1.6rem;
-    color: #ff4d4d;
+    transform: translateY(3px);
 }

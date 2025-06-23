@@ -55,15 +55,17 @@ export const MidSection = React.memo(() => {
         <div className="col-12 col-md-6 position-relative">
             {!selectedCategory ? (
                 <div className="category-selection">
-                    <div className="text-center lesson-title">Çalışmak İstediğin Dersi Seç</div>
+                    <div className="text-center lesson-title">Dersi Seç</div>
                     <div className="category-list">
-                        {courses.map((category) => (
+                        {courses.map((category, index) => (
                             <CategoryButton
                                 key={category.courseID}
                                 category={category}
+                                index={index}          // <-- index burada gönderiliyor
                                 onClick={handleCategorySelection}
                             />
                         ))}
+
                     </div>
                 </div>
             ) : (

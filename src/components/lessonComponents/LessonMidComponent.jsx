@@ -1,3 +1,4 @@
+// components/homeComponents/LessonMidComponent.jsx
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,7 +8,6 @@ import ModalComponent from "./ModalComponent";
 import NoLivesModalComponent from "./NoLivesModalComponent";
 import CardComponent from "./CardComponent";
 import GroupTestModalComponent from "./GroupTestModalComponent";
-import '../../style/midsection.css';
 
 const LessonMidComponent = ({ courseID }) => {
     const navigate = useNavigate();
@@ -27,13 +27,18 @@ const LessonMidComponent = ({ courseID }) => {
     const [selectedGroupColor, setSelectedGroupColor] = useState("red");
     const [activeModalLessonIndex, setActiveModalLessonIndex] = useState(null);
 
-    const colorScale = [
-        "rgb(88, 204, 2)",
-        "rgba(28, 176, 246, 0.8)",
-        "rgb(139, 0, 255)",
-        "rgb(255, 69, 0)",
-        "rgb(30, 144, 255)",
-        "rgb(255, 215, 0)",
+    // Updated color palette for lesson cards
+    const lessonColors = [
+        { primary: "#7ed957", secondary: "#6ac34f" },
+        { primary: "#3cb7c9", secondary: "#5ce1e6" },
+        { primary: "#4a148c", secondary: "#9c27b0" },
+        { primary: "#5b0a0c", secondary: "#ff4d6d" },
+        { primary: "#292b2f", secondary: "#5d8aa8" },
+        { primary: "#fa8010", secondary: "#ffb347" },
+        { primary: "#5b6221", secondary: "#a3c14a" },
+        { primary: "#930002", secondary: "#ff5e62" },
+        { primary: "#377515", secondary: "#7cba00" },
+        { primary: "#0d47a1", secondary: "#2196f3" },
     ];
 
     useEffect(() => {
@@ -148,14 +153,13 @@ const LessonMidComponent = ({ courseID }) => {
         );
     }
 
-    const getLessonColor = (index) => colorScale[index % colorScale.length];
-
     return (
         <div className="col-12 col-md-6 position-relative">
-            <button className="back-button" onClick={handleBack}></button>
+            <button className="back-button" onClick={handleBack}>
+            </button>
 
             {topics.map((lesson, lessonIndex) => {
-                const lessonColor = getLessonColor(lessonIndex);
+                const colorSet = lessonColors[lessonIndex % lessonColors.length];
                 const showModal = activeModalLessonIndex === lessonIndex;
 
                 // Filter out empty test groups
@@ -170,13 +174,21 @@ const LessonMidComponent = ({ courseID }) => {
                         id={`lesson-${lesson.topicID}`}
                     >
                         <div className="d-flex flex-column align-items-center">
-                            <div className="mid-top-card" style={{ backgroundColor: lessonColor }}>
-                                <div className="card-body d-flex flex-column flex-grow-1">
-                                    <p className="card-text">{lesson.name}</p>
-                                </div>
-                                <div className="mid-top-card-button">
+                            {/* Redesigned Lesson Card */}
+                            <div
+                                className="lesson-card"
+                                style={{
+                                    "--card-bg-color-1": colorSet.primary,
+                                    "--card-bg-color-2": colorSet.secondary,
+                                }}
+                            >
+                                <div className="lesson-bg-card"></div>
+                                <div className="lesson-content-card">
+                                    <div className="lesson-title-container">
+                                        <span className="lesson-name-card">{lesson.name}</span>
+                                    </div>
                                     <button
-                                        className="btn btn-primary"
+                                        className="summary-button-card"
                                         onClick={() => handleOpenModal(lessonIndex, lesson.topicID)}
                                     >
                                         Konu Özeti
@@ -195,10 +207,10 @@ const LessonMidComponent = ({ courseID }) => {
                                                 title={group.title}
                                                 description={group.description || "Tıklayarak testleri görüntüleyin"}
                                                 buttonText="Başla"
-                                                color={lessonColor}
+                                                colors={colorSet}
                                                 onClick={() => openGroupModal(
                                                     group.tests,
-                                                    lessonColor,
+                                                    colorSet,
                                                     lesson.topicID  // Konu ID'sini geçir
                                                 )}
                                             />
@@ -237,6 +249,8 @@ const LessonMidComponent = ({ courseID }) => {
                 color={selectedGroupColor}
                 onNavigate={handleNavigate}
             />
+
+
         </div>
     );
 };

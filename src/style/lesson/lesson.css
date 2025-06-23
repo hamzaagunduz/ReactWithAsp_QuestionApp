@@ -89,12 +89,7 @@
     transform: translateY(-2px);
 }
 
-.test-card-body {
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
+
 
 /* Gruplanmış test tasarım */
 .TestModal-backdrop {
@@ -148,92 +143,15 @@
     box-shadow: rgba(11, 7, 7, 0.8) 0px 4px;
 }
 
-/* Gruplanmış test card tasarım */
-
-.TestModalCard-container {
-    height: 100%;
-    min-height: 230px;
-    border-radius: 20px;
-    padding: 24px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    font-family: "Quicksand", sans-serif;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.384);
-    position: relative;
-    overflow: hidden;
-
-}
 
 
 
 
 
-.TestModalCard-content {
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    align-items: flex-start;
-    color: white;
 
-}
 
-.TestModal-title {
-    text-align: center;
-    font-size: 28px;
-    font-weight: 700;
-    color: rgb(28, 176, 246);
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(28, 176, 246, 0.15);
-}
 
-.TestModalCard-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
 
-.TestModalCard-description {
-    font-weight: 400;
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-.TestModalCard-buttonArea {
-    width: 100%;
-}
-
-.TestModalCard-button {
-    width: 100%;
-    height: 50px;
-    margin-top: 10px;
-    background-color: rgb(5, 222, 255);
-    border-radius: 16px;
-    box-shadow: rgb(5, 201, 250) 0px 4px 0px 0px;
-    border: none;
-    font-family: "Quicksand", sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.TestModalCard-button:hover {
-    background-color: rgb(5, 188, 255);
-    box-shadow: rgb(5, 179, 222) 0px 4px 0px 0px;
-
-    color: white;
-    transform: translateY(-2px);
-}
-
-.TestModalCard-button:active {
-    transform: translateY(3px);
-    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
-    transition: transform 0.1s ease;
-}
 
 
 @keyframes popIn {
@@ -258,10 +176,463 @@
     }
 }
 
-.group-card {
-    transition: transform 0.2s;
+
+
+
+/* Lesson */
+.back-button {
+    margin-top: 7px;
+    background-color: white;
+    border-radius: 20%;
+    width: 60px;
+    height: 40px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: rgb(28, 176, 246);
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: rgba(139, 139, 139, 0.416) 0px 4px 0px 0px;
+
 }
 
-.group-card:hover {
-    transform: scale(1.02);
+.back-button:hover {
+    transform: scale(1.1);
+}
+
+.back-button:before {
+    content: '←';
+    /* Geri ok simgesi */
+    font-size: 40px;
+    color: rgb(28, 176, 246);
+}
+
+
+
+.card-button {
+    width: 100%;
+    height: 50px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: rgba(139, 139, 139, 0.145) 0px 4px 0px 0px;
+    border-color: rgb(170, 170, 171);
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-size: 13px;
+    color: rgb(28, 176, 246);
+    border: none;
+}
+
+.card-button:hover {
+    background-color: rgb(60, 77, 255);
+}
+
+.lesson-container * {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+}
+
+
+
+.test-card-body {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.card-title {
+    color: lightgray;
+}
+
+.card-text {
+    font-size: 20px;
+}
+
+/* Kartlar */
+.card-container {
+    width: 90%;
+    margin-left: 5%;
+}
+
+
+
+
+
+/* Konu */
+.lesson-card {
+    position: relative;
+    width: 80%;
+    height: 200px;
+    margin: 0 0 30px;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.15),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    background: transparent;
+}
+
+.lesson-card:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.lesson-card:active {
+    transform: translateY(0) scale(1);
+}
+
+.lesson-bg-card {
+    --border-r-fusion: 70px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            var(--card-bg-color-1) 0%,
+            var(--card-bg-color-2) 100%);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.lesson-bg-card::before {
+    content: "";
+    width: 100%;
+    height: 50%;
+    background: var(--card-bg-color-1);
+    position: absolute;
+    top: 0;
+    left: 0px;
+    border-bottom-left-radius: var(--border-r-fusion);
+    border-bottom-right-radius: var(--border-r-fusion);
+}
+
+.lesson-bg-card::after {
+    content: "";
+    width: 100%;
+    height: 50%;
+    background: var(--card-bg-color-2);
+    position: absolute;
+    bottom: 0;
+    border-top-left-radius: var(--border-r-fusion);
+    border-top-right-radius: var(--border-r-fusion);
+}
+
+.lesson-content-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    padding: 25px;
+    text-align: center;
+    width: 100%;
+}
+
+.lesson-title-container {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50px;
+    padding: 15px 30px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.lesson-card:hover .lesson-title-container {
+    transform: scale(1.01);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+.lesson-name-card {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    line-height: 1.4;
+    font-size: 24px;
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    max-width: 100%;
+    padding: 0 15px;
+    color: #ffffff;
+}
+
+.summary-button-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--card-bg-color-1);
+    cursor: pointer;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-button-card:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.2),
+        0 10px 25px rgba(0, 0, 0, 0.18);
+    background: white;
+    color: var(--card-bg-color-2);
+}
+
+
+
+/* Test grupları */
+.test-group-card {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    margin: 0 0 30px;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.15),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 0;
+    background: transparent;
+}
+
+.test-group-card:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.test-group-card:active {
+    transform: translateY(0) scale(1);
+}
+
+.test-group-bg-card {
+    --border-r-fusion: 70px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg,
+            var(--card-bg-color-1) 0%,
+            var(--card-bg-color-2) 100%);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.test-group-bg-card::before {
+    content: "";
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 50px;
+}
+
+.test-group-bg-card::after {
+    content: "";
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-2);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* sol tarafa hizala */
+    border-top-left-radius: 50px;
+}
+
+
+.test-group-content-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    padding: 25px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.test-group-title-container {
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        inset 0 0 15px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.test-group-card:hover .test-group-title-container {
+    transform: scale(1.01);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+/* Test grubu modalın kartları */
+.TestModalCard-container {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transition: all 0.3s ease;
+    box-shadow:
+        0 6px 12px rgba(0, 0, 0, 0.15),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    background: transparent;
+}
+
+.TestModalCard-container:hover {
+    transform: scale(1.03);
+    box-shadow:
+        0 15px 30px rgba(0, 0, 0, 0.3),
+        0 15px 45px rgba(0, 0, 0, 0.25);
+}
+
+.TestModalCard-bg {
+    --border-r-fusion: 70px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--card-bg-color-1) 0%, var(--card-bg-color-2) 100%);
+    z-index: -1;
+    border-radius: 20px;
+}
+
+.TestModalCard-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-1);
+    border-bottom-left-radius: 50px;
+}
+
+.TestModalCard-bg::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: var(--card-bg-color-2);
+    border-top-left-radius: 50px;
+}
+
+.TestModalCard-content {
+    z-index: 2;
+    padding: 25px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.TestModal-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: rgb(28, 176, 246);
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(28, 176, 246, 0.15);
+}
+
+.TestModalCard-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+
+
+.TestModalCard-buttonArea {
+    width: 100%;
+}
+
+.TestModalCard-button {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 16px;
+    box-shadow: var(--card-bg-color-1) 0px 4px 0px 0px;
+    border: none;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--card-bg-color-1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.TestModalCard-button:hover {
+    box-shadow: var(--card-bg-color-2);
+    transform: translateY(-2px);
+}
+
+.TestModalCard-button:active {
+    transform: translateY(3px);
+    box-shadow: rgba(34, 148, 236, 0.3) 0px 1px 0px 0px;
+    transition: transform 0.1s ease;
 }

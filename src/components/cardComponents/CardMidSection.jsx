@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import '../../style/midsection.css';
+import '../../style/cardPage/CardPage.css';
 import { fetchCoursesByExamId } from '../../features/Courses/CoursesSlice';
 import { clearTopics } from '../../features/Topic/TopicSlice';
 import CardCategoryButton from "./CardCategoryButton";
@@ -47,14 +47,15 @@ export const CardMidSection = React.memo(() => {
         <div className="col-12 col-md-6 position-relative">
             {!selectedCategory ? (
                 <div className="category-selection">
-                    <div className="text-center lesson-title">
-                        Hangi Dersin Ezber Kartını Görmek İstersin
+                    <div className="text-center lesson-title-card">
+                        Ezber Kartını Sec
                     </div>
                     <div className="category-list">
-                        {courses.map((category) => (
+                        {courses.map((category, index) => (
                             <CardCategoryButton
                                 key={category.courseID}
                                 category={category}
+                                index={index}
                                 onClick={handleCategorySelection}
                             />
                         ))}
