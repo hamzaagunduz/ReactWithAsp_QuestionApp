@@ -1,5 +1,6 @@
 import 'aos/dist/aos.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import styles from './TestimonialsSection.module.css';
 
@@ -60,7 +61,7 @@ const TestimonialsSection = () => {
 
                 <div className={styles.controls}>
                     <button className={styles.controlButton} onClick={prevTestimonial} aria-label="Önceki yorum">
-                        <i className="fas fa-chevron-left"></i>
+                        <FaChevronLeft />
                     </button>
                     <div className={styles.dots}>
                         {testimonials.map((_, index) => (
@@ -72,7 +73,7 @@ const TestimonialsSection = () => {
                         ))}
                     </div>
                     <button className={styles.controlButton} onClick={nextTestimonial} aria-label="Sonraki yorum">
-                        <i className="fas fa-chevron-right"></i>
+                        <FaChevronRight />
                     </button>
                 </div>
             </div>

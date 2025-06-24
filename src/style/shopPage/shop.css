@@ -1,6 +1,7 @@
 .shop-section-container {
     margin-top: 30px;
     width: 100%;
+    min-height: 100vh;
     text-align: center;
     font-family: "Quicksand", sans-serif;
 }

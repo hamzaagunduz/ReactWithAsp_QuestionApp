@@ -12,7 +12,10 @@ const Shop = () => {
                 </div>
                 <Rightbar className="" />
             </div>
+            <div className="mobile-nav-spacer"></div>
+
         </div>
+
     );
 };
 

@@ -2,6 +2,7 @@
     padding: 2rem;
     border-radius: 20px;
     margin-top: 2rem;
+    min-height: 100vh;
 }
 
 .analysis-tabs {

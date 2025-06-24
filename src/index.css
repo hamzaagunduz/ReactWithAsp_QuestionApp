@@ -1,8 +1,0 @@
-@font-face {
-    font-family: 'Fredoka';
-    src: url('./fonts/Fredoka-VariableFont_wdth,wght.woff2') format('woff2'),
-        url('./fonts/Fredoka-VariableFont_wdth,wght.ttf') format('truetype');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-}

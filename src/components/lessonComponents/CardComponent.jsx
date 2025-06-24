@@ -5,7 +5,7 @@ const CardComponent = ({ title, description, buttonText, onClick, colors }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     return (
-        <div className="col-lg-4 col-md-6 mb-4">
+        <div className="col-lg-4 col-md-4 mb-4">
             <div
                 className="test-group-card"
                 style={{

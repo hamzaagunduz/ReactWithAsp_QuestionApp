@@ -43,16 +43,25 @@ export const Leftbar = () => {
         navigate('/login');
     };
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen((prev) => !prev);
-    };
 
-    const NavItem = ({ to, icon, text }) => (
+
+    // Mobile için sadece ikon gösteren bileşen
+    const MobileNavIcon = ({ to, icon, text }) => (
+        <Link
+            to={to}
+            className={`mobile-nav-icon ${location.pathname === to ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(false)}
+        >
+            <img src={icon} alt={text} className="icon-size" />
+        </Link>
+    );
+
+    // Desktop için tam menü bileşeni
+    const DesktopNavItem = ({ to, icon, text }) => (
         <li>
             <Link
                 to={to}
                 className={`nav-link ${location.pathname === to ? 'active' : ''}`}
-                onClick={() => setIsMobileMenuOpen(false)}
             >
                 <img src={icon} alt={text} className="icon-size" />
                 <span>{text}</span>
@@ -62,16 +71,6 @@ export const Leftbar = () => {
 
     return (
         <>
-            {/* Mobile Menu Button (sadece küçük ekranlarda görünür) */}
-            <div
-                ref={buttonRef}
-                className="mobile-menu-button d-md-none"
-                onClick={toggleMobileMenu}
-                style={{ cursor: 'pointer' }}
-            >
-                <img src={menuIcon} alt="Menu" className="menu-icon" />
-            </div>
-
             {/* Desktop Sidebar */}
             <div
                 className={`sidebar-container d-none d-md-block ${isMobileMenuOpen ? 'mobile-open' : ''}`}
@@ -79,16 +78,16 @@ export const Leftbar = () => {
             >
                 <a href="/home" className="side-logo">
                     <span className="logo-font">
-                        <span className="dob-green">Dob</span><span className="bilim-blue">ilim</span>
+                        <span className="dob-green">Do</span><span className="bilim-blue">bilim</span>
                     </span>
                 </a>
 
                 <ul className="nav-menu">
-                    <NavItem to="/home" icon={house} text="Anasayfa" />
-                    <NavItem to="/card" icon={card} text="Kartlarım" />
-                    <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
-                    <NavItem to="/shop" icon={store} text="Mağaza" />
-                    <NavItem to="/profile" icon={housekeeper} text="Profil" />
+                    <DesktopNavItem to="/home" icon={house} text="Anasayfa" />
+                    <DesktopNavItem to="/card" icon={card} text="Kartlarım" />
+                    <DesktopNavItem to="/exam" icon={speedometer} text="Sınavlar" />
+                    <DesktopNavItem to="/shop" icon={store} text="Mağaza" />
+                    <DesktopNavItem to="/profile" icon={housekeeper} text="Profil" />
 
                     <li>
                         <div className="nav-link logout-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
@@ -99,30 +98,15 @@ export const Leftbar = () => {
                 </ul>
             </div>
 
-            {/* Mobile Sidebar */}
-            <div
-                ref={menuRef}
-                className={`sidebar-container d-md-none mobile-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
-            >
-                <a href="/home" className="side-logo">
-                    <span className="logo-font">
-                        <span className="dob-green">Dob</span><span className="bilim-blue">ilim</span>
-                    </span>
-                </a>
-                <ul className="nav-menu">
-                    <NavItem to="/home" icon={house} text="Anasayfa" />
-                    <NavItem to="/card" icon={card} text="Kartlarım" />
-                    <NavItem to="/exam" icon={speedometer} text="Sınavlar" />
-                    <NavItem to="/shop" icon={store} text="Mağaza" />
-                    <NavItem to="/profile" icon={housekeeper} text="Profil" />
-
-                    <li>
-                        <div className="nav-link logout-link" onClick={handleLogout} style={{ cursor: 'pointer' }}>
-                            <img src={logoutIcon} alt="Çıkış" className="icon-size" />
-                            <span>Çıkış</span>
-                        </div>
-                    </li>
-                </ul>
+            {/* Mobile Bottom Navigation Bar */}
+            <div className="d-md-none mobile-bottom-nav">
+                <div className="mobile-nav-icons">
+                    <MobileNavIcon to="/exam" icon={speedometer} text="Sınavlar" />
+                    <MobileNavIcon to="/card" icon={card} text="Kartlarım" />
+                    <MobileNavIcon to="/home" icon={house} text="Anasayfa" />
+                    <MobileNavIcon to="/shop" icon={store} text="Mağaza" />
+                    <MobileNavIcon to="/profile" icon={housekeeper} text="Profil" />
+                </div>
             </div>
         </>
     );

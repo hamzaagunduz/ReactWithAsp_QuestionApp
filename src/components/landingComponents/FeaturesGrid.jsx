@@ -1,57 +1,65 @@
-// FeaturesGrid.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './FeaturesGrid.module.css';
+import {
+    FaBrain,
+    FaPlayCircle,
+    FaChartLine,
+    FaClone,
+    FaHeart,
+    FaQuestionCircle,
+    FaBookOpen,
+    FaGift
+} from "react-icons/fa";
 
 const FeaturesGrid = () => {
-    React.useEffect(() => {
+    useEffect(() => {
         AOS.init({ duration: 800, once: true });
     }, []);
 
     const features = [
         {
-            icon: "fas fa-brain",
+            icon: <FaBrain />,
             title: "Yapay Zeka Destekli Çalışma",
             description: "Sorularınızı analiz eden ve zayıf yönlerinize göre tavsiyeler sunan yapay zeka sistemi."
         },
         {
-            icon: "fas fa-play-circle",
+            icon: <FaPlayCircle />,
             title: "Konu Anlatım Videoları",
             description: "Her seviyeye uygun, sade ve etkili videolu konu anlatımları."
         },
         {
-            icon: "fas fa-chart-line",
+            icon: <FaChartLine />,
             title: "Haftalık & Aylık Performans Takibi",
             description: "Zaman içindeki gelişiminizi grafiklerle takip edin, eksiklerinizi görün."
         },
         {
-            icon: "fas fa-clone",
+            icon: <FaClone />,
             title: "Flash Kart Sistemi",
             description: "Her konuyu küçük, akılda kalıcı kartlara dönüştürerek daha kolay tekrar edin."
         },
         {
-            icon: "fas fa-heart",
+            icon: <FaHeart />,
             title: "Kalp Sistemi ile Motivasyon",
             description: "Çalışmalarınıza bağlı olarak kalp kazanın, ilerlemenizi motive edici şekilde izleyin."
         },
         {
-            icon: "fas fa-question-circle",
+            icon: <FaQuestionCircle />,
             title: "Flash Kart Quizleri",
             description: "Hazırladığınız kartlardan otomatik quizler oluşturun ve bilginizi test edin."
         },
         {
-            icon: "fas fa-book-open",
+            icon: <FaBookOpen />,
             title: "Konu Anlatımı & Özet Bilgi",
             description: "Her konu için sadeleştirilmiş, sınava uygun anlatım ve özet içerikler."
         },
         {
-            icon: "fas fa-gift",
+            icon: <FaGift />,
             title: "Tamamen Ücretsiz Kullanım",
             description: "Tüm özelliklere ücretsiz erişim, sürpriz kısıtlama yok."
         }
     ];
-
 
     return (
         <section className={styles.featuresGridSection}>
@@ -69,7 +77,7 @@ const FeaturesGrid = () => {
                         data-aos-delay={index * 50}
                     >
                         <div className={styles.featureIcon}>
-                            <i className={feature.icon}></i>
+                            {feature.icon}
                         </div>
                         <h3>{feature.title}</h3>
                         <p>{feature.description}</p>

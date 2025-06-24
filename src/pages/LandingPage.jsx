@@ -49,8 +49,8 @@ const LandingPage = () => {
             <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
                 <div className={styles.navbarContainer}>
                     <div className={styles.logo}>
-                        <span className={styles.dobiGreen}>Dob</span>
-                        <span className={styles.dobiBlue}>ilim</span>
+                        <span className={styles.dobiGreen}>Do</span>
+                        <span className={styles.dobiBlue}>bilim</span>
                     </div>
 
 

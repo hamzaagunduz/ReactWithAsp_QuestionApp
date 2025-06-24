@@ -11,3 +11,14 @@ body,
   height: 20px;
   /* Yükseklik */
 }
+
+.mobile-nav-spacer {
+  height: 70px;
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav-spacer {
+    display: block;
+  }
+}

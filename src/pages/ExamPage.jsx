@@ -18,6 +18,8 @@ function ExamPage() {
                 </div>
                 <Rightbar />
             </div>
+            <div className="mobile-nav-spacer"></div>
+
         </div>
     )
 }

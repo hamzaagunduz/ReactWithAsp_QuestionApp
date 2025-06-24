@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import '../../style/rightbar.css';
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import foreverIcon from '../../assets/forever.png';
 
 import heart from '../../assets/rightbar/rightTopIcons/heart.png';
 import goal from '../../assets/rightbar/rightTopIcons/goal.png';
 import target from '../../assets/rightbar/rightTopIcons/target.png';
 import diamond from '../../assets/rightbar/rightTopIcons/diamond.png';
-import menu from '../../assets/rightbar/rightTopIcons/menutop.png';
 
 import DailyMissions from './DailyMissions';
 
@@ -18,14 +17,11 @@ import { getUserDailyMissions } from '../../features/DailyMission/DailyMissionSl
 export const Rightbar = () => {
     const [showModal, setShowModal] = useState(false);
     const [timeLeft, setTimeLeft] = useState(null);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+    const location = useLocation();
     const dispatch = useDispatch();
     const healthResult = useSelector((state) => state.layout.healthResult);
     const { missions } = useSelector(state => state.dailyMission);
-
-    const sidebarRef = useRef(null);
-    const buttonRef = useRef(null);
 
     const handleHeartClick = () => {
         dispatch(fetchLivesInfo());
@@ -43,29 +39,6 @@ export const Rightbar = () => {
     };
 
     const closeModal = () => setShowModal(false);
-
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(prev => !prev);
-    };
-
-    // Menü dışı tıklamayı dinle, menü ve buton dışında ise menüyü kapat
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (
-                isMobileMenuOpen &&
-                sidebarRef.current &&
-                !sidebarRef.current.contains(event.target) &&
-                buttonRef.current &&
-                !buttonRef.current.contains(event.target)
-            ) {
-                setIsMobileMenuOpen(false);
-            }
-        };
-
-        document.addEventListener('click', handleClickOutside);
-
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, [isMobileMenuOpen]);
 
     useEffect(() => {
         if (!showModal || !healthResult?.lastLifeAddedTime) return;
@@ -85,19 +58,41 @@ export const Rightbar = () => {
         return () => clearInterval(timerId);
     }, [showModal, healthResult]);
 
+    // Mobile için sadece ikon gösteren bileşen
+    const MobileNavIcon = ({ to, icon, text, onClick }) => {
+        if (onClick) {
+            return (
+                <div
+                    className={`mobile-nav-icon ${location.pathname === to ? 'active' : ''}`}
+                    onClick={onClick}
+                >
+                    <img src={icon} alt={text} className="icon-size" />
+                </div>
+            );
+        }
+
+        return (
+            <Link
+                to={to}
+                className={`mobile-nav-icon ${location.pathname === to ? 'active' : ''}`}
+            >
+                <img src={icon} alt={text} className="icon-size" />
+            </Link>
+        );
+    };
+
     return (
         <>
-            <div
-                ref={buttonRef}
-                className="mobile-menu-toggle"
-                onClick={toggleMobileMenu}
-                style={{ cursor: 'pointer' }}
-            >
-                <div className={`circle-icon-button ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <img
-                        src={menu}
-                        alt="Menü"
-                        className="target-menu-icon"
+            {/* Mobile Top Navigation Bar */}
+            <div className="d-md-none mobile-top-nav">
+                <div className="mobile-nav-icons">
+                    <MobileNavIcon to="/analysis" icon={target} text="Analiz" />
+                    <MobileNavIcon to="/diamond" icon={diamond} text="Elmas" />
+                    <MobileNavIcon to="/achievements" icon={goal} text="Başarı" />
+                    <MobileNavIcon
+                        icon={heart}
+                        text="Can"
+                        onClick={handleHeartClick}
                     />
                 </div>
             </div>
@@ -136,11 +131,8 @@ export const Rightbar = () => {
                 </div>
             )}
 
-            <div
-                ref={sidebarRef}
-                className={`right-sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}
-                style={{ width: '29%' }}
-            >
+            {/* Desktop Right Sidebar */}
+            <div className="d-none d-md-block right-sidebar">
                 <div className="sidebar-content">
                     <div className="score-container">
                         <ul className="score-items">

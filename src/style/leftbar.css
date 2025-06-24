@@ -31,16 +31,17 @@
 
 /* Desktop Styles */
 .sidebar-container {
-    height: auto;
+    position: sticky;
+    top: 0px;
+    height: 100vh;
     min-height: 100vh;
-    /* background: #fff; */
     background-color: #f9f9f9 !important;
-
     display: flex;
     flex-direction: column;
     border-right: 2px solid var(--border-color);
     padding: 0;
 }
+
 
 .side-logo {
     display: flex;
@@ -48,15 +49,17 @@
     height: 90px;
     padding: 50px;
     text-decoration: none;
+    white-space: nowrap;
+    /* Satır kaymasını önler */
 }
-
-
 
 .logo-font {
     font-size: 50px;
     font-family: 'Fredoka', sans-serif;
     font-weight: 700;
+    line-height: 1;
 }
+
 
 .dob-green {
     color: #7ed957;
@@ -114,42 +117,6 @@
     cursor: pointer;
 }
 
-/* Mobile Styles */
-.mobile-menu-button {
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 101;
-    background: white;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.menu-icon {
-    width: 30px;
-    height: 30px;
-}
-
-.mobile-sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    width: 80%;
-    max-width: 250px;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
-}
-
-.mobile-sidebar.mobile-open {
-    transform: translateX(0);
-}
 
 /* Responsive Design */
 @media (max-width: 767.98px) {
@@ -179,4 +146,60 @@
 
         font-size: 20px;
     }
+}
+
+.mobile-nav-spacer {
+    height: 70px;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-nav-spacer {
+        display: block;
+    }
+}
+
+
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #ddd;
+    padding: 10px 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-icons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-nav-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.mobile-nav-icon.active {
+    background-color: var(--active-bg);
+    border: 2px solid var(--active-border);
+}
+
+.mobile-nav-icon .icon-size {
+    width: 35px;
+    height: 35px;
+}
+
+/* Eski mobil menüyü kaldır */
+.mobile-menu-button,
+.mobile-sidebar {
+    display: none !important;
 }

@@ -10,6 +10,8 @@ const CardPage = () => {
                 <CardMidSection />
                 <Rightbar />
             </div>
+            <div className="mobile-nav-spacer"></div>
+
         </div>
     )
 }

@@ -152,107 +152,109 @@ const LessonMidComponent = ({ courseID }) => {
             </div>
         );
     }
+    if (statusTopics === 'succeeded') {
 
-    return (
-        <div className="col-12 col-md-6 position-relative">
-            <button className="back-button" onClick={handleBack}>
-            </button>
+        return (
+            <div className="col-12 col-md-6 position-relative">
+                <button className="back-button" onClick={handleBack}>
+                </button>
 
-            {topics.map((lesson, lessonIndex) => {
-                const colorSet = lessonColors[lessonIndex % lessonColors.length];
-                const showModal = activeModalLessonIndex === lessonIndex;
+                {topics.map((lesson, lessonIndex) => {
+                    const colorSet = lessonColors[lessonIndex % lessonColors.length];
+                    const showModal = activeModalLessonIndex === lessonIndex;
 
-                // Filter out empty test groups
-                const validTestGroups = lesson.testGroups?.filter(group =>
-                    group.tests?.length >= 0
-                ) || [];
+                    // Filter out empty test groups
+                    const validTestGroups = lesson.testGroups?.filter(group =>
+                        group.tests?.length >= 0
+                    ) || [];
 
-                return (
-                    <div
-                        className="lesson-container"
-                        key={lesson.topicID || lessonIndex}
-                        id={`lesson-${lesson.topicID}`}
-                    >
-                        <div className="d-flex flex-column align-items-center">
-                            {/* Redesigned Lesson Card */}
-                            <div
-                                className="lesson-card"
-                                style={{
-                                    "--card-bg-color-1": colorSet.primary,
-                                    "--card-bg-color-2": colorSet.secondary,
-                                }}
-                            >
-                                <div className="lesson-bg-card"></div>
-                                <div className="lesson-content-card">
-                                    <div className="lesson-title-container">
-                                        <span className="lesson-name-card">{lesson.name}</span>
-                                    </div>
-                                    <button
-                                        className="summary-button-card"
-                                        onClick={() => handleOpenModal(lessonIndex, lesson.topicID)}
-                                    >
-                                        Konu Özeti
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="card-container">
-                            <div className="container mt-4 mb-4">
-                                <div className="row">
-                                    {validTestGroups.length > 0 ? (
-                                        validTestGroups.map((group, groupIndex) => (
-                                            <CardComponent
-                                                key={group.testGroupID || groupIndex}
-                                                title={group.title}
-                                                description={group.description || "Tıklayarak testleri görüntüleyin"}
-                                                buttonText="Başla"
-                                                colors={colorSet}
-                                                onClick={() => openGroupModal(
-                                                    group.tests,
-                                                    colorSet,
-                                                    lesson.topicID  // Konu ID'sini geçir
-                                                )}
-                                            />
-                                        ))
-                                    ) : (
-                                        <div className="col-12">
-                                            <div className="alert alert-warning">
-                                                Bu konu için henüz test bulunmamaktadır.
-                                            </div>
+                    return (
+                        <div
+                            className="lesson-container"
+                            key={lesson.topicID || lessonIndex}
+                            id={`lesson-${lesson.topicID}`}
+                        >
+                            <div className="d-flex flex-column align-items-center">
+                                {/* Redesigned Lesson Card */}
+                                <div
+                                    className="lesson-card"
+                                    style={{
+                                        "--card-bg-color-1": colorSet.primary,
+                                        "--card-bg-color-2": colorSet.secondary,
+                                    }}
+                                >
+                                    <div className="lesson-bg-card"></div>
+                                    <div className="lesson-content-card">
+                                        <div className="lesson-title-container">
+                                            <span className="lesson-name-card">{lesson.name}</span>
                                         </div>
-                                    )}
+                                        <button
+                                            className="summary-button-card"
+                                            onClick={() => handleOpenModal(lessonIndex, lesson.topicID)}
+                                        >
+                                            Konu Özeti
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div className="card-container">
+                                <div className=" mt-4 mb-4">
+                                    <div className="row">
+                                        {validTestGroups.length > 0 ? (
+                                            validTestGroups.map((group, groupIndex) => (
+                                                <CardComponent
+                                                    key={group.testGroupID || groupIndex}
+                                                    title={group.title}
+                                                    description={group.description || "Tıklayarak testleri görüntüleyin"}
+                                                    buttonText="Başla"
+                                                    colors={colorSet}
+                                                    onClick={() => openGroupModal(
+                                                        group.tests,
+                                                        colorSet,
+                                                        lesson.topicID  // Konu ID'sini geçir
+                                                    )}
+                                                />
+                                            ))
+                                        ) : (
+                                            <div className="col-12">
+                                                <div className="alert alert-warning">
+                                                    Bu konu için henüz test bulunmamaktadır.
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ModalComponent
+                                isOpen={showModal}
+                                onClose={() => setActiveModalLessonIndex(null)}
+                                description={lesson.description}
+                                videoLink={lesson.videoLink}
+                            />
                         </div>
+                    );
+                })}
 
-                        <ModalComponent
-                            isOpen={showModal}
-                            onClose={() => setActiveModalLessonIndex(null)}
-                            description={lesson.description}
-                            videoLink={lesson.videoLink}
-                        />
-                    </div>
-                );
-            })}
+                <NoLivesModalComponent
+                    isOpen={showNoLivesModal}
+                    onClose={() => setShowNoLivesModal(false)}
+                    description="Canınız kalmadı. Lütfen bir süre bekleyin veya can satın alın."
+                />
 
-            <NoLivesModalComponent
-                isOpen={showNoLivesModal}
-                onClose={() => setShowNoLivesModal(false)}
-                description="Canınız kalmadı. Lütfen bir süre bekleyin veya can satın alın."
-            />
-
-            <GroupTestModalComponent
-                isOpen={!!selectedGroupTests}
-                onClose={closeGroupModal}
-                tests={selectedGroupTests}
-                color={selectedGroupColor}
-                onNavigate={handleNavigate}
-            />
+                <GroupTestModalComponent
+                    isOpen={!!selectedGroupTests}
+                    onClose={closeGroupModal}
+                    tests={selectedGroupTests}
+                    color={selectedGroupColor}
+                    onNavigate={handleNavigate}
+                />
 
 
-        </div>
-    );
+            </div>
+        );
+    }
 };
 
 export default LessonMidComponent;

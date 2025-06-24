@@ -11,6 +11,8 @@ const HomePage = () => {
                 <MidSection />
                 <Rightbar />
             </div>
+            <div className="mobile-nav-spacer"></div>
+
         </div>
     )
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './HeroSection.module.css';
+import { FaRobot, FaChartLine, FaBook } from 'react-icons/fa';
 
 const HeroSection = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,7 +31,6 @@ const HeroSection = () => {
                         <a href="/login" style={{ textDecoration: "none" }} className={styles.ctaButton}>
                             Ücretsiz Başla
                         </a>
-
                         <button className={styles.secondaryButton} onClick={openModal}>Demo İzle</button>
                     </div>
 
@@ -48,7 +48,6 @@ const HeroSection = () => {
                             <div className={styles.statLabel}>Geliştirme & Destek Süreci</div>
                         </div>
                     </div>
-
                 </div>
 
                 <div className={styles.heroImage} data-aos="fade-left" data-aos-delay="400">
@@ -57,15 +56,15 @@ const HeroSection = () => {
                             <div className={styles.screenContent}>
                                 <div className={styles.appHeader}>Dobi</div>
                                 <div className={styles.appFeature}>
-                                    <div className={styles.featureIcon}><i className="fas fa-robot"></i></div>
+                                    <div className={styles.featureIcon}><FaRobot /></div>
                                     <div className={styles.featureText}>Yapay Zeka ile Soru Çözümü</div>
                                 </div>
                                 <div className={styles.appFeature}>
-                                    <div className={styles.featureIcon}><i className="fas fa-chart-line"></i></div>
+                                    <div className={styles.featureIcon}><FaChartLine /></div>
                                     <div className={styles.featureText}>Kişisel Gelişim Takibi</div>
                                 </div>
                                 <div className={styles.appFeature}>
-                                    <div className={styles.featureIcon}><i className="fas fa-book"></i></div>
+                                    <div className={styles.featureIcon}><FaBook /></div>
                                     <div className={styles.featureText}>Kapsamlı Soru Bankası</div>
                                 </div>
                             </div>
@@ -92,7 +91,6 @@ const HeroSection = () => {
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

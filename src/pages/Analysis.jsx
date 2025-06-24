@@ -14,6 +14,8 @@ function AnalysisPage() {
                 </div>
                 <Rightbar />
             </div>
+            <div className="mobile-nav-spacer"></div>
+
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import styles from './StatsSection.module.css';
+import { FaUsers, FaSmile, FaBook, FaLightbulb } from 'react-icons/fa';
 
 const StatsSection = () => {
     useEffect(() => {
@@ -22,29 +23,35 @@ const StatsSection = () => {
 
                 <div className={styles.statsGrid}>
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="200">
-                        <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-users"></i></div></div>
+                        <div className={styles.statIcon}>
+                            <div className={styles.iconCircle}><FaUsers /></div>
+                        </div>
                         <div className={styles.statValue}>100</div>
                         <div className={styles.statLabel}>Aktif Kullanıcı</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="300">
-                        <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-smile"></i></div></div>
+                        <div className={styles.statIcon}>
+                            <div className={styles.iconCircle}><FaSmile /></div>
+                        </div>
                         <div className={styles.statValue}>%100</div>
                         <div className={styles.statLabel}>Motivasyon Oranı</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="400">
-                        <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-book"></i></div></div>
+                        <div className={styles.statIcon}>
+                            <div className={styles.iconCircle}><FaBook /></div>
+                        </div>
                         <div className={styles.statValue}>1+</div>
                         <div className={styles.statLabel}>Sınav Türü</div>
                     </div>
 
                     <div className={styles.statCard} data-aos="fade-up" data-aos-delay="500">
-                        <div className={styles.statIcon}><div className={styles.iconCircle}><i className="fas fa-lightbulb"></i></div></div>
-                        <div className={styles.statValue}>500
-
+                        <div className={styles.statIcon}>
+                            <div className={styles.iconCircle}><FaLightbulb /></div>
                         </div>
-                        <div className={styles.statLabel}>Moden Soru</div>
+                        <div className={styles.statValue}>500</div>
+                        <div className={styles.statLabel}>Modern Soru</div>
                     </div>
                 </div>
 

@@ -1,5 +1,7 @@
 import styles from './FooterSection.module.css';
 import { Link } from 'react-router-dom'; // React Router kullanılıyorsa
+import { FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa';
+
 const FooterSection = () => {
     return (
         <footer className={styles.footer}>
@@ -17,7 +19,7 @@ const FooterSection = () => {
                             rel="noopener noreferrer"
                             aria-label="Instagram"
                         >
-                            <i className="fab fa-instagram"></i>
+                            <FaInstagram />
                         </a>
 
                         <a
@@ -26,7 +28,7 @@ const FooterSection = () => {
                             rel="noopener noreferrer"
                             aria-label="Twitter"
                         >
-                            <i className="fab fa-twitter"></i>
+                            <FaTwitter />
                         </a>
 
                         <a
@@ -35,7 +37,7 @@ const FooterSection = () => {
                             rel="noopener noreferrer"
                             aria-label="LinkedIn"
                         >
-                            <i className="fab fa-linkedin"></i>
+                            <FaLinkedin />
                         </a>
 
                         <a
@@ -44,8 +46,9 @@ const FooterSection = () => {
                             rel="noopener noreferrer"
                             aria-label="YouTube"
                         >
-                            <i className="fab fa-youtube"></i>
+                            <FaYoutube />
                         </a>
+
 
                     </div>
                 </div>
