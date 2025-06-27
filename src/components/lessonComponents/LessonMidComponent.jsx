@@ -174,7 +174,7 @@ const LessonMidComponent = ({ courseID }) => {
                             key={lesson.topicID || lessonIndex}
                             id={`lesson-${lesson.topicID}`}
                         >
-                            <div className="d-flex flex-column align-items-center">
+                            <div className="d-flex flex-column align-items-center col-10">
                                 {/* Redesigned Lesson Card */}
                                 <div
                                     className="lesson-card"
@@ -182,11 +182,12 @@ const LessonMidComponent = ({ courseID }) => {
                                         "--card-bg-color-1": colorSet.primary,
                                         "--card-bg-color-2": colorSet.secondary,
                                     }}
+                                    onClick={() => handleOpenModal(lessonIndex, lesson.topicID)}
                                 >
                                     <div className="lesson-bg-card"></div>
                                     <div className="lesson-content-card">
                                         <div className="lesson-title-container">
-                                            <span className="lesson-name-card">{lesson.name}</span>
+                                            <span className="lesson-name-card-les">{lesson.name}</span>
                                         </div>
                                         <button
                                             className="summary-button-card"
@@ -198,9 +199,9 @@ const LessonMidComponent = ({ courseID }) => {
                                 </div>
                             </div>
 
-                            <div className="card-container">
+                            <div className="card-container-test-group">
                                 <div className=" mt-4 mb-4">
-                                    <div className="row">
+                                    <div className="row mobile-lesson-card">
                                         {validTestGroups.length > 0 ? (
                                             validTestGroups.map((group, groupIndex) => (
                                                 <CardComponent

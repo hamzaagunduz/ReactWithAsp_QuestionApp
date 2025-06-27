@@ -231,16 +231,19 @@
     background-color: rgb(60, 77, 255);
 }
 
-.lesson-container * {
+.lesson-container {
     font-family: "Quicksand", sans-serif;
     font-optical-sizing: auto;
     font-weight: 700;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
+.card-container-test-group {
+    max-width: 80%;
+}
 
 
 .test-card-body {
@@ -258,23 +261,13 @@
     font-size: 20px;
 }
 
-/* Kartlar */
-.card-container-lesson {
-    width: 100%;
-    min-height: 200px;
-    padding: 0px 50px
-}
 
-
-.container-card {
-    width: 80%;
-}
 
 
 /* Konu */
 .lesson-card {
     position: relative;
-    width: 80%;
+    width: 100%;
     min-height: 200px;
     height: auto;
     margin: 0 0 30px;
@@ -376,13 +369,11 @@
         inset 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
-.lesson-name-card {
+.lesson-name-card-les {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    /* Hafif gölge */
     line-height: 1.3;
     font-size: 20px;
-    /* Fontu biraz küçülttüm */
-    font-family: 'Fredoka', sans-serif;
+    font-family: 'QuickSand', sans-serif;
     font-weight: 700;
     letter-spacing: 1.5px;
     /* Daha az aralık */
@@ -398,6 +389,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+.test-group-name-card {
+    font-family: 'Quicksand', sans-serif;
+
 }
 
 .summary-button-card {
@@ -675,10 +671,24 @@
 /* Mobil (576px ve üzeri) */
 @media (max-width: 737.98px) {
     .test-group-card {
-        max-width: 80%;
-        min-height: 150px;
+        max-width: 100%;
+        min-height: 250px;
+        height: auto;
     }
 
+    .card-container-test-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+
+    .mobile-lesson-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .test-group-title-container {
         font-size: 16px;

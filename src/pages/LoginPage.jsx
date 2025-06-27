@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login, isLoggedIn } from '../app/authService.jsx';
+import { FcGoogle } from 'react-icons/fc';
+
 import styles from '../style/LoginRegister/LoginPage.module.css';
 
 const LoginPage = () => {
@@ -84,7 +86,7 @@ const LoginPage = () => {
                         <i className="fab fa-facebook-f"></i>
                     </div> */}
                     <div className={styles.socialIcon}>
-                        <i className="fab fa-google"></i>
+                        <FcGoogle size={24} color="#DB4437" />
                     </div>
                     {/* <div className={styles.socialIcon}>
                         <i className="fab fa-github"></i>

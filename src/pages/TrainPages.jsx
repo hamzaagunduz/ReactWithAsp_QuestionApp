@@ -200,9 +200,9 @@ function TrainPage() {
             </div>
             <h4 className="train-title">Oku ve yanıtla</h4>
             <div className="container question-container row">
-                <div className="progress-bar-train">
+                <div className="progress-bar-train-question">
                     <div
-                        className="progress-bar-fill-train"
+                        className="progress-bar-fill-train-question"
                         style={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
                     ></div>
                 </div>

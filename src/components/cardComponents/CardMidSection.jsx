@@ -48,9 +48,9 @@ export const CardMidSection = React.memo(() => {
             {!selectedCategory ? (
                 <div className="category-selection">
                     <div className="text-center lesson-title-card">
-                        Ezber Kartını Sec
+                        Kartını Sec
                     </div>
-                    <div className="category-list">
+                    <div className="category-list-card">
                         {courses.map((category, index) => (
                             <CardCategoryButton
                                 key={category.courseID}

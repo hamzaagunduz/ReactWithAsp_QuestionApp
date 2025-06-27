@@ -4,6 +4,7 @@ import { fetchExamOptions } from '../features/Exam/ExamSlice';
 import { registerUser } from '../features/Register/RegisterSlice';
 import { useNavigate } from 'react-router-dom';
 import styles from '../style/LoginRegister/RegisterPage.module.css';
+import { FcGoogle } from 'react-icons/fc';
 
 const RegisterPage = () => {
     const dispatch = useDispatch();
@@ -185,7 +186,7 @@ const RegisterPage = () => {
                         <i className="fab fa-facebook-f"></i>
                     </div> */}
                     <div className={styles.socialIcon}>
-                        <i className="fab fa-google"></i>
+                        <FcGoogle size={24} color="#DB4437" />
                     </div>
                     {/* <div className={styles.socialIcon}>
                         <i className="fab fa-github"></i>

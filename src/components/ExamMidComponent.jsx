@@ -39,7 +39,7 @@ const ExamMidComponent = () => {
 
     return (
         <div className="container">
-            <h3 className="exam-title text-center mb-4">Hazırlandığınız Sınavı Seçin</h3>
+            <h3 className="exam-title text-center mb-4">Sınavı Seçin</h3>
 
             {fetchWithSelectedStatus === 'loading' ? (
                 <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>

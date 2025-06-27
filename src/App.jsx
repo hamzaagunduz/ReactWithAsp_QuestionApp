@@ -2,10 +2,11 @@ import { Suspense, lazy } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Navigate } from 'react-router-dom';
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import ProtectedRoute from './components/ProtectedRoute';
-
+import AdminProtectedRoute from './components/AdminProtectedRoute'; // ekleyin
 // Lazy load edilen sayfalar
 const HomePage = lazy(() => import('./pages/HomePage'));
 const TrainPages = lazy(() => import('./pages/TrainPages'));
@@ -59,14 +60,7 @@ function App() {
 
 
 
-          {/* Admin sayfaları */}
-          <Route path="admin/dashboard" element={<AdminDashboard />} />
-          <Route path="admin/question" element={<AdminQuestion />} />
-          <Route path="admin/user" element={<AdminUser />} />
-          <Route path="admin/shop" element={<AdminShop />} />
-          <Route path="admin/settings" element={<AdminSettings />} />
-          <Route path="admin/exam" element={<AdminExam />} />
-          <Route path="admin/profile" element={<AdminProfile />} />
+
 
           {/* Policy */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -79,7 +73,72 @@ function App() {
           <Route path="/iletisim" element={<ContactUs />} />
           <Route path="/ortakliklar" element={<Partnerships />} />
 
-          {/* Giriş yapılması gereken sayfalar */}
+          {/* Giriş yapılması gereken sayfalar Admin */}
+
+          <Route
+            path="admin"
+            element={<Navigate to="/admin/dashboard" replace />}
+          />
+
+
+          <Route
+            path="admin/dashboard"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/question"
+            element={
+              <AdminProtectedRoute>
+                <AdminQuestion />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/user"
+            element={
+              <AdminProtectedRoute>
+                <AdminUser />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/shop"
+            element={
+              <AdminProtectedRoute>
+                <AdminShop />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/settings"
+            element={
+              <AdminProtectedRoute>
+                <AdminSettings />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/exam"
+            element={
+              <AdminProtectedRoute>
+                <AdminExam />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path="admin/profile"
+            element={
+              <AdminProtectedRoute>
+                <AdminProfile />
+              </AdminProtectedRoute>
+            }
+          />
+
+          {/* Giriş yapılması gereken sayfalar Kullanııc */}
           <Route
             path="/home"
             element={

@@ -115,10 +115,9 @@
     text-align: center;
     color: #6fd44c;
     transition: all 0.3s ease;
-    font-size: 40px;
-    font-family: 'Fredoka', sans-serif;
+    font-size: 35px;
+    font-family: 'Quicksand', sans-serif;
     font-weight: 700;
-    letter-spacing: 5px;
     text-transform: uppercase;
     max-width: 100%;
 }
